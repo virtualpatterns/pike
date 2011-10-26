@@ -1,0 +1,49 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.title
+      display: table
+      margin: 30px auto
+      width: 90%
+      > div
+        display: table-cell
+        vertical-align: middle
+      > div.left
+        font-size: 32pt
+        font-weight: bold
+        padding: 0px 10px 0px 0px
+      > div.right
+        font-size: 16pt
+    div.logon
+      margin: 30px auto
+      text-align: center
+      width: 80%
+      > div.email
+        font-weight: bold
+        padding: 10px 0px 20px 0px
+      > button
+        background-color: $button_background
+        border: solid 1px $button_border
+        border-radius: 10px
+        color: $button_foreground
+        display: block
+        font-size: 16pt
+        margin: 0px auto
+        padding: 10px 15px
+        text-align: center
+        width: 100%
+      > button.logon
+        background-image: url('/pike/resources/elements/pages/default_page.png')
+        background-position: 10px 10px
+        background-repeat: no-repeat
+        background-size: 36px
+        padding: 15px 10px 15px 55px
+      > button.continue
+        margin: 20px auto
+    div.version
+      margin: 30px auto
+      text-align: center
+      font-size: 10pt
+= RubyApp::Elements::Button.render(:css)
+= yield

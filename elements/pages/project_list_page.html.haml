@@ -1,0 +1,17 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @back_button.render(:html)
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Projects
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @add_button.render(:html) do |element|
+    - element.content_for(:body, 'Add')
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  = @project_list.render(:html)

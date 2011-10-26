@@ -1,0 +1,34 @@
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Task
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      %div.name
+        Project
+      %div.value
+        = @project_link.render(:html) do |element|
+          - element.content_for(:body, @task.project ? @task.project.name : '(none)')
+    %div.property
+      %div.name
+        Activity
+      %div.value
+        = @activity_link.render(:html) do |element|
+          - element.content_for(:body, @task.activity ? @task.activity.name : '(none)')
+    %div.property
+      %div.name{:class => @task.new? ? 'last' : nil }
+        Category
+      %div.value{:class => @task.new? ? 'last' : nil }
+        = @flag_link.render(:html) do |element|
+          - element.content_for(:body, Pike::Task::FLAG_NAMES[@task.flag])
+    - unless @task.new?
+      %div.property
+        %div.name.last
+          &nbsp;
+        %div.buttons
+          = @delete_button.render(:html) do |element|
+            - element.attributes.merge!(:class => 'delete')
+            - element.content_for(:body, 'Delete')

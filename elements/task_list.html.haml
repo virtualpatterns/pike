@@ -1,0 +1,12 @@
+- self.content_for(:item) do |_for, item, index|
+  /
+    #{__FILE__}
+  - unless item.flag == @flag
+    %div.flag
+      = Pike::Task::FLAG_NAMES[item.flag]
+  %div.task
+    %div.project
+      = item.project.name
+    %div.activity
+      = item.activity.name
+  - @flag = item.flag

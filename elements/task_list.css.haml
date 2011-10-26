@@ -1,0 +1,16 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[colors.sass])}'
+    div.flag
+      font-size: 10pt
+      background-color: $flag_background
+      border-radius: 5px
+      color: $flag_foreground
+      margin-bottom: 2px
+      padding: 5px 10px
+    div.task
+      padding: 5px 10px
+      > div.activity
+        font-size: 10pt
+= yield

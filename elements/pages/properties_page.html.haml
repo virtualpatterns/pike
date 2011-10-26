@@ -1,0 +1,10 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @cancel_button.render(:html) do |element|
+    - element.content_for(:body, 'Cancel')
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @done_button.render(:html) do |element|
+    - element.content_for(:body, 'Done')

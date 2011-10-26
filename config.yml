@@ -1,0 +1,16 @@
+pike:
+  application:
+    format:
+      date: %a %b %e
+    mongoid:
+      host: localhost
+      port: 27017
+      database: pike
+  elements:
+    pages:
+      authentication:
+        open_id:
+          google_authentication_page:
+            identifier: https://www.google.com/accounts/o8/id
+            attributes:
+              email: http://schema.openid.net/contact/email

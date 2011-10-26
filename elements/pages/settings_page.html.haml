@@ -1,0 +1,21 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @back_button.render(:html)
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Settings
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.links
+    %div.link
+      = @task_list_link.render(:html) do |element|
+        - element.content_for(:body, 'Tasks')
+    %div.link
+      = @project_list_link.render(:html) do |element|
+        - element.content_for(:body, 'Projects')
+    %div.link
+      = @activity_list_link.render(:html) do |element|
+        - element.content_for(:body, 'Activities')

@@ -1,0 +1,39 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.header
+      background-color: $header_background
+      color: $header_foreground
+      display: table
+      padding: 5px
+      width: 100%
+      > div
+        display: table-cell
+        vertical-align: middle
+      > div.left
+        width: 25%
+      > div.center
+        font:
+          size: 13pt
+          weight: bold
+        text-align: center
+      > div.right
+        text-align: right
+        width: 25%
+      a
+        color: inherit
+        text-decoration: inherit
+      button
+        background-color: $button_background
+        border: 2px solid $button_border
+        border-radius: 5px
+        color: $button_foreground
+        display: inline
+        font:
+          size: 10pt
+          weight: bold
+        padding: 5px 10px
+    div.content
+      padding: 0px 10px
+= yield

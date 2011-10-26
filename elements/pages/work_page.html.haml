@@ -1,0 +1,31 @@
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Work
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      %div.name
+        Project
+      %div.value
+        = @work.task.project.name
+    %div.property
+      %div.name
+        Activity
+      %div.value
+        = @work.task.activity.name
+    %div.property
+      %div.name
+        Date
+      %div.value
+        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date)
+    %div.property
+      %div.name.last
+        Duration
+      %div.value.last
+        = @duration_input.render(:html) do |element|
+          - element.attributes.merge!(:placeholder => 'Enter a duration')
+        %div.instructions
+          (e.g. 2h 30m 15s)

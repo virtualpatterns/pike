@@ -1,0 +1,15 @@
+- self.content_for(:item) do |_for, item, index|
+  /
+    #{__FILE__}
+  - unless item.task.flag == @flag
+    %div.flag
+      = Pike::Task::FLAG_NAMES[item.task.flag]
+  %div{:class => "task_work#{item.started? ? ' started' : nil}"}
+    %div.task
+      %div.project
+        = item.task.project.name
+      %div.activity
+        = item.task.activity.name
+    %div.work{:work_id => ( item.work ? item.work.id : nil )}
+      = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration)) if item.work
+  - @flag = item.task.flag

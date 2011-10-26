@@ -1,0 +1,53 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rake'
+
+namespace :mongo do
+
+  desc 'Run MongoDB'
+  task :run do |task|
+    system("clear; bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
+  end
+
+end
+
+namespace :pike do
+
+  desc 'Monitor Pike'
+  task :monitor do |task|
+    system("> ./log/application.log; clear; tail -f ./log/application.log")
+  end
+
+  desc 'Create Pike console'
+  task :console do |task|
+    system("clear; bundle exec ../gems/ruby_app/bin/ruby_app console")
+  end
+
+  desc 'Run Pike'
+  task :run do |task|
+    system("clear; bundle exec ../gems/ruby_app/bin/ruby_app run")
+  end
+
+  namespace :test do
+
+    desc 'Run all tests'
+    task :all => ['test:specs']
+
+    desc 'Run RSpec tests'
+    task :specs, :file, :line do |task, arguments|
+      if arguments.file
+        if arguments.line
+          system("bundle exec rspec #{arguments.file} --line_number=#{arguments.line} --format=documentation --colour")
+        else
+          system("bundle exec rspec #{arguments.file} --format=documentation --colour")
+        end
+      else
+        system("bundle exec rspec spec/ --format=documentation --colour")
+      end
+    end
+
+  end
+
+end
+

@@ -1,0 +1,8 @@
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Select Activity
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  = @activity_select.render(:html)

@@ -1,0 +1,30 @@
+- self.content_for(:body) do
+  /
+    #{__FILE__}
+  %div.title
+    %div.left
+      Pike
+    %div.right
+      Efficient Mobile Task Tracking
+  %div.version
+    RubyApp Version #{RubyApp::VERSION}
+    %br
+    Pike Version #{Pike::VERSION}
+  %div.logon
+    - unless RubyApp::Session.identity
+      - @logon_button.attributes.merge!(:class => 'logon')
+      = @logon_button.render(:html) do |element|
+        - element.content_for(:body) do
+          Logon with Google
+    - else
+      You are logged on as ...
+      %div.email
+        = RubyApp::Session.identity.email
+      - @logoff_button.attributes.merge!(:class => 'logoff')
+      = @logoff_button.render(:html) do |element|
+        - element.content_for(:body) do
+          Logoff
+      - @continue_button.attributes.merge!(:class => 'continue')
+      = @continue_button.render(:html) do |element|
+        - element.content_for(:body) do
+          Continue

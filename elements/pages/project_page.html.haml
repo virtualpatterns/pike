@@ -1,0 +1,22 @@
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Project
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      %div.name{:class => @project.new? ? 'last' : nil }
+        Name
+      %div.value{:class => @project.new? ? 'last' : nil }
+        = @name_input.render(:html) do |element|
+          - element.attributes.merge!(:placeholder => 'Enter a name')
+    - unless @project.new?
+      %div.property
+        %div.name.last
+          &nbsp;
+        %div.buttons
+          = @delete_button.render(:html) do |element|
+            - element.attributes.merge!(:class => 'delete')
+            - element.content_for(:body, 'Delete')

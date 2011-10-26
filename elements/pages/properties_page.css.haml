@@ -1,0 +1,71 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.content
+      > div.properties
+        display: table
+        background-color: $properties_background
+        border-radius: 5px
+        color: $properties_foreground
+        width: 100%
+        > div.property
+          display: table-row
+          > div
+            display: table-cell
+            padding: 10px
+            vertical-align: top
+          > div.name
+            border-right: 2px solid $properties_border
+            border-bottom: 2px solid $properties_border
+            font-weight: bold
+            text-align: right
+            width: 33%
+          > div.name.last
+            border-bottom: 0px
+          > div.value
+            border-bottom: 2px solid $properties_border
+            input
+              background: inherit
+              border: 0px
+              color: inherit
+              display: block
+              font-size: inherit
+              margin: 1px 0px 0px 0px
+              padding: 0px
+            a
+              background-image: url('/pike/resources/elements/pages/properties_page.png')
+              background-position: right center
+              background-repeat: no-repeat
+              color: inherit
+              display: block
+              font-weight: inherit
+            > div.instructions
+              font-size: 10pt
+              padding-top: 5px
+          > div.value.last
+            border-bottom: 0px
+          > div.buttons
+            button
+              background-color: $button_background
+              border: 2px solid $button_border
+              border-radius: 5px
+              color: $button_foreground
+              display: inline
+              font:
+                size: 10pt
+                weight: bold
+              padding: 5px 10px
+            button.delete
+              background-color: $delete_background
+              border: 2px solid $delete_border
+              color: $delete_foreground
+    div.footer
+      button.delete
+        background-color: $delete_background
+        border: 2px solid $delete_border
+        color: $delete_foreground
+= RubyApp::Elements::Button.render(:css)
+= RubyApp::Elements::Dialogs::ConfirmationDialog.render(:css)
+= RubyApp::Elements::Dialogs::ExceptionDialog.render(:css)
+= yield

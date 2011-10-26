@@ -1,0 +1,17 @@
+pike:
+  elements:
+    pages:
+      authentication:
+        open_id:
+          google_authentication_page:
+            title: Pike Google Logon
+      default_page:
+        title: Pike
+      task_list_page:
+        title: Pike Tasks
+      task_page:
+        title: Pike Task
+      work_list_page:
+        title: Pike Work
+      work_page:
+        title: Pike Work
