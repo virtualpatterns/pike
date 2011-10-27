@@ -1,7 +1,7 @@
 source :rubygems
 
 #gem 'RubyApp',                  :path => "~/Dropbox/Projects/gems/ruby_app"
-gem 'RubyApp',                  '0.0.6'
+gem 'RubyApp',                  '0.0.7'
 gem 'chronic_duration',         '0.9.6'
 gem 'bson',                     '1.4.0'
 gem 'bson_ext',                 '1.4.0'
