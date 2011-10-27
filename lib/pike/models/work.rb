@@ -12,6 +12,9 @@ module Pike
 
     store_in :work
 
+    after_save :on_after_save
+    before_destroy :on_before_destroy
+
     belongs_to :user, :class_name => 'Pike::User'
     belongs_to :task, :class_name => 'Pike::Task'
 
@@ -24,7 +27,6 @@ module Pike
     field :updated, :type => Time
 
     validates_presence_of :date
-    validates_presence_of :duration
 
     validates_uniqueness_of :task_id, :scope => [:date, :deleted_at]
 
@@ -65,6 +67,22 @@ module Pike
         self.save!
       end
     end
+
+    protected
+
+      def on_after_save
+        unless self.duration
+          self.destroy!
+        end
+      end
+
+      def on_before_destroy
+        if self.started?
+          self.duration += ( Time.now - self.updated ).to_i
+          self.started = nil
+          self.updated = nil
+        end
+      end
 
   end
 
