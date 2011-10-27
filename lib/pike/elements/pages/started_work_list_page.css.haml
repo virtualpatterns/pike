@@ -1,0 +1,10 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    p
+      margin: 0px
+      padding: 5px 10px 10px 10px
+      text-align: center
+= RubyApp::Elements::Button.render(:css)
+= Pike::Elements::StartedWorkList.render(:css)
+= yield

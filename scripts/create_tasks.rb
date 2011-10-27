@@ -9,7 +9,7 @@ require 'scripts/create_application'
 Pike::Application.execute do
 
   require 'scripts/drop_database'
-  require 'models'
+  require 'pike/models'
 
   require 'scripts/create_projects_and_activities'
 

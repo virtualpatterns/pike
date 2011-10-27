@@ -3,8 +3,8 @@ puts "Running #{__FILE__.inspect}"
 require 'rubygems'
 require 'bundler/setup'
 
-require 'application'
-require 'session'
+require 'pike/application'
+require 'pike/session'
 
 options = { :application_class => Pike::Application,
             :session_class => Pike::Session,

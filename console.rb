@@ -1,8 +1,8 @@
-$ROOT = File.expand_path(File.join(File.dirname(__FILE__), %w[.]))
-$LOAD_PATH.unshift $ROOT unless $LOAD_PATH.include?($ROOT)
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
-require 'application'
-require 'session'
+require 'pike/application'
+require 'pike/session'
+require 'pike/version'
 
 puts "Running #{__FILE__.inspect}"
 

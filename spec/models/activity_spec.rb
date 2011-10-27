@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-require 'models/activity'
-require 'models/task'
-require 'models/user'
+require 'pike/models/activity'
+require 'pike/models/task'
+require 'pike/models/user'
 
 describe Pike::Activity do
   include_context 'Pike::Application'

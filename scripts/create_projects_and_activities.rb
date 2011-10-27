@@ -9,7 +9,7 @@ require 'scripts/create_application'
 Pike::Application.execute do
 
   require 'scripts/drop_database'
-  require 'models'
+  require 'pike/models'
 
   [ 'frank.ficnar@gmail.com',
     'frank.ficnar@mosaic.com' ].each do |url|
