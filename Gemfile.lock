@@ -2,21 +2,21 @@ GEM
   remote: http://rubygems.org/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.7)
-      BlueCloth (= 1.0.1)
-      chronic_duration (= 0.9.6)
-      facets (= 2.9.2)
-      fileutils (= 0.7)
-      haml (= 3.1.2)
-      json (= 1.6.1)
-      mime-types (= 1.16)
-      r18n-core (= 0.4.9)
-      rack (= 1.2.2)
-      ruby-event (= 1.0.0)
-      ruby-openid (= 2.1.8)
-      sass (= 3.1.7)
-      term-ansicolor (= 1.0.6)
-      yajl-ruby (= 0.8.2)
+    RubyApp (0.0.8)
+      BlueCloth
+      chronic_duration
+      facets
+      fileutils
+      haml
+      json
+      mime-types
+      r18n-core
+      rack
+      ruby-event
+      ruby-openid
+      sass
+      term-ansicolor
+      yajl-ruby
     activemodel (3.1.1)
       activesupport (= 3.1.1)
       builder (~> 3.0.0)
@@ -32,12 +32,12 @@ GEM
     facets (2.9.2)
     fileutils (0.7)
       rmagick (>= 2.13.1)
-    haml (3.1.2)
+    haml (3.1.3)
     i18n (0.6.0)
     json (1.6.1)
     linecache (0.46)
       rbx-require-relative (> 0.0.4)
-    mime-types (1.16)
+    mime-types (1.17.2)
     mongo (1.4.0)
       bson (= 1.4.0)
     mongoid (2.3.0)
@@ -49,8 +49,8 @@ GEM
       rspec (~> 2)
     multi_json (1.0.3)
     numerizer (0.1.1)
-    r18n-core (0.4.9)
-    rack (1.2.2)
+    r18n-core (0.4.11)
+    rack (1.3.5)
     rbx-require-relative (0.0.5)
     rmagick (2.13.1)
     rspec (2.6.0)
@@ -65,19 +65,18 @@ GEM
       linecache (>= 0.3)
     ruby-event (1.0.0)
     ruby-openid (2.1.8)
-    sass (3.1.7)
-    term-ansicolor (1.0.6)
+    sass (3.1.10)
+    term-ansicolor (1.0.7)
     tzinfo (0.3.30)
-    yajl-ruby (0.8.2)
+    yajl-ruby (1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  RubyApp (= 0.0.7)
+  RubyApp
   bson (= 1.4.0)
   bson_ext (= 1.4.0)
-  chronic_duration (= 0.9.6)
   mongo (= 1.4.0)
   mongoid (= 2.3.0)
   mongoid-rspec (= 1.4.4)
