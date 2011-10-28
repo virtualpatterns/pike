@@ -36,8 +36,10 @@ namespace :pike do
 
   desc 'Update the application'
   task :update, :roles => :app do
+    find_and_execute_task('pike:stop')
     find_and_execute_task('deploy:update')
     find_and_execute_task('bundle:install')
+    find_and_execute_task('pike:start')
   end
 
 end
