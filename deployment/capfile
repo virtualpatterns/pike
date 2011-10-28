@@ -1,10 +1,10 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-
 require 'rubygems'
 require 'bundler/setup'
+require 'bundler/capistrano'
 
-require 'rvm/capistrano'
 require 'railsless-deploy'
+
+set :default_environment, { 'PATH' => '/var/lib/gems/1.8/bin:$PATH' }
 
 set :application, 'Pike'
 set :repository,  'git@github.com:virtualpatterns/pike.git'
@@ -22,19 +22,22 @@ set :scm_username, 'virtualpatterns'
 
 default_run_options[:pty] = true
 
-set :rvm_ruby_string, 'ruby-1.8.7-p352@Pike'        # Or whatever env you want it to run in.
-set :rvm_bin_path, '$HOME/.rvm/bin'
-
 namespace :pike do
 
   desc 'Start the application'
   task :start, :roles => :app do
-    run 'cd /var/www/pike/current && bundle install && thin --daemonize --port 8008 --rackup config.ru start'
+    run 'cd /var/www/pike/current && thin --daemonize --port 8008 --rackup config.ru start'
   end
 
   desc 'Stop the application'
   task :stop, :roles => :app do
     run 'cd /var/www/pike/current && thin stop'
+  end
+
+  desc 'Update the application'
+  task :update, :roles => :app do
+    find_and_execute_task('deploy:update')
+    find_and_execute_task('bundle:install')
   end
 
 end

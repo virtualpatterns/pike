@@ -4,7 +4,6 @@
 .idea
 .sass-cache
 chromedriver.log
-Gemfile.lock
 rack.pid
 lib/ruby_app/elements/pages/authentication/open_id/associations
 lib/ruby_app/elements/pages/authentication/open_id/nonces
