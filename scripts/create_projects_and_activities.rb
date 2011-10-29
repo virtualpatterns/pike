@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 puts "Running #{__FILE__.inspect}"
 
-$PIKE_ROOT = File.expand_path(File.join(File.dirname(__FILE__), %w[.. ..]))
-$LOAD_PATH.unshift $PIKE_ROOT unless $LOAD_PATH.include?($PIKE_ROOT)
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[.. lib]))
 
 require 'scripts/create_application'
 

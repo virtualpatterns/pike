@@ -8,10 +8,9 @@ require 'pike/session'
 
 options = { :application_class => Pike::Application,
             :session_class => Pike::Session,
-            :log_path => File.join(File.dirname(__FILE__), %w[.. log application.log]),
-            :configuration_paths => File.join(File.dirname(__FILE__), %w[.. config.yml]),
-            :theme => 'ruby_app/themes/mobile',
+            :log_path => File.join(Pike::ROOT, %w[log application.log]),
+            :configuration_paths => File.join(Pike::ROOT, %w[config.yml]),
             :default_language => :en,
-            :translations_paths => File.join(File.dirname(__FILE__), %w[.. translations]) }
+            :translations_paths => File.join(Pike::ROOT, %w[translations]) }
 
 Pike::Application.create options
