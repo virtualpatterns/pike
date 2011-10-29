@@ -8,7 +8,7 @@ gem 'mongo'
 gem 'mongoid'
 gem 'mongoid-rspec'
 gem 'rake'
-
+gem 'SystemTimer'
 
 group :test do
   gem 'rspec'
