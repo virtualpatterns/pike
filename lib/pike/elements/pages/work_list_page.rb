@@ -14,7 +14,6 @@ module Pike
     module Pages
       require 'pike/application'
       require 'pike/elements/pages/blank_page'
-      require 'pike/elements/pages/settings_page'
       require 'pike/elements/pages/task_page'
       require 'pike/elements/work_list'
       require 'pike/session'
@@ -49,12 +48,6 @@ module Pike
                 end
               end
             end
-          end
-
-          @settings_button = RubyApp::Elements::Button.new
-          @settings_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::SettingsPage.new)
-            event.refresh
           end
 
           @add_task_button = RubyApp::Elements::Button.new
