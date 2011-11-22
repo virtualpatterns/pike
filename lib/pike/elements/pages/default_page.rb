@@ -44,12 +44,6 @@ module Pike
             end
           end
 
-          @settings_button = RubyApp::Elements::Button.new
-          @settings_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::SettingsPage.new)
-            event.refresh
-          end
-
         end
 
       end

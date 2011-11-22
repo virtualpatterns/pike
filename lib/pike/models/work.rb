@@ -78,7 +78,6 @@ module Pike
 
       def on_before_destroy
         if self.started?
-          self.duration += ( Time.now - self.updated ).to_i
           self.started = nil
           self.updated = nil
         end

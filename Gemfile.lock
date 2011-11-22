@@ -2,7 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.12)
+    RubyApp (0.0.13)
       BlueCloth
       chronic_duration
       facets

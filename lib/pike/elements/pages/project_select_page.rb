@@ -9,6 +9,7 @@ module Pike
   module Elements
 
     module Pages
+      require 'pike/elements/pages/project_list_page'
       require 'pike/elements/pages/project_page'
       require 'pike/elements/pages/select_page'
       require 'pike/elements/project_select'
@@ -22,6 +23,12 @@ module Pike
           super()
 
           @task = task
+
+          @list_project_button = RubyApp::Elements::Button.new
+          @list_project_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::ProjectListPage.new)
+            event.refresh
+          end
 
           @add_project_button = RubyApp::Elements::Button.new
           @add_project_button.clicked do |element, event|

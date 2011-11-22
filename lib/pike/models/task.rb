@@ -45,8 +45,13 @@ module Pike
     protected
 
       def on_before_save
+
+        self.project.reload
         self._project_name = self.project.name
+
+        self.activity.reload
         self._activity_name = self.activity.name
+
       end
 
   end

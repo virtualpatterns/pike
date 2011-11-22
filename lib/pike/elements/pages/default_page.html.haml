@@ -25,6 +25,3 @@
       - @continue_button.attributes.merge!(:class => 'continue')
       = @continue_button.render(:html) do |element|
         - element.content_for(:body, 'Continue')
-      - @settings_button.attributes.merge!(:class => 'settings')
-      = @settings_button.render(:html) do |element|
-        - element.content_for(:body, 'Settings')
