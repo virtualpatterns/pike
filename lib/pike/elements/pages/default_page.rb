@@ -38,12 +38,16 @@ module Pike
           @continue_button = RubyApp::Elements::Button.new
           @continue_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
-              Pike::Session.identity.user.work.where_started.where_not_date(Date.today).each do |work|
-                work.finish!
-              end
+              Pike::Session.identity.user.work.where_started.where_not_date(Date.today).each { |work| work.finish! }
               Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
               event.refresh
             end
+          end
+
+          @settings_button = RubyApp::Elements::Button.new
+          @settings_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::SettingsPage.new)
+            event.refresh
           end
 
         end

@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/button'
+require 'ruby_app/elements/markdown'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -27,6 +28,15 @@ module Pike
           @add_button.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new))
             event.refresh
+          end
+
+          @content = RubyApp::Elements::Markdown.new
+          @content.clicked do |element, event|
+            case event.name
+              when 'add_activity'
+                Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new))
+                event.refresh
+            end
           end
 
           @activity_list = Pike::Elements::ActivityList.new

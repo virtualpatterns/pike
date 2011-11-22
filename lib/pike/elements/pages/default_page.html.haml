@@ -14,17 +14,17 @@
     - unless RubyApp::Session.identity
       - @logon_button.attributes.merge!(:class => 'logon')
       = @logon_button.render(:html) do |element|
-        - element.content_for(:body) do
-          Logon with Google
+        - element.content_for(:body, 'Logon with Google')
     - else
       You are logged on as ...
       %div.email
         = RubyApp::Session.identity.email
       - @logoff_button.attributes.merge!(:class => 'logoff')
       = @logoff_button.render(:html) do |element|
-        - element.content_for(:body) do
-          Logoff
+        - element.content_for(:body, 'Logoff')
       - @continue_button.attributes.merge!(:class => 'continue')
       = @continue_button.render(:html) do |element|
-        - element.content_for(:body) do
-          Continue
+        - element.content_for(:body, 'Continue')
+      - @settings_button.attributes.merge!(:class => 'settings')
+      = @settings_button.render(:html) do |element|
+        - element.content_for(:body, 'Settings')

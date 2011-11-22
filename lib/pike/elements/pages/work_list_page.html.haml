@@ -11,8 +11,8 @@
 - self.content_for(:header_right) do
   /
     #{__FILE__}
-  = @settings_button.render(:html) do |element|
-    - element.content_for(:body, 'Settings')
+  / = @settings_button.render(:html) do |element|
+  /   - element.content_for(:body, 'Settings')
   = @add_task_button.render(:html) do |element|
     - element.content_for(:body, 'Add')
 - self.content_for(:content) do

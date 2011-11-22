@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/button'
+require 'ruby_app/elements/markdown'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -27,6 +28,15 @@ module Pike
           @add_button.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new))
             event.refresh
+          end
+
+          @content = RubyApp::Elements::Markdown.new
+          @content.clicked do |element, event|
+            case event.name
+              when 'add_project'
+                Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new))
+                event.refresh
+            end
           end
 
           @project_list = Pike::Elements::ProjectList.new
