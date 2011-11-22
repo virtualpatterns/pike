@@ -15,14 +15,20 @@ module Pike
 
     def initialize(options)
       super(options)
+    end
+
+    def start!
+      super
+
+      RubyApp::Log.debug("#{self.class}##{__method__}")
 
       Sass::Plugin.options[:load_paths] += [File.expand_path(File.join(File.dirname(__FILE__), %w[elements]))]
 
-      @connection = Mongo::Connection.new(Pike::Application.configuration.mongoid.host,
-                                          Pike::Application.configuration.mongoid.port)
+      @connection = Mongo::Connection.new(Pike::Application.configure.mongoid.host,
+                                          Pike::Application.configure.mongoid.port)
 
       Mongoid.configure do |config|
-        config.master = @connection.db(Pike::Application.configuration.mongoid.database)
+        config.master = @connection.db(Pike::Application.configure.mongoid.database)
       end
 
     end

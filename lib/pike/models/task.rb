@@ -13,14 +13,11 @@ module Pike
     store_in :tasks
 
     before_save :on_before_save
-    before_destroy :on_before_destroy
 
-    FLAG_FIXED      = 0
-    FLAG_LIKED      = 1
-    FLAG_NORMAL     = 2
-    FLAG_COMPLETED  = 3
-    FLAG_NAMES      = { Pike::Task::FLAG_FIXED => 'Fixed',
-                        Pike::Task::FLAG_LIKED => 'Liked',
+    FLAG_LIKED      = 0
+    FLAG_NORMAL     = 1
+    FLAG_COMPLETED  = 2
+    FLAG_NAMES      = { Pike::Task::FLAG_LIKED => 'Liked',
                         Pike::Task::FLAG_NORMAL => 'Other',
                         Pike::Task::FLAG_COMPLETED => 'Completed' }
 
@@ -50,12 +47,6 @@ module Pike
       def on_before_save
         self._project_name = self.project.name
         self._activity_name = self.activity.name
-      end
-
-      def on_before_destroy
-        if self.flag == Pike::Task::FLAG_FIXED
-          raise 'Fixed tasks cannot be deleted.'
-        end
       end
 
   end

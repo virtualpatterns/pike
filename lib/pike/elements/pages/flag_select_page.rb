@@ -18,7 +18,7 @@ module Pike
 
           @flag_select = Pike::Elements::FlagSelect.new
           @flag_select.selected_item = @task.flag
-          @flag_select.selected do |element, event|
+          @flag_select.clicked do |element, event|
             @task.flag = @flag_select.selected_item
             Pike::Session.pages.pop
             event.refresh

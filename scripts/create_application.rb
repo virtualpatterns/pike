@@ -1,8 +1,5 @@
 puts "Running #{__FILE__.inspect}"
 
-require 'rubygems'
-require 'bundler/setup'
-
 require 'pike/application'
 require 'pike/session'
 
@@ -13,4 +10,4 @@ options = { :application_class => Pike::Application,
             :default_language => :en,
             :translations_paths => File.join(Pike::ROOT, %w[translations]) }
 
-Pike::Application.create options
+Pike::Application.create! options

@@ -11,9 +11,6 @@
     #{__FILE__}
   %div.links
     %div.link
-      = @task_list_link.render(:html) do |element|
-        - element.content_for(:body, 'Tasks')
-    %div.link
       = @project_list_link.render(:html) do |element|
         - element.content_for(:body, 'Projects')
     %div.link

@@ -10,7 +10,7 @@ module Pike
 
       def initialize
         super
-        self.items = Pike::Session.identity.user.projects.all.collect
+        self.items = Pike::Session.identity.user.projects.all
       end
 
     end

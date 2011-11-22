@@ -2,28 +2,60 @@
   :sass
     /* #{__FILE__}
     @import '#{File.join(File.dirname(__FILE__), %w[colors.sass])}'
-    div.flag
-      font-size: 10pt
-      background-color: $flag_background
-      border-radius: 5px
-      color: $flag_foreground
-      margin-bottom: 2px
-      padding: 5px 10px
-    div.task_work
-      padding: 5px 10px
-      display: table
-      width: 100%
-      > div
-        display: table-cell
-      > div.task
-        > div.activity
-          font-size: 10pt
-      > div.work
-        text-align: right
-        vertical-align: middle
-    div.started
-      background-color: $started_background
-      border-radius: 5px
-      color: $started_foreground
-      padding: 5px 10px
+    ul.list
+      list-style-type: none
+      margin: 0px
+      padding-left: 0px
+      > li
+        margin-bottom: 2px
+      > li.flag
+        font-size: 10pt
+        background-color: $flag_background
+        border-radius: 5px
+        color: $flag_foreground
+        padding: 5px 10px
+      > li.item
+        > div.item
+          display: table
+          width: 100%
+          > a
+            color: inherit
+            display: table-cell
+            font-weight: inherit
+            vertical-align: middle
+          > a.start
+            background:
+              image: url('/pike/resources/elements/work_list.png')
+              position: right center
+              repeat: no-repeat
+              size: 30px
+            width: 40px
+          > a.started
+            background:
+              image: url('/pike/resources/elements/work_list.started.png')
+          > a.edit
+            div.task_work
+              padding: 5px 10px
+              display: table
+              width: 100%
+              > div
+                display: table-cell
+                vertical-align: middle
+              > div.task
+                > div.activity
+                  font-size: 10pt
+              > div.work
+                text-align: right
+      > li.even
+        background-color: $even_background
+        border-radius: 5px
+        color: $even_foreground
+      > li.odd
+        background-color: $odd_background
+        border-radius: 5px
+        color: $odd_foreground
+      > li.started
+        background-color: $started_background
+        border-radius: 5px
+        color: $started_foreground
 = yield

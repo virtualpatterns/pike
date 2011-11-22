@@ -1,16 +1,24 @@
-- self.content_for(:item) do |_for, item, index|
-  /
-    #{__FILE__}
-  - item.work.update_duration! if item.work
-  - unless item.task.flag == @flag
-    %div.flag
-      = Pike::Task::FLAG_NAMES[item.task.flag]
-  %div{:class => "task_work#{item.started? ? ' started' : nil}"}
-    %div.task
-      %div.project
-        = item.task.project.name
-      %div.activity
-        = item.task.activity.name
-    %div.work{:work_id => ( item.work ? item.work.id : nil )}
-      = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration)) if item.work
-  - @flag = item.task.flag
+/
+  #{__FILE__}
+%ul.list{attributes}
+  - is_even = true
+  - self.items.each_with_index do |item, index|
+    - item.work.update_duration! if item.work
+    - unless item.task.flag == @flag
+      %li.flag
+        = Pike::Task::FLAG_NAMES[item.task.flag]
+    %li.item{:class => ( item.started? ? 'started' : ( is_even ? 'even' : 'odd' ) )}
+      %div.item
+        - if today?
+          %a.start{:class => item.started? ? 'started' : nil, :href => '', :index => index}
+        %a.edit{:href => '', :index => index}
+          %div.task_work
+            %div.task
+              %div.project
+                = item.task.project.name
+              %div.activity
+                = item.task.activity.name
+            %div.work{:work_id => ( item.work ? item.work.id : nil )}
+              = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration)) if item.work
+    - @flag = item.task.flag
+    - is_even = !is_even

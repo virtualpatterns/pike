@@ -2,16 +2,18 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/link'
+require 'ruby_app/elements/button'
+require 'ruby_app/elements/navigation/back_button'
 
 module Pike
 
   module Elements
 
     module Pages
-      require 'pike/elements/pages/properties_page'
-      require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/activity_select_page'
       require 'pike/elements/pages/flag_select_page'
+      require 'pike/elements/pages/project_select_page'
+      require 'pike/elements/pages/properties_page'
       require 'pike/session'
 
       class TaskPage < Pike::Elements::Pages::PropertiesPage
@@ -19,9 +21,20 @@ module Pike
         template_path(:all, File.dirname(__FILE__))
 
         def initialize(task)
-          super(task)
+          super()
 
           @task = task
+
+          @cancel_button = RubyApp::Elements::Navigation::BackButton.new
+
+          @done_button = RubyApp::Elements::Button.new
+          @done_button.clicked do |element, event|
+            RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
+              task.save!
+              Pike::Session.pages.pop
+              event.refresh
+            end
+          end
 
           @project_link = RubyApp::Elements::Link.new
           @project_link.clicked do |element, event|

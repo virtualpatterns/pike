@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/calendars/month_dialog'
 require 'ruby_app/elements/link'
+require 'ruby_app/elements/markdown'
 require 'ruby_app/language'
 
 module Pike
@@ -14,6 +15,7 @@ module Pike
       require 'pike/application'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/settings_page'
+      require 'pike/elements/pages/task_page'
       require 'pike/elements/work_list'
       require 'pike/session'
 
@@ -25,6 +27,13 @@ module Pike
 
         def initialize
           super
+
+          @logout_button = RubyApp::Elements::Button.new
+          @logout_button.clicked do |element, event|
+            Pike::Session.identity = nil
+            Pike::Session.pages.pop
+            event.refresh
+          end
 
           @date_link = RubyApp::Elements::Link.new
           @date_link.clicked do |element, event|
@@ -48,11 +57,19 @@ module Pike
             event.refresh
           end
 
-          @logout_button = RubyApp::Elements::Button.new
-          @logout_button.clicked do |element, event|
-            Pike::Session.identity = nil
-            Pike::Session.pages.pop
+          @add_task_button = RubyApp::Elements::Button.new
+          @add_task_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
             event.refresh
+          end
+
+          @content = RubyApp::Elements::Markdown.new
+          @content.clicked do |element, event|
+            case event.name
+              when 'add_task'
+                Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
+                event.refresh
+            end
           end
 
           @work_list = Pike::Elements::WorkList.new

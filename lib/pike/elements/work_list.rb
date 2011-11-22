@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'chronic_duration'
+require 'ruby-event'
 
 require 'ruby_app/elements/list'
 
@@ -13,6 +14,22 @@ module Pike
     require 'pike/session'
 
     class WorkList < RubyApp::Elements::List
+
+      class StartedEvent < RubyApp::Elements::List::ClickedEvent
+
+        def initialize(data)
+          super(data)
+        end
+
+      end
+
+      class EditedEvent < RubyApp::Elements::List::ClickedEvent
+
+        def initialize(data)
+          super(data)
+        end
+
+      end
 
       class Item
 
@@ -35,25 +52,37 @@ module Pike
       end
 
       template_path(:all, File.dirname(__FILE__))
+      exclude_parent_template(:html, :css, :js)
 
       attr_accessor :date
+
+      event :started
+      event :edited
 
       def initialize
         super
 
         @date = Date.today
 
-        self.selected do |element, event|
-          if self.date.today?
-            Pike::Session.identity.user.work.where_started.except(event.item.work).each { |work| work.finish! }
+        self.started do |element, event|
+          Pike::Session.identity.user.work.where_started.except(event.item.work).each { |work| work.finish! }
+          unless event.item.work.started?
             event.item.work.start!
-            event.update_element(self)
           else
-            Pike::Session.pages.push(Pike::Elements::Pages::WorkPage.new(event.item.work))
-            event.refresh
+            event.item.work.finish!
           end
+          event.update_element(self)
         end
 
+        self.edited do |element, event|
+          Pike::Session.pages.push(Pike::Elements::Pages::WorkPage.new(event.item.work))
+          event.refresh
+        end
+
+      end
+
+      def today?
+        @date == Date.today
       end
 
       def update_duration(event)
@@ -64,10 +93,30 @@ module Pike
       end
 
       def render(format)
-        self.items = Pike::Session.identity.user.tasks.all.collect { |task| Pike::Elements::WorkList::Item.new(@date, task) } if format == :html
-        @flag = nil
+        if format == :html
+          self.items = Pike::Session.identity.user.tasks.all.collect do |task|
+            Pike::Elements::WorkList::Item.new(@date, task)
+          end
+          @flag = nil
+        end
         super(format)
       end
+
+      protected
+
+        def on_event(event)
+          on_started(event) if event.is_a?(Pike::Elements::WorkList::StartedEvent)
+          on_edited(event) if event.is_a?(Pike::Elements::WorkList::EditedEvent)
+          super(event)
+        end
+
+        def on_started(event)
+          started(event)
+        end
+
+        def on_edited(event)
+          edited(event)
+        end
 
     end
 

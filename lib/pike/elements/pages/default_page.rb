@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/button'
+require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/page'
 require 'ruby_app/version'
 
@@ -11,7 +12,7 @@ module Pike
 
     module Pages
       require 'pike/elements/pages/authentication/open_id/google_authentication_page'
-      require 'pike/elements/pages/started_work_list_page'
+      require 'pike/elements/pages/work_list_page'
       require 'pike/session'
       require 'pike/version'
 
@@ -36,8 +37,13 @@ module Pike
 
           @continue_button = RubyApp::Elements::Button.new
           @continue_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::StartedWorkListPage.new)
-            event.refresh
+            RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
+              Pike::Session.identity.user.work.where_started.where_not_date(Date.today).each do |work|
+                work.finish!
+              end
+              Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
+              event.refresh
+            end
           end
 
         end

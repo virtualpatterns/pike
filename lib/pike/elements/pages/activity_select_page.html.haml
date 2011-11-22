@@ -2,7 +2,17 @@
   /
     #{__FILE__}
   Select Activity
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @add_activity_button.render(:html) do |element|
+    - element.content_for(:body, 'Add')
 - self.content_for(:content) do
   /
     #{__FILE__}
-  = @activity_select.render(:html)
+  - unless Pike::Session.identity.user.activities.count <= 0
+    = @activity_select.render(:html)
+  - else
+    = @content.render(:html) do |element|
+      - element.content_for(:body) do
+        You haven't created any activities.  Click [here](add_activity) or use the [Add](add_activity) button to create your first activity.

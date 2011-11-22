@@ -30,6 +30,10 @@ module Pike
           end
 
           @activity_list = Pike::Elements::ActivityList.new
+          @activity_list.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(event.item))
+            event.refresh
+          end
 
         end
 

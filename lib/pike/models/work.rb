@@ -35,10 +35,6 @@ module Pike
     scope :where_started, where(:started.ne => nil)
     scope :except, lambda { |work| where(:_id.ne => work.id) }
 
-    def self.round_to_minute(duration)
-      (duration/60).round * 60
-    end
-
     def started?
       self.started
     end
@@ -66,6 +62,10 @@ module Pike
         self.updated = nil
         self.save!
       end
+    end
+
+    def self.round_to_minute(duration)
+      (duration/60).round * 60
     end
 
     protected

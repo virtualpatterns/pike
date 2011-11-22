@@ -60,12 +60,4 @@
               background-color: $delete_background
               border: 2px solid $delete_border
               color: $delete_foreground
-    div.footer
-      button.delete
-        background-color: $delete_background
-        border: 2px solid $delete_border
-        color: $delete_foreground
-= RubyApp::Elements::Button.render(:css)
-= RubyApp::Elements::Dialogs::ConfirmationDialog.render(:css)
-= RubyApp::Elements::Dialogs::ExceptionDialog.render(:css)
 = yield

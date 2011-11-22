@@ -11,8 +11,6 @@ module Pike
     include Mongoid::Timestamps
     include Mongoid::Paranoia
 
-    after_create :on_after_create
-
     store_in :users
 
     has_many :projects, :class_name => 'Pike::Project'
@@ -32,15 +30,6 @@ module Pike
       user = Pike::User.create!(:url => url) unless user
       return user
     end
-
-    protected
-
-      # Create a slack project/activity for a new user
-      def on_after_create
-        project = self.projects.create!(:name => 'Slack')
-        activity = self.activities.create!(:name => 'Slack')
-        self.tasks.create!(:project => project, :activity => activity, :flag => Pike::Task::FLAG_FIXED)
-      end
 
   end
 

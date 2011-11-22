@@ -15,17 +15,7 @@ module Pike
 
       def initialize
         super
-
-        self.selected do |element, event|
-          Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(event.item))
-          event.refresh
-        end
-
-      end
-
-      def render(format)
-        self.items = Pike::Session.identity.user.activities.all if format == :html
-        super(format)
+        self.items = Pike::Session.identity.user.activities.all
       end
 
     end

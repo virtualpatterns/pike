@@ -2,7 +2,7 @@
   :sass
     /* #{__FILE__}
     @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
-    div.title
+    div.logo
       display: table
       margin: 30px auto
       width: 90%
@@ -34,10 +34,11 @@
         text-align: center
         width: 100%
       > button.logon
-        background-image: url('/pike/resources/elements/pages/default_page.png')
-        background-position: 10px 10px
-        background-repeat: no-repeat
-        background-size: 36px
+        background:
+          image: url('/pike/resources/elements/pages/default_page.png')
+          position: 10px 10px
+          repeat: no-repeat
+          size: 36px
         padding: 15px 10px 15px 55px
       > button.continue
         margin: 20px auto
@@ -46,4 +47,5 @@
       text-align: center
       font-size: 10pt
 = RubyApp::Elements::Button.render(:css)
+= RubyApp::Elements::Dialogs::ExceptionDialog.render(:css)
 = yield

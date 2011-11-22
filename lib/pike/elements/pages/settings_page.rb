@@ -12,7 +12,6 @@ module Pike
       require 'pike/elements/pages/activity_list_page'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/project_list_page'
-      require 'pike/elements/pages/task_list_page'
       require 'pike/session'
 
       class SettingsPage < Pike::Elements::Pages::BlankPage
@@ -23,12 +22,6 @@ module Pike
           super
 
           @back_button = RubyApp::Elements::Navigation::BackButton.new
-
-          @task_list_link = RubyApp::Elements::Link.new
-          @task_list_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::TaskListPage.new)
-            event.refresh
-          end
 
           @project_list_link = RubyApp::Elements::Link.new
           @project_list_link.clicked do |element, event|

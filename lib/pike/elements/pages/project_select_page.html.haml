@@ -2,7 +2,17 @@
   /
     #{__FILE__}
   Select Project
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @add_project_button.render(:html) do |element|
+    - element.content_for(:body, 'Add')
 - self.content_for(:content) do
   /
     #{__FILE__}
-  = @project_select.render(:html)
+  - unless Pike::Session.identity.user.projects.count <= 0
+    = @project_select.render(:html)
+  - else
+    = @content.render(:html) do |element|
+      - element.content_for(:body) do
+        You haven't created any projects.  Click [here](add_project) or use the [Add](add_project) button to create your first project.

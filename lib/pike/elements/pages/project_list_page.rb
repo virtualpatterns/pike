@@ -30,6 +30,10 @@ module Pike
           end
 
           @project_list = Pike::Elements::ProjectList.new
+          @project_list.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(event.item))
+            event.refresh
+          end
 
         end
 

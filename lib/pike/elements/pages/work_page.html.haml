@@ -1,7 +1,17 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @cancel_button.render(:html) do |element|
+    - element.content_for(:body, 'Cancel')
 - self.content_for(:header_center) do
   /
     #{__FILE__}
   Work
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @done_button.render(:html) do |element|
+    - element.content_for(:body, 'Done')
 - self.content_for(:content) do
   /
     #{__FILE__}
@@ -10,22 +20,37 @@
       %div.name
         Project
       %div.value
-        = @work.task.project.name
+        = @project_link.render(:html) do |element|
+          - element.content_for(:body, @work.task.project ? @work.task.project.name : '(none)')
     %div.property
       %div.name
         Activity
       %div.value
-        = @work.task.activity.name
+        = @activity_link.render(:html) do |element|
+          - element.content_for(:body, @work.task.activity ? @work.task.activity.name : '(none)')
+    %div.property
+      %div.name
+        Category
+      %div.value
+        = @flag_link.render(:html) do |element|
+          - element.content_for(:body, Pike::Task::FLAG_NAMES[@work.task.flag])
     %div.property
       %div.name
         Date
       %div.value
-        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date)
+        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configure.format.date)
     %div.property
-      %div.name.last
+      %div.name
         Duration
-      %div.value.last
+      %div.value
         = @duration_input.render(:html) do |element|
           - element.attributes.merge!(:placeholder => 'Enter a duration')
         %div.instructions
           (e.g. 2h 30m 15s)
+    %div.property
+      %div.name.last
+        &nbsp;
+      %div.buttons.last
+        = @delete_button.render(:html) do |element|
+          - element.attributes.merge!(:class => 'delete')
+          - element.content_for(:body, 'Delete')

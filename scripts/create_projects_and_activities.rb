@@ -5,7 +5,7 @@ $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[.. lib]
 
 require 'scripts/create_application'
 
-Pike::Application.execute do
+RubyApp::Request.create! do
 
   require 'scripts/drop_database'
   require 'pike/models'

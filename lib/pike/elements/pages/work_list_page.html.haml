@@ -7,13 +7,20 @@
   /
     #{__FILE__}
   = @date_link.render(:html) do |element|
-    - element.content_for(:body, RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date))
+    - element.content_for(:body, RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configure.format.date))
 - self.content_for(:header_right) do
   /
     #{__FILE__}
   = @settings_button.render(:html) do |element|
     - element.content_for(:body, 'Settings')
+  = @add_task_button.render(:html) do |element|
+    - element.content_for(:body, 'Add')
 - self.content_for(:content) do
   /
     #{__FILE__}
-  = @work_list.render(:html)
+  - unless Pike::Session.identity.user.tasks.count <= 0
+    = @work_list.render(:html)
+  - else
+    = @content.render(:html) do |element|
+      - element.content_for(:body) do
+        You haven't created any tasks.  Click [here](add_task) or use the [Add](add_task) button to create your first task.
