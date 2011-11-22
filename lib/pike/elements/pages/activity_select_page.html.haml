@@ -5,8 +5,8 @@
 - self.content_for(:header_right) do
   /
     #{__FILE__}
-  = @list_activity_button.render(:html) do |element|
-    - element.content_for(:body, 'Edit')
+  / = @list_activity_button.render(:html) do |element|
+  /   - element.content_for(:body, 'Edit')
   = @add_activity_button.render(:html) do |element|
     - element.content_for(:body, 'Add')
 - self.content_for(:content) do
