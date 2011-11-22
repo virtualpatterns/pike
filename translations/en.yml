@@ -7,22 +7,26 @@ pike:
             title: Pike Google Logon
       default_page:
         title: Pike
-      started_work_list_page:
-        title: Pike Started Work
+      flag_select_page:
+        title: Pike Select Category
+      project_list_page:
+        title: Pike Projects
+      project_page:
+        title: Pike Project
+      project_select_page:
+        title: Pike Select Project
+      activity_list_page:
+        title: Pike Activities
+      activity_page:
+        title: Pike Activity
+      activity_select_page:
+        title: Pike Select Activity
       settings_page:
         title: Pike Settings
       task_list_page:
         title: Pike Tasks
       task_page:
         title: Pike Task
-      project_list_page:
-        title: Pike Projects
-      project_page:
-        title: Pike Project
-      activity_list_page:
-        title: Pike Activities
-      activity_page:
-        title: Pike Activity
       work_list_page:
         title: Pike Work
       work_page:
