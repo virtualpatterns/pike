@@ -5,5 +5,6 @@
 *.gem
 *.log
 *.pid
+dump
 log
 sandbox

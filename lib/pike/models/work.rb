@@ -49,7 +49,7 @@ module Pike
 
     def update_duration!
       if self.started?
-        self.duration += ( Time.now - self.updated ).to_i
+        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
         self.updated = Time.now
         self.save!
       end
@@ -57,7 +57,7 @@ module Pike
 
     def finish!
       if self.started?
-        self.duration += ( Time.now - self.updated ).to_i
+        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
         self.started = nil
         self.updated = nil
         self.save!
