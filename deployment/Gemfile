@@ -1,4 +1,5 @@
 source :rubygems
 
-gem 'capistrano',         '2.9.0'
-gem 'railsless-deploy',   '1.0.2', :require => nil
+gem 'capistrano'
+gem 'capistrano-ext'
+gem 'railsless-deploy'

@@ -4,23 +4,17 @@ require 'bundler/capistrano'
 
 require 'railsless-deploy'
 
-set :default_environment, { 'PATH' => '/var/lib/gems/1.8/bin:$PATH' }
-
 set :application, 'Pike'
 set :repository,  'git@github.com:virtualpatterns/pike.git'
 
 set :scm, :git
-
-role :web, 'rhombus.zapto.org'
-role :app, 'rhombus.zapto.org'
-role :db,  'rhombus.zapto.org', :primary => true
+set :scm_username, 'virtualpatterns'
 
 set :deploy_to, '/var/www/pike'
 
-set :user, 'fficnar'
-set :scm_username, 'virtualpatterns'
-
-default_run_options[:pty] = true
+set :stages, %w[production staging]
+set :default_stage, 'staging'
+require 'capistrano/ext/multistage'
 
 namespace :pike do
 
@@ -43,33 +37,3 @@ namespace :pike do
   end
 
 end
-
-#namespace :deploy do
-#  %w(start stop restart).each do |action|
-#    desc "#{action} the Thin processes"
-#    task action.to_sym do
-#      find_and_execute_task("thin:#{action}")
-#    end
-#  end
-#end
-#
-#namespace :thin do
-#  %w(start stop restart).each do |action|
-#    desc "#{action} the app's Thin Cluster"
-#    task action.to_sym, :roles => :app do
-#      run "/etc/init.d/thin #{action}"
-#    end
-#  end
-#end
-
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
-# namespace :deployment do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end

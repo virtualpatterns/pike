@@ -4,6 +4,7 @@
 .sass-cache
 *.gem
 *.log
+*.pem
 *.pid
 dump
 log
