@@ -14,19 +14,24 @@ end
 
 namespace :pike do
 
-  desc 'Monitor Pike'
-  task :monitor do |task|
-    system("> ./log/application.log; clear; tail -f ./log/application.log")
-  end
-
   desc 'Create Pike console'
   task :console do |task|
-    system("clear; bundle exec ../gems/ruby_app/bin/ruby_app console")
+    system("clear; bundle exec ruby_app console")
   end
 
   desc 'Run Pike'
   task :run do |task|
-    system("clear; bundle exec ../gems/ruby_app/bin/ruby_app run")
+    system("clear; bundle exec ruby_app run")
+  end
+
+  desc 'Dump Pike database'
+  task :dump do |task|
+    system("bundle exec mongodump --db pike --out dump")
+  end
+
+  desc 'Restore a dumped Pike database'
+  task :restore do |task|
+    system("bundle exec mongorestore --db pike --drop dump/pike")
   end
 
   namespace :test do
