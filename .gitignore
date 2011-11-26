@@ -3,9 +3,8 @@
 .idea
 .sass-cache
 *.gem
-*.log
-*.pem
-*.pid
+deployment
 dump
 log
 sandbox
+tmp

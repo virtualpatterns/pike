@@ -27,8 +27,8 @@ module Pike
         def initialize
           super
 
-          @logout_button = RubyApp::Elements::Button.new
-          @logout_button.clicked do |element, event|
+          @logoff_button = RubyApp::Elements::Button.new
+          @logoff_button.clicked do |element, event|
             Pike::Session.identity = nil
             Pike::Session.pages.pop
             event.refresh
