@@ -1,6 +1,5 @@
 source :rubygems
 
-#gem 'RubyApp',                  :path => "~/Dropbox/Projects/gems/ruby_app"
 gem 'RubyApp'
 gem 'bson'
 gem 'bson_ext'
