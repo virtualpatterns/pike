@@ -28,10 +28,12 @@ module Pike
           self.loaded do |element, event|
             unless Pike::Session.identity
               if RubyApp::Request.cookies['_identity']
-                user = Pike::User.get_user_by_identity(RubyApp::Request.cookies['_identity'])
-                if user
-                  Pike::Session.identity = Pike::Session::Identity.new(user)
-                  event.set_cookie('_identity', user.generate_identity)
+                identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
+                if identity
+                  Pike::Session.identity = Pike::Session::Identity.new(identity.user)
+                  identity.destroy!
+                  identity = Pike::Session.identity.user.identities.create!
+                  event.set_cookie('_identity', identity.value)
                   Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
                   event.refresh
                 end
@@ -54,9 +56,9 @@ module Pike
           @continue_button = RubyApp::Elements::Button.new
           @continue_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
-              user = Pike::Session.identity.user
-              event.set_cookie('_identity', user.generate_identity)
-              user.work.where_started.where_not_date(Date.today).each { |work| work.finish! }
+              identity = Pike::Session.identity.user.identities.create!
+              event.set_cookie('_identity', identity.value)
+              identity.user.work.where_started.where_not_date(Date.today).each { |work| work.finish! }
               Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
               event.refresh
             end
