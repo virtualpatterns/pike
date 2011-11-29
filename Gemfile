@@ -9,9 +9,13 @@ gem 'mongoid'
 gem 'mongoid-rspec'
 gem 'rake'
 gem 'SystemTimer'
+gem 'uuid'
 
 group :test do
+  gem 'capybara'
+  gem 'cucumber'
   gem 'rspec'
+  gem 'launchy'
 end
 
 group :development do

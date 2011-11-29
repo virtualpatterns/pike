@@ -13,7 +13,7 @@ RubyApp::Request.create! do
   [ 'frank.ficnar@gmail.com',
     'frank.ficnar@mosaic.com' ].each do |url|
 
-    user = Pike::User.get_user(url)
+    user = Pike::User.get_user_by_url(url)
 
     puts 'Creating projects ...'
 

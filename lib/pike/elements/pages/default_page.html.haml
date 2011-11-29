@@ -18,7 +18,7 @@
     - else
       You are logged on as ...
       %div.email
-        = RubyApp::Session.identity.email
+        = RubyApp::Session.identity.url
       - @logoff_button.attributes.merge!(:class => 'logoff')
       = @logoff_button.render(:html) do |element|
         - element.content_for(:body, 'Logoff')

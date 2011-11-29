@@ -36,8 +36,10 @@ namespace :pike do
 
   namespace :test do
 
-    desc 'Run all tests'
-    task :all => ['test:specs']
+    desc 'Run feature tests for the given feature file or all features files if no argument is provided'
+    task :features, :file do |task, arguments|
+      system("bundle exec cucumber --format pretty --tags ~@broken --require features #{arguments.file}")
+    end
 
     desc 'Run RSpec tests'
     task :specs, :file, :line do |task, arguments|
@@ -51,6 +53,10 @@ namespace :pike do
         system("bundle exec rspec spec/ --format=documentation --colour")
       end
     end
+
+    desc 'Run all tests'
+    task :all => ['test:specs',
+                  'test:features']
 
   end
 

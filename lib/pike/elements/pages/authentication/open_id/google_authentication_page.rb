@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'ruby_app/elements/pages/authentication/open_id/google_authentication_page'
+
 module Pike
 
   module Elements
@@ -7,7 +12,8 @@ module Pike
       module Authentication
 
         module OpenID
-          require 'ruby_app/elements/pages/authentication/open_id/google_authentication_page'
+          require 'pike/models'
+          require 'pike/session'
 
           class GoogleAuthenticationPage < RubyApp::Elements::Pages::Authentication::OpenID::GoogleAuthenticationPage
 
@@ -17,8 +23,8 @@ module Pike
               super()
             end
 
-            def create_identity_from_url(url, data = {})
-              Pike::Session::Identity.new(data.email, data)
+            def create_identity_from_email(email)
+              Pike::Session::Identity.new(Pike::User.get_user_by_url(email))
             end
 
           end

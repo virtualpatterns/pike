@@ -29,6 +29,7 @@ module Pike
 
           @logoff_button = RubyApp::Elements::Button.new
           @logoff_button.clicked do |element, event|
+            event.set_cookie('_identity', nil, Time.now)
             Pike::Session.identity = nil
             Pike::Session.pages.pop
             event.refresh

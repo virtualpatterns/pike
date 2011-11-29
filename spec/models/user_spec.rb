@@ -40,7 +40,7 @@ describe Pike::User do
     end
 
     describe 'should respond to some methods' do
-      specify { Pike::User.should respond_to :get_user }
+      specify { Pike::User.should respond_to :get_user_by_url }
       specify { Pike::User.should respond_to :where_url }
     end
 

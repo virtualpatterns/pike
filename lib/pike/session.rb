@@ -11,8 +11,11 @@ module Pike
 
     class Identity < RubyApp::Session::Identity
 
-      def initialize(url, data = {})
-        super(url, data.merge(:user => Pike::User.get_user(url)))
+      attr_reader :user
+
+      def initialize(user)
+        @user = user
+        super(user.url)
       end
 
     end

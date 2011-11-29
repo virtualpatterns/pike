@@ -10,7 +10,7 @@ Pike::Application.execute do
   require 'scripts/drop_database'
   require 'pike/models'
 
-  user = Pike::User.get_user('frank.ficnar@gmail.com')
+  user = Pike::User.get_user_by_url('frank.ficnar@gmail.com')
 
   puts 'Listing tasks ...'
 
