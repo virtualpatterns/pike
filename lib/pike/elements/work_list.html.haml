@@ -2,8 +2,11 @@
   #{__FILE__}
 %ul.list{attributes}
   - is_even = true
+  %li.total
+    Total:
+    %span.total
+      = ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items)))
   - self.items.each_with_index do |item, index|
-    - item.work.update_duration! if item.work
     - unless item.task.flag == @flag
       %li.flag
         = Pike::Task::FLAG_NAMES[item.task.flag]
@@ -19,6 +22,6 @@
               %div.activity
                 = item.task.activity.name
             %div.work{:work_id => ( item.work ? item.work.id : nil )}
-              = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration)) if item.work
+              = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration)) if item.worked?
     - @flag = item.task.flag
     - is_even = !is_even

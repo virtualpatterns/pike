@@ -41,12 +41,27 @@ module Pike
           @work = task.work.where_date(@date).first
         end
 
-        def work
-          @work ||= Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
+        def worked?
+          @work
         end
 
         def started?
           @work && @work.started?
+        end
+
+        def work
+          @work ||= Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
+        end
+
+        def self.total_duration(items)
+          value = 0
+          items.each do |item|
+            if item.worked?
+              item.work.update_duration!
+              value += item.work.duration
+            end
+          end
+          value
         end
 
       end
@@ -89,6 +104,7 @@ module Pike
         Pike::Session.identity.user.work.where_started.each do |work|
           work.update_duration!
           event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(Pike::Work.round_to_minute(work.duration)))
+          event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
         end
       end
 
