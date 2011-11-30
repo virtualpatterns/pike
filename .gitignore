@@ -2,7 +2,9 @@
 .DS_Store
 .idea
 .sass-cache
+dump.tgz
 *.gem
+*.log
 deployment
 dump
 log

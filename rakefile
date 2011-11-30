@@ -26,12 +26,18 @@ namespace :pike do
 
   desc 'Dump Pike database'
   task :dump do |task|
+    system("bundle exec rm -rf dump")
     system("bundle exec mongodump --db pike --out dump")
+    system("bundle exec tar -czf dump.tgz dump")
+    system("bundle exec rm -rf dump")
   end
 
   desc 'Restore a dumped Pike database'
   task :restore do |task|
+    system("bundle exec rm -rf dump")
+    system("bundle exec tar -xzf dump.tgz")
     system("bundle exec mongorestore --db pike --drop dump/pike")
+    system("bundle exec rm -rf dump")
   end
 
   namespace :test do

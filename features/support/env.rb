@@ -3,7 +3,7 @@ require 'capybara/cucumber'
 require 'capybara/dsl'
 
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :firefox)
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
 
 Capybara.default_driver = :chrome
