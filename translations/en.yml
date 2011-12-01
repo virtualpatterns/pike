@@ -21,8 +21,8 @@ pike:
         title: Pike Activity
       activity_select_page:
         title: Pike Select Activity
-      settings_page:
-        title: Pike Settings
+      more_page:
+        title: Pike More
       task_list_page:
         title: Pike Tasks
       task_page:

@@ -14,6 +14,7 @@ module Pike
     module Pages
       require 'pike/application'
       require 'pike/elements/pages/blank_page'
+      require 'pike/elements/pages/more_page'
       require 'pike/elements/pages/task_page'
       require 'pike/elements/work_list'
       require 'pike/session'
@@ -27,13 +28,9 @@ module Pike
         def initialize
           super
 
-          @logoff_button = RubyApp::Elements::Button.new
-          @logoff_button.clicked do |element, event|
-            identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
-            identity.destroy!
-            event.set_cookie('_identity', nil, Time.now)
-            Pike::Session.identity = nil
-            Pike::Session.pages.pop
+          @more_button = RubyApp::Elements::Button.new
+          @more_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::MorePage.new)
             event.refresh
           end
 
