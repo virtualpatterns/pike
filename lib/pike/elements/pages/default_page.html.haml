@@ -12,16 +12,16 @@
     Pike Version #{Pike::VERSION}
   %div.logon
     - unless RubyApp::Session.identity
-      - @logon_button.attributes.merge!(:class => 'logon')
       = @logon_button.render(:html) do |element|
+        - element.attributes.merge!(:class => 'logon')
         - element.content_for(:body, 'Logon with Google')
     - else
       You are logged on as ...
       %div.email
         = RubyApp::Session.identity.url
-      - @logoff_button.attributes.merge!(:class => 'logoff')
       = @logoff_button.render(:html) do |element|
+        - element.attributes.merge!(:class => 'logoff')
         - element.content_for(:body, 'Logoff')
-      - @continue_button.attributes.merge!(:class => 'continue')
       = @continue_button.render(:html) do |element|
+        - element.attributes.merge!(:class => 'continue')
         - element.content_for(:body, 'Continue')

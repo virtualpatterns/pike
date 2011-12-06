@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'chronic'
+
 require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/page'
@@ -31,9 +33,6 @@ module Pike
                 identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
                 if identity
                   Pike::Session.identity = Pike::Session::Identity.new(identity.user)
-                  identity.destroy!
-                  identity = Pike::Session.identity.user.identities.create!
-                  event.set_cookie('_identity', identity.value)
                   Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
                   event.refresh
                 end
@@ -61,7 +60,7 @@ module Pike
           @continue_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
               identity = Pike::Session.identity.user.identities.create!
-              event.set_cookie('_identity', identity.value)
+              event.set_cookie('_identity', identity.value, Chronic.parse('next month'))
               identity.user.work.where_started.where_not_date(Date.today).each { |work| work.finish! }
               Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
               event.refresh
