@@ -24,27 +24,30 @@ namespace :pike do
     system("clear; bundle exec ruby_app run")
   end
 
+  desc 'Run Pike w/ coverage report'
+  task :coverage do |task|
+    system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
+  end
+
   desc 'Dump Pike database'
   task :dump do |task|
-    system("bundle exec rm -rf dump")
-    system("bundle exec mongodump --db pike --out dump")
-    system("bundle exec tar -czf dump.tgz dump")
-    system("bundle exec rm -rf dump")
+    system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
   end
 
   desc 'Restore a dumped Pike database'
   task :restore do |task|
-    system("bundle exec rm -rf dump")
-    system("bundle exec tar -xzf dump.tgz")
-    system("bundle exec mongorestore --db pike --drop dump/pike")
-    system("bundle exec rm -rf dump")
+    system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
   end
 
   namespace :test do
 
     desc 'Run feature tests for the given feature file or all features files if no argument is provided'
     task :features, :file do |task, arguments|
-      system("bundle exec cucumber --format pretty --tags ~@broken --require features #{arguments.file}")
+      if arguments.file
+        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
+      else
+        system("bundle exec cucumber --format pretty --tags ~@broken --require features")
+      end
     end
 
     desc 'Run RSpec tests'

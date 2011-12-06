@@ -24,12 +24,6 @@ module Pike
 
           @task = task
 
-          @list_project_button = RubyApp::Elements::Button.new
-          @list_project_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ProjectListPage.new)
-            event.refresh
-          end
-
           @add_project_button = RubyApp::Elements::Button.new
           @add_project_button.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new))

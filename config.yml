@@ -1,7 +1,7 @@
 pike:
   application:
     format:
-      date: %a %b %e
+      date: %a %b %-d
     mongoid:
       host: localhost
       port: 27017

@@ -23,12 +23,6 @@ module Pike
 
           @task = task
 
-          @list_activity_button = RubyApp::Elements::Button.new
-          @list_activity_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ActivityListPage.new)
-            event.refresh
-          end
-
           @add_activity_button = RubyApp::Elements::Button.new
           @add_activity_button.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new))

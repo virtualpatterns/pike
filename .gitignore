@@ -5,6 +5,7 @@
 dump.tgz
 *.gem
 *.log
+coverage
 deployment
 dump
 log

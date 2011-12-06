@@ -33,6 +33,27 @@ module Pike
 
     end
 
+    def drop_database
+      @connection.drop_database(Pike::Application.configure.mongoid.database)
+    end
+
+    def self.create_default!
+
+      require 'pike/application'
+      require 'pike/session'
+      require 'pike/version'
+
+      options = { :application_class => Pike::Application,
+                  :session_class => Pike::Session,
+                  :log_path => File.join(Pike::ROOT, %w[log application.log]),
+                  :configuration_paths => File.join(Pike::ROOT, %w[config.yml]),
+                  :default_language => :en,
+                  :translations_paths => File.join(Pike::ROOT, %w[translations]) }
+
+      Pike::Application.create! options
+
+    end
+
   end
 
 end

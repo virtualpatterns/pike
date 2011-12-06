@@ -1,4 +1,5 @@
-source :rubygems
+source 'http://rubygems.org'
+source 'http://gems.github.com'
 
 gem 'RubyApp'
 gem 'bson'
@@ -13,6 +14,7 @@ gem 'uuid'
 group :test do
   gem 'capybara'
   gem 'cucumber'
+  gem 'relevance-rcov'
   gem 'rspec'
   gem 'launchy'
 end

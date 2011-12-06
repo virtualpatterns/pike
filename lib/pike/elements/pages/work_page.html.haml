@@ -21,13 +21,13 @@
         Project
       %div.value
         = @project_link.render(:html) do |element|
-          - element.content_for(:body, @work.task.project ? @work.task.project.name : '(none)')
+          - element.content_for(:body, @work.task.project ? @work.task.project.name : '(select a project)')
     %div.property
       %div.name
         Activity
       %div.value
         = @activity_link.render(:html) do |element|
-          - element.content_for(:body, @work.task.activity ? @work.task.activity.name : '(none)')
+          - element.content_for(:body, @work.task.activity ? @work.task.activity.name : '(select an activity)')
     %div.property
       %div.name
         Category
@@ -41,10 +41,11 @@
         = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configure.format.date)
     %div.property
       %div.name
-        Duration
+        %label{:for => @duration_input.element_id}
+          Duration
       %div.value
         = @duration_input.render(:html) do |element|
-          - element.attributes.merge!(:placeholder => 'Enter a duration')
+          - element.attributes.merge!(:autofocus => true, :placeholder => 'Enter a duration')
         %div.instructions
           (e.g. 2h 30m 15s)
     %div.property

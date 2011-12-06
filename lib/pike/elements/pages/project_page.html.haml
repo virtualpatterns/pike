@@ -18,10 +18,11 @@
   %div.properties
     %div.property
       %div.name{:class => @project.new? ? 'last' : nil }
-        Name
+        %label{:for => @name_input.element_id}
+          Name
       %div.value{:class => @project.new? ? 'last' : nil }
         = @name_input.render(:html) do |element|
-          - element.attributes.merge!(:placeholder => 'Enter a name')
+          - element.attributes.merge!(:autofocus => true, :placeholder => 'Enter a name')
     - unless @project.new?
       %div.property
         %div.name.last
