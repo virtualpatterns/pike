@@ -101,10 +101,19 @@ module Pike
       end
 
       def update_duration(event)
+        refreshed = false
         Pike::Session.identity.user.work.where_started.each do |work|
-          work.update_duration!
-          event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(Pike::Work.round_to_minute(work.duration)))
-          event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
+          if work.date == event.now.to_date
+            work.update_duration!
+            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(Pike::Work.round_to_minute(work.duration)))
+            event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
+          else
+            work.finish!
+            unless refreshed
+              event.refresh
+              refreshed = true
+            end
+          end
         end
       end
 

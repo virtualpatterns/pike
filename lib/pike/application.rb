@@ -33,7 +33,7 @@ module Pike
 
     end
 
-    def drop_database
+    def drop_database!
       @connection.drop_database(Pike::Application.configure.mongoid.database)
     end
 

@@ -1,5 +1,5 @@
 Given /^I have an empty test database$/ do
-  Pike::Application.drop_database
+  Pike::Application.drop_database!
 end
 
 Given /^I have created a guest user$/ do
