@@ -17,3 +17,7 @@
     %div.link
       = @activity_list_link.render(:html) do |element|
         - element.content_for(:body, 'Activities')
+  %div.links
+    %div.link
+      = @about_link.render(:html) do |element|
+        - element.content_for(:body, 'About')

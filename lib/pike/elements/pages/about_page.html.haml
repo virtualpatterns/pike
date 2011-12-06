@@ -1,0 +1,19 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @back_button.render(:html)
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div{:style => 'text-align: center;'}
+    %div{:style => 'margin: 10px 0px 15px 0px;'}
+      Available on
+      %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
+        GitHub
+    %div{:style => 'margin: 0px 0px 10px 0px;'}
+      %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
+        %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
+    %div{:style => 'font-size: 10pt;'}
+      RubyApp Version #{RubyApp::VERSION}
+      %br
+      Pike Version #{Pike::VERSION}

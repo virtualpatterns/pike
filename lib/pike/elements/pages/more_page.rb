@@ -9,6 +9,7 @@ module Pike
   module Elements
 
     module Pages
+      require 'pike/elements/pages/about_page'
       require 'pike/elements/pages/activity_list_page'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/project_list_page'
@@ -43,6 +44,12 @@ module Pike
           @activity_list_link = RubyApp::Elements::Link.new
           @activity_list_link.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ActivityListPage.new)
+            event.refresh
+          end
+
+          @about_link = RubyApp::Elements::Link.new
+          @about_link.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::AboutPage.new)
             event.refresh
           end
 
