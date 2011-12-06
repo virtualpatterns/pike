@@ -101,7 +101,7 @@ module Pike
       end
 
       def update_duration(event)
-        refreshed = false
+        updated = false
         Pike::Session.identity.user.work.where_started.each do |work|
           if work.date == event.now.to_date
             work.update_duration!
@@ -109,9 +109,9 @@ module Pike
             event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
           else
             work.finish!
-            unless refreshed
-              event.refresh
-              refreshed = true
+            unless updated
+              event.update_element(self)
+              updated = true
             end
           end
         end
