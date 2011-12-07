@@ -1,7 +1,13 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'chronic'
 require 'rake'
+
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
+
+require 'pike/application'
+require 'pike/models'
 
 namespace :mongo do
 
@@ -14,29 +20,56 @@ end
 
 namespace :pike do
 
-  desc 'Create Pike console'
+  desc 'Create pike console'
   task :console do |task|
     system("clear; bundle exec ruby_app console")
   end
 
-  desc 'Run Pike'
+  desc 'Run pike'
   task :run do |task|
     system("clear; bundle exec ruby_app run")
   end
 
-  desc 'Run Pike w/ coverage report'
+  desc 'Run pike w/ coverage report'
   task :coverage do |task|
     system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
   end
 
-  desc 'Dump Pike database'
+  desc 'Dump pike database'
   task :dump do |task|
     system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
   end
 
-  desc 'Restore a dumped Pike database'
+  desc 'Restore a dumped pike database'
   task :restore do |task|
     system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
+  end
+
+  desc 'Drop pike database'
+  task :drop do |task|
+    Pike::Application.create_default!
+    Pike::Application.drop_database!
+  end
+
+  namespace :identities do
+
+    desc 'Print all identities'
+    task :print_all do |task|
+      Pike::Application.create_default!
+      Pike::Identity.all.each do |identity|
+        puts "identity.user.url=#{identity.user.url.inspect}, identity.expires=#{identity.expires}"
+      end
+    end
+
+    desc 'Expire all identities'
+    task :expire_all do |task|
+      Pike::Application.create_default!
+      Pike::Identity.all.each do |identity|
+        identity.expires = Chronic.parse('yesterday')
+        identity.save!
+      end
+    end
+
   end
 
   namespace :test do
