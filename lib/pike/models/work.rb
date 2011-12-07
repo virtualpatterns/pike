@@ -3,6 +3,8 @@ require 'bundler/setup'
 
 require 'mongoid'
 
+require 'ruby_app/log'
+
 module Pike
 
   class Work
@@ -12,7 +14,6 @@ module Pike
 
     store_in :work
 
-    after_save :on_after_save
     before_destroy :on_before_destroy
 
     belongs_to :user, :class_name => 'Pike::User'
@@ -33,7 +34,6 @@ module Pike
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }
     scope :where_started, where(:started.ne => nil)
-    scope :except, lambda { |work| where(:_id.ne => work.id) }
 
     def started?
       self.started
@@ -47,14 +47,6 @@ module Pike
       end
     end
 
-    def update_duration!
-      if self.started?
-        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
-        self.updated = Time.now
-        self.save!
-      end
-    end
-
     def finish!
       if self.started?
         self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
@@ -64,17 +56,20 @@ module Pike
       end
     end
 
+    def update_duration!
+      if self.started?
+        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
+        self.updated = Time.now
+        self.save!
+      end
+      self.duration
+    end
+
     def self.round_to_minute(duration)
       (duration/60).round * 60
     end
 
     protected
-
-      def on_after_save
-        unless self.duration
-          self.destroy!
-        end
-      end
 
       def on_before_destroy
         if self.started?

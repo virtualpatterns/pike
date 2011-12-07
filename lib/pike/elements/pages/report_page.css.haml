@@ -1,0 +1,37 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.day
+      font-size: 10pt
+      background-color: $flag_background
+      border-radius: 5px
+      color: $flag_foreground
+      margin-bottom: 2px
+      padding: 5px 10px
+    div.task_work
+      display: table
+      margin-bottom: 2px
+      padding: 5px 10px
+      width: 100%
+      > div
+        display: table-cell
+        vertical-align: middle
+      > div.task
+        > div.activity
+          font-size: 10pt
+      > div.work
+        text-align: right
+    div.task_work.even
+      background-color: $even_background
+      border-radius: 5px
+      color: $even_foreground
+    div.task_work.odd
+      background-color: $odd_background
+      border-radius: 5px
+      color: $odd_foreground
+= RubyApp::Elements::Dialogs::Calendars::MonthDialog.render(:css)
+= RubyApp::Elements::Dialogs::MessageDialog.render(:css)
+= RubyApp::Elements::Link.render(:css)
+= RubyApp::Elements::Navigation::BackButton.render(:css)
+= yield

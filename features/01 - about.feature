@@ -1,4 +1,4 @@
-Feature: Work List Functionality
+Feature: About Functionality
 
   Background:
     Given I am testing the application

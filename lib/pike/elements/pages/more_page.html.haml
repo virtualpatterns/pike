@@ -19,5 +19,8 @@
         - element.content_for(:body, 'Activities')
   %div.links
     %div.link
+      = @report_link.render(:html) do |element|
+        - element.content_for(:body, 'Weekly Summary')
+    %div.link
       = @about_link.render(:html) do |element|
         - element.content_for(:body, 'About')

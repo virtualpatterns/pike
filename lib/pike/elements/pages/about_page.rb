@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/markdown'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -19,8 +18,6 @@ module Pike
           super
 
           @back_button = RubyApp::Elements::Navigation::BackButton.new
-
-          @content = RubyApp::Elements::Markdown.new
 
         end
 

@@ -33,7 +33,7 @@ module Pike
                 identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
                 if identity
                   Pike::Session.identity = Pike::Session::Identity.new(identity.user)
-                  Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
+                  Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
                   event.refresh
                 end
               end
@@ -61,8 +61,8 @@ module Pike
             RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
               identity = Pike::Session.identity.user.identities.create!
               event.set_cookie('_identity', identity.value, Chronic.parse('next month'))
-              identity.user.work.where_started.where_not_date(Date.today).each { |work| work.finish! }
-              Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new)
+              identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+              Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
               event.refresh
             end
           end

@@ -25,8 +25,8 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize
-          super
+        def initialize(today = Date.today, date = Date.today)
+          super()
 
           @more_button = RubyApp::Elements::Button.new
           @more_button.clicked do |element, event|
@@ -38,7 +38,7 @@ module Pike
           @date_link.clicked do |element, event|
             Pike::Session.show(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', @work_list.date)) do |_event, response|
               if response
-                if response > Date.today
+                if response > event.today
                   Pike::Session.show(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
                                                                                            'The selected date is invalid.  Work cannot be updated for future dates.'))
                 else
@@ -65,11 +65,11 @@ module Pike
             end
           end
 
-          @work_list = Pike::Elements::WorkList.new
+          @work_list = Pike::Elements::WorkList.new(today, date)
 
           self.interval = Pike::Elements::Pages::WorkListPage::INTERVAL
           self.triggered do |element, event|
-            @work_list.update_duration(event)
+            @work_list.update_duration!(event)
           end
 
         end

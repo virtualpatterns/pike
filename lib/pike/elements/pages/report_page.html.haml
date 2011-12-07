@@ -1,0 +1,31 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @back_button.render(:html) do |element|
+    - element.content_for(:body, 'Back')
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  = @date_link.render(:html) do |element|
+    - element.content_for(:body, RubyApp::Language.locale.strftime(self.first_date, Pike::Application.configure.format.date))
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  - tasks = Pike::Session.identity.user.tasks.all.collect
+  - is_even = true
+  - (0..6).each do |index|
+    - date = self.first_date + index
+    %div.day
+      = RubyApp::Language.locale.strftime(date, Pike::Application.configure.format.date)
+    - tasks.each do |task|
+      - work = task.work.where_date(date).first
+      - if work && work.duration > 0
+        %div.task_work{:class => is_even ? 'even' : 'odd'}
+          %div.task
+            %div.project
+              = task.project.name
+            %div.activity
+              = task.activity.name
+          %div.work
+            = ChronicDuration.output(work.duration)
+        - is_even = !is_even

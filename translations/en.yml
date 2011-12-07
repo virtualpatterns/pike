@@ -1,6 +1,12 @@
 pike:
   elements:
     pages:
+      activity_list_page:
+        title: Pike Activities
+      activity_page:
+        title: Pike Activity
+      activity_select_page:
+        title: Pike Select Activity
       authentication:
         open_id:
           google_authentication_page:
@@ -9,20 +15,16 @@ pike:
         title: Pike
       flag_select_page:
         title: Pike Select Category
+      more_page:
+        title: Pike More
       project_list_page:
         title: Pike Projects
       project_page:
         title: Pike Project
       project_select_page:
         title: Pike Select Project
-      activity_list_page:
-        title: Pike Activities
-      activity_page:
-        title: Pike Activity
-      activity_select_page:
-        title: Pike Select Activity
-      more_page:
-        title: Pike More
+      report_page:
+        title: Pike Weekly Summary
       task_list_page:
         title: Pike Tasks
       task_page:

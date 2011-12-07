@@ -38,28 +38,13 @@ module Pike
         def initialize(date, task)
           @date = date
           @task = task
-          @work = task.work.where_date(@date).first
-        end
-
-        def worked?
-          @work
-        end
-
-        def started?
-          @work && @work.started?
-        end
-
-        def work
-          @work ||= Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
+          @work = task.work.where_date(@date).first || Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
         end
 
         def self.total_duration(items)
           value = 0
           items.each do |item|
-            if item.worked?
-              item.work.update_duration!
-              value += item.work.duration
-            end
+            value += item.work.update_duration!
           end
           value
         end
@@ -69,22 +54,23 @@ module Pike
       template_path(:all, File.dirname(__FILE__))
       exclude_parent_template(:html, :css, :js)
 
-      attr_accessor :date
+      attr_accessor :today, :date
 
       event :started
       event :edited
 
-      def initialize
-        super
+      def initialize(today = Date.today, date = Date.today)
+        super()
 
-        @date = Date.today
+        @today = today
+        @date = date
 
         self.started do |element, event|
-          Pike::Session.identity.user.work.where_started.except(event.item.work).each { |work| work.finish! }
           unless event.item.work.started?
+            Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
             event.item.work.start!
           else
-            event.item.work.finish!
+            Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
           end
           event.update_element(self)
         end
@@ -97,22 +83,19 @@ module Pike
       end
 
       def today?
-        @date == Date.today
+        @date == @today
       end
 
-      def update_duration(event)
-        updated = false
+      def update_duration!(event)
+        @today = event.today
         Pike::Session.identity.user.work.where_started.each do |work|
-          if work.date == event.now.to_date
+          if work.date == self.today
             work.update_duration!
             event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(Pike::Work.round_to_minute(work.duration)))
             event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
           else
             work.finish!
-            unless updated
-              event.update_element(self)
-              updated = true
-            end
+            event.update_element(self)
           end
         end
       end
