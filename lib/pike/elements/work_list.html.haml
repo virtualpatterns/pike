@@ -4,8 +4,8 @@
   %li.total
     Total:
     %span.total
-      = ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items)))
   - is_even = true
+  - total = 0
   - self.items.each_with_index do |item, index|
     - unless item.task.flag == @flag
       %li.flag
@@ -22,6 +22,9 @@
               %div.activity
                 = item.task.activity.name
             %div.work{:work_id => item.work.id}
-              = ChronicDuration.output(Pike::Work.round_to_minute(item.work.duration))
-    - @flag = item.task.flag
+              = ChronicDuration.output(item.work.duration)
     - is_even = !is_even
+    - total += item.work.duration
+    - @flag = item.task.flag
+  :javascript
+    $('span.total').text(#{ChronicDuration.output(total).to_json});

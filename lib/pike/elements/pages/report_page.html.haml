@@ -12,7 +12,11 @@
   /
     #{__FILE__}
   - tasks = Pike::Session.identity.user.tasks.all.collect
+  %div.total
+    Total:
+    %span.total
   - is_even = true
+  - total = 0
   - (0..6).each do |index|
     - date = self.first_date + index
     %div.day
@@ -29,3 +33,6 @@
           %div.work
             = ChronicDuration.output(work.duration)
         - is_even = !is_even
+        - total += work.duration
+  :javascript
+    $('span.total').text(#{ChronicDuration.output(total).to_json});

@@ -41,14 +41,6 @@ module Pike
           @work = task.work.where_date(@date).first || Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
         end
 
-        def self.total_duration(items)
-          value = 0
-          items.each do |item|
-            value += item.work.update_duration!
-          end
-          value
-        end
-
       end
 
       template_path(:all, File.dirname(__FILE__))
@@ -76,6 +68,7 @@ module Pike
         end
 
         self.edited do |element, event|
+          event.item.work.update_duration!
           Pike::Session.pages.push(Pike::Elements::Pages::WorkPage.new(event.item.work))
           event.refresh
         end
@@ -91,8 +84,8 @@ module Pike
         Pike::Session.identity.user.work.where_started.each do |work|
           if work.date == self.today
             work.update_duration!
-            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(Pike::Work.round_to_minute(work.duration)))
-            event.update_text('span.total', ChronicDuration.output(Pike::Work.round_to_minute(Pike::Elements::WorkList::Item.total_duration(self.items))))
+            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(work.duration))
+            event.update_text('span.total', ChronicDuration.output(self.items.inject(0) { |total, item| total + item.work.reload.duration }))
           else
             work.finish!
             event.update_element(self)

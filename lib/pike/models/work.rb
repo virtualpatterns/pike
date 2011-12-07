@@ -14,6 +14,7 @@ module Pike
 
     store_in :work
 
+    before_save :on_before_save
     before_destroy :on_before_destroy
 
     belongs_to :user, :class_name => 'Pike::User'
@@ -62,17 +63,17 @@ module Pike
         self.updated = Time.now
         self.save!
       end
-      self.duration
-    end
-
-    def self.round_to_minute(duration)
-      (duration/60).round * 60
     end
 
     protected
 
+      def on_before_save
+        self.duration = (self.duration/60).round * 60
+      end
+
       def on_before_destroy
         if self.started?
+          self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
           self.started = nil
           self.updated = nil
         end
