@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.20)
+    RubyApp (0.0.21)
       BlueCloth
       chronic
       chronic_duration
@@ -99,7 +99,7 @@ GEM
     ruby-openid (2.1.8)
     rubyzip (0.9.5)
     sass (3.1.11)
-    selenium-webdriver (2.14.0)
+    selenium-webdriver (2.15.0)
       childprocess (>= 0.2.1)
       ffi (~> 1.0.9)
       multi_json (~> 1.0.4)
