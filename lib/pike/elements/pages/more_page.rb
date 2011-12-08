@@ -56,7 +56,7 @@ module Pike
 
           @about_link = RubyApp::Elements::Link.new
           @about_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::AboutPage.new)
+            Pike::Session.pages.push(Pike::Elements::Pages::AboutPage.new(event.now))
             event.refresh
           end
 

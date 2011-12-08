@@ -14,8 +14,10 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize
-          super
+        def initialize(now = Time.now)
+          super()
+
+          @now = now
 
           @back_button = RubyApp::Elements::Navigation::BackButton.new
 
