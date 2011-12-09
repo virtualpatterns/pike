@@ -33,6 +33,7 @@ module Pike
                 identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
                 if identity
                   Pike::Session.identity = Pike::Session::Identity.new(identity.user)
+                  identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
                   Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
                   event.refresh
                 end
