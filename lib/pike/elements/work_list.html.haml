@@ -12,6 +12,7 @@
         = Pike::Task::FLAG_NAMES[item.task.flag]
     %li.item{:class => ( item.work.started? ? 'started' : ( is_even ? 'even' : 'odd' ) ), :project => item.task.project.name, :activity => item.task.activity.name}
       %div.item
+        - item.work.update_duration! if item.work.started?
         - if today?
           %a.start{:class => item.work.started? ? 'started' : nil, :href => '', :index => index}
         %a.edit{:href => '', :index => index}

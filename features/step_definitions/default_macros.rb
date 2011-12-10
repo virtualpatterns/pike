@@ -38,9 +38,11 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
   end
 
   step "I click \"#{to.day}\""
+
 end
 
 And /^I create the (first )?project "([^"]*)"$/ do |first, project|
+  
   step 'I click "More ..."'
   step 'I click "Projects"'
 
@@ -57,9 +59,11 @@ And /^I create the (first )?project "([^"]*)"$/ do |first, project|
   step "I should see \"#{project}\""
   step 'I click "Back"'
   step 'I click "Back"'
+
 end
 
 And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
+
   step 'I click "More ..."'
   step 'I click "Activities"'
 
@@ -76,6 +80,7 @@ And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
   step "I should see \"#{activity}\""
   step 'I click "Back"'
   step 'I click "Back"'
+
 end
 
 And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/ do |first, project, activity|
@@ -96,4 +101,5 @@ And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/
   step 'I click "Done"'
   step "I should see \"#{project}\""
   step "I should see \"#{activity}\""
+
 end
