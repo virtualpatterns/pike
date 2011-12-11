@@ -23,7 +23,7 @@
       = RubyApp::Language.locale.strftime(date, Pike::Application.configure.format.date)
     - tasks.each do |task|
       - work = task.work.where_date(date).first
-      - if work && work.duration > 0
+      - if work && work.duration && work.duration > 0
         %div.task_work{:class => is_even ? 'even' : 'odd'}
           %div.task
             %div.project
