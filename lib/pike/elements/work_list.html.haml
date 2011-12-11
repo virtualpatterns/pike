@@ -23,9 +23,9 @@
               %div.activity
                 = item.task.activity.name
             %div.work{:work_id => item.work.id}
-              = ChronicDuration.output(item.work.duration)
+              = ChronicDuration.output(item.work.duration) if item.work.duration
     - is_even = !is_even
-    - total += item.work.duration
+    - total += item.work.duration if item.work.duration
     - @flag = item.task.flag
   :javascript
     $('span.total').text(#{ChronicDuration.output(total).to_json});

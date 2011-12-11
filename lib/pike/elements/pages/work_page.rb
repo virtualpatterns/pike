@@ -60,7 +60,7 @@ module Pike
           end
 
           @duration_input = RubyApp::Elements::Inputs::DurationInput.new
-          @duration_input.duration = @work.duration
+          @duration_input.duration = @work.duration if @work.duration
           @duration_input.changed do |element, event|
             @work.duration = @duration_input.duration
           end

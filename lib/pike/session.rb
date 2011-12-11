@@ -20,8 +20,8 @@ module Pike
 
     end
 
-    def initialize(page = nil)
-      super(page || Pike::Elements::Pages::DefaultPage.new)
+    def initialize(session_id, page = nil)
+      super(session_id, page || Pike::Elements::Pages::DefaultPage.new)
     end
 
   end

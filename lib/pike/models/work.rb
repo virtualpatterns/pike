@@ -68,7 +68,7 @@ module Pike
     protected
 
       def on_before_save
-        self.duration = (self.duration/60).round * 60
+        self.duration = (self.duration/60).round * 60 if self.duration
       end
 
       def on_before_destroy
