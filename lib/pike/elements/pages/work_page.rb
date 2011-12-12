@@ -60,9 +60,9 @@ module Pike
           end
 
           @duration_input = RubyApp::Elements::Inputs::DurationInput.new
-          @duration_input.duration = @work.duration if @work.duration
+          @duration_input.duration = @work.duration || 0
           @duration_input.changed do |element, event|
-            @work.duration = @duration_input.duration
+            @work.duration = @duration_input.duration || 0
           end
 
           @delete_button = RubyApp::Elements::Button.new

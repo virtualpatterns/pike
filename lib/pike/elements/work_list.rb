@@ -85,8 +85,8 @@ module Pike
           if work.date == self.today
             work.update_duration!
             event.remove_class("div.work[work_id='#{work.id}']", 'blank')
-            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(work.duration))
-            event.update_text('span.total', ChronicDuration.output(self.items.inject(0) { |total, item| total + item.work.reload.duration }))
+            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(work.duration || 0))
+            event.update_text('span.total', ChronicDuration.output(self.items.inject(0) { |total, item| total + ( item.work.reload.duration || 0 ) }))
           else
             work.finish!
             event.update_element(self)
