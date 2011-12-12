@@ -63,7 +63,7 @@ namespace :pike do
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     root_directory = Pike::ROOT
     deployment_directory = File.join(Pike::ROOT, %w[deployment])
-    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development && cd '#{deployment_directory}' && cap development pike:update && cd '#{root_directory}'"
+    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development && cd '#{deployment_directory}'" #" && cap development pike:update && cd '#{root_directory}'"
   end
 
   namespace :identities do
