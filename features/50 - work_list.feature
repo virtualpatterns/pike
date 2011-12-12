@@ -101,8 +101,7 @@ Feature: Work List Functionality
     When I edit the task with project "Project 1" and activity "Activity 1"
     And I fill in the "Duration" field with "" and I press enter
     And I click "Done"
-    Then I should not see "undefined method"
-    Then I should not see "1 hr 20 min"
+    Then the duration for the task with project "Project 1" and activity "Activity 1" should be blank
 
   Scenario: Clear the duration for a started task
     Given I create the first project "Project 1"
@@ -118,6 +117,7 @@ Feature: Work List Functionality
     And I fill in the "Duration" field with "" and I press enter
     And I click "Done"
     Then the task with project "Project 1" and activity "Activity 1" should be started
+    And the duration for the task with project "Project 1" and activity "Activity 1" should be blank
 
   Scenario: Change the project, activity, and category of the first task
     Given I create the first project "Project 1"
