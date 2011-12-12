@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.23)
+    RubyApp (0.0.24)
       BlueCloth
       chronic
       chronic_duration
@@ -104,7 +104,7 @@ GEM
       ffi (~> 1.0.9)
       multi_json (~> 1.0.4)
       rubyzip
-    systemu (2.4.1)
+    systemu (2.4.2)
     term-ansicolor (1.0.7)
     tzinfo (0.3.31)
     uuid (2.3.4)
