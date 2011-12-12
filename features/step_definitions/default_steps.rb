@@ -33,7 +33,20 @@ When /^I (start|stop) the task with project "([^"]*)" and activity "([^"]*)"$/ d
 end
 
 Then /^the task with project "([^"]*)" and activity "([^"]*)" should (not )?be started$/ do |project, activity, negative|
+  selector = "li.item[project='#{project}'][activity='#{activity}']"
+  page.should have_css(selector)
   selector = "li.item.started[project='#{project}'][activity='#{activity}']"
+  unless negative
+    page.should have_css(selector)
+  else
+    page.should_not have_css(selector)
+  end
+end
+
+Then /^the duration for the task with project "([^"]*)" and activity "([^"]*)" should (not )?be blank$/ do |project, activity, negative|
+  selector = "li.item[project='#{project}'][activity='#{activity}'] div.work"
+  page.should have_css(selector)
+  selector = "li.item[project='#{project}'][activity='#{activity}'] div.work.blank"
   unless negative
     page.should have_css(selector)
   else

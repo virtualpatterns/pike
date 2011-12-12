@@ -22,8 +22,8 @@
                 = item.task.project.name
               %div.activity
                 = item.task.activity.name
-            %div.work{:work_id => item.work.id}
-              = ChronicDuration.output(item.work.duration) if item.work.duration
+            %div.work{:class => ( item.work.duration && item.work.duration > 0 ) ? nil : :'blank', :work_id => item.work.id}
+              = ChronicDuration.output(item.work.duration) if ( item.work.duration && item.work.duration > 0 )
     - is_even = !is_even
     - total += item.work.duration if item.work.duration
     - @flag = item.task.flag
