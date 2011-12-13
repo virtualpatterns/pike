@@ -58,12 +58,14 @@ namespace :pike do
     puts Pike::VERSION
   end
 
-  desc 'Update pike version, commit, and push to origin'
-  task :update_development, :version do |task, arguments|
-    version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
-    root_directory = Pike::ROOT
-    deployment_directory = File.join(Pike::ROOT, %w[deployment])
-    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development"
+  namespace :development do
+
+    desc 'Update pike version, commit, and push to origin'
+    task :push, :version do |task, arguments|
+      version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
+      system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development"
+    end
+
   end
 
   namespace :identities do
