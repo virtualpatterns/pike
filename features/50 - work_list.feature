@@ -27,7 +27,7 @@ Feature: Work List Functionality
     When I click "Project 1"
     Then I should see "Project 1"
 
-    Scenarios: values for click
+    Scenarios: Values for click
       | click |
       | here  |
       | Add   |
