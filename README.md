@@ -1,1 +1,1 @@
-Refer to the [Pike](https://github.com/virtualpatterns/pike/wiki) wiki at (https://github.com/virtualpatterns/pike/wiki).
+Refer to the [Pike](https://github.com/virtualpatterns/pike/wiki) wiki at https://github.com/virtualpatterns/pike/wiki.
