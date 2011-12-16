@@ -72,7 +72,7 @@ namespace :pike do
 
   desc 'Merge development and staging, push staging'
   task :merge, :version do |task, arguments|
-    system "git checkout staging && git merge origin/development && git push origin staging && git checkout development"
+    system "git checkout staging && git pull origin staging && git merge origin/development && git push origin staging && git checkout development"
   end
 
   namespace :identities do
