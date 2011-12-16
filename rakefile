@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require 'chronic'
 require 'fileutils'
+require 'logrotate'
 require 'rake'
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
@@ -53,6 +54,11 @@ namespace :pike do
     Pike::Application.drop_database!
   end
 
+  desc 'Rotate pike log'
+  task :rotate do |task|
+    puts LogRotate.rotate_file(File.join(Pike::ROOT, %w[log application.log]), :date_time_ext => true, :date_time_format => '%Y%m%d')
+  end
+
   desc 'Get pike version'
   task :version do |task|
     puts Pike::VERSION
@@ -74,7 +80,7 @@ namespace :pike do
     task :print_all do |task|
       Pike::Application.create_default!
       Pike::Identity.all.each do |identity|
-        puts "identity.user.url=#{identity.user.url.inspect}, identity.expires=#{identity.expires}"
+        puts "identity.user.url=#{identity.user.url.inspect}, identity.created_at=#{identity.created_at}, identity.expires=#{identity.expires}"
       end
     end
 

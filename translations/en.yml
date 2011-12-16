@@ -1,6 +1,8 @@
 pike:
   elements:
     pages:
+      about_page:
+        title: Pike About
       activity_list_page:
         title: Pike Activities
       activity_page:
