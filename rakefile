@@ -23,48 +23,48 @@ end
 
 namespace :pike do
 
-  desc 'Create pike console'
+  desc 'Create console'
   task :console do |task|
     system("clear && bundle exec ruby_app console")
   end
 
-  desc 'Run pike'
+  desc 'Run'
   task :run do |task|
     system("clear && bundle exec ruby_app run")
   end
 
-  desc 'Run pike w/ coverage report'
+  desc 'Run w/ coverage report'
   task :coverage do |task|
     system("clear && rm -rf coverage && bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run && open coverage/index.html")
   end
 
-  desc 'Dump pike database'
+  desc 'Dump database'
   task :dump do |task|
     system("rm -rf dump && bundle exec mongodump --db pike --out dump && tar -czf dump.tgz dump && rm -rf dump")
   end
 
-  desc 'Restore a dumped pike database'
+  desc 'Restore a dumped database'
   task :restore do |task|
     system("rm -rf dump && tar -xzf dump.tgz && bundle exec mongorestore --db pike --drop dump/pike &&  rm -rf dump")
   end
 
-  desc 'Drop pike database'
+  desc 'Drop database'
   task :drop do |task|
     Pike::Application.create_default!
     Pike::Application.drop_database!
   end
 
-  desc 'Rotate pike log'
+  desc 'Rotate log'
   task :rotate do |task|
     puts LogRotate.rotate_file(File.join(Pike::ROOT, %w[log application.log]), :date_time_ext => true, :date_time_format => '%Y%m%d')
   end
 
-  desc 'Get pike version'
+  desc 'Get version'
   task :version do |task|
     puts Pike::VERSION
   end
 
-  desc 'Update pike version, commit, and push to development'
+  desc 'Update version, commit, and push to development'
   task :push, :version do |task, arguments|
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     system "git checkout development && sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development"
