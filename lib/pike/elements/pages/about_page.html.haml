@@ -13,17 +13,22 @@
     %div{:style => 'margin: 0px 0px 10px 0px;'}
       %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
         %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :height=> '44', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
-    %div{:style => 'font-size: 10pt; margin: 10px 0px 10px 0px;'}
-      Server date/time is
-      %br
-      %span{:style => 'font-weight: bold;'}
-        = Time.now
-    %div{:style => 'font-size: 10pt; margin: 10px 0px 10px 0px;'}
-      Local date/time is
-      %br
-      %span{:style => 'font-weight: bold;'}
-        = @now
     %div{:style => 'font-size: 10pt;'}
-      RubyApp Version #{RubyApp::VERSION}
-      %br
-      Pike Version #{Pike::VERSION}
+      %div{:style => 'margin: 10px 0px 10px 0px;'}
+        RubyApp Version #{RubyApp::VERSION}
+        %br
+        Pike Version #{Pike::VERSION}
+      %div{:style => 'margin: 10px 0px 10px 0px;'}
+        Server date/time is
+        %br
+        %span{:style => 'font-weight: bold;'}
+          = Time.now
+      %div{:style => 'margin: 10px 0px 10px 0px;'}
+        Local date/time is
+        %br
+        %span{:style => 'font-weight: bold;'}
+          = @now
+      %div{:style => 'margin: 10px 0px 10px 0px;'}
+        Server processing your session is
+        %span{:style => 'font-weight: bold;'}
+          = RubyApp::Request.cookies['_server'] || '(unknown)'
