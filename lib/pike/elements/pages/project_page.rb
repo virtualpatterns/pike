@@ -19,7 +19,7 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(project)
+        def initialize(project
           super()
 
           @project = project

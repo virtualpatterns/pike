@@ -9,17 +9,17 @@ Feature: Work List Functionality
 
   Scenario: View the initial project list
     Given I click "Add"
-    And I click "(tap to select a project)"
+    And I click "tap to select a project"
     Then I should see "You haven't created any projects."
 
   Scenario: View the initial activity list
     Given I click "Add"
-    And I click "(tap to select an activity)"
+    And I click "tap to select an activity"
     Then I should see "You haven't created any activities."
 
   Scenario Outline: Create the first project
     Given I click "Add"
-    And I click "(tap to select a project)"
+    And I click "tap to select a project"
     And I click "<click>"
     And I fill in the "Name" field with "Project 1" and I press enter
     And I click "Done"
@@ -34,7 +34,7 @@ Feature: Work List Functionality
 
   Scenario Outline: Create the first activity
     Given I click "Add"
-    And I click "(tap to select an activity)"
+    And I click "tap to select an activity"
     And I click "<click>"
     And I fill in the "Name" field with "Activity 1" and I press enter
     And I click "Done"
@@ -51,9 +51,9 @@ Feature: Work List Functionality
     Given I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I click "<click>"
-    And I click "(tap to select a project)"
+    And I click "tap to select a project"
     And I click "Project 1"
-    And I click "(tap to select an activity)"
+    And I click "tap to select an activity"
     And I click "Activity 1"
     And I click "Done"
     Then I should see "Project 1"
