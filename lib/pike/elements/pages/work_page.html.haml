@@ -21,13 +21,13 @@
         Project
       %div.value
         = @project_link.render(:html) do |element|
-          - element.content_for(:body, @work.task.project ? @work.task.project.name : '(tap here to select a project)')
+          - element.content_for(:body, @work.task.project ? @work.task.project.name : '(tap to select a project)')
     %div.property
       %div.name
         Activity
       %div.value
         = @activity_link.render(:html) do |element|
-          - element.content_for(:body, @work.task.activity ? @work.task.activity.name : '(tap here to select an activity)')
+          - element.content_for(:body, @work.task.activity ? @work.task.activity.name : '(tap to select an activity)')
     %div.property
       %div.name
         Category
@@ -45,7 +45,7 @@
           Duration
       %div.value
         = @duration_input.render(:html) do |element|
-          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap here to enter a duration')
+          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
           (e.g. 2h 30m 15s)
     %div.property

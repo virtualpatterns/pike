@@ -92,9 +92,9 @@ And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/
     step 'I click "Add"'
   end
 
-  step 'I click "(tap here to select a project)"'
+  step 'I click "(tap to select a project)"'
   step "I click \"#{project}\""
-  step 'I click "(tap here to select an activity)"'
+  step 'I click "(tap to select an activity)"'
   step "I click \"#{activity}\""
   step 'I click "Other"'
   step 'I click "Liked"'
