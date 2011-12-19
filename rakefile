@@ -71,7 +71,7 @@ namespace :pike do
       version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
       system "git checkout development && git tag -a -m 'Tagging #{current_version}' '#{current_version}' && git push origin development && sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.next_version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version'"
     else
-      puts "A next version is required."
+      puts "The next version is required."
     end
   end
 
