@@ -36,7 +36,7 @@ module Pike
 
           @date_link = RubyApp::Elements::Link.new
           @date_link.clicked do |element, event|
-            Pike::Session.show(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', @work_list.date)) do |_event, response|
+            Pike::Session.show(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', event.today, @work_list.date, @work_list.date)) do |_event, response|
               if response
                 if response > event.today
                   Pike::Session.show(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
