@@ -13,8 +13,8 @@ describe Pike::Task do
     describe 'should belong to a user, project, and activity' do
 
       it { should belong_to(:user).of_type(Pike::User) }
-      it { should belong_to(:project.of_type(Pike::project }
-      it { should belong_to(:activity.of_type(Pike::activity }
+      it { should belong_to(:project).of_type(Pike::Project) }
+      it { should belong_to(:activity).of_type(Pike::Activity) }
 
     end
 
@@ -43,8 +43,8 @@ describe Pike::Task do
     describe 'should validate references' do
 
       it { should validate_presence_of(:user) }
-      it { should validate_presence_of(:project }
-      it { should validate_presence_of(:activity }
+      it { should validate_presence_of(:project) }
+      it { should validate_presence_of(:activity) }
       it { should validate_uniqueness_of(:activity_id).scoped_to([:project_id, :deleted_at]) }
 
     end

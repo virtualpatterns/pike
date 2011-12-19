@@ -19,7 +19,7 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(activity
+        def initialize(activity)
           super()
 
           @activity = activity

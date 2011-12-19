@@ -12,8 +12,8 @@ describe Pike::User do
 
     describe 'should have many projects, activities, and tasks' do
 
-      it { should have_many(:projects).of_type(Pike::project }
-      it { should have_many(:activities).of_type(Pike::activity }
+      it { should have_many(:projects).of_type(Pike::Project) }
+      it { should have_many(:activities).of_type(Pike::Activity) }
       it { should have_many(:tasks).of_type(Pike::Task) }
 
     end
