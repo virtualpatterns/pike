@@ -25,7 +25,7 @@
     %div.property
       %div.name
         Activity
-      %div.value{:class => @task.project ? '' : 'blank'}
+      %div.value{:class => @task.activity ? '' : 'blank'}
         = @activity_link.render(:html) do |element|
           - element.content_for(:body, @task.activity ? @task.activity.name : 'tap for an activity')
     %div.property
