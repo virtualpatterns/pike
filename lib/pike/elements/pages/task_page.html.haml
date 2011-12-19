@@ -19,15 +19,15 @@
     %div.property
       %div.name
         Project
-      %div.value
+      %div.value{:class => @task.project ? '' : 'blank'}
         = @project_link.render(:html) do |element|
-          - element.content_for(:body, @task.project ? @task.project.name : '(select a project)')
+          - element.content_for(:body, @task.project ? @task.project.name : 'tap for a project')
     %div.property
       %div.name
         Activity
-      %div.value
+      %div.value{:class => @task.project ? '' : 'blank'}
         = @activity_link.render(:html) do |element|
-          - element.content_for(:body, @task.activity ? @task.activity.name : '(select an activity)')
+          - element.content_for(:body, @task.activity ? @task.activity.name : 'tap for an activity')
     %div.property
       %div.name.last
         Category
