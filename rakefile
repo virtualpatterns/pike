@@ -16,7 +16,7 @@ namespace :mongo do
 
   desc 'Run MongoDB'
   task :run do |task|
-    system("clear && bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
+    system("bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
   end
 
 end
@@ -64,11 +64,11 @@ namespace :pike do
     puts Pike::VERSION
   end
 
-  desc 'Update version, commit, and push to development'
-  task :push, :version do |task, arguments|
-    if arguments.version
+  desc 'Push to development, update version, and commit'
+  task :push, :next_version do |task, arguments|
+    if arguments.next_version
       version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
-      system "git checkout development && sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version' && git push origin development"
+      system "git checkout development && git push origin development && sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.next_version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version'"
     end
   end
 
