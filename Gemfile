@@ -22,5 +22,6 @@ group :test do
 end
 
 group :development do
+  gem 'ruby-graphviz'
   gem 'ruby-debug-base'
 end
