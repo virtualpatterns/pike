@@ -29,7 +29,7 @@ module Pike
 
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
+            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
               task.save!
               Pike::Session.pages.pop
               event.refresh

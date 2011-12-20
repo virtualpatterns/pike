@@ -36,10 +36,10 @@ module Pike
 
           @date_link = RubyApp::Elements::Link.new
           @date_link.clicked do |element, event|
-            Pike::Session.show(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', today, @work_list.date, @work_list.date)) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', today, @work_list.date, @work_list.date)) do |_event, response|
               if response
                 if response > today
-                  Pike::Session.show(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
+                  Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
                                                                                            'The selected date is invalid.  Work cannot be updated for future dates.'))
                 else
                   @work_list.date = response

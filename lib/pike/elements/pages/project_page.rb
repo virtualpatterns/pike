@@ -28,7 +28,7 @@ module Pike
 
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
+            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
               @project.save!
               Pike::Session.pages.pop
               event.refresh
@@ -43,9 +43,9 @@ module Pike
 
           @delete_button = RubyApp::Elements::Button.new
           @delete_button.clicked do |element, event|
-            Pike::Session.show(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this project?')) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this project?')) do |_event, response|
               if response
-                RubyApp::Elements::Dialogs::ExceptionDialog.show(_event) do
+                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
                   @project.destroy!
                   Pike::Session.pages.pop
                   _event.refresh

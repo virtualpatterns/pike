@@ -59,7 +59,7 @@ module Pike
 
           @continue_button = RubyApp::Elements::Button.new
           @continue_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show(event) do
+            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
               identity = Pike::Session.identity.user.identities.create!
               event.set_cookie('_identity', identity.value, Chronic.parse('next month'))
               identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
