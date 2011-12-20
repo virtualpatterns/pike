@@ -34,3 +34,8 @@
       %div.value.last
         = @flag_link.render(:html) do |element|
           - element.content_for(:body, Pike::Task::FLAG_NAMES[@task.flag])
+        %div.instructions
+          :markdown
+            **Liked** tasks appear at the top of the list.
+
+            **Completed** tasks appear at the bottom of the list.
