@@ -34,6 +34,11 @@
       %div.value
         = @flag_link.render(:html) do |element|
           - element.content_for(:body, Pike::Task::FLAG_NAMES[@work.task.flag])
+        %div.instructions
+          :markdown
+            **Liked** tasks appear at the top of the list.
+
+            **Completed** tasks appear at the bottom of the list.
     %div.property
       %div.name
         Date
@@ -47,7 +52,7 @@
         = @duration_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
-          (e.g. 2h 30m 15s)
+          (e.g. 2h 30m)
     %div.property
       %div.name.last
         &nbsp;
