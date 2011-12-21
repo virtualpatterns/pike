@@ -28,10 +28,10 @@ module Pike
 
           @date_link = RubyApp::Elements::Link.new
           @date_link.clicked do |element, event|
-            Pike::Session.show(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', @date)) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', @date)) do |_event, response|
               if response
                 if response > event.today
-                  Pike::Session.show(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
+                  Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
                                                                                            'The selected date is invalid.  The weekly summary cannot be created for future dates.'))
                 else
                   @date = response
