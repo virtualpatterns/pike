@@ -19,6 +19,11 @@
         %br
         Pike Version #{Pike::VERSION}
       %div{:style => 'margin: 10px 0px 10px 0px;'}
+        You are logged on as
+        %br
+        %span{:style => 'font-weight: bold;'}
+          = RubyApp::Session.identity.url
+      %div{:style => 'margin: 10px 0px 10px 0px;'}
         Server date/time is
         %br
         %span{:style => 'font-weight: bold;'}
