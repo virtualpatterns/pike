@@ -5,6 +5,7 @@ require 'chronic'
 
 require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/exception_dialog'
+require 'ruby_app/elements/markdown'
 require 'ruby_app/elements/page'
 require 'ruby_app/request'
 require 'ruby_app/version'
@@ -49,6 +50,18 @@ module Pike
               Pike::Session.identity = Pike::Session::Identity.new(Pike::User.create_guest_user!)
             end
             event.refresh
+          end
+
+          @content = RubyApp::Elements::Markdown.new
+          @content.clicked do |element, event|
+            case event.name
+              when 'logon_demo_user'
+                user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com')
+                Pike::Session.identity = Pike::Session::Identity.new(user)
+                user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+                Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
+                event.refresh
+            end
           end
 
           @logoff_button = RubyApp::Elements::Button.new
