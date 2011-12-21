@@ -21,7 +21,7 @@ module Pike
 
       class WorkListPage < Pike::Elements::Pages::BlankPage
 
-        INTERVAL = 60
+        INTERVAL = 75
 
         template_path(:all, File.dirname(__FILE__))
 
