@@ -16,7 +16,7 @@ namespace :mongo do
 
   desc 'Run MongoDB'
   task :run do |task|
-    system("bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
+    system("clear && bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
   end
 
 end
