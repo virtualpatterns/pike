@@ -44,11 +44,7 @@ module Pike
 
           @logon_button = RubyApp::Elements::Button.new
           @logon_button.clicked do |element, event|
-            unless Pike::User.exists_guest_user?
-              Pike::Session.pages.push(Pike::Elements::Pages::Authentication::OpenID::GoogleAuthenticationPage.new)
-            else
-              Pike::Session.identity = Pike::Session::Identity.new(Pike::User.create_guest_user!)
-            end
+            Pike::Session.pages.push(Pike::Elements::Pages::Authentication::OpenID::GoogleAuthenticationPage.new)
             event.refresh
           end
 

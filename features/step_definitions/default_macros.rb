@@ -1,14 +1,12 @@
 Given /^I am testing the application$/ do
   step 'I have an empty test database'
-  step 'I have created a guest user'
   step 'I am viewing "/"'
+  step 'I should see "Logon with Google"'
 end
 
-And /^I am logged on as a guest$/ do
-  step 'I click "Logon with Google"'
-  step 'I should see "You are logged on as ..."'
-  step 'I should see "Guest"'
-  step 'I click "Continue"'
+And /^I am logged on as the demo user$/ do
+  step 'I should see "Tap here to logon as the demo user"'
+  step 'I click "here"'
 end
 
 When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tomorrow)?$/ do |from, to|

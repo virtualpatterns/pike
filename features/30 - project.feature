@@ -2,7 +2,7 @@ Feature: Project Functionality
 
   Background:
     Given I am testing the application
-    And I am logged on as a guest
+    And I am logged on as the demo user
 
   Scenario: Delete the first project
     Given I create the first project "Project 1"
