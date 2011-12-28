@@ -1,10 +1,8 @@
 Feature: Full Functionality
 
   Scenario: Work with multiple tasks
-    Given I have created a guest user
-    And I am viewing "/"
-    Then I should see "Logon with Google"
-    When I am logged on as a guest
+    Given I am testing the application
+    And I am logged on as the demo user
     And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the project "Project 2"

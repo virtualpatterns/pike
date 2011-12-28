@@ -2,7 +2,7 @@ Feature: Activity Functionality
 
   Background:
     Given I am testing the application
-    And I am logged on as a guest
+    And I am logged on as the demo user
 
   Scenario: Delete the first activity
     Given I create the first activity "Activity 1"
