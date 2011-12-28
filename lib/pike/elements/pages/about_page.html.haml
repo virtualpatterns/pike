@@ -36,4 +36,5 @@
       %div{:style => 'margin: 10px 0px 10px 0px;'}
         Server processing your session is
         %span{:style => 'font-weight: bold;'}
+          = Socket.gethostname
           = RubyApp::Request.cookies['_server'] || '(unknown)'
