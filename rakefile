@@ -101,6 +101,21 @@ namespace :pike do
 
   end
 
+
+  namespace :tasks do
+
+    desc 'Print all tasks'
+    task :print_all do |task|
+      Pike::Application.create_default!
+      Pike::User.all.each do |user|
+        user.tasks.all.each do |task|
+          puts "task.user.url=#{task.user.url.inspect}, task.project.name=#{task.project.name.inspect}, task._project_name=#{task._project_name.inspect}, task.activity.name=#{task.activity.name.inspect}, task._activity_name=#{task._activity_name.inspect}"
+        end
+      end
+    end
+
+  end
+
   namespace :test do
 
     desc 'Run feature tests for the given feature file or all features files if no argument is provided'

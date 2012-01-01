@@ -12,6 +12,7 @@ module Pike
 
     store_in :projects
 
+    after_save :on_after_save
     before_destroy :on_before_destroy
 
     belongs_to :user, :class_name => 'Pike::User'
@@ -25,11 +26,17 @@ module Pike
     default_scope order_by([:name, :asc])
 
     def exists_tasks?
-      self.tasks.count > 0
+      self.tasks.all.count > 0
     end
 
     protected
 
+      def on_after_save
+        self.tasks.all.each do |task|
+          task.save
+        end
+      end
+    
       def on_before_destroy
         if exists_tasks?
           raise 'The selected project cannot be deleted.  The project is assigned to a task.'
