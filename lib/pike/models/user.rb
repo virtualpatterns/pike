@@ -26,6 +26,8 @@ module Pike
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
 
+    default_scope order_by([:url, :asc])
+
     scope :where_url, lambda { |url| where(:url => url) }
 
     def self.get_user_by_url(url)
