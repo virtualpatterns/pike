@@ -12,6 +12,7 @@ module Pike
 
     store_in :activities
 
+    after_save :on_after_save
     before_destroy :on_before_destroy
 
     belongs_to :user, :class_name => 'Pike::User'
@@ -29,6 +30,12 @@ module Pike
     end
 
     protected
+  
+      def on_after_save
+        self.tasks.all.each do |task|
+          task.save
+        end
+      end
 
       def on_before_destroy
         if exists_tasks?
