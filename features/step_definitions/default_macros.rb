@@ -7,6 +7,7 @@ end
 And /^I am logged on as the demo user$/ do
   step 'I should see "Tap here to logon as the demo user"'
   step 'I click "here"'
+  step 'I wait 2 seconds'
 end
 
 When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tomorrow)?$/ do |from, to|
