@@ -60,6 +60,19 @@ And /^I create the (first )?project "([^"]*)"$/ do |first, project|
 
 end
 
+When /^I change the name of project "([^"]*)" to "([^"]*)"$/ do |from_project, to_project|
+
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step "I click \"#{from_project}\""
+  step "I fill in the \"Name\" field with \"#{to_project}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{to_project}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+
+end
+
 And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
 
   step 'I click "More ..."'
@@ -76,6 +89,19 @@ And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
   step "I fill in the \"Name\" field with \"#{activity}\" and I press enter"
   step 'I click "Done"'
   step "I should see \"#{activity}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+
+end
+
+When /^I change the name of activity "([^"]*)" to "([^"]*)"$/ do |from_activity, to_activity|
+
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step "I click \"#{from_activity}\""
+  step "I fill in the \"Name\" field with \"#{to_activity}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{to_activity}\""
   step 'I click "Back"'
   step 'I click "Back"'
 

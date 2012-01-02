@@ -55,6 +55,11 @@ When /^I edit the task with project "([^"]*)" and activity "([^"]*)"$/ do |proje
   sleep 1
 end
 
+Then /^the task with project "([^"]*)" and activity "([^"]*)" should appear first$/ do |project, activity|
+  selector = "li.item[project='#{project}'][activity='#{activity}'][index='0']"
+  page.should have_css(selector)
+end
+
 When /^I fill in the "([^"]*)" field with "([^"]*)"( and I press enter)?$/ do |field, value, enter|
   fill_in(field, :with => value)
   if enter
