@@ -26,16 +26,13 @@ module Pike
           @object = object
           @property = property
           @value = @property ? @object.read_attribute(@property) : nil
-          
+
           @cancel_button = RubyApp::Elements::Navigation::BackButton.new
 
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              unless @user.project_properties.include?(@property)
-                @user.project_properties.push(@property)
-                @user.save!
-              end
+              @user.push(:project_properties, @property) unless @user.project_properties.include?(@property)
               @object.write_attribute(@property, @value) if @property
               Pike::Session.pages.pop
               event.refresh
@@ -59,8 +56,7 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this property?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @user.project_properties.delete(@property)
-                  @user.save!
+                  @user.pull(:project_properties, @property)
                   Pike::Session.pages.pop
                   _event.refresh
                 end

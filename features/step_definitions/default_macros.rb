@@ -41,7 +41,7 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
 end
 
 And /^I create the (first )?project "([^"]*)"$/ do |first, project|
-  
+
   step 'I click "More ..."'
   step 'I click "Projects"'
 
@@ -71,6 +71,22 @@ When /^I change the name of project "([^"]*)" to "([^"]*)"$/ do |from_project, t
   step "I should see \"#{to_project}\""
   step 'I click "Back"'
   step 'I click "Back"'
+
+end
+
+Given /^I add the project property "([^"]*)"$/ do |property|
+
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I wait 2 seconds'
 
 end
 
