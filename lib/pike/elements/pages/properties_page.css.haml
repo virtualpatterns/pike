@@ -50,8 +50,9 @@
           > div.value.last
             border-bottom: 0px
           > div.buttons
+            border-bottom: 2px solid $properties_border
             button
-              background-color: $button_background
+              background-color: $properties_background
               border: 2px solid $button_border
               border-radius: 5px
               color: $button_foreground
@@ -64,4 +65,6 @@
               background-color: $delete_background
               border: 2px solid $delete_border
               color: $delete_foreground
+          > div.buttons.last
+            border-bottom: 0px
 = yield

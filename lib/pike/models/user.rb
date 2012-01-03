@@ -22,6 +22,7 @@ module Pike
     has_many :work, :class_name => 'Pike::Work'
 
     field :url, :type => String
+    field :project_properties, :type => Array, :default => []
 
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at

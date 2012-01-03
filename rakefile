@@ -101,7 +101,6 @@ namespace :pike do
 
   end
 
-
   namespace :tasks do
 
     desc 'Print all tasks'
@@ -112,6 +111,32 @@ namespace :pike do
           puts "task.user.url=#{task.user.url.inspect}, task.project.name=#{task.project.name.inspect}, task._project_name=#{task._project_name.inspect}, task.activity.name=#{task.activity.name.inspect}, task._activity_name=#{task._activity_name.inspect}"
         end
       end
+    end
+
+  end
+
+  namespace :migrate do
+
+    desc 'Run all migrations'
+    task :all => ['migrate:add_project_properties_to_user'] do |task|
+    end
+
+    desc 'Add the default project_properties property every user without the default'
+    task :add_project_properties_to_user do |task|
+      Pike::Application.create_default!
+      #Pike::Migration.run(task) do
+        puts "Adding 'project_properties' to users ..."
+        Pike::User.all.each do |user|
+          puts "user.url=#{user.url.inspect}, user.project_properties=#{user.project_properties.inspect}"
+          unless user.project_properties
+            print "Adding 'project_properties' to #{user.url.inspect} ... "
+            user.project_properties = []
+            user.save!
+            puts "done"
+          end
+        end
+        puts "... done"
+      #end
     end
 
   end

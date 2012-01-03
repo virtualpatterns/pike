@@ -1,0 +1,46 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @cancel_button.render(:html) do |element|
+    - element.content_for(:body, 'Cancel')
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Property
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @done_button.render(:html) do |element|
+    - element.content_for(:body, 'Done')
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      - if @property
+        %div.name
+          Name
+        %div.value
+          = @property
+      - else
+        %div.name
+          %label{:for => @property_input.element_id}
+            Name
+        %div.value
+          = @property_input.render(:html) do |element|
+            - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
+    %div.property
+      %div.name{:class => @property ? nil : 'last'}
+        %label{:for => @value_input.element_id}
+          Value
+      %div.value{:class => @property ? nil : 'last'}
+        = @value_input.render(:html) do |element|
+          - element.attributes.merge!(:autofocus => @property ? true : false, :placeholder => 'tap to enter a value')
+    - if @property
+      %div.property
+        %div.name.last
+          &nbsp;
+        %div.buttons.last
+          = @delete_button.render(:html) do |element|
+            - element.attributes.merge!(:class => 'delete')
+            - element.content_for(:body, 'Remove Property')
