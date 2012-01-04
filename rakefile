@@ -143,13 +143,23 @@ namespace :pike do
 
   namespace :test do
 
-    desc 'Run feature tests for the given feature file or all features files if no argument is provided'
-    task :features, :file do |task, arguments|
-      if arguments.file
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
-      else
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features")
+    namespace :features do
+
+      desc 'Run feature tests generating a failure file'
+      task :all do |task|
+        system("bundle exec cucumber --format rerun --tags ~@broken --require features --out features.txt")
       end
+
+      desc 'Rerun feature tests'
+      task :rerun do |task|
+        system("bundle exec cucumber --format rerun --tags ~@broken --require features --out failures.txt @rerun.txt")
+      end
+
+      desc 'Run feature tests for the given feature file'
+      task :file, :file do |task, arguments|
+        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
+      end
+
     end
 
     desc 'Run RSpec tests'

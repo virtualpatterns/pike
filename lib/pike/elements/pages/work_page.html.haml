@@ -53,21 +53,7 @@
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
           (e.g. 2h 30m)
-  %div.properties
-    - @user.task_properties.sort.each do |property|
-      %div.property
-        %div.name
-          = property
-        %div.value
-          - property_link = @property_links[property]
-          = property_link.render(:html) do |element|
-            - element.content_for(:body, @work.task.read_attribute(property) || '(no value)')
-    %div.property
-      %div.name.last
-        &nbsp;
-      %div.buttons.last
-        = @add_button.render(:html) do |element|
-          - element.content_for(:body, 'Add Property')
+  = @properties.render(:html)
   %div.properties
     %div.property
       %div.name.last

@@ -21,22 +21,22 @@ Feature: Activity Functionality
     When I click "Back"
     And I click "Add"
     Then I should see "Property 1"
-    And I should see "(no value)"
+    And I should see "tap to enter a value"
 
   Scenario: Delete a property from activities
     Given I add the activity property "Property 1"
     And I click "More ..."
     And I click "Activities"
     And I click "Add"
-    And I click "(no value)"
+    And I click "tap to enter a value"
     And I click "Remove Property"
     And I click "Yes"
     Then I should not see "Property 1"
-    And I should not see "(no value)"
+    And I should not see "tap to enter a value"
     When I click "Back"
     And I click "Add"
     Then I should not see "Property 1"
-    And I should not see "(no value)"
+    And I should not see "tap to enter a value"
 
   Scenario: Delete the first activity
     Given I create the first activity "Activity 1"

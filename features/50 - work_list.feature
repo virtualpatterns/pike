@@ -84,15 +84,15 @@ Feature: Work List Functionality
   Scenario: Delete a property from tasks
     Given I add the task property "Property 1"
     And I click "Add"
-    And I click "(no value)"
+    And I click "tap to enter a value"
     And I click "Remove Property"
     And I click "Yes"
     Then I should not see "Property 1"
-    And I should not see "(no value)"
+    And I should not see "tap to enter a value"
     When I click "Back"
     And I click "Add"
     Then I should not see "Property 1"
-    And I should not see "(no value)"
+    And I should not see "tap to enter a value"
 
   Scenario: Change task order by changing the project
     Given I create the first project "Aaaa"

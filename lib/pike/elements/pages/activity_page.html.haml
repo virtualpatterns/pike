@@ -23,21 +23,7 @@
       %div.value.last
         = @name_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
-  %div.properties
-    - @user.activity_properties.sort.each do |property|
-      %div.property
-        %div.name
-          = property
-        %div.value
-          - property_link = @property_links[property]
-          = property_link.render(:html) do |element|
-            - element.content_for(:body, @activity.read_attribute(property) || '(no value)')
-    %div.property
-      %div.name.last
-        &nbsp;
-      %div.buttons.last
-        = @add_button.render(:html) do |element|
-          - element.content_for(:body, 'Add Property')
+  = @properties.render(:html)
   - unless @activity.new?
     %div.properties
       %div.property

@@ -1,0 +1,17 @@
+/
+  #{__FILE__}
+%div.properties
+  - @user.send(@properties).sort.each do |property|
+    %div.property
+      %div.name
+        = property
+      %div.value{:class => @object.read_attribute(property) ? '' : 'blank'}
+        - property_link = @property_links[property]
+        = property_link.render(:html) do |element|
+          - element.content_for(:body, @object.read_attribute(property) || 'tap to enter a value')
+  %div.property
+    %div.name.last
+      &nbsp;
+    %div.buttons.last
+      = @add_button.render(:html) do |element|
+        - element.content_for(:body, 'Add Property')
