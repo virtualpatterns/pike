@@ -146,17 +146,17 @@ namespace :pike do
     namespace :features do
 
       desc 'Run feature tests generating a failure file'
-      task :run do |task|
+      task :all do |task|
         system("bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt; cat failures_out.txt")
       end
 
       desc 'Rerun failed feature tests'
-      task :rerun do |task|
+      task :failures do |task|
         system("mv failures_out.txt failures_in.txt; bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt @failures_in.txt; cat failures_out.txt")
       end
 
       desc 'Run feature tests for the given feature file'
-      task :file, :file do |task, arguments|
+      task :one, :file do |task, arguments|
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
 
@@ -177,7 +177,7 @@ namespace :pike do
 
     desc 'Run all tests'
     task :all => ['test:specs',
-                  'test:features']
+                  'test:features:all']
 
   end
 
