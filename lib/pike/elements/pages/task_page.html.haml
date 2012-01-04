@@ -39,3 +39,18 @@
             **Liked** tasks appear at the top of the list.
 
             **Completed** tasks appear at the bottom of the list.
+  %div.properties
+    - @user.task_properties.sort.each do |property|
+      %div.property
+        %div.name
+          = property
+        %div.value
+          - property_link = @property_links[property]
+          = property_link.render(:html) do |element|
+            - element.content_for(:body, @task.read_attribute(property) || '(no value)')
+    %div.property
+      %div.name.last
+        &nbsp;
+      %div.buttons.last
+        = @add_button.render(:html) do |element|
+          - element.content_for(:body, 'Add Property')

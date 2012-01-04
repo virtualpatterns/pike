@@ -5,6 +5,7 @@ require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/input'
+require 'ruby_app/elements/link'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -12,8 +13,8 @@ module Pike
   module Elements
 
     module Pages
+      require 'pike/elements/pages/project_property_page'
       require 'pike/elements/pages/properties_page'
-      require 'pike/elements/pages/property_page'
       require 'pike/session'
 
       class ProjectPage < Pike::Elements::Pages::PropertiesPage
@@ -45,7 +46,7 @@ module Pike
 
           @add_button = RubyApp::Elements::Button.new
           @add_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::PropertyPage.new(@project))
+            Pike::Session.pages.push(Pike::Elements::Pages::ProjectPropertyPage.new(@project))
             event.refresh
           end
 
@@ -63,14 +64,14 @@ module Pike
           end
 
         end
-          
+
         def render(format)
           if format == :html
             @property_links = {}
             @user.project_properties.each do |property|
               property_link = RubyApp::Elements::Link.new
               property_link.clicked do |element, event|
-                Pike::Session.pages.push(Pike::Elements::Pages::PropertyPage.new(@project, property))
+                Pike::Session.pages.push(Pike::Elements::Pages::ProjectPropertyPage.new(@project, property))
                 event.refresh
               end
               @property_links[property] = property_link

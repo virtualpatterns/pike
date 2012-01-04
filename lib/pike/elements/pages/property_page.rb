@@ -19,10 +19,11 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(object, property = nil)
+        def initialize(properties, object, property = nil)
           super()
 
           @user = Pike::Session.identity.user
+          @properties = properties
           @object = object
           @property = property
           @value = @property ? @object.read_attribute(@property) : nil
@@ -32,7 +33,7 @@ module Pike
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              @user.push(:project_properties, @property) unless @user.project_properties.include?(@property)
+              @user.push(@properties, @property) unless @user.send(@properties).include?(@property)
               @object.write_attribute(@property, @value) if @property
               Pike::Session.pages.pop
               event.refresh
@@ -56,7 +57,7 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this property?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @user.pull(:project_properties, @property)
+                  @user.pull(@properties, @property)
                   Pike::Session.pages.pop
                   _event.refresh
                 end

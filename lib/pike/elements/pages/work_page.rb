@@ -18,6 +18,7 @@ module Pike
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
+      require 'pike/elements/pages/task_property_page'
       require 'pike/session'
 
       class WorkPage < Pike::Elements::Pages::PropertiesPage
@@ -27,6 +28,7 @@ module Pike
         def initialize(work)
           super()
 
+          @user = Pike::Session.identity.user
           @work = work
 
           @cancel_button = RubyApp::Elements::Navigation::BackButton.new
@@ -65,6 +67,12 @@ module Pike
             @work.duration = @duration_input.duration || 0
           end
 
+          @add_button = RubyApp::Elements::Button.new
+          @add_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::TaskPropertyPage.new(@work.task))
+            event.refresh
+          end
+
           @delete_button = RubyApp::Elements::Button.new
           @delete_button.clicked do |element, event|
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this task?')) do |_event, response|
@@ -79,6 +87,21 @@ module Pike
             end
           end
 
+        end
+
+        def render(format)
+          if format == :html
+            @property_links = {}
+            @user.task_properties.each do |property|
+              property_link = RubyApp::Elements::Link.new
+              property_link.clicked do |element, event|
+                Pike::Session.pages.push(Pike::Elements::Pages::TaskPropertyPage.new(@work.task, property))
+                event.refresh
+              end
+              @property_links[property] = property_link
+            end
+          end
+          super(format)
         end
 
       end

@@ -124,6 +124,22 @@ When /^I change the name of activity "([^"]*)" to "([^"]*)"$/ do |from_activity,
 
 end
 
+Given /^I add the activity property "([^"]*)"$/ do |property|
+
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I wait 2 seconds'
+
+end
+
 And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/ do |first, project, activity|
 
   if first
@@ -142,5 +158,17 @@ And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/
   step 'I click "Done"'
   step "I should see \"#{project}\""
   step "I should see \"#{activity}\""
+
+end
+
+Given /^I add the task property "([^"]*)"$/ do |property|
+
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  step 'I wait 2 seconds'
 
 end

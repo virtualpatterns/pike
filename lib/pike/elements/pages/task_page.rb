@@ -14,6 +14,7 @@ module Pike
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
+      require 'pike/elements/pages/task_property_page'
       require 'pike/session'
 
       class TaskPage < Pike::Elements::Pages::PropertiesPage
@@ -23,6 +24,7 @@ module Pike
         def initialize(task)
           super()
 
+          @user = Pike::Session.identity.user
           @task = task
 
           @cancel_button = RubyApp::Elements::Navigation::BackButton.new
@@ -54,6 +56,27 @@ module Pike
             event.refresh
           end
 
+          @add_button = RubyApp::Elements::Button.new
+          @add_button.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::TaskPropertyPage.new(@task))
+            event.refresh
+          end
+
+        end
+
+        def render(format)
+          if format == :html
+            @property_links = {}
+            @user.task_properties.each do |property|
+              property_link = RubyApp::Elements::Link.new
+              property_link.clicked do |element, event|
+                Pike::Session.pages.push(Pike::Elements::Pages::TaskPropertyPage.new(@task, property))
+                event.refresh
+              end
+              @property_links[property] = property_link
+            end
+          end
+          super(format)
         end
 
       end
