@@ -9,6 +9,8 @@ coverage
 data
 deployment
 dump
+failures_in.txt
+failures_out.txt
 log
 sandbox
 tmp
