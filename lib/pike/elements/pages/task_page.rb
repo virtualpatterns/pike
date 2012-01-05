@@ -14,6 +14,7 @@ module Pike
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
+      require 'pike/elements/properties'
       require 'pike/session'
 
       class TaskPage < Pike::Elements::Pages::PropertiesPage
@@ -53,6 +54,8 @@ module Pike
             Pike::Session.pages.push(Pike::Elements::Pages::FlagSelectPage.new(@task))
             event.refresh
           end
+
+          @properties = Pike::Elements::Properties.new(:task_properties, @task)
 
         end
 

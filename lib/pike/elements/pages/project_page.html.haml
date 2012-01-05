@@ -17,17 +17,19 @@
     #{__FILE__}
   %div.properties
     %div.property
-      %div.name{:class => @project.new? ? 'last' : nil }
+      %div.name.last
         %label{:for => @name_input.element_id}
           Name
-      %div.value{:class => @project.new? ? 'last' : nil }
+      %div.value.last
         = @name_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
-    - unless @project.new?
+  = @properties.render(:html)
+  - unless @project.new?
+    %div.properties
       %div.property
         %div.name.last
           &nbsp;
-        %div.buttons
+        %div.buttons.last
           = @delete_button.render(:html) do |element|
             - element.attributes.merge!(:class => 'delete')
-            - element.content_for(:body, 'Delete')
+            - element.content_for(:body, 'Delete Project')

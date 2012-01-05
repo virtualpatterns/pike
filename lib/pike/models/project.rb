@@ -32,8 +32,11 @@ module Pike
     protected
 
       def on_after_save
-        self.tasks.all.each do |task|
-          task.save
+        if self.name_changed?
+          self.tasks.all.each do |task|
+            task._project_name = self.name
+            task.save
+          end
         end
       end
     

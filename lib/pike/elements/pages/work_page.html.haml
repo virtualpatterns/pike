@@ -45,18 +45,20 @@
       %div.value
         = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configure.format.date)
     %div.property
-      %div.name
+      %div.name.last
         %label{:for => @duration_input.element_id}
           Duration
-      %div.value
+      %div.value.last
         = @duration_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
           (e.g. 2h 30m)
+  = @properties.render(:html)
+  %div.properties
     %div.property
       %div.name.last
         &nbsp;
       %div.buttons.last
         = @delete_button.render(:html) do |element|
           - element.attributes.merge!(:class => 'delete')
-          - element.content_for(:body, 'Delete')
+          - element.content_for(:body, 'Delete Task')

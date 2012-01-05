@@ -45,13 +45,8 @@ module Pike
     protected
 
       def on_before_save
-
-        self.project.reload
-        self._project_name = self.project.name
-
-        self.activity.reload
-        self._activity_name = self.activity.name
-
+        self._project_name = self.project.name if self.project_id_changed?
+        self._activity_name = self.activity.name if self.activity_id_changed?
       end
 
   end

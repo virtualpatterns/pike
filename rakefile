@@ -16,7 +16,7 @@ namespace :mongo do
 
   desc 'Run MongoDB'
   task :run do |task|
-    system("clear && bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
+    system("clear; bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
   end
 
 end
@@ -25,27 +25,27 @@ namespace :pike do
 
   desc 'Create console'
   task :console do |task|
-    system("clear && bundle exec ruby_app console")
+    system("clear; bundle exec ruby_app console")
   end
 
   desc 'Run'
   task :run do |task|
-    system("clear && bundle exec ruby_app run")
+    system("clear; bundle exec ruby_app run")
   end
 
   desc 'Run w/ coverage report'
   task :coverage do |task|
-    system("clear && rm -rf coverage && bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run && open coverage/index.html")
+    system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
   end
 
   desc 'Dump database'
   task :dump do |task|
-    system("rm -rf dump && bundle exec mongodump --db pike --out dump && tar -czf dump.tgz dump && rm -rf dump")
+    system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
   end
 
   desc 'Restore a dumped database'
   task :restore do |task|
-    system("rm -rf dump && tar -xzf dump.tgz && bundle exec mongorestore --db pike --drop dump/pike &&  rm -rf dump")
+    system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
   end
 
   desc 'Drop database'
@@ -69,7 +69,7 @@ namespace :pike do
     if arguments.next_version
       current_version = Pike::VERSION
       version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
-      system "git checkout development && git tag -a -m 'Tagging #{current_version}' '#{current_version}' && git push origin development && sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.next_version}|g' < '#{version_file}' > '#{version_file}.out' && rm '#{version_file}' && mv '#{version_file}.out' '#{version_file}' && git commit --all --message='Incrementing version'"
+      system "git checkout development; git tag -a -m 'Tagging #{current_version}' '#{current_version}'; git push origin development; sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{arguments.next_version}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'; git commit --all --message='Incrementing version'"
     else
       puts "The next version is required."
     end
@@ -77,7 +77,7 @@ namespace :pike do
 
   desc 'Merge development and staging, push staging'
   task :merge, :version do |task, arguments|
-    system "git checkout staging && git pull origin staging && git merge origin/development && git push origin staging && git checkout development"
+    system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
   end
 
   namespace :identities do
@@ -101,7 +101,6 @@ namespace :pike do
 
   end
 
-
   namespace :tasks do
 
     desc 'Print all tasks'
@@ -116,15 +115,51 @@ namespace :pike do
 
   end
 
+  namespace :migrate do
+
+    desc 'Run all migrations'
+    task :all => [] do |task|
+    end
+
+    #desc 'Add the default project_properties property every user without the default'
+    #task :add_project_properties_to_user do |task|
+    #  Pike::Application.create_default!
+    #  #Pike::Migration.run(task) do
+    #    puts "Adding 'project_properties' to users ..."
+    #    Pike::User.all.each do |user|
+    #      puts "user.url=#{user.url.inspect}, user.project_properties=#{user.project_properties.inspect}"
+    #      unless user.project_properties
+    #        print "Adding 'project_properties' to #{user.url.inspect} ... "
+    #        user.project_properties = []
+    #        user.save!
+    #        puts "done"
+    #      end
+    #    end
+    #    puts "... done"
+    #  #end
+    #end
+
+  end
+
   namespace :test do
 
-    desc 'Run feature tests for the given feature file or all features files if no argument is provided'
-    task :features, :file do |task, arguments|
-      if arguments.file
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
-      else
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features")
+    namespace :features do
+
+      desc 'Run feature tests generating a failure file'
+      task :all do |task|
+        system("bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt; cat failures_out.txt")
       end
+
+      desc 'Rerun failed feature tests'
+      task :failures do |task|
+        system("mv failures_out.txt failures_in.txt; bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt @failures_in.txt; cat failures_out.txt")
+      end
+
+      desc 'Run feature tests for the given feature file'
+      task :one, :file do |task, arguments|
+        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
+      end
+
     end
 
     desc 'Run RSpec tests'
@@ -142,7 +177,7 @@ namespace :pike do
 
     desc 'Run all tests'
     task :all => ['test:specs',
-                  'test:features']
+                  'test:features:all']
 
   end
 
