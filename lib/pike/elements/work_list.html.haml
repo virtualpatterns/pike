@@ -10,7 +10,7 @@
     - unless item.task.flag == @flag
       %li.flag
         = Pike::Task::FLAG_NAMES[item.task.flag]
-    %li.item{:class => ( item.work.started? ? 'started' : ( is_even ? 'even' : 'odd' ) ), :project => item.task.project.name, :activity => item.task.activity.name}
+    %li.item{:class => ( item.work.started? ? 'started' : ( is_even ? 'even' : 'odd' ) ), :project => item.task.project.name, :activity => item.task.activity.name, :index => index}
       %div.item
         - item.work.update_duration!
         - if today?

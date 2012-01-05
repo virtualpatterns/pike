@@ -13,43 +13,51 @@ module Pike
 
     module Pages
       require 'pike/elements/pages/properties_page'
-      require 'pike/elements/properties'
       require 'pike/session'
 
-      class ActivityPage < Pike::Elements::Pages::PropertiesPage
+      class PropertyPage < Pike::Elements::Pages::PropertiesPage
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(activity)
+        def initialize(properties, object, property = nil)
           super()
 
-          @activity = activity
+          @user = Pike::Session.identity.user
+          @properties = properties
+          @object = object
+          @property = property
+          @value = @property ? @object.read_attribute(@property) : nil
 
           @cancel_button = RubyApp::Elements::Navigation::BackButton.new
 
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
             RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              @activity.save!
+              @user.push(@properties, @property) unless @user.send(@properties).include?(@property)
+              @object.write_attribute(@property, @value) if @property
               Pike::Session.pages.pop
               event.refresh
             end
           end
 
-          @name_input = RubyApp::Elements::Input.new
-          @name_input.value = @activity.name
-          @name_input.changed do |element, event|
-            @activity.name = @name_input.value
+          @property_input = RubyApp::Elements::Input.new
+          @property_input.value = @property
+          @property_input.changed do |element, event|
+            @property = @property_input.value
           end
 
-          @properties = Pike::Elements::Properties.new(:activity_properties, @activity)
+          @value_input = RubyApp::Elements::Input.new
+          @value_input.value = @value
+          @value_input.changed do |element, event|
+            @value = @value_input.value
+          end
 
           @delete_button = RubyApp::Elements::Button.new
           @delete_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this activity?')) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this property?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @activity.destroy!
+                  @user.pull(@properties, @property)
                   Pike::Session.pages.pop
                   _event.refresh
                 end

@@ -5,6 +5,7 @@ require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/inputs/duration_input'
+require 'ruby_app/elements/link'
 require 'ruby_app/elements/navigation/back_button'
 require 'ruby_app/language'
 
@@ -18,6 +19,7 @@ module Pike
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
+      require 'pike/elements/properties'
       require 'pike/session'
 
       class WorkPage < Pike::Elements::Pages::PropertiesPage
@@ -64,6 +66,8 @@ module Pike
           @duration_input.changed do |element, event|
             @work.duration = @duration_input.duration || 0
           end
+
+          @properties = Pike::Elements::Properties.new(:task_properties, @work.task)
 
           @delete_button = RubyApp::Elements::Button.new
           @delete_button.clicked do |element, event|

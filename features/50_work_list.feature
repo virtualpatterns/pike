@@ -64,6 +64,84 @@ Feature: Work List Functionality
       | here  |
       | Add   |
 
+  Scenario: Add a property to tasks
+    Given I create the first project "Project 1"
+    And I create the first activity "Activity 1"
+    And I click "here"
+    And I click "tap for a project"
+    And I click "Project 1"
+    And I click "tap for an activity"
+    And I click "Activity 1"
+    And I click "Add Property"
+    And I fill in the "Name" field with "Property 1" and I press enter
+    And I fill in the "Value" field with "Value 1" and I press enter
+    And I click "Done"
+    And I click "Done"
+    When I edit the task with project "Project 1" and activity "Activity 1"
+    Then I should see "Property 1"
+    And I should see "Value 1"
+
+  Scenario: Delete a property from tasks
+    Given I add the task property "Property 1"
+    And I click "Add"
+    And I click "tap to enter a value"
+    And I click "Remove Property"
+    And I click "Yes"
+    Then I should not see "Property 1"
+    And I should not see "tap to enter a value"
+    When I click "Back"
+    And I click "Add"
+    Then I should not see "Property 1"
+    And I should not see "tap to enter a value"
+
+  Scenario: Change task order by changing the project
+    Given I create the first project "Aaaa"
+    And I create the project "Bbbb"
+    And I create the project "Cccc"
+    And I create the first activity "Activity 1"
+    And I create the first task with project "Bbbb" and activity "Activity 1"
+    And I create the task with project "Cccc" and activity "Activity 1"
+    Then the task with project "Bbbb" and activity "Activity 1" should appear first
+    When I edit the task with project "Cccc" and activity "Activity 1"
+    And I click "Cccc"
+    And I click "Aaaa"
+    And I click "Done"
+    Then the task with project "Aaaa" and activity "Activity 1" should appear first
+
+  Scenario: Change task order by changing the project name
+    Given I create the first project "Bbbb"
+    And I create the project "Cccc"
+    And I create the first activity "Activity 1"
+    And I create the first task with project "Bbbb" and activity "Activity 1"
+    And I create the task with project "Cccc" and activity "Activity 1"
+    Then the task with project "Bbbb" and activity "Activity 1" should appear first
+    When I change the name of project "Cccc" to "Aaaa"
+    Then the task with project "Aaaa" and activity "Activity 1" should appear first
+
+  Scenario: Change task order by changing the activity
+    Given I create the first project "Project 1"
+    And I create the first activity "Aaaa"
+    And I create the activity "Bbbb"
+    And I create the activity "Cccc"
+    And I create the first task with project "Project 1" and activity "Cccc"
+    And I create the task with project "Project 1" and activity "Bbbb"
+    Then the task with project "Project 1" and activity "Bbbb" should appear first
+    When I edit the task with project "Project 1" and activity "Cccc"
+    And I click "Cccc"
+    And I click "Aaaa"
+    And I click "Done"
+    Then the task with project "Project 1" and activity "Aaaa" should appear first
+
+  Scenario: Change task order by changing the activity name
+    Given I create the first project "Project 1"
+    And I create the first activity "Bbbb"
+    And I create the activity "Cccc"
+    And I create the first task with project "Project 1" and activity "Bbbb"
+    And I create the task with project "Project 1" and activity "Cccc"
+    Then the task with project "Project 1" and activity "Bbbb" should appear first
+    When I change the name of activity "Cccc" to "Aaaa"
+    Then the task with project "Project 1" and activity "Aaaa" should appear first
+
   Scenario: Start/stop the first task
     Given I create the first project "Project 1"
     And I create the first activity "Activity 1"

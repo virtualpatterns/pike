@@ -7,6 +7,7 @@ end
 And /^I am logged on as the demo user$/ do
   step 'I should see "Tap here to logon as the demo user"'
   step 'I click "here"'
+  #step 'I wait 2 seconds'
 end
 
 When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tomorrow)?$/ do |from, to|
@@ -40,7 +41,7 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
 end
 
 And /^I create the (first )?project "([^"]*)"$/ do |first, project|
-  
+
   step 'I click "More ..."'
   step 'I click "Projects"'
 
@@ -57,6 +58,35 @@ And /^I create the (first )?project "([^"]*)"$/ do |first, project|
   step "I should see \"#{project}\""
   step 'I click "Back"'
   step 'I click "Back"'
+
+end
+
+When /^I change the name of project "([^"]*)" to "([^"]*)"$/ do |from_project, to_project|
+
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step "I click \"#{from_project}\""
+  step "I fill in the \"Name\" field with \"#{to_project}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{to_project}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+
+end
+
+Given /^I add the project property "([^"]*)"$/ do |property|
+
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I click "Back"'
+  #step 'I wait 2 seconds'
 
 end
 
@@ -81,6 +111,35 @@ And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
 
 end
 
+When /^I change the name of activity "([^"]*)" to "([^"]*)"$/ do |from_activity, to_activity|
+
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step "I click \"#{from_activity}\""
+  step "I fill in the \"Name\" field with \"#{to_activity}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{to_activity}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+
+end
+
+Given /^I add the activity property "([^"]*)"$/ do |property|
+
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+  step 'I click "Back"'
+  #step 'I wait 2 seconds'
+
+end
+
 And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/ do |first, project, activity|
 
   if first
@@ -99,5 +158,17 @@ And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/
   step 'I click "Done"'
   step "I should see \"#{project}\""
   step "I should see \"#{activity}\""
+
+end
+
+Given /^I add the task property "([^"]*)"$/ do |property|
+
+  step 'I click "Add"'
+  step 'I click "Add Property"'
+  step "I fill in the \"Name\" field with \"#{property}\" and I press enter"
+  step 'I click "Done"'
+  step "I should see \"#{property}\""
+  step 'I click "Back"'
+  #step 'I wait 2 seconds'
 
 end

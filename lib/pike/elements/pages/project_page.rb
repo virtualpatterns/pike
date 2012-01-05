@@ -13,6 +13,7 @@ module Pike
 
     module Pages
       require 'pike/elements/pages/properties_page'
+      require 'pike/elements/properties'
       require 'pike/session'
 
       class ProjectPage < Pike::Elements::Pages::PropertiesPage
@@ -40,6 +41,8 @@ module Pike
           @name_input.changed do |element, event|
             @project.name = @name_input.value
           end
+
+          @properties = Pike::Elements::Properties.new(:project_properties, @project)
 
           @delete_button = RubyApp::Elements::Button.new
           @delete_button.clicked do |element, event|
