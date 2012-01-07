@@ -1,0 +1,35 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @cancel_button.render(:html) do |element|
+    - element.content_for(:body, 'Cancel')
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Introduction
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @done_button.render(:html) do |element|
+    - element.content_for(:body, 'Send')
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      %div.name
+        %label{:for => @introduction_to_input.element_id}
+          User
+      %div.value
+        = @introduction_to_input.render(:html) do |element|
+          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to specify a user')
+        %div.instructions
+          :markdown
+            Enter the user's email address.
+    %div.property
+      %div.name.last
+        %label{:for => @message_input.element_id}
+          Message
+      %div.value.last
+        = @message_input.render(:html) do |element|
+          - element.attributes.merge!(:autofocus => false, :placeholder => 'tap to enter a message')

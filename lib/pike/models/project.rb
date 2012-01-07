@@ -34,16 +34,14 @@ module Pike
       def on_after_save
         if self.name_changed?
           self.tasks.all.each do |task|
-            task._project_name = self.name
-            task.save
+            task._project_name = self.name.downcase
+            task.save!
           end
         end
       end
     
       def on_before_destroy
-        if exists_tasks?
-          raise 'The selected project cannot be deleted.  The project is assigned to a task.'
-        end
+        raise 'The selected project cannot be deleted.  The project is assigned to a task.' if exists_tasks?
       end
 
   end

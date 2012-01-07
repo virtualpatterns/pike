@@ -1,0 +1,16 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.title
+      font-size: 10pt
+      background-color: $flag_background
+      border-radius: 5px
+      color: $flag_foreground
+      margin-bottom: 2px
+      padding: 5px 10px
+= Pike::Elements::FriendList.render(:css)
+= Pike::Elements::IntroductionList.render(:css)
+= RubyApp::Elements::Button.render(:css)
+= RubyApp::Elements::Markdown.render(:css)
+= yield
