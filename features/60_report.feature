@@ -2,7 +2,7 @@ Feature: Weekly Summary Functionality
 
   Scenario: View the weekly summary
     Given I am testing the application
-    And I am logged on as the demo user
+    And I am logged on as the first demo user
     When I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the project "Project 2"

@@ -15,7 +15,7 @@ module Pike
       require 'pike/elements/user_input'
       require 'pike/session'
 
-      class IntroductionPage < Pike::Elements::Pages::PropertiesPage
+      class IntroductionEditPage < Pike::Elements::Pages::PropertiesPage
 
         template_path(:all, File.dirname(__FILE__))
 

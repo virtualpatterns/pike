@@ -2,7 +2,7 @@ Feature: Activity Functionality
 
   Background:
     Given I am testing the application
-    And I am logged on as the demo user
+    And I am logged on as the first demo user
 
   Scenario: Add a property to activities
     Given I click "More ..."

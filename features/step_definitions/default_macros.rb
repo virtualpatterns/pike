@@ -4,10 +4,8 @@ Given /^I am testing the application$/ do
   step 'I should see "Logon with Google"'
 end
 
-And /^I am logged on as the demo user$/ do
-  step 'I should see "Tap here to logon as the demo user"'
-  step 'I click "here"'
-  #step 'I wait 2 seconds'
+And /^I am logged on as the (first|second) demo user$/ do |count|
+  step "I click \"#{count}\""
 end
 
 When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tomorrow)?$/ do |from, to|
@@ -86,7 +84,6 @@ Given /^I add the project property "([^"]*)"$/ do |property|
   step 'I click "Back"'
   step 'I click "Back"'
   step 'I click "Back"'
-  #step 'I wait 2 seconds'
 
 end
 
@@ -136,7 +133,6 @@ Given /^I add the activity property "([^"]*)"$/ do |property|
   step 'I click "Back"'
   step 'I click "Back"'
   step 'I click "Back"'
-  #step 'I wait 2 seconds'
 
 end
 
@@ -169,6 +165,5 @@ Given /^I add the task property "([^"]*)"$/ do |property|
   step 'I click "Done"'
   step "I should see \"#{property}\""
   step 'I click "Back"'
-  #step 'I wait 2 seconds'
 
 end

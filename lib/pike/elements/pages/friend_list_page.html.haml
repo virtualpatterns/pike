@@ -14,6 +14,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
+  - Pike::Session.identity.user.reload
   - unless Pike::Session.identity.user.introductions_from.count <= 0 && Pike::Session.identity.user.friends.count <= 0
     - unless Pike::Session.identity.user.introductions_from.count <= 0
       %div.title
