@@ -1,3 +1,15 @@
+- self.rendered?(__FILE__) do
+  :sass
+    /* #{__FILE__}
+    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
+    div.notice
+      font-size: 10pt
+      background-color: $notice_background
+      border-radius: 5px
+      color: $notice_foreground
+      margin-bottom: 2px
+      padding: 5px 10px
+= Pike::Elements::IntroductionList.render(:css)
 = Pike::Elements::WorkList.render(:css)
 = RubyApp::Elements::Button.render(:css)
 = RubyApp::Elements::Dialogs::Calendars::MonthDialog.render(:css)

@@ -24,7 +24,9 @@ Feature: Friend Functionality
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
-    And I click "More ..."
+    Then I should see "1 introduction(s) pending acceptance"
+    And I should see "first@pike.virtualpatterns.com"
+    When I click "More ..."
     And I click "Friends"
     Then I should not see "You have no introductions and no friends."
     And I should see "first@pike.virtualpatterns.com"
@@ -34,7 +36,9 @@ Feature: Friend Functionality
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
-    And I click "More ..."
+    Then I should see "1 introduction(s) pending acceptance"
+    And I should see "first@pike.virtualpatterns.com"
+    When I click "More ..."
     And I click "Friends"
     And I click "first@pike.virtualpatterns.com"
     And I click "Accept"
@@ -54,7 +58,9 @@ Feature: Friend Functionality
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
-    And I click "More ..."
+    Then I should see "1 introduction(s) pending acceptance"
+    And I should see "first@pike.virtualpatterns.com"
+    When I click "More ..."
     And I click "Friends"
     And I click "first@pike.virtualpatterns.com"
     And I click "Ignore"

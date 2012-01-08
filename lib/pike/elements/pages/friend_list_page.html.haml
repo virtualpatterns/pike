@@ -15,15 +15,18 @@
   /
     #{__FILE__}
   - Pike::Session.identity.user.reload
-  - unless Pike::Session.identity.user.introductions_from.count <= 0 && Pike::Session.identity.user.friends.count <= 0
-    - unless Pike::Session.identity.user.introductions_from.count <= 0
+  - introductions_count = Pike::Session.identity.user.introductions_from.count
+  - friends_count = Pike::Session.identity.user.friends.count
+  - unless introductions_count <= 0 && friends_count <= 0
+    - unless introductions_count <= 0
       %div.title
         Introductions
-    = @introduction_list.render(:html)
-    - unless Pike::Session.identity.user.friends.count <= 0
-      %div.title
-        Friends
-    = @friend_list.render(:html)
+      = @introduction_list.render(:html)
+    - unless friends_count <= 0
+      - unless introductions_count <= 0
+        %div.title
+          Friends
+      = @friend_list.render(:html)
   - else
     = @content.render(:html) do |element|
       - element.content_for(:body) do

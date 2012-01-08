@@ -13,7 +13,9 @@ module Pike
 
     module Pages
       require 'pike/application'
+      require 'pike/elements/introduction_list'
       require 'pike/elements/pages/blank_page'
+      require 'pike/elements/pages/introduction_view_page'
       require 'pike/elements/pages/more_page'
       require 'pike/elements/pages/task_page'
       require 'pike/elements/work_list'
@@ -63,6 +65,12 @@ module Pike
                 Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
                 event.refresh
             end
+          end
+
+          @introduction_list = Pike::Elements::IntroductionList.new
+          @introduction_list.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::IntroductionViewPage.new(event.item))
+            event.refresh
           end
 
           @work_list = Pike::Elements::WorkList.new(today, date)
