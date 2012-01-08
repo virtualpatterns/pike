@@ -1,6 +1,6 @@
 - self.content_for(:item) do |_for, item, index|
   /
     #{__FILE__}
-  %div.friend
-    - item.reload
+  - item.reload
+  %div.friend{:user => item.url}
     = item.url
