@@ -5,6 +5,7 @@ require 'chronic'
 require 'fileutils'
 require 'logrotate'
 require 'rake'
+require 'terminal-table'
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
@@ -38,22 +39,6 @@ namespace :pike do
     system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
   end
 
-  desc 'Dump database'
-  task :dump do |task|
-    system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
-  end
-
-  desc 'Restore a dumped database'
-  task :restore do |task|
-    system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
-  end
-
-  desc 'Drop database'
-  task :drop do |task|
-    Pike::Application.create_default!
-    Pike::Application.drop_database!
-  end
-
   desc 'Rotate log'
   task :rotate do |task|
     puts LogRotate.rotate_file(File.join(Pike::ROOT, %w[log application.log]), :date_time_ext => true, :date_time_format => '%Y%m%d')
@@ -80,64 +65,153 @@ namespace :pike do
     system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
   end
 
-  namespace :identities do
+  namespace :data do
 
-    desc 'Print all identities'
-    task :print_all do |task|
-      Pike::Application.create_default!
-      Pike::Identity.all.each do |identity|
-        puts "identity.user.url=#{identity.user.url.inspect}, identity.created_at=#{identity.created_at}, identity.expires=#{identity.expires}"
-      end
+    desc 'Dump database'
+    task :dump do |task|
+      system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
     end
 
-    desc 'Expire all identities'
-    task :expire_all do |task|
-      Pike::Application.create_default!
-      Pike::Identity.all.each do |identity|
-        identity.expires = Chronic.parse('yesterday')
-        identity.save!
-      end
+    desc 'Restore a dumped database'
+    task :restore => ['data:drop'] do |task|
+      system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
     end
 
-  end
-
-  namespace :tasks do
-
-    desc 'Print all tasks'
-    task :print_all do |task|
+    desc 'Drop database'
+    task :drop do |task|
       Pike::Application.create_default!
-      Pike::User.all.each do |user|
-        user.tasks.all.each do |task|
-          puts "task.user.url=#{task.user.url.inspect}, task.project.name=#{task.project.name.inspect}, task._project_name=#{task._project_name.inspect}, task.activity.name=#{task.activity.name.inspect}, task._activity_name=#{task._activity_name.inspect}"
+      Pike::Application.drop_database!
+    end
+
+    namespace :identities do
+
+      desc 'Print all identities'
+      task :print_all do |task|
+        Pike::Application.create_default!
+        table = Terminal::Table.new(:title => 'Identities',
+                                    :headings => ['User',
+                                                  'Created',
+                                                  'Expires']) do |table|
+          Pike::Identity.all.each do |identity|
+            table.add_row([identity.user.url,
+                           identity.created_at,
+                           identity.expires])
+          end
+        end
+        puts table
+      end
+
+      desc 'Expire all identities'
+      task :expire_all do |task|
+        Pike::Application.create_default!
+        Pike::Identity.all.each do |identity|
+          identity.expires = Chronic.parse('yesterday')
+          identity.save!
         end
       end
+
     end
 
-  end
+    namespace :tasks do
 
-  namespace :migrate do
+      desc 'Print all tasks'
+      task :print_all do |task|
+        Pike::Application.create_default!
+        table = Terminal::Table.new(:title => 'Tasks',
+                                    :headings => ['User',
+                                                  'Project',
+                                                  'Activity']) do |table|
+          Pike::User.all.each do |user|
+            user.tasks.all.each do |task|
+              table.add_row([task.user.url,
+                             task.project.name,
+                             task.activity.name])
+            end
+          end
+        end
+        puts table
+      end
 
-    desc 'Run all migrations'
-    task :all => [] do |task|
     end
 
-    #desc 'Add the default project_properties property every user without the default'
-    #task :add_project_properties_to_user do |task|
-    #  Pike::Application.create_default!
-    #  #Pike::Migration.run(task) do
-    #    puts "Adding 'project_properties' to users ..."
-    #    Pike::User.all.each do |user|
-    #      puts "user.url=#{user.url.inspect}, user.project_properties=#{user.project_properties.inspect}"
-    #      unless user.project_properties
-    #        print "Adding 'project_properties' to #{user.url.inspect} ... "
-    #        user.project_properties = []
-    #        user.save!
-    #        puts "done"
-    #      end
-    #    end
-    #    puts "... done"
-    #  #end
-    #end
+    namespace :migrate do
+
+      desc 'Run all migrations'
+      task :all => ['migrate:add_user_url',
+                    'migrate:add_project_name',
+                    'migrate:add_activity_name',
+                    'migrate:update_task_project_and_activity_names',
+                    'migrate:update_user_demo_to_first'] do |task|
+      end
+
+      desc 'Add the Pike::User#_url property'
+      task :add_user_url do |task|
+        Pike::Application.create_default!
+        Pike::Migration.run(task) do
+          puts 'Pike::User.all.each do |user| ...'
+          Pike::User.all.each do |user|
+            puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url.downcase.inspect})"
+            user.set(:_url, user.url.downcase)
+          end
+          puts '... end'
+        end
+      end
+
+      desc 'Add the Pike::Project#_name property'
+      task :add_project_name do |task|
+        Pike::Application.create_default!
+        Pike::Migration.run(task) do
+          puts 'Pike::Project.all.each do |project| ...'
+          Pike::Project.all.each do |project|
+            puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
+            project.set(:_name, project.name.downcase)
+          end
+          puts '... end'
+        end
+      end
+
+      desc 'Add the Pike::Activity#_name property'
+      task :add_activity_name do |task|
+        Pike::Application.create_default!
+        Pike::Migration.run(task) do
+          puts 'Pike::Activity.all.each do |activity| ...'
+          Pike::Activity.all.each do |activity|
+            puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
+            activity.set(:_name, activity.name.downcase)
+          end
+          puts '... end'
+        end
+      end
+
+      desc 'Update the Pike::Task#_project_name and Pike::Task#_activity_name properties'
+      task :update_task_project_and_activity_names do |task|
+        Pike::Application.create_default!
+        Pike::Migration.run(task) do
+          puts 'Pike::Task.all.each do |_task| ...'
+          Pike::Task.all.each do |_task|
+            puts "  _task.project.name=#{_task.project.name.inspect} _task.set(:_project_name, #{_task.project.name.downcase.inspect})"
+            _task.set(:_project_name, _task.project.name.downcase)
+            puts "  _task.activity.name=#{_task.activity.name.inspect} _task.set(:_activity_name, #{_task.activity.name.downcase.inspect})"
+            _task.set(:_activity_name, _task.activity.name.downcase)
+          end
+          puts '... end'
+        end
+      end
+
+      desc 'Update the user demo@pike.virtualpatterns.com to first@pike.virtualpatterns.com'
+      task :update_user_demo_to_first do |task|
+        Pike::Application.create_default!
+        Pike::Migration.run(task) do
+          user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
+          if user
+            puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
+            user.url = 'first@pike.virtualpatterns.com'
+            user.save!
+          end
+        end
+      end
+
+    end
 
   end
 

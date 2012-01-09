@@ -45,8 +45,8 @@ module Pike
     protected
 
       def on_before_save
-        self._project_name = self.project.name if self.project_id_changed?
-        self._activity_name = self.activity.name if self.activity_id_changed?
+        self._project_name = self.project.name.downcase if self.project_id_changed?
+        self._activity_name = self.activity.name.downcase if self.activity_id_changed?
       end
 
   end

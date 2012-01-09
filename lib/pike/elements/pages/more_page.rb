@@ -12,6 +12,7 @@ module Pike
       require 'pike/elements/pages/about_page'
       require 'pike/elements/pages/activity_list_page'
       require 'pike/elements/pages/blank_page'
+      require 'pike/elements/pages/friend_list_page'
       require 'pike/elements/pages/project_list_page'
       require 'pike/elements/pages/report_page'
       require 'pike/models'
@@ -45,6 +46,12 @@ module Pike
           @activity_list_link = RubyApp::Elements::Link.new
           @activity_list_link.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ActivityListPage.new)
+            event.refresh
+          end
+
+          @friend_list_link = RubyApp::Elements::Link.new
+          @friend_list_link.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::FriendListPage.new)
             event.refresh
           end
 

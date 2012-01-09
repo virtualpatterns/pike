@@ -2,16 +2,16 @@ Feature: Activity Functionality
 
   Background:
     Given I am testing the application
-    And I am logged on as the demo user
+    And I logon as the first demo user
 
   Scenario: Add a property to activities
     Given I click "More ..."
     And I click "Activities"
     And I click "here"
-    And I fill in the "Name" field with "Activity 1" and I press enter
+    And I fill in the "Name" field with "Activity 1" and I change focus
     And I click "Add Property"
-    And I fill in the "Name" field with "Property 1" and I press enter
-    And I fill in the "Value" field with "Value 1" and I press enter
+    And I fill in the "Name" field with "Property 1" and I change focus
+    And I fill in the "Value" field with "Value 1" and I change focus
     And I click "Done"
     And I click "Done"
     Then I should see "Activity 1"

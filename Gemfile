@@ -11,6 +11,7 @@ gem 'mongoid'
 gem 'mongoid-rspec'
 gem 'rake'
 gem 'SystemTimer'
+gem 'terminal-table'
 gem 'uuid'
 
 group :test do

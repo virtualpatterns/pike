@@ -20,12 +20,10 @@ end
 
 When /^I click "([^"]*)"$/ do |text|
   click_on(text)
-  #sleep 1
 end
 
 When /^I (start|stop) the task with project "([^"]*)" and activity "([^"]*)"$/ do |start_or_stop, project, activity|
   find("li.item[project='#{project}'][activity='#{activity}'] a.start").click
-  sleep 1
 end
 
 Then /^the task with project "([^"]*)" and activity "([^"]*)" should (not )?be started$/ do |project, activity, negative|
@@ -52,7 +50,6 @@ end
 
 When /^I edit the task with project "([^"]*)" and activity "([^"]*)"$/ do |project, activity|
   find("li.item[project='#{project}'][activity='#{activity}'] a.edit").click
-  #sleep 1
 end
 
 Then /^the task with project "([^"]*)" and activity "([^"]*)" should appear first$/ do |project, activity|
@@ -60,11 +57,10 @@ Then /^the task with project "([^"]*)" and activity "([^"]*)" should appear firs
   page.should have_css(selector)
 end
 
-When /^I fill in the "([^"]*)" field with "([^"]*)"( and I press enter)?$/ do |field, value, enter|
+When /^I fill in the "([^"]*)" field with "([^"]*)"( and I change focus)?$/ do |field, value, change_focus|
   fill_in(field, :with => value)
-  if enter
-    find_field(field).native.send_key(:enter)
-    #sleep 1
+  if change_focus
+    find('body').click
   end
 end
 

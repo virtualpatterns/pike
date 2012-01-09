@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.55)
+    RubyApp (0.0.58)
       BlueCloth
       chronic
       chronic_duration
@@ -38,7 +38,7 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.2.5)
+    childprocess (0.2.8)
       ffi (~> 1.0.6)
     chronic (0.6.6)
     chronic_duration (0.9.6)
@@ -109,6 +109,7 @@ GEM
       rubyzip
     systemu (2.4.2)
     term-ansicolor (1.0.7)
+    terminal-table (1.4.4)
     tzinfo (0.3.31)
     uuid (2.3.4)
       macaddr (~> 1.0)
@@ -137,4 +138,5 @@ DEPENDENCIES
   rspec
   ruby-debug-base
   ruby-graphviz
+  terminal-table
   uuid
