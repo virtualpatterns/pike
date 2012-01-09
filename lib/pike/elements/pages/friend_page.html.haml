@@ -1,0 +1,25 @@
+- self.content_for(:header_left) do
+  /
+    #{__FILE__}
+  = @cancel_button.render(:html) do |element|
+    - element.content_for(:body, 'Cancel')
+- self.content_for(:header_center) do
+  /
+    #{__FILE__}
+  Friend
+- self.content_for(:content) do
+  /
+    #{__FILE__}
+  %div.properties
+    %div.property
+      %div.name
+        User
+      %div.value
+        = @user.url
+    %div.property
+      %div.name.last
+        &nbsp;
+      %div.buttons.last
+        = @delete_button.render(:html) do |element|
+          - element.attributes.merge!(:class => 'delete')
+          - element.content_for(:body, 'Remove Friend')

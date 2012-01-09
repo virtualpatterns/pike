@@ -1,5 +1,6 @@
 require 'pike/models/activity'
 require 'pike/models/identity'
+require 'pike/models/introduction'
 require 'pike/models/migration'
 require 'pike/models/project'
 require 'pike/models/task'

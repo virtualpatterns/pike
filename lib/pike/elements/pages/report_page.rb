@@ -32,7 +32,7 @@ module Pike
               if response
                 if response > event.today
                   Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
-                                                                                           'The selected date is invalid.  The weekly summary cannot be created for future dates.'))
+                                                                                                  'The selected date is invalid.  The weekly summary cannot be created for future dates.'))
                 else
                   @date = response
                   _event.refresh

@@ -5,6 +5,7 @@ require 'chronic_duration'
 require 'ruby-event'
 
 require 'ruby_app/elements/list'
+require 'ruby_app/log'
 
 module Pike
 
@@ -35,10 +36,10 @@ module Pike
 
         attr_reader :date, :task, :work
 
-        def initialize(date, task)
+        def initialize(date, task, work)
           @date = date
           @task = task
-          @work = task.work.where_date(@date).first || Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
+          @work = work || Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
         end
 
       end
@@ -96,10 +97,16 @@ module Pike
 
       def render(format)
         if format == :html
-          self.items = Pike::Session.identity.user.tasks.all.collect do |task|
-            Pike::Elements::WorkList::Item.new(@date, task)
+          RubyApp::Log.duration("#{self.class}##{__method__}") do
+            work = {}
+            Pike::Session.identity.user.work.where_date(@date).each do |_work|
+              work[_work.task] = _work
+            end
+            self.items = Pike::Session.identity.user.tasks.all.collect do |task|
+              Pike::Elements::WorkList::Item.new(@date, task, work[task])
+            end
+            @flag = nil
           end
-          @flag = nil
         end
         super(format)
       end

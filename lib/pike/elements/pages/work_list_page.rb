@@ -13,7 +13,9 @@ module Pike
 
     module Pages
       require 'pike/application'
+      require 'pike/elements/introduction_list'
       require 'pike/elements/pages/blank_page'
+      require 'pike/elements/pages/introduction_view_page'
       require 'pike/elements/pages/more_page'
       require 'pike/elements/pages/task_page'
       require 'pike/elements/work_list'
@@ -40,7 +42,7 @@ module Pike
               if response
                 if response > today
                   Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
-                                                                                           'The selected date is invalid.  Work cannot be updated for future dates.'))
+                                                                                                  'The selected date is invalid.  Work cannot be updated for future dates.'))
                 else
                   @work_list.date = response
                   self.interval = @work_list.date.today? ? Pike::Elements::Pages::WorkListPage::INTERVAL : 0
@@ -63,6 +65,12 @@ module Pike
                 Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
                 event.refresh
             end
+          end
+
+          @introduction_list = Pike::Elements::IntroductionList.new
+          @introduction_list.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::IntroductionViewPage.new(event.item))
+            event.refresh
           end
 
           @work_list = Pike::Elements::WorkList.new(today, date)

@@ -2,18 +2,15 @@
   :sass
     /* #{__FILE__}
     @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
-    div.notice
+    div.title
       font-size: 10pt
-      background-color: $notice_background
+      background-color: $flag_background
       border-radius: 5px
-      color: $notice_foreground
+      color: $flag_foreground
       margin-bottom: 2px
       padding: 5px 10px
+= Pike::Elements::FriendList.render(:css)
 = Pike::Elements::IntroductionList.render(:css)
-= Pike::Elements::WorkList.render(:css)
 = RubyApp::Elements::Button.render(:css)
-= RubyApp::Elements::Dialogs::Calendars::MonthDialog.render(:css)
-= RubyApp::Elements::Dialogs::MessageDialog.render(:css)
-= RubyApp::Elements::Link.render(:css)
 = RubyApp::Elements::Markdown.render(:css)
 = yield
