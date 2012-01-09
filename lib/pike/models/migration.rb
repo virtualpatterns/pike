@@ -24,8 +24,12 @@ module Pike
     def self.run(name)
       migration = Pike::Migration.where_name(name).first
       unless migration
-        migration = Pike::Migration.create!(:name => name)
+        puts '-' * 80
+        puts name
+        puts '-' * 80
         yield if block_given?
+        puts '-' * 80
+        migration = Pike::Migration.create!(:name => name)
       end
       return migration
     end

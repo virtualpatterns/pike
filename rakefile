@@ -38,20 +38,24 @@ namespace :pike do
     system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
   end
 
-  desc 'Dump database'
-  task :dump do |task|
-    system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
-  end
+  namespace :data do
 
-  desc 'Restore a dumped database'
-  task :restore do |task|
-    system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
-  end
+    desc 'Dump database'
+    task :dump do |task|
+      system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
+    end
 
-  desc 'Drop database'
-  task :drop do |task|
-    Pike::Application.create_default!
-    Pike::Application.drop_database!
+    desc 'Restore a dumped database'
+    task :restore => ['data:drop'] do |task|
+      system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
+    end
+
+    desc 'Drop database'
+    task :drop do |task|
+      Pike::Application.create_default!
+      Pike::Application.drop_database!
+    end
+
   end
 
   desc 'Rotate log'
@@ -118,26 +122,51 @@ namespace :pike do
   namespace :migrate do
 
     desc 'Run all migrations'
-    task :all => [] do |task|
+    task :all => ['migrate:add_user_url',
+                  'migrate:update_user_demo_to_first',
+                  'migrate:update_task_project_and_activity_names'] do |task|
     end
 
-    #desc 'Add the default project_properties property every user without the default'
-    #task :add_project_properties_to_user do |task|
-    #  Pike::Application.create_default!
-    #  #Pike::Migration.run(task) do
-    #    puts "Adding 'project_properties' to users ..."
-    #    Pike::User.all.each do |user|
-    #      puts "user.url=#{user.url.inspect}, user.project_properties=#{user.project_properties.inspect}"
-    #      unless user.project_properties
-    #        print "Adding 'project_properties' to #{user.url.inspect} ... "
-    #        user.project_properties = []
-    #        user.save!
-    #        puts "done"
-    #      end
-    #    end
-    #    puts "... done"
-    #  #end
-    #end
+    desc 'Update the user demo@pike.virtualpatterns.com to first@pike.virtualpatterns.com'
+    task :update_user_demo_to_first do |task|
+      Pike::Application.create_default!
+      Pike::Migration.run(task) do
+        user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
+        if user
+          puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
+          user.url = 'first@pike.virtualpatterns.com'
+          user.save!
+        end
+      end
+    end
+
+    desc 'Add the Pike::User#_url property'
+    task :add_user_url do |task|
+      Pike::Application.create_default!
+      Pike::Migration.run(task) do
+        puts 'Pike::User.all.each do |user| ...'
+        Pike::User.all.each do |user|
+          puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url.downcase.inspect})"
+          user.set(:_url, user.url.downcase)
+        end
+        puts '... end'
+      end
+    end
+
+    desc 'Update the Pike::Task#_project_name and Pike::Task#_activity_name properties'
+    task :update_task_project_and_activity_names do |task|
+      Pike::Application.create_default!
+      Pike::Migration.run(task) do
+        puts 'Pike::Task.all.each do |_task| ...'
+        Pike::Task.all.each do |_task|
+          puts "  _task.project.name=#{_task.project.name.inspect} _task.set(:_project_name, #{_task.project.name.downcase.inspect})"
+          _task.set(:_project_name, _task.project.name.downcase)
+          puts "  _task.activity.name=#{_task.activity.name.inspect} _task.set(:_activity_name, #{_task.activity.name.downcase.inspect})"
+          _task.set(:_activity_name, _task.activity.name.downcase)
+        end
+        puts '... end'
+      end
+    end
 
   end
 
