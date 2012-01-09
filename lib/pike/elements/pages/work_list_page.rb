@@ -42,7 +42,7 @@ module Pike
               if response
                 if response > today
                   Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
-                                                                                           'The selected date is invalid.  Work cannot be updated for future dates.'))
+                                                                                                  'The selected date is invalid.  Work cannot be updated for future dates.'))
                 else
                   @work_list.date = response
                   self.interval = @work_list.date.today? ? Pike::Elements::Pages::WorkListPage::INTERVAL : 0

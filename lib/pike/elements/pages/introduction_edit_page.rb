@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/exception_dialog'
+require 'ruby_app/elements/dialogs/message_dialog'
 require 'ruby_app/elements/inputs/multiline_input'
 require 'ruby_app/elements/navigation/back_button'
 
