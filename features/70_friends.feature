@@ -91,3 +91,44 @@ Feature: Friend Functionality
     And I click "Yes"
     Then I should see "You have no introductions and no friends."
     And I should not see "second@pike.virtualpatterns.com"
+
+  Scenario: Sync the first shared project with the first friend
+    Given I logon as the first demo user
+    And I create the first shared project "Project 1"
+    When I add the first friend "second@pike.virtualpatterns.com"
+    And I logoff
+    And I logon as the second demo user
+    And I accept the introduction from "first@pike.virtualpatterns.com"
+    And I process all actions
+    And I click "More ..."
+    And I click "Projects"
+    Then I should see "Project 1"
+
+  Scenario: Remove the first sync'd project from the first friend
+    Given I logon as the first demo user
+    And I create the first shared project "Project 1"
+    When I add the first friend "second@pike.virtualpatterns.com"
+    And I logoff
+    And I logon as the second demo user
+    And I accept the introduction from "first@pike.virtualpatterns.com"
+    And I process all actions
+    And I click "More ..."
+    And I click "Projects"
+    Then I should see "Project 1"
+    When I click "Back"
+    And I click "Back"
+    And I logoff
+    And I logon as the first demo user
+    And I click "More ..."
+    And I click "Friends"
+    And I click "second@pike.virtualpatterns.com"
+    And I click "Remove Friend"
+    And I click "Yes"
+    And I click "Back"
+    And I click "Back"
+    And I logoff
+    And I process all actions
+    And I logon as the second demo user
+    And I click "More ..."
+    And I click "Projects"
+    Then I should not see "Project 1"

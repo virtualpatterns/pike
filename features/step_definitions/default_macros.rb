@@ -51,7 +51,7 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
 
 end
 
-And /^I create the (first )?project "([^"]*)"$/ do |first, project|
+And /^I create the (first )?(shared )?project "([^"]*)"$/ do |first, shared, project|
 
   step 'I click "More ..."'
   step 'I click "Projects"'
@@ -65,6 +65,11 @@ And /^I create the (first )?project "([^"]*)"$/ do |first, project|
   end
 
   step "I fill in the \"Name\" field with \"#{project}\" and I change focus"
+
+  if shared
+    step 'I check the "Shared" field'
+  end
+
   step 'I click "Done"'
   step "I should see \"#{project}\""
   step 'I click "Back"'

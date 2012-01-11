@@ -2,6 +2,12 @@ Given /^I have an empty test database$/ do
   Pike::Application.drop_database!
 end
 
+Given /^I process all actions$/ do
+  Pike::System::Action.all.each do |action|
+    action.process!
+  end
+end
+
 Given /^I am viewing "([^"]*)"$/ do |url|
   visit("#{url}?show_event_error=false")
 end
@@ -61,6 +67,14 @@ When /^I fill in the "([^"]*)" field with "([^"]*)"( and I change focus)?$/ do |
   fill_in(field, :with => value)
   if change_focus
     find('body').click
+  end
+end
+
+When /^I (un)?check the "([^"]*)" field$/ do |uncheck, field|
+  unless uncheck
+    check(field)
+  else
+    uncheck(field)
   end
 end
 
