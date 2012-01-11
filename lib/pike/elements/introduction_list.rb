@@ -14,7 +14,7 @@ module Pike
 
       def initialize
         super
-        self.items = Pike::Session.identity.user.introductions_from.all
+        self.items = Pike::Session.identity.user.introductions_as_target.all
       end
 
     end

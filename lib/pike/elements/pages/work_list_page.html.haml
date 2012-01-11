@@ -16,16 +16,16 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  - introductions_count = Pike::Session.identity.user.introductions_from.count
-  - tasks_count = Pike::Session.identity.user.tasks.count
-  - unless introductions_count <= 0
+  - introductions_exist = Pike::Session.identity.user.introductions_as_target.exists?
+  - tasks_exist = Pike::Session.identity.user.tasks.exists?
+  - if introductions_exist
     %div.notice
-      #{introductions_count} introduction(s) pending acceptance
+      #{Pike::Session.identity.user.introductions_as_target.count} introduction(s) pending acceptance
     = @introduction_list.render(:html)
-  - unless tasks_count <= 0
+  - if tasks_exist
     = @work_list.render(:html)
   - else
-    - unless introductions_count <= 0
+    - if introductions_exist
       %div{:style => 'margin-top: 10px;'}
     = @content.render(:html) do |element|
       - element.content_for(:body) do

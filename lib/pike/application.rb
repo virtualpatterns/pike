@@ -8,6 +8,7 @@ require 'ruby_app/application'
 require 'ruby_app/themes/mobile'
 
 module Pike
+  require 'pike/models/system/observers/friendship_observer'
 
   class Application < RubyApp::Application
 
@@ -28,8 +29,12 @@ module Pike
                                           Pike::Application.configure.mongoid.port)
 
       Mongoid.configure do |config|
+        config.logger = RubyApp::Log.get
         config.master = @connection.db(Pike::Application.configure.mongoid.database)
       end
+
+      Mongoid.observers = Pike::System::Observers::FriendshipObserver
+      Mongoid.instantiate_observers
 
     end
 

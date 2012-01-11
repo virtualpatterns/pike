@@ -14,7 +14,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  - unless Pike::Session.identity.user.activities.count <= 0
+  - if Pike::Session.identity.user.activities.exists?
     = @activity_list.render(:html)
   - else
     = @content.render(:html) do |element|

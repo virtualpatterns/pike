@@ -36,9 +36,9 @@ module Pike
             end
           end
 
-          @introduction_to_input = Pike::Elements::UserInput.new
-          @introduction_to_input.changed do |element, event|
-            @introduction.introduction_to = @introduction_to_input.user
+          @user_target_input = Pike::Elements::UserInput.new
+          @user_target_input.changed do |element, event|
+            @introduction.user_target = @user_target_input.user
           end
 
           @message_input = RubyApp::Elements::Inputs::MultilineInput.new

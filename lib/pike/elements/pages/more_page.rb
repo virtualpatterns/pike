@@ -29,7 +29,7 @@ module Pike
 
           @logoff_button = RubyApp::Elements::Button.new
           @logoff_button.clicked do |element, event|
-            identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
+            identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
             identity.destroy! if identity
             event.set_cookie('_identity', nil, Time.now)
             Pike::Session.identity = nil

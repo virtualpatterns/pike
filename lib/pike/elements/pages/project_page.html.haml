@@ -17,12 +17,19 @@
     #{__FILE__}
   %div.properties
     %div.property
-      %div.name.last
+      %div.name
         %label{:for => @name_input.element_id}
           Name
-      %div.value.last
+      %div.value
         = @name_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
+    %div.property
+      %div.name.check.last
+        %label{:for => @is_shared_input.element_id}
+          Shared
+      %div.value.last
+        = @is_shared_input.render(:html) do |element|
+          - element.attributes.merge!(:autofocus => false)
   = @properties.render(:html)
   - unless @project.new?
     %div.properties

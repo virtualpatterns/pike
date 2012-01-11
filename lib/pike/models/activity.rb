@@ -28,7 +28,7 @@ module Pike
     default_scope order_by([:_name, :asc])
 
     def exists_tasks?
-      self.tasks.count > 0
+      self.tasks.exists?
     end
 
     protected

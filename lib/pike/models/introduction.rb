@@ -12,17 +12,17 @@ module Pike
 
     store_in :introductions
 
-    belongs_to :introduction_from, :class_name => 'Pike::User', :inverse_of => :introductions_to
-    belongs_to :introduction_to,   :class_name => 'Pike::User', :inverse_of => :introductions_from
+    belongs_to :user_source, :class_name => 'Pike::User', :inverse_of => :introductions_as_source
+    belongs_to :user_target,   :class_name => 'Pike::User', :inverse_of => :introductions_as_target
 
-    validates_presence_of :introduction_from
-    validates_presence_of :introduction_to
+    validates_presence_of :user_source
+    validates_presence_of :user_target
 
     field :message, :type => String, :default => 'Be my friend!'
 
     def accept!
-      self.introduction_from.push(:friend_ids, self.introduction_to.id) unless self.introduction_from.friends.include?(self.introduction_to)
-      self.introduction_to.push(:friend_ids, self.introduction_from.id) unless self.introduction_to.friends.include?(self.introduction_from)
+      Pike::Friendship::create!(:user_source => self.user_source, :user_target => self.user_target) unless Pike::Friendship.where_friendship(self.user_source, self.user_target).exists?
+      Pike::Friendship::create!(:user_source => self.user_target, :user_target => self.user_source) unless Pike::Friendship.where_friendship(self.user_target, self.user_source).exists?
       self.destroy!
     end
 

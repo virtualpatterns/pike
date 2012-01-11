@@ -5,6 +5,7 @@
 dump.tgz
 *.gem
 *.log
+*.pid
 coverage
 data
 deployment
@@ -13,4 +14,5 @@ failures_in.txt
 failures_out.txt
 log
 sandbox
+scripts
 tmp

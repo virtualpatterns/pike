@@ -22,19 +22,26 @@
             font-weight: bold
             text-align: right
             width: 33%
+          > div.name.check
+            padding: 15px 10px 15px 10px
           > div.name.last
             border-bottom: 0px
           > div.value
             border-bottom: 2px solid $properties_border
-            input, textarea
+            input[type="text"], input[type="email"], textarea
               background: inherit
               border: 0px
               color: inherit
               display: block
               font-size: inherit
-              margin: 1px 0px 0px 0px
+              margin-top: 1px
               padding: 0px
               width: 100%
+            input[type="checkbox"]
+              margin: 3px 0px 0px 0px
+              height: 22px
+              padding: 0px
+              width: 22px
             textarea
               height: 100px
             a

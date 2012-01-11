@@ -42,6 +42,12 @@ module Pike
             @project.name = @name_input.value
           end
 
+          @is_shared_input = RubyApp::Elements::Inputs::ToggleInput.new
+          @is_shared_input.value = @project.is_shared
+          @is_shared_input.changed do |element, event|
+            @project.is_shared = @is_shared_input.value
+          end
+
           @properties = Pike::Elements::Properties.new(:project_properties, @project)
 
           @delete_button = RubyApp::Elements::Button.new

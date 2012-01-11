@@ -14,23 +14,30 @@ module Pike
 
     before_save :on_before_save
 
-    has_many :identities, :class_name => 'Pike::Identity'
+    has_many :identities, :class_name => 'Pike::System::Identity'
 
-    has_many :introductions_to,   :class_name => 'Pike::Introduction', :inverse_of => :introduction_from
-    has_many :introductions_from, :class_name => 'Pike::Introduction', :inverse_of => :introduction_to
+    has_many :actions_as_source, :class_name => 'Pike::System::Action', :inverse_of => :user_source
+    has_many :actions_as_target, :class_name => 'Pike::System::Action', :inverse_of => :user_target
 
-    has_and_belongs_to_many :friends, :class_name => 'Pike::User'
+    has_many :introductions_as_source, :class_name => 'Pike::Introduction', :inverse_of => :user_source
+    has_many :introductions_as_target, :class_name => 'Pike::Introduction', :inverse_of => :user_target
+
+    has_many :friendships_as_source, :class_name => 'Pike::Friendship', :inverse_of => :user_source
+    has_many :friendships_as_target, :class_name => 'Pike::Friendship', :inverse_of => :user_target
 
     has_many :projects, :class_name => 'Pike::Project'
+    field :project_properties, :type => Array, :default => []
+
     has_many :activities, :class_name => 'Pike::Activity'
+    field :activity_properties, :type => Array, :default => []
+
     has_many :tasks, :class_name => 'Pike::Task'
+    field :task_properties, :type => Array, :default => []
+
     has_many :work, :class_name => 'Pike::Work'
 
     field :url, :type => String
     field :_url, :type => String
-    field :project_properties, :type => Array, :default => []
-    field :activity_properties, :type => Array, :default => []
-    field :task_properties, :type => Array, :default => []
 
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
