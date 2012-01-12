@@ -90,13 +90,15 @@ namespace :pike do
         Pike::Application.create_default!
         table = Terminal::Table.new(:title => 'Actions',
                                     :headings => ['Type',
+                                                  'Action',
                                                   'From',
                                                   'To',
                                                   'Created']) do |table|
           Pike::System::Action.all.each do |action|
             table.add_row([action.class,
+                           Pike::System::Action::ACTION_NAMES[action.action],
                            action.user_source.url,
-                           action.user_target.url,
+                           action.user_target ? action.user_target.url : nil,
                            action.created_at])
           end
         end
@@ -105,17 +107,23 @@ namespace :pike do
 
       desc 'Process all actions'
       task :process_all do |task|
-        Pike::Application.create_default!
-        Pike::System::Action.all.each do |action|
-          print "Processing action ##{action.id} ... "
-          begin
-            action.process!
-          rescue Exception => exception
-            puts exception.message
-            puts exception.backtrace.join('\n')
-          else
-            puts "done"
+        puts Time.now
+        begin
+          run_one(File.join(File.dirname(__FILE__), %w[tmp pids actions.pid])) do
+              Pike::Application.create_default!
+              Pike::System::Action.all.each do |action|
+                print "  Processing #{action.id} #{action.class} #{Pike::System::Action::ACTION_NAMES[action.action]} #{action.user_source.url} #{action.user_target ? action.user_target.url : '(nil)'} #{action.created_at} ... "
+                begin
+                  action.process!
+                rescue Exception => exception
+                  puts exception.message
+                else
+                  puts "done"
+                end
+              end
           end
+        rescue Exception => exception
+          puts "  #{exception.message}"
         end
       end
 
@@ -351,3 +359,13 @@ namespace :pike do
 
 end
 
+def run_one(path)
+  unless File.exists?(path)
+    File.open(path, 'w') { |file| file.write(Process.pid) }
+    yield
+    File.delete(path)
+    return true
+  else
+    return false
+  end
+end

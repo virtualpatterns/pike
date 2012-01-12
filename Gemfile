@@ -13,6 +13,7 @@ gem 'rake'
 gem 'SystemTimer'
 gem 'terminal-table'
 gem 'uuid'
+gem 'whenever'
 
 group :test do
   gem 'capybara'
