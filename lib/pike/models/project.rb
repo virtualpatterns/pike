@@ -41,7 +41,7 @@ module Pike
     end
 
     def exists_tasks?
-      self.tasks.all.exists?
+      self.tasks.exists?
     end
 
     protected

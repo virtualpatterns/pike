@@ -56,6 +56,10 @@ module Pike
                                                        :user_target => friendship.user_target,
                                                        :action => Pike::System::Action::ACTION_SYNC,
                                                        :project => nil)
+          Pike::System::Actions::ActivityAction.create!(:user_source => friendship.user_source,
+                                                        :user_target => friendship.user_target,
+                                                        :action => Pike::System::Action::ACTION_SYNC,
+                                                        :project => nil)
         end
 
         #def before_destroy(friendship)
@@ -68,6 +72,10 @@ module Pike
                                                        :user_target => friendship.user_target,
                                                        :action => Pike::System::Action::ACTION_SYNC,
                                                        :project => nil)
+          Pike::System::Actions::ActivityAction.create!(:user_source => friendship.user_source,
+                                                        :user_target => friendship.user_target,
+                                                        :action => Pike::System::Action::ACTION_SYNC,
+                                                        :project => nil)
         end
 
       end

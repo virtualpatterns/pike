@@ -5,6 +5,7 @@ require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/input'
+require 'ruby_app/elements/inputs/toggle_input'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike

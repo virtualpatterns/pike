@@ -109,10 +109,11 @@ namespace :pike do
       task :process_all do |task|
         puts Time.now
         begin
-          run_one(File.join(File.dirname(__FILE__), %w[tmp pids actions.pid])) do
+          pid_file = File.join(File.dirname(__FILE__), %w[tmp pids actions.pid])
+          result = run_one(pid_file) do
               Pike::Application.create_default!
               Pike::System::Action.all.each do |action|
-                print "  Processing #{action.id} #{action.class} #{Pike::System::Action::ACTION_NAMES[action.action]} #{action.user_source.url} #{action.user_target ? action.user_target.url : '(nil)'} #{action.created_at} ... "
+                print "  Processing #{action.id} ... "
                 begin
                   action.process!
                 rescue Exception => exception
@@ -122,6 +123,7 @@ namespace :pike do
                 end
               end
           end
+          puts "  #{pid_file} exists!" unless result
         rescue Exception => exception
           puts "  #{exception.message}"
         end
@@ -353,6 +355,25 @@ namespace :pike do
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
 
+    end
+
+  end
+
+  namespace :schedule do
+
+    desc 'Show the schedule in crontab format'
+    task :print_all do |task|
+      system("bundle exec whenever --load-file schedule.rb")
+    end
+
+    desc 'Install the schedule'
+    task :install do |task|
+      system("bundle exec whenever --load-file schedule.rb --write-crontab pike")
+    end
+
+    desc 'Uninstall the schedule'
+    task :uninstall do |task|
+      system("bundle exec whenever --load-file schedule.rb --clear-crontab pike")
     end
 
   end

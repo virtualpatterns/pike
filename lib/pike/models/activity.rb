@@ -16,16 +16,29 @@ module Pike
     after_save :on_after_save
     before_destroy :on_before_destroy
 
+    has_many :actions, :class_name => 'Pike::System::Actions::ActivityAction'
+
+    has_many   :copies,  :class_name => 'Pike::Activity', :inverse_of => :copy_of
+    belongs_to :copy_of, :class_name => 'Pike::Activity', :inverse_of => :copies
+
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
 
     field :name, :type => String
     field :_name, :type => String
+    field :is_shared, :type => Boolean, :default => false
 
     validates_presence_of :name
-    validates_uniqueness_of :name, :scope => [:user_id, :deleted_at]
+    validates_uniqueness_of :name, :scope => [:user_id, :copy_of_id, :deleted_at]
 
     default_scope order_by([:_name, :asc])
+
+    scope :where_shared, where(:is_shared => true)
+    scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
+
+    def shared?
+      self.is_shared
+    end
 
     def exists_tasks?
       self.tasks.exists?

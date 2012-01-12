@@ -5,6 +5,7 @@ require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/input'
+require 'ruby_app/elements/inputs/toggle_input'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -40,6 +41,12 @@ module Pike
           @name_input.value = @activity.name
           @name_input.changed do |element, event|
             @activity.name = @name_input.value
+          end
+
+          @is_shared_input = RubyApp::Elements::Inputs::ToggleInput.new
+          @is_shared_input.value = @activity.is_shared
+          @is_shared_input.changed do |element, event|
+            @activity.is_shared = @is_shared_input.value
           end
 
           @properties = Pike::Elements::Properties.new(:activity_properties, @activity)

@@ -3,3 +3,6 @@
     #{__FILE__}
   %div.activity
     = item.name
+    - if item.copy_of || item.shared?
+      %div.details
+        Shared by #{item.copy_of ? item.copy_of.user.url : 'me'}
