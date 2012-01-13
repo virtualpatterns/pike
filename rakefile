@@ -109,7 +109,7 @@ namespace :pike do
       task :process_all do |task|
         puts Time.now
         begin
-          pid_file = File.join(File.dirname(__FILE__), %w[tmp pids actions.pid])
+          pid_file = File.join(File.dirname(__FILE__), %w[pids actions.pid])
           result = run_one(pid_file) do
               Pike::Application.create_default!
               Pike::System::Action.all.each do |action|
@@ -381,10 +381,11 @@ namespace :pike do
 end
 
 def run_one(path)
+  FileUtils.mkdir(File.dirname(path))
   unless File.exists?(path)
     File.open(path, 'w') { |file| file.write(Process.pid) }
     yield
-    File.delete(path)
+    FileUtils.rm(path)
     return true
   else
     return false
