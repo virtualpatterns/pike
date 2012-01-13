@@ -381,7 +381,8 @@ namespace :pike do
 end
 
 def run_one(path)
-  FileUtils.mkdir(File.dirname(path))
+  directory = File.dirname(path)
+  FileUtils.mkdir(directory) unless File.exists?(directory)
   unless File.exists?(path)
     File.open(path, 'w') { |file| file.write(Process.pid) }
     yield
