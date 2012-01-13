@@ -23,7 +23,7 @@ module Pike
                 self.user_source.friendships_as_source.each do |friendship|
                   unless self.activity
                     # Sync all shared activities to a friend
-                    self.sync_shared_activities_to_friend(friendship.user_target)
+                    #self.sync_shared_activities_to_friend(friendship.user_target)
                   else
                     # Sync a specific activity to a friend
                     self.sync_activity_to_friend(self.activity, friendship.user_target)
@@ -38,7 +38,7 @@ module Pike
                     self.sync_shared_activities_to_friend(self.user_target)
                   else
                     # Sync a specific activity to a friend
-                    self.sync_activity_to_friend(self.activity, self.user_target)
+                    #self.sync_activity_to_friend(self.activity, self.user_target)
                   end
                 else
                   # Sync all shared activities to a non-friend
@@ -109,7 +109,6 @@ module Pike
 
         def delete_activity_from_user(activity, user)
           user.activities.where_copy_of(activity).each do |_activity|
-            RubyApp::Log.debug("#{self.class}##{__method__} user.url=#{user.url.inspect} _activity.name=#{_activity.name.inspect}")
             self.delete_activity(_activity)
           end
         end

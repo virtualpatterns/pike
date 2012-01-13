@@ -22,7 +22,6 @@ describe Pike::User do
 
       it { should be_stored_in(:users) }
       it { should be_timestamped_document }
-      it { should be_paranoid_document }
 
     end
 

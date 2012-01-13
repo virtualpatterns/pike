@@ -14,7 +14,6 @@ module Pike
         observe Pike::Activity
 
         def around_save(activity)
-          RubyApp::Log.debug("#{self.class}##{__method__} activity.name=#{activity.name.inspect}")
           create_action = ( activity.name_changed? || activity.is_shared_changed? ) ? true : false
           yield
           Pike::System::Actions::ActivityAction.create!(:user_source => activity.user,
@@ -24,7 +23,6 @@ module Pike
         end
 
         def around_destroy(activity)
-          RubyApp::Log.debug("#{self.class}##{__method__} activity.name=#{activity.name.inspect}")
           _activities = activity.copies.collect
           yield
           _activities.each do |_activity|

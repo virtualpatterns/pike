@@ -23,8 +23,6 @@ module Pike
     def start!
       super
 
-      RubyApp::Log.debug("#{self.class}##{__method__}")
-
       Sass::Plugin.options[:load_paths] += [File.expand_path(File.join(File.dirname(__FILE__), %w[elements]))]
 
       @connection = Mongo::Connection.new(Pike::Application.configure.mongoid.host,

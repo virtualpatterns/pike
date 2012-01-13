@@ -14,7 +14,6 @@ module Pike
         observe Pike::Project
 
         def around_save(project)
-          RubyApp::Log.debug("#{self.class}##{__method__} project.name=#{project.name.inspect}")
           create_action = ( project.name_changed? || project.is_shared_changed? ) ? true : false
           yield
           Pike::System::Actions::ProjectAction.create!(:user_source => project.user,
@@ -24,7 +23,6 @@ module Pike
         end
 
         def around_destroy(project)
-          RubyApp::Log.debug("#{self.class}##{__method__} project.name=#{project.name.inspect}")
           _projects = project.copies.collect
           yield
           _projects.each do |_project|

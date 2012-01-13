@@ -23,7 +23,7 @@ module Pike
                 self.user_source.friendships_as_source.each do |friendship|
                   unless self.project
                     # Sync all shared projects to a friend
-                    self.sync_shared_projects_to_friend(friendship.user_target)
+                    #self.sync_shared_projects_to_friend(friendship.user_target)
                   else
                     # Sync a specific project to a friend
                     self.sync_project_to_friend(self.project, friendship.user_target)
@@ -38,7 +38,7 @@ module Pike
                     self.sync_shared_projects_to_friend(self.user_target)
                   else
                     # Sync a specific project to a friend
-                    self.sync_project_to_friend(self.project, self.user_target)
+                    #self.sync_project_to_friend(self.project, self.user_target)
                   end
                 else
                   # Sync all shared projects to a non-friend
@@ -104,7 +104,6 @@ module Pike
 
         def delete_project_from_user(project, user)
           user.projects.where_copy_of(project).each do |_project|
-            RubyApp::Log.debug("#{self.class}##{__method__} user.url=#{user.url.inspect} _project.name=#{_project.name.inspect}")
             self.delete_project(_project)
           end
         end
