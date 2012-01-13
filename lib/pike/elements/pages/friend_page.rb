@@ -31,10 +31,10 @@ module Pike
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
                   Pike::Friendship.where_friendship(@friendship.user_source, @friendship.user_target).each do |_friendship|
-                    _friendship.destroy!
+                    _friendship.destroy
                   end
                   Pike::Friendship.where_friendship(@friendship.user_target, @friendship.user_source).each do |_friendship|
-                    _friendship.destroy!
+                    _friendship.destroy
                   end
                   Pike::Session.pages.pop
                   _event.refresh

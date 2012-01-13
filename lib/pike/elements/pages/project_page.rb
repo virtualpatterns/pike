@@ -56,7 +56,7 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this project?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @project.destroy!
+                  @project.destroy
                   Pike::Session.pages.pop
                   _event.refresh
                 end

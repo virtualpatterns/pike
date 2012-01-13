@@ -56,7 +56,7 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this activity?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @activity.destroy!
+                  @activity.destroy
                   Pike::Session.pages.pop
                   _event.refresh
                 end

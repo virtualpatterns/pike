@@ -8,7 +8,6 @@ module Pike
   class Introduction
     include Mongoid::Document
     include Mongoid::Timestamps
-    include Mongoid::Paranoia
 
     store_in :introductions
 
@@ -23,11 +22,11 @@ module Pike
     def accept!
       Pike::Friendship::create!(:user_source => self.user_source, :user_target => self.user_target) unless Pike::Friendship.where_friendship(self.user_source, self.user_target).exists?
       Pike::Friendship::create!(:user_source => self.user_target, :user_target => self.user_source) unless Pike::Friendship.where_friendship(self.user_target, self.user_source).exists?
-      self.destroy!
+      self.destroy
     end
 
     def reject!
-      self.destroy!
+      self.destroy
     end
 
   end

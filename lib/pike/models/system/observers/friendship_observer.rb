@@ -51,7 +51,7 @@ module Pike
         #end
 
         def after_save(friendship)
-          RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
+          RubyApp::Log.debug("#{self.class}##{__method__} friendship.user_source.url=#{friendship.user_source.url} friendship.user_target.url=#{friendship.user_target.url}")
           Pike::System::Actions::ProjectAction.create!(:user_source => friendship.user_source,
                                                        :user_target => friendship.user_target,
                                                        :action => Pike::System::Action::ACTION_SYNC,
@@ -67,7 +67,7 @@ module Pike
         #end
 
         def after_destroy(friendship)
-          RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
+          RubyApp::Log.debug("#{self.class}##{__method__} friendship.user_source.url=#{friendship.user_source.url} friendship.user_target.url=#{friendship.user_target.url}")
           Pike::System::Actions::ProjectAction.create!(:user_source => friendship.user_source,
                                                        :user_target => friendship.user_target,
                                                        :action => Pike::System::Action::ACTION_SYNC,

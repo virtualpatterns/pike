@@ -8,7 +8,6 @@ module Pike
   class Activity
     include Mongoid::Document
     include Mongoid::Timestamps
-    include Mongoid::Paranoia
 
     store_in :activities
 
@@ -29,7 +28,7 @@ module Pike
     field :is_shared, :type => Boolean, :default => false
 
     validates_presence_of :name
-    validates_uniqueness_of :name, :scope => [:user_id, :copy_of_id, :deleted_at]
+    validates_uniqueness_of :name, :scope => [:user_id, :copy_of_id]
 
     default_scope order_by([:_name, :asc])
 

@@ -8,7 +8,6 @@ module Pike
   class User
     include Mongoid::Document
     include Mongoid::Timestamps
-    include Mongoid::Paranoia
 
     store_in :users
 

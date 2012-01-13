@@ -97,7 +97,7 @@ namespace :pike do
           Pike::System::Action.all.each do |action|
             table.add_row([action.class,
                            Pike::System::Action::ACTION_NAMES[action.action],
-                           action.user_source.url,
+                           action.user_source ? action.user_source.url : nil,
                            action.user_target ? action.user_target.url : nil,
                            action.created_at])
           end

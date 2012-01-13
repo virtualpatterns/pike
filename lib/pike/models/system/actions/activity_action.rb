@@ -14,7 +14,7 @@ module Pike
         belongs_to :activity, :class_name => 'Pike::Activity'
 
         def process!
-          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source.url.inspect} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}")
+          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}")
           case self.action
             when Pike::System::Action::ACTION_SYNC
               # Sync (add, update, or delete)
@@ -45,8 +45,11 @@ module Pike
                   self.sync_shared_activities_to_non_friend(self.user_target)
                 end
               end
+            when Pike::System::Action::ACTION_DELETE
+              # Delete
+              self.delete_activity(self.activity)
           end
-          self.destroy!
+          self.destroy
         end
 
         def sync_shared_activities_to_friend(user)
@@ -56,9 +59,14 @@ module Pike
         end
 
         def sync_activity_to_friend(activity, user)
-          unless activity.deleted_at
-            # Add or update the friend's activity
-            self.add_update_activity_to_user(activity, user)
+          if activity.shared?
+            unless activity.destroyed?
+              # Add or update the friend's activity
+              self.add_update_activity_to_user(activity, user)
+            else
+              # Delete the friend's activity
+              self.delete_activity_from_user(activity, user)
+            end
           else
             # Delete the friend's activity
             self.delete_activity_from_user(activity, user)
@@ -102,11 +110,16 @@ module Pike
         def delete_activity_from_user(activity, user)
           user.activities.where_copy_of(activity).each do |_activity|
             RubyApp::Log.debug("#{self.class}##{__method__} user.url=#{user.url.inspect} _activity.name=#{_activity.name.inspect}")
-            _activity.tasks.each do |task|
-              task.destroy!
-            end
-            _activity.destroy!
+            self.delete_activity(_activity)
           end
+        end
+
+        def delete_activity(activity)
+          RubyApp::Log.debug("#{self.class}##{__method__} _activity.name=#{activity.name.inspect}")
+          activity.tasks.each do |task|
+            task.destroy
+          end
+          activity.destroy
         end
 
       end

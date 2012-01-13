@@ -12,7 +12,6 @@ module Pike
     class Migration
       include Mongoid::Document
       include Mongoid::Timestamps
-      include Mongoid::Paranoia
 
       store_in :system_migrations
 

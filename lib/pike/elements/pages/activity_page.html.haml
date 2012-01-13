@@ -42,5 +42,5 @@
           &nbsp;
         %div.buttons.last
           = @delete_button.render(:html) do |element|
-            - element.attributes.merge!(:class => 'delete', :disabled => @project.copy_of ? true : false)
+            - element.attributes.merge!(:class => 'delete', :disabled => @activity.copy_of ? true : false)
             - element.content_for(:body, 'Delete Activity')

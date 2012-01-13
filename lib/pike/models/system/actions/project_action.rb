@@ -14,10 +14,10 @@ module Pike
         belongs_to :project, :class_name => 'Pike::Project'
 
         def process!
-          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source.url.inspect} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}")
+          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}")
           case self.action
             when Pike::System::Action::ACTION_SYNC
-              # Sync (add, update, or delete)
+              # Sync
               unless self.user_target
                 # Sync to all friends
                 self.user_source.friendships_as_source.each do |friendship|
@@ -45,8 +45,11 @@ module Pike
                   self.sync_shared_projects_to_non_friend(self.user_target)
                 end
               end
+            when Pike::System::Action::ACTION_DELETE
+              # Delete
+              self.delete_project(self.project)
           end
-          self.destroy!
+          self.destroy
         end
 
         def sync_shared_projects_to_friend(user)
@@ -56,7 +59,7 @@ module Pike
         end
 
         def sync_project_to_friend(project, user)
-          unless project.deleted_at
+          if project.shared?
             # Add or update the friend's project
             self.add_update_project_to_user(project, user)
           else
@@ -102,11 +105,16 @@ module Pike
         def delete_project_from_user(project, user)
           user.projects.where_copy_of(project).each do |_project|
             RubyApp::Log.debug("#{self.class}##{__method__} user.url=#{user.url.inspect} _project.name=#{_project.name.inspect}")
-            _project.tasks.each do |task|
-              task.destroy!
-            end
-            _project.destroy!
+            self.delete_project(_project)
           end
+        end
+
+        def delete_project(project)
+          RubyApp::Log.debug("#{self.class}##{__method__} _project.name=#{project.name.inspect}")
+          project.tasks.each do |task|
+            task.destroy
+          end
+          project.destroy
         end
 
       end

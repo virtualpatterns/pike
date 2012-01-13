@@ -10,7 +10,6 @@ module Pike
   class Work
     include Mongoid::Document
     include Mongoid::Timestamps
-    include Mongoid::Paranoia
 
     store_in :work
 
@@ -30,7 +29,7 @@ module Pike
 
     validates_presence_of :date
 
-    validates_uniqueness_of :task_id, :scope => [:date, :deleted_at]
+    validates_uniqueness_of :task_id, :scope => [:date]
 
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }

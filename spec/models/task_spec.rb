@@ -45,7 +45,7 @@ describe Pike::Task do
       it { should validate_presence_of(:user) }
       it { should validate_presence_of(:project) }
       it { should validate_presence_of(:activity) }
-      it { should validate_uniqueness_of(:activity_id).scoped_to([:project_id, :deleted_at]) }
+      it { should validate_uniqueness_of(:activity_id).scoped_to([:project_id]) }
 
     end
 

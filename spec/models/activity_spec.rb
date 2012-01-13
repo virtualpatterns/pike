@@ -38,7 +38,7 @@ describe Pike::Activity do
     describe 'should validate other properties' do
 
       it { should validate_presence_of(:name) }
-      it { should validate_uniqueness_of(:name).scoped_to([:user_id, :deleted_at]) }
+      it { should validate_uniqueness_of(:name).scoped_to([:user_id]) }
 
     end
 

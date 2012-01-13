@@ -4,6 +4,10 @@ Given /^I am testing the application$/ do
   step 'I should see "Logon with Google"'
 end
 
+And /^I logon as the (first|second) demo user$/ do |count|
+  step "I click \"#{count}\""
+end
+
 And /^I create all demo users$/ do
   ['first','second'].each do |count|
     step "I click \"#{count}\""
@@ -12,8 +16,14 @@ And /^I create all demo users$/ do
   end
 end
 
-And /^I logon as the (first|second) demo user$/ do |count|
-  step "I click \"#{count}\""
+And /^I create all demo friendships$/ do
+  step 'I click "first"'
+  step 'I add the first friend "second@pike.virtualpatterns.com"'
+  step "I logoff"
+  step 'I click "second"'
+  step 'I accept the introduction from "first@pike.virtualpatterns.com"'
+  step "I logoff"
+  step 'I process all actions'
 end
 
 And /^I logoff$/ do
@@ -51,6 +61,14 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
 
 end
 
+And /^I should (not )?see the project "([^"]*)"$/ do |negative, project|
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step "I should #{negative}see \"#{project}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+end
+
 And /^I create the (first )?(shared )?project "([^"]*)"$/ do |first, shared, project|
 
   step 'I click "More ..."'
@@ -78,7 +96,6 @@ And /^I create the (first )?(shared )?project "([^"]*)"$/ do |first, shared, pro
 end
 
 When /^I change the name of project "([^"]*)" to "([^"]*)"$/ do |from_project, to_project|
-
   step 'I click "More ..."'
   step 'I click "Projects"'
   step "I click \"#{from_project}\""
@@ -87,11 +104,34 @@ When /^I change the name of project "([^"]*)" to "([^"]*)"$/ do |from_project, t
   step "I should see \"#{to_project}\""
   step 'I click "Back"'
   step 'I click "Back"'
+end
+
+When /^I (do not )?share the project "([^"]*)"$/ do |negative, project|
+
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step "I click \"#{project}\""
+
+  unless negative
+    step 'I check the "Shared" field'
+  else
+    step 'I uncheck the "Shared" field'
+  end
+
+  step 'I click "Done"'
+
+  unless negative
+    step 'I should see "Shared by you"'
+  else
+    step 'I should not see "Shared by you"'
+  end
+
+  step 'I click "Back"'
+  step 'I click "Back"'
 
 end
 
 Given /^I add the project property "([^"]*)"$/ do |property|
-
   step 'I click "More ..."'
   step 'I click "Projects"'
   step 'I click "Add"'
@@ -102,10 +142,27 @@ Given /^I add the project property "([^"]*)"$/ do |property|
   step 'I click "Back"'
   step 'I click "Back"'
   step 'I click "Back"'
-
 end
 
-And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
+When /^I delete the project "([^"]*)"$/ do |project|
+  step 'I click "More ..."'
+  step 'I click "Projects"'
+  step "I click \"#{project}\""
+  step 'I click "Delete Project"'
+  step 'I click "Yes"'
+  step 'I click "Back"'
+  step 'I click "Back"'
+end
+
+And /^I should (not )?see the activity "([^"]*)"$/ do |negative, activity|
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step "I should #{negative}see \"#{activity}\""
+  step 'I click "Back"'
+  step 'I click "Back"'
+end
+
+And /^I create the (first )?(shared )?activity "([^"]*)"$/ do |first, shared, activity|
 
   step 'I click "More ..."'
   step 'I click "Activities"'
@@ -119,6 +176,11 @@ And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
   end
 
   step "I fill in the \"Name\" field with \"#{activity}\" and I change focus"
+
+  if shared
+    step 'I check the "Shared" field'
+  end
+
   step 'I click "Done"'
   step "I should see \"#{activity}\""
   step 'I click "Back"'
@@ -127,7 +189,6 @@ And /^I create the (first )?activity "([^"]*)"$/ do |first, activity|
 end
 
 When /^I change the name of activity "([^"]*)" to "([^"]*)"$/ do |from_activity, to_activity|
-
   step 'I click "More ..."'
   step 'I click "Activities"'
   step "I click \"#{from_activity}\""
@@ -136,11 +197,34 @@ When /^I change the name of activity "([^"]*)" to "([^"]*)"$/ do |from_activity,
   step "I should see \"#{to_activity}\""
   step 'I click "Back"'
   step 'I click "Back"'
+end
+
+When /^I (do not )?share the activity "([^"]*)"$/ do |negative, activity|
+
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step "I click \"#{activity}\""
+
+  unless negative
+    step 'I check the "Shared" field'
+  else
+    step 'I uncheck the "Shared" field'
+  end
+
+  step 'I click "Done"'
+
+  unless negative
+    step 'I should see "Shared by you"'
+  else
+    step 'I should not see "Shared by you"'
+  end
+
+  step 'I click "Back"'
+  step 'I click "Back"'
 
 end
 
 Given /^I add the activity property "([^"]*)"$/ do |property|
-
   step 'I click "More ..."'
   step 'I click "Activities"'
   step 'I click "Add"'
@@ -151,7 +235,16 @@ Given /^I add the activity property "([^"]*)"$/ do |property|
   step 'I click "Back"'
   step 'I click "Back"'
   step 'I click "Back"'
+end
 
+When /^I delete the activity "([^"]*)"$/ do |activity|
+  step 'I click "More ..."'
+  step 'I click "Activities"'
+  step "I click \"#{activity}\""
+  step 'I click "Delete Activity"'
+  step 'I click "Yes"'
+  step 'I click "Back"'
+  step 'I click "Back"'
 end
 
 And /^I create the (first )?task with project "([^"]*)" and activity "([^"]*)"$/ do |first, project, activity|
@@ -201,6 +294,7 @@ And /^I add the (first )?friend "([^"]*)"$/ do |first, user|
 
   step "I fill in the \"User\" field with \"#{user}\" and I change focus"
   step 'I click "Send"'
+  step 'I click "OK"'
   step 'I click "Back"'
   step 'I click "Back"'
 
