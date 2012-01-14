@@ -1,5 +1,5 @@
-job_type :rake, 'cd :path && bundle exec rake :task --quiet :output'
+job_type :rake, 'cd :path && rake :task :output'
 
 every 1.minutes do
-  rake "pike:data:actions:process_all", :output => { :error => 'log/actions.err', :standard => 'log/actions.log' }
+  rake "pike:data:actions:process_all", :output => { :standard => 'log/actions.log', :error => 'log/actions.error.log' }
 end
