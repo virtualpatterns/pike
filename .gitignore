@@ -9,8 +9,8 @@ dump.tgz
 failures_in.txt
 failures_out.txt
 coverage
+data
 deployment
 log
 pids
 sandbox
-scripts
