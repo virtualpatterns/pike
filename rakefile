@@ -282,10 +282,10 @@ namespace :pike do
         Pike::System::Migration.run(task) do
           puts 'Pike::Task.all.each do |_task| ...'
           Pike::Task.all.each do |_task|
-            puts "  _task.project.name=#{_task.project.name.inspect} _task.set(:_project_name, #{_task.project.name.downcase.inspect})"
-            _task.set(:_project_name, _task.project.name.downcase)
-            puts "  _task.activity.name=#{_task.activity.name.inspect} _task.set(:_activity_name, #{_task.activity.name.downcase.inspect})"
-            _task.set(:_activity_name, _task.activity.name.downcase)
+            puts "  _task.project.name=#{_task.project ? _task.project.name.inspect : '(nil)'} _task.set(:_project_name, #{_task.project ? _task.project.name.downcase.inspect : '(nil)'})"
+            _task.set(:_project_name, _task.project ? _task.project.name.downcase : nil)
+            puts "  _task.activity.name=#{_task.activity ? _task.activity.name.inspect : '(nil)'} _task.set(:_activity_name, #{_task.activity ? _task.activity.name.downcase.inspect : '(nil)'})"
+            _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
           end
           puts '... end'
         end
@@ -305,7 +305,7 @@ namespace :pike do
       end
 
       # Next migration ...
-      #   rename collections identities and migrations to system_identities and system_migrations
+      #   Delete collections identities, migrations (have been prefixed with system_)
       #   ...
 
     end
