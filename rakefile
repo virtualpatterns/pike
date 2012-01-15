@@ -102,7 +102,7 @@ namespace :pike do
       task :process_all do |task|
         puts Time.now
         begin
-          pid_file = File.join(File.dirname(__FILE__), %w[pids actions.pid])
+          pid_file = File.join(File.dirname(__FILE__), %w[pids pike_data_actions_process_all.pid])
           result = run_one(pid_file) do
               Pike::Application.create_default!
               Pike::System::Action.all.each do |action|
@@ -355,7 +355,7 @@ namespace :pike do
   namespace :schedule do
 
     desc 'Show the schedule in crontab format'
-    task :print_all do |task|
+    task :print do |task|
       system("bundle exec whenever --load-file schedule.rb")
     end
 
@@ -378,8 +378,11 @@ def run_one(path)
   FileUtils.mkdir(directory) unless File.exists?(directory)
   unless File.exists?(path)
     File.open(path, 'w') { |file| file.write(Process.pid) }
-    yield
-    FileUtils.rm(path)
+    begin
+      yield
+    ensure
+      FileUtils.rm(path)
+    end
     return true
   else
     return false
