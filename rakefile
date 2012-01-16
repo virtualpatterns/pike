@@ -59,6 +59,18 @@ namespace :pike do
 
   namespace :daemon do
 
+    desc 'Run the daemon'
+    task :run do |task|
+      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'daemon',
+                                                                              :ARGV       => ['run'],
+                                                                              :dir_mode   => :normal,
+                                                                              :dir        => File.join(File.dirname(__FILE__), 'pid'),
+                                                                              :multiple   => false,
+                                                                              :mode       => :load,
+                                                                              :backtrace  => true,
+                                                                              :monitor    => false)
+    end
+
     desc 'Start the daemon'
     task :start do |task|
       Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'daemon',
