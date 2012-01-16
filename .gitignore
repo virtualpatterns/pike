@@ -12,5 +12,5 @@ coverage
 data
 deployment
 log
-pids
+pid
 sandbox
