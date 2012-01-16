@@ -8,18 +8,18 @@ module Pike
   class Task
     include Mongoid::Document
     include Mongoid::Timestamps
-    include Mongoid::Paranoia
 
     store_in :tasks
 
     before_save :on_before_save
+    before_destroy :on_before_destroy
 
     FLAG_LIKED      = 0
     FLAG_NORMAL     = 1
     FLAG_COMPLETED  = 2
-    FLAG_NAMES      = { Pike::Task::FLAG_LIKED => 'Liked',
-                        Pike::Task::FLAG_NORMAL => 'Other',
-                        Pike::Task::FLAG_COMPLETED => 'Completed' }
+    FLAG_NAMES      = { Pike::Task::FLAG_LIKED      => 'Liked',
+                        Pike::Task::FLAG_NORMAL     => 'Other',
+                        Pike::Task::FLAG_COMPLETED  => 'Completed' }
 
     belongs_to :user, :class_name => 'Pike::User'
     belongs_to :project, :class_name => 'Pike::Project'
@@ -30,7 +30,7 @@ module Pike
     validates_presence_of :user
     validates_presence_of :project
     validates_presence_of :activity
-    validates_uniqueness_of :activity_id, :scope => [:project_id, :deleted_at]
+    validates_uniqueness_of :activity_id, :scope => [:project_id]
 
     field :flag, :type => Integer, :default => Pike::Task::FLAG_NORMAL
     field :_project_name, :type => String
@@ -47,6 +47,12 @@ module Pike
       def on_before_save
         self._project_name = self.project.name.downcase if self.project_id_changed?
         self._activity_name = self.activity.name.downcase if self.activity_id_changed?
+      end
+
+      def on_before_destroy
+        self.work.where_started.each do |work|
+          work.finish!
+        end
       end
 
   end

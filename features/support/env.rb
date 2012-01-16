@@ -18,5 +18,6 @@ Capybara.app_host = 'http://localhost:8008'
 World(Capybara)
 
 require 'pike/application'
+require 'pike/models'
 
 Pike::Application.create_default!

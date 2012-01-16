@@ -31,7 +31,7 @@ module Pike
           self.loaded do |element, event|
             unless Pike::Session.identity
               if RubyApp::Request.cookies['_identity']
-                identity = Pike::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
+                identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
                 if identity
                   Pike::Session.identity = Pike::Session::Identity.new(identity.user)
                   identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }

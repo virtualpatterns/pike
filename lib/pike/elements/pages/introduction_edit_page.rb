@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/button'
+require 'ruby_app/elements/dialogs/acknowledgement_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/dialogs/message_dialog'
 require 'ruby_app/elements/inputs/multiline_input'
@@ -29,16 +30,20 @@ module Pike
 
           @done_button = RubyApp::Elements::Button.new
           @done_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              @introduction.save!
-              Pike::Session.pages.pop
-              event.refresh
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::AcknowledgementDialog.new('Introduction', 'An introduction will be sent to the user specified.  They will not appear as your friend until the introduction is accepted.')) do |_event, response|
+              if response
+                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                  @introduction.save!
+                  Pike::Session.pages.pop
+                  _event.refresh
+                end
+              end
             end
           end
 
-          @introduction_to_input = Pike::Elements::UserInput.new
-          @introduction_to_input.changed do |element, event|
-            @introduction.introduction_to = @introduction_to_input.user
+          @user_target_input = Pike::Elements::UserInput.new
+          @user_target_input.changed do |element, event|
+            @introduction.user_target = @user_target_input.user
           end
 
           @message_input = RubyApp::Elements::Inputs::MultilineInput.new

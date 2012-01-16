@@ -8,6 +8,9 @@ require 'ruby_app/application'
 require 'ruby_app/themes/mobile'
 
 module Pike
+  require 'pike/models/system/observers/activity_observer'
+  require 'pike/models/system/observers/friendship_observer'
+  require 'pike/models/system/observers/project_observer'
 
   class Application < RubyApp::Application
 
@@ -20,16 +23,20 @@ module Pike
     def start!
       super
 
-      RubyApp::Log.debug("#{self.class}##{__method__}")
-
       Sass::Plugin.options[:load_paths] += [File.expand_path(File.join(File.dirname(__FILE__), %w[elements]))]
 
       @connection = Mongo::Connection.new(Pike::Application.configure.mongoid.host,
                                           Pike::Application.configure.mongoid.port)
 
       Mongoid.configure do |config|
+        config.logger = RubyApp::Log.get
         config.master = @connection.db(Pike::Application.configure.mongoid.database)
       end
+
+      Mongoid.observers = Pike::System::Observers::ActivityObserver,
+                          Pike::System::Observers::FriendshipObserver,
+                          Pike::System::Observers::ProjectObserver
+      Mongoid.instantiate_observers
 
     end
 

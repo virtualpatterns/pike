@@ -75,7 +75,7 @@ module Pike
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
                   @work.finish! if @work.started?
-                  @work.task.destroy!
+                  @work.task.destroy
                   Pike::Session.pages.pop
                   _event.refresh
                 end

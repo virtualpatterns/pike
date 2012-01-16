@@ -17,19 +17,30 @@
     #{__FILE__}
   %div.properties
     %div.property
-      %div.name.last
+      %div.name
         %label{:for => @name_input.element_id}
           Name
-      %div.value.last
+      %div.value
         = @name_input.render(:html) do |element|
-          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
+          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name', :disabled => @project.copy_of ? true : false)
+        - if @project.copy_of
+          %div.instructions
+            :markdown
+              Names of shared projects cannot be changed and they cannot be re-shared.
+    %div.property
+      %div.name.last
+        %label{:for => @is_shared_input.element_id}
+          Shared
+      %div.value.last
+        = @is_shared_input.render(:html) do |element|
+          - element.attributes.merge!(:autofocus => false, :disabled => @project.copy_of ? true : false)
   = @properties.render(:html)
-  - unless @project.new?
+  - unless @project.new? || @project.copy_of
     %div.properties
       %div.property
         %div.name.last
           &nbsp;
         %div.buttons.last
           = @delete_button.render(:html) do |element|
-            - element.attributes.merge!(:class => 'delete')
+            - element.attributes.merge!(:class => 'delete', :disabled => @project.copy_of ? true : false)
             - element.content_for(:body, 'Delete Project')
