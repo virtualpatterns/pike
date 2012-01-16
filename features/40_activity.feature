@@ -48,9 +48,9 @@ Feature: Activity Functionality
     Then I should not see "Activity 1"
 
   Scenario: Delete an in-use activity
-    Given I create the first project "Activity 1"
+    Given I create the first project "Project 1"
     And I create the first activity "Activity 1"
-    And I create the first task with project "Activity 1" and activity "Activity 1"
+    And I create the first task with project "Project 1" and activity "Activity 1"
     And I click "More ..."
     And I click "Activities"
     And I click "Activity 1"

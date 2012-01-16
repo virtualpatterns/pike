@@ -2,5 +2,5 @@
   /
     #{__FILE__}
   - item.reload
-  %div.friend{:user => item.url}
-    = item.url
+  %div.friend{:user => item.user_target.url}
+    = item.user_target.url

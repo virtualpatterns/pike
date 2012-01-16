@@ -5,6 +5,7 @@ require 'ruby_app/elements/button'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/input'
+require 'ruby_app/elements/inputs/toggle_input'
 require 'ruby_app/elements/navigation/back_button'
 
 module Pike
@@ -42,6 +43,12 @@ module Pike
             @project.name = @name_input.value
           end
 
+          @is_shared_input = RubyApp::Elements::Inputs::ToggleInput.new
+          @is_shared_input.value = @project.is_shared
+          @is_shared_input.changed do |element, event|
+            @project.is_shared = @is_shared_input.value
+          end
+
           @properties = Pike::Elements::Properties.new(:project_properties, @project)
 
           @delete_button = RubyApp::Elements::Button.new
@@ -49,7 +56,7 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this project?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  @project.destroy!
+                  @project.destroy
                   Pike::Session.pages.pop
                   _event.refresh
                 end

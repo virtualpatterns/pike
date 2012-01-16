@@ -29,7 +29,7 @@ module Pike
 
           @add_button = RubyApp::Elements::Button.new
           @add_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::IntroductionEditPage.new(Pike::Session.identity.user.introductions_to.new))
+            Pike::Session.pages.push(Pike::Elements::Pages::IntroductionEditPage.new(Pike::Session.identity.user.introductions_as_source.new))
             event.refresh
           end
 
@@ -49,7 +49,7 @@ module Pike
           @content.clicked do |element, event|
             case event.name
               when 'add_friend'
-                Pike::Session.pages.push(Pike::Elements::Pages::IntroductionEditPage.new(Pike::Session.identity.user.introductions_to.new))
+                Pike::Session.pages.push(Pike::Elements::Pages::IntroductionEditPage.new(Pike::Session.identity.user.introductions_as_source.new))
                 event.refresh
             end
           end

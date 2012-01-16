@@ -18,10 +18,10 @@ module Pike
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(user)
+        def initialize(friendship)
           super()
 
-          @user = user
+          @friendship = friendship
 
           @cancel_button = RubyApp::Elements::Navigation::BackButton.new
 
@@ -30,7 +30,12 @@ module Pike
             Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this friend?')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
-                  Pike::Session.identity.user.pull(:friend_ids, user.id)
+                  Pike::Friendship.where_friendship(@friendship.user_source, @friendship.user_target).each do |_friendship|
+                    _friendship.destroy
+                  end
+                  Pike::Friendship.where_friendship(@friendship.user_target, @friendship.user_source).each do |_friendship|
+                    _friendship.destroy
+                  end
                   Pike::Session.pages.pop
                   _event.refresh
                 end

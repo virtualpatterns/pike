@@ -1,4 +1,8 @@
 - self.content_for(:item) do |_for, item, index|
   /
     #{__FILE__}
-  = item.name
+  %div.project
+    = item.name
+    - if item.copy_of
+      %div.details
+        Shared by #{item.copy_of.user.url}

@@ -14,11 +14,7 @@ module Pike
 
       def initialize
         super
-      end
-
-      def render(format)
-        self.items = Pike::Session.identity.user.friends.all if format == :html
-        super(format)
+        self.items = Pike::Session.identity.user.friendships_as_source.all
       end
 
     end

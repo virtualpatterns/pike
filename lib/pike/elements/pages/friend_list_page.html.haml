@@ -15,15 +15,15 @@
   /
     #{__FILE__}
   - Pike::Session.identity.user.reload
-  - introductions_count = Pike::Session.identity.user.introductions_from.count
-  - friends_count = Pike::Session.identity.user.friends.count
-  - unless introductions_count <= 0 && friends_count <= 0
-    - unless introductions_count <= 0
+  - introductions_exist = Pike::Session.identity.user.introductions_as_target.exists?
+  - friends_exist = Pike::Session.identity.user.friendships_as_source.exists?
+  - if introductions_exist || friends_exist
+    - if introductions_exist
       %div.title
         Introductions
       = @introduction_list.render(:html)
-    - unless friends_count <= 0
-      - unless introductions_count <= 0
+    - if friends_exist
+      - if introductions_exist
         %div.title
           Friends
       = @friend_list.render(:html)

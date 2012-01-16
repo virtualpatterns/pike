@@ -1,8 +1,8 @@
 - self.content_for(:item) do |_for, item, index|
   /
     #{__FILE__}
-  %div.introduction{:user => item.introduction_from.url}
+  %div.introduction{:user => item.user_source.url}
     %div.from
-      = item.introduction_from.url
+      = item.user_source.url
     %div.message
       = item.message
