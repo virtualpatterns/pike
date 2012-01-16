@@ -61,38 +61,30 @@ namespace :pike do
 
     desc 'Run the daemon'
     task :run do |task|
-      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'daemon',
-                                                                              :ARGV       => ['run'],
-                                                                              :dir_mode   => :normal,
-                                                                              :dir        => File.join(File.dirname(__FILE__), 'pid'),
-                                                                              :multiple   => false,
-                                                                              :mode       => :load,
-                                                                              :backtrace  => true,
-                                                                              :monitor    => false)
+      run_daemon(['run'])
     end
 
     desc 'Start the daemon'
     task :start do |task|
-      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'daemon',
-                                                                              :ARGV       => ['start'],
-                                                                              :dir_mode   => :normal,
-                                                                              :dir        => File.join(File.dirname(__FILE__), 'pid'),
-                                                                              :multiple   => false,
-                                                                              :mode       => :load,
-                                                                              :backtrace  => true,
-                                                                              :monitor    => false)
+      run_daemon(['start'])
     end
 
     desc 'Stop the daemon'
     task :stop do |task|
-      Daemons.run(File.join(File.dirname(__FILE__), 'lib pike daemon.rb'),  :app_name   => 'daemon',
-                                                                            :ARGV       => ['stop'],
-                                                                            :dir_mode   => :normal,
-                                                                            :dir        => File.join(File.dirname(__FILE__), 'pid'),
-                                                                            :multiple   => false,
-                                                                            :mode       => :load,
-                                                                            :backtrace  => true,
-                                                                            :monitor    => false)
+      run_daemon(['stop'])
+    end
+
+    def run_daemon(arguments)
+      pid_path = File.join(File.dirname(__FILE__), 'pid')
+      Dir.mkdir(pid_path) unless File.exists?(pid_path)
+      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
+                                                                              :ARGV       => arguments,
+                                                                              :dir_mode   => :normal,
+                                                                              :dir        => pid_path,
+                                                                              :multiple   => false,
+                                                                              :mode       => :load,
+                                                                              :backtrace  => true,
+                                                                              :monitor    => false)
     end
 
   end

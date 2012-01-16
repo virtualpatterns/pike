@@ -12,4 +12,5 @@ coverage
 data
 deployment
 log
+pid
 sandbox
