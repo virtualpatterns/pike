@@ -27,6 +27,9 @@ module Pike
 
       default_scope order_by([:created_at, :asc])
 
+      def process!
+      end
+
     end
 
   end
