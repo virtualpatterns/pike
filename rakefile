@@ -2,8 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'chronic'
-require 'fileutils'
-require 'logrotate'
+require 'daemons'
 require 'rake'
 require 'terminal-table'
 
@@ -58,6 +57,38 @@ namespace :pike do
     system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
   end
 
+  namespace :daemon do
+
+    desc 'Run the daemon'
+    task :run do |task|
+      run_daemon(['run'])
+    end
+
+    desc 'Start the daemon'
+    task :start do |task|
+      run_daemon(['start'])
+    end
+
+    desc 'Stop the daemon'
+    task :stop do |task|
+      run_daemon(['stop'])
+    end
+
+    def run_daemon(arguments)
+      pid_path = File.join(File.dirname(__FILE__), 'pid')
+      Dir.mkdir(pid_path) unless File.exists?(pid_path)
+      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
+                                                                              :ARGV       => arguments,
+                                                                              :dir_mode   => :normal,
+                                                                              :dir        => pid_path,
+                                                                              :multiple   => false,
+                                                                              :mode       => :load,
+                                                                              :backtrace  => true,
+                                                                              :monitor    => false)
+    end
+
+  end
+
   namespace :data do
 
     desc 'Dump database'
@@ -100,26 +131,6 @@ namespace :pike do
 
       desc 'Process all actions'
       task :process_all do |task|
-        puts Time.now
-        begin
-          pid_file = File.join(File.dirname(__FILE__), %w[pids pike_data_actions_process_all.pid])
-          result = run_one(pid_file) do
-              Pike::Application.create_default!
-              Pike::System::Action.all.each do |action|
-                print "  Processing #{action.id} ... "
-                begin
-                  action.process!
-                rescue Exception => exception
-                  puts exception.message
-                else
-                  puts "done"
-                end
-              end
-          end
-          puts "  #{pid_file} exists!" unless result
-        rescue Exception => exception
-          puts "  #{exception.message}"
-        end
       end
 
     end
@@ -352,39 +363,4 @@ namespace :pike do
 
   end
 
-  namespace :schedule do
-
-    desc 'Show the schedule in crontab format'
-    task :print do |task|
-      system("bundle exec whenever --load-file schedule.rb")
-    end
-
-    desc 'Install the schedule'
-    task :install do |task|
-      system("bundle exec whenever --load-file schedule.rb --write-crontab pike")
-    end
-
-    desc 'Uninstall the schedule'
-    task :uninstall do |task|
-      system("bundle exec whenever --load-file schedule.rb --clear-crontab pike")
-    end
-
-  end
-
-end
-
-def run_one(path)
-  directory = File.dirname(path)
-  FileUtils.mkdir(directory) unless File.exists?(directory)
-  unless File.exists?(path)
-    File.open(path, 'w') { |file| file.write(Process.pid) }
-    begin
-      yield
-    ensure
-      FileUtils.rm(path)
-    end
-    return true
-  else
-    return false
-  end
 end
