@@ -44,7 +44,7 @@ namespace :pike do
   end
 
   desc 'Push to development and increment version'
-  task :push do |task|
+  task :push => ['ruby_app:cache:create'] do |task|
     system "git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development"
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
@@ -172,13 +172,11 @@ namespace :pike do
         table = Terminal::Table.new(:title => 'Users',
                                     :headings => ['Id',
                                                   'URL',
-                                                  'Friends',
                                                   'Created',
                                                   'Updated']) do |table|
           Pike::User.all.each do |user|
             table.add_row([user.id,
                            user.url,
-                           user.friend_ids.join('\n'),
                            user.created_at,
                            user.updated_at])
           end
@@ -359,6 +357,22 @@ namespace :pike do
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
 
+    end
+
+  end
+
+  namespace :cache do
+
+    desc 'Create element cache'
+    task :create do |task|
+      Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]), File.join(File.dirname(__FILE__), %w[lib]))
+      system "git commit --all --message='Creating element cache'"
+    end
+
+    desc 'Delete element cache'
+    task :destroy do |task|
+      RubyApp::Application.destroy_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]))
+      system "git commit --all --message='Deleting element cache'"
     end
 
   end

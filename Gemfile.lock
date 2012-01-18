@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.0.69)
+    RubyApp (0.0.72)
       BlueCloth
       chronic
       chronic_duration
@@ -49,7 +49,7 @@ GEM
       gherkin (~> 2.7.1)
       json (>= 1.4.6)
       term-ansicolor (>= 1.0.6)
-    daemons (1.1.5)
+    daemons (1.1.6)
     diff-lcs (1.1.3)
     facets (2.9.3)
     ffi (1.0.11)
