@@ -1,0 +1,15 @@
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/themes/mobile/input.css.haml */
+input[type="text"] {
+  background: inherit;
+  border: 0px;
+  color: inherit;
+  font-size: inherit;
+  padding: 0px; }
+/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/base/base_dialog.css.haml */
+body > div.overlay > div.dialog {
+  position: absolute;
+  width: 40%; }
+/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
+body > div.overlay > div.dialog > div.footer {
+  text-align: right;
+  width: 100%; }
