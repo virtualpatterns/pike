@@ -1,0 +1,56 @@
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.css.haml */
+ul.list {
+  list-style-type: none;
+  margin: 0px;
+  padding-left: 0px; }
+  ul.list > li {
+    margin-bottom: 2px; }
+  ul.list > li.flag, ul.list > li.total {
+    font-size: 10pt;
+    background-color: #505050;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px; }
+  ul.list > li.total {
+    background-color: #044c29;
+    color: white; }
+  ul.list > li.item > div.item {
+    display: table;
+    width: 100%; }
+    ul.list > li.item > div.item > a {
+      color: inherit;
+      display: table-cell;
+      font-weight: inherit;
+      vertical-align: middle; }
+    ul.list > li.item > div.item > a.start {
+      background-image: url("/pike/resources/elements/work_list.png");
+      background-position: right center;
+      background-repeat: no-repeat;
+      background-size: 30px;
+      width: 40px; }
+    ul.list > li.item > div.item > a.started {
+      background-image: url("/pike/resources/elements/work_list.started.png"); }
+    ul.list > li.item > div.item > a.edit div.task_work {
+      padding: 5px 10px;
+      display: table;
+      width: 100%; }
+      ul.list > li.item > div.item > a.edit div.task_work > div {
+        display: table-cell;
+        vertical-align: middle; }
+      ul.list > li.item > div.item > a.edit div.task_work > div.task > div.activity {
+        font-size: 10pt; }
+      ul.list > li.item > div.item > a.edit div.task_work > div.work {
+        text-align: right; }
+  ul.list > li.even {
+    background-color: #282828;
+    border-radius: 5px;
+    color: white; }
+  ul.list > li.odd {
+    background-color: inherit;
+    border-radius: 5px;
+    color: white; }
+  ul.list > li.started {
+    background-color: #167f39;
+    border-radius: 5px;
+    color: white; }
+
