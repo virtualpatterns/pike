@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -121,11 +121,28 @@ div.task_work.odd {
   background-color: inherit;
   border-radius: 5px;
   color: white; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/base/base_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/base/base_dialog.css.haml */
 body > div.overlay > div.dialog {
   position: absolute;
   width: 40%; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/dialogs/calendars/month_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/dialog.css.haml */
+body > div.overlay > div.dialog {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 80%; }
+  body > div.overlay > div.dialog a {
+    color: #196573;
+    font-weight: bold;
+    text-decoration: inherit; }
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/dialogs/blank_dialog.css.haml */
+body > div.overlay > div.dialog > div.title {
+  font-weight: bold;
+  padding-bottom: 10px; }
+body > div.overlay > div.dialog > div.footer {
+  padding-top: 10px; }
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/dialogs/calendars/month_dialog.css.haml */
 body > div.overlay > div.dialog > div.footer > div.buttons {
   display: table;
   width: 100%; }
@@ -135,15 +152,31 @@ body > div.overlay > div.dialog > div.footer > div.buttons {
     text-align: left; }
   body > div.overlay > div.dialog > div.footer > div.buttons > div.right {
     text-align: right; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/calendars/base/base_month.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/calendars/base/base_month.css.haml */
 div.month td {
   text-align: center;
   vertical-align: middle; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/base/base_dialog.css.haml */
-body > div.overlay > div.dialog {
-  position: absolute;
-  width: 40%; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/calendars/month.css.haml */
+div.month > table > tbody > tr > td {
+  width: 30px;
+  height: 20px; }
+div.month > table > tbody > tr > td.current {
+  background-color: #196573;
+  border: 2px solid #196573;
+  border-radius: 10px;
+  color: white; }
+div.month > table > tbody > tr > td.today {
+  border: 2px solid #196573;
+  border-radius: 10px;
+  color: #196573; }
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
 body > div.overlay > div.dialog > div.footer {
   text-align: right;
   width: 100%; }
+
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/dialogs/close_dialog.css.haml */
+body > div.overlay > div.dialog > div.title {
+  font-weight: bold;
+  padding-bottom: 10px; }
+body > div.overlay > div.dialog > div.footer {
+  padding-top: 10px; }

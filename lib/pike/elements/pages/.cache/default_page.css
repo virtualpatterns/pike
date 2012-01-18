@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -102,15 +102,18 @@ div.version {
   text-align: center;
   font-size: 10pt; }
 
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/base/base_dialog.css.haml */
-body > div.overlay > div.dialog {
-  position: absolute;
-  width: 40%; }
-/* /Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
 body > div.overlay > div.dialog > div.footer {
   text-align: right;
   width: 100%; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.73/lib/ruby_app/themes/mobile/markdown.css.haml */
+
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/dialogs/close_dialog.css.haml */
+body > div.overlay > div.dialog > div.title {
+  font-weight: bold;
+  padding-bottom: 10px; }
+body > div.overlay > div.dialog > div.footer {
+  padding-top: 10px; }
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.74/lib/ruby_app/themes/mobile/markdown.css.haml */
 div.markdown h1 {
   margin-top: 0px; }
 div.markdown li {
