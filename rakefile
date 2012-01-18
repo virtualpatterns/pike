@@ -366,7 +366,7 @@ namespace :pike do
     desc 'Create element cache'
     task :create do |task|
       Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]), File.join(File.dirname(__FILE__), %w[lib]))
-      system "git commit --all --message='Creating element cache'"
+      system "find . -name '.cache' | xargs git add; git commit --all --message='Creating element cache'"
     end
 
     desc 'Delete element cache'
