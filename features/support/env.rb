@@ -13,7 +13,7 @@ Capybara.register_driver :pike do |app|
 end
 
 Capybara.default_driver = :pike
-Capybara.app_host = 'http://localhost:8008'
+Capybara.app_host = 'http://localhost:8080'
 
 World(Capybara)
 
