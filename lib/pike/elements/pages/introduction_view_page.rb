@@ -28,7 +28,7 @@ module Pike
 
           @accept_button = RubyApp::Elements::Button.new
           @accept_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will appear momentarily.')) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will be added momentarily.')) do |_event, response|
               if response
                 RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
                   @introduction.accept!
