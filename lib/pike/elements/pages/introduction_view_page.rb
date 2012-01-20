@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ruby_app/elements/button'
+require 'ruby_app/elements/dialogs/acknowledgement_dialog'
 require 'ruby_app/elements/dialogs/confirmation_dialog'
 require 'ruby_app/elements/dialogs/exception_dialog'
 require 'ruby_app/elements/navigation/back_button'
@@ -27,10 +28,14 @@ module Pike
 
           @accept_button = RubyApp::Elements::Button.new
           @accept_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              @introduction.accept!
-              Pike::Session.pages.pop
-              event.refresh
+            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will be added momentarily.')) do |_event, response|
+              if response
+                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                  @introduction.accept!
+                  Pike::Session.pages.pop
+                  _event.refresh
+                end
+              end
             end
           end
 
