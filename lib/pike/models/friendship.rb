@@ -21,6 +21,16 @@ module Pike
     scope :where_friendship, lambda { |user_source, user_target| where(:user_source_id => user_source.id).where(:user_target_id => user_target.id) }
     scope :where_user_target, lambda { |user_target| where(:user_target_id => user_target.id) }
 
+    field :_user_target_url, :type => String
+
+    default_scope order_by([:_user_target_url, :asc])
+
+    protected
+
+      def on_before_save
+        self._user_target_url = self.user_target.url.downcase if self.user_target_id_changed?
+      end
+
   end
 
 end
