@@ -44,7 +44,7 @@ module Pike
 
           @logon_button = RubyApp::Elements::Button.new
           @logon_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::Authentication::OpenID::GoogleAuthenticationPage.new)
+            Pike::Session.pages.push(Pike::Elements::Pages::Authentication::OpenId::GoogleAuthenticationPage.new)
             event.refresh
           end
 

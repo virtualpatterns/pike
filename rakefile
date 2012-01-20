@@ -29,12 +29,12 @@ namespace :pike do
   end
 
   desc 'Run'
-  task :run do |task|
+  task :run => ['pike:cache:create'] do |task|
     system("clear; bundle exec ruby_app run")
   end
 
   desc 'Run w/ coverage report'
-  task :coverage do |task|
+  task :coverage => ['pike:cache:create'] do |task|
     system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
   end
 
@@ -44,7 +44,7 @@ namespace :pike do
   end
 
   desc 'Push to development and increment version'
-  task :push do |task|
+  task :push => ['pike:cache:create'] do |task|
     system "git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development"
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
@@ -172,13 +172,11 @@ namespace :pike do
         table = Terminal::Table.new(:title => 'Users',
                                     :headings => ['Id',
                                                   'URL',
-                                                  'Friends',
                                                   'Created',
                                                   'Updated']) do |table|
           Pike::User.all.each do |user|
             table.add_row([user.id,
                            user.url,
-                           user.friend_ids.join('\n'),
                            user.created_at,
                            user.updated_at])
           end
@@ -327,7 +325,7 @@ namespace :pike do
 
     desc 'Run all tests'
     task :all => ['test:specs',
-                  'test:features:all']
+                  'test:features']
 
     desc 'Run RSpec tests'
     task :specs, :file, :line do |task, arguments|
@@ -342,23 +340,29 @@ namespace :pike do
       end
     end
 
-    namespace :features do
-
-      desc 'Run feature tests generating a failure file'
-      task :all do |task|
-        system("bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt; cat failures_out.txt")
-      end
-
-      desc 'Rerun failed feature tests'
-      task :failures do |task|
-        system("mv failures_out.txt failures_in.txt; bundle exec cucumber --format rerun --tags ~@broken --require features --out failures_out.txt @failures_in.txt; cat failures_out.txt")
-      end
-
-      desc 'Run feature tests for the given feature file'
-      task :one, :file do |task, arguments|
+    desc 'Run feature tests for all features or the given feature file'
+    task :features, :file do |task, arguments|
+      unless arguments.file
+        system("bundle exec cucumber --format pretty --tags ~@broken --require features")
+      else
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
+    end
 
+  end
+
+  namespace :cache do
+
+    desc 'Create element cache'
+    task :create => ['pike:cache:destroy'] do |task|
+      Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements pages]), File.join(File.dirname(__FILE__), %w[lib]))
+      system "find . -name '.cache' | xargs git add; git commit --all --message='Updating element cache'"
+    end
+
+    desc 'Delete element cache'
+    task :destroy do |task|
+      Pike::Application.destroy_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]))
+      system "git commit --all --message='Deleting element cache'"
     end
 
   end
