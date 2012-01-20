@@ -77,7 +77,8 @@ namespace :pike do
 
     desc 'Restart the daemon'
     task :restart => ['pike:daemon:stop',
-                      'pike:daemon:start']
+                      'pike:daemon:start'] do
+    end
 
     def run_daemon(arguments)
       pid_path = File.join(File.dirname(__FILE__), 'pid')
