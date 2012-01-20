@@ -11,11 +11,11 @@ module Pike
 
       module Authentication
 
-        module OpenID
+        module OpenId
           require 'pike/models'
           require 'pike/session'
 
-          class GoogleAuthenticationPage < RubyApp::Elements::Pages::Authentication::OpenID::GoogleAuthenticationPage
+          class GoogleAuthenticationPage < RubyApp::Elements::Pages::Authentication::OpenId::GoogleAuthenticationPage
 
             template_path(:all, File.dirname(__FILE__))
 
