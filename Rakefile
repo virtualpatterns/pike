@@ -29,7 +29,8 @@ namespace :pike do
   end
 
   desc 'Run'
-  task :run => ['pike:cache:create'] do |task|
+  task :run => ['pike:cache:create',
+                'pike:daemon:restart'] do |task|
     system("clear; bundle exec ruby_app run")
   end
 
@@ -73,6 +74,10 @@ namespace :pike do
     task :stop do |task|
       run_daemon(['stop'])
     end
+
+    desc 'Restart the daemon'
+    task :restart => ['pike:daemon:stop',
+                      'pike:daemon:start']
 
     def run_daemon(arguments)
       pid_path = File.join(File.dirname(__FILE__), 'pid')
