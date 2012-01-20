@@ -29,7 +29,7 @@ namespace :pike do
   end
 
   desc 'Run'
-  task :run => ['pike:cache:create'] do |task|
+  task :run do |task|
     system("clear; bundle exec ruby_app run")
   end
 
@@ -127,10 +127,6 @@ namespace :pike do
           end
         end
         puts table
-      end
-
-      desc 'Process all actions'
-      task :process_all do |task|
       end
 
     end
@@ -239,11 +235,12 @@ namespace :pike do
     namespace :migrate do
 
       desc 'Run all migrations'
-      task :all => ['migrate:add_user_url',
-                    'migrate:add_project_name',
-                    'migrate:add_activity_name',
-                    'migrate:update_task_project_and_activity_names',
-                    'migrate:update_user_demo_to_first'] do |task|
+      task :all => ['pike:data:migrate:add_user_url',
+                    'pike:data:migrate:add_project_name',
+                    'pike:data:migrate:add_activity_name',
+                    'pike:data:migrate:update_task_project_and_activity_names',
+                    'pike:data:migrate:update_user_demo_to_first',
+                    'pike:data:migrate:add_friendship_user_target_url'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -313,6 +310,19 @@ namespace :pike do
         end
       end
 
+      desc 'Add the Pike::Friendship#_user_target_url property'
+      task :add_friendship_user_target_url do |task|
+        Pike::Application.create_default!
+        Pike::System::Migration.run(task) do
+          puts 'Pike::Friendship.all.each do |friendship| ...'
+          Pike::Friendship.all.each do |friendship|
+            puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
+            friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+          end
+          puts '... end'
+        end
+      end
+
       # Next migration ...
       #   Delete collections identities, migrations (have been prefixed with system_)
       #   ...
@@ -324,8 +334,8 @@ namespace :pike do
   namespace :test do
 
     desc 'Run all tests'
-    task :all => ['test:specs',
-                  'test:features']
+    task :all => ['pike:test:specs',
+                  'pike:test:features']
 
     desc 'Run RSpec tests'
     task :specs, :file, :line do |task, arguments|
