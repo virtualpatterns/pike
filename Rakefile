@@ -129,10 +129,6 @@ namespace :pike do
         puts table
       end
 
-      desc 'Process all actions'
-      task :process_all do |task|
-      end
-
     end
 
     namespace :identities do
