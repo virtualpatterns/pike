@@ -306,6 +306,7 @@ And /^I accept the introduction from "([^"]*)"$/ do |user|
   step 'I click "Friends"'
   step "I click \"#{user}\""
   step 'I click "Accept"'
+  step 'I click "OK"'
   step "I should see \"#{user}\""
   step 'I click "Back"'
   step 'I click "Back"'

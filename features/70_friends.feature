@@ -43,6 +43,7 @@ Feature: Friend Functionality
     And I click "Friends"
     And I click "first@pike.virtualpatterns.com"
     And I click "Accept"
+    And I click "OK"
     Then I should not see "You have no introductions and no friends."
     And I should see "first@pike.virtualpatterns.com"
     When I click "Back"
