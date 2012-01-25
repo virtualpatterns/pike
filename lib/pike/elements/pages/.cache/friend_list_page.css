@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -94,7 +94,7 @@ div.title {
   color: white;
   margin-bottom: 2px;
   padding: 5px 10px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/list.css.haml */
 ul.list {
   list-style-type: none;
   margin: 0px;
@@ -124,7 +124,7 @@ div.introduction {
     font-size: 10pt;
     padding-top: 5px; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/markdown.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/markdown.css.haml */
 div.markdown h1 {
   margin-top: 0px; }
 div.markdown li {
