@@ -42,7 +42,7 @@ namespace :pike do
     find_and_execute_task('pike:stop')
     find_and_execute_task('pike:update_only')
     find_and_execute_task('pike:start')
-    run 'tail -f /var/www/pike/current/thin/log/thin.8008.log'
+    run 'tail -f /var/www/pike/current/process/thin/log/thin.8008.log'
   end
 
   namespace :daemon do
