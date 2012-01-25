@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -49,7 +49,7 @@ a {
   color: #196573;
   font-weight: bold;
   text-decoration: inherit; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
+/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
 div.header {
   background-color: black;
   color: white;
@@ -86,7 +86,7 @@ div.content {
   position: relative; }
   div.content div.markdown {
     text-align: center; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/more_page.css.haml */
+/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/more_page.css.haml */
 div.content > div.links {
   background-color: #282828;
   border-radius: 5px;
