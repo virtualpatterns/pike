@@ -45,6 +45,10 @@ module Pike
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
 
+    def demo_user?
+      self.url =~ /pike\.virtualpatterns\.com/
+    end
+
     def self.get_user_by_url(url, create = true)
       user = Pike::User.where_url(url).first
       user = Pike::User.create!(:url => url) if create && user == nil
