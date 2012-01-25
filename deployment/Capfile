@@ -1,0 +1,94 @@
+require 'rubygems'
+require 'railsless-deploy'
+load    'config/deploy'
+
+namespace :pike do
+
+  desc 'Print version information'
+  task :version do
+    run "cd /var/www/pike/current && bundle exec rake pike:version"
+  end
+
+  desc 'Start'
+  task :start do
+    find_and_execute_task('pike:daemon:start')
+    run "cd /var/www/pike/current && mkdir --parents ./process/thin/pid && mkdir --parents ./process/thin/log && #{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'} && thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start"
+  end
+
+  desc 'Stop'
+  task :stop do
+    # BEGIN - REMOVE once deployed to staging
+    run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./thin/pid/thin.pid stop' : 'for pid in ./thin/pid/thin.*.pid; do thin --pid $pid stop; done'}"
+    # END   - REMOVE once deployed to staging
+    run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./process/thin/pid/thin.pid stop' : 'for pid in ./process/thin/pid/thin.*.pid; do thin --pid $pid stop; done'}"
+    find_and_execute_task('pike:daemon:stop')
+  end
+
+  desc 'Restart'
+  task :restart do
+    find_and_execute_task('pike:stop')
+    find_and_execute_task('pike:start')
+  end
+
+  desc 'Update without stop/start'
+  task :update_only do
+    find_and_execute_task('deploy:update')
+    sudo 'gem update'
+    find_and_execute_task('pike:data:migrate')
+  end
+
+  desc 'Update'
+  task :update do
+    find_and_execute_task('pike:stop')
+    find_and_execute_task('pike:update_only')
+    find_and_execute_task('pike:start')
+    run 'tail -f /var/www/pike/current/thin/log/thin.8008.log'
+  end
+
+  namespace :daemon do
+
+    desc 'Start the daemon'
+    task :start do |task|
+      run 'cd /var/www/pike/current && bundle exec rake pike:daemon:start'
+    end
+
+    desc 'Stop the daemon'
+    task :stop do |task|
+      run 'cd /var/www/pike/current && bundle exec rake pike:daemon:stop'
+    end
+
+  end
+
+  namespace :data do
+
+    desc 'Dump database to ./dump.tgz'
+    task :dump do
+      run 'cd /var/www/pike/current && bundle exec rake pike:data:dump'
+      download '/var/www/pike/current/dump.tgz', '.', :via=> :scp
+    end
+
+    desc 'Restore dumped database from ./dump.tgz'
+    task :restore do
+      find_and_execute_task('pike:stop')
+      upload './dump.tgz', '/var/www/pike/current', :via=> :scp
+      run 'cd /var/www/pike/current && bundle exec rake pike:data:restore'
+      find_and_execute_task('pike:start')
+    end
+
+    namespace :identities do
+
+      desc 'Expire all'
+      task :expire_all do
+        run 'cd /var/www/pike/current && bundle exec rake pike:data:identities:expire_all'
+      end
+
+    end
+
+    desc 'Migrate'
+    task :migrate do
+      run 'cd /var/www/pike/current && bundle exec rake pike:data:migrate:all'
+    end
+
+  end
+
+end

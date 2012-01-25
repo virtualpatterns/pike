@@ -7,7 +7,12 @@
   /
     #{__FILE__}
   = @date_link.render(:html) do |element|
-    - element.content_for(:body, RubyApp::Language.locale.strftime(self.first_date, Pike::Application.configure.format.date))
+    - element.content_for(:body, RubyApp::Language.locale.strftime(self.first_date, Pike::Application.configuration.format.date))
+- self.content_for(:header_right) do
+  /
+    #{__FILE__}
+  = @export_button.render(:html) do |element|
+    - element.content_for(:body, 'Export')
 - self.content_for(:content) do
   /
     #{__FILE__}
@@ -20,7 +25,7 @@
   - (0..6).each do |index|
     - date = self.first_date + index
     %div.day
-      = RubyApp::Language.locale.strftime(date, Pike::Application.configure.format.date)
+      = RubyApp::Language.locale.strftime(date, Pike::Application.configuration.format.date)
     - tasks.each do |task|
       - work = task.work.where_date(date).first
       - if work && work.duration && work.duration > 0

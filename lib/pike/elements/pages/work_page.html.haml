@@ -43,7 +43,7 @@
       %div.name
         Date
       %div.value
-        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configure.format.date)
+        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date)
     %div.property
       %div.name.last
         %label{:for => @duration_input.element_id}

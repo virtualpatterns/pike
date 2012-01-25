@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require 'chronic'
 require 'daemons'
+require 'fileutils'
 require 'rake'
 require 'terminal-table'
 
@@ -75,8 +76,10 @@ namespace :pike do
     end
 
     def run_daemon(arguments)
-      pid_path = File.join(File.dirname(__FILE__), 'pid')
-      Dir.mkdir(pid_path) unless File.exists?(pid_path)
+      pid_path = File.join(File.dirname(__FILE__), %w[process piked pid])
+      FileUtils.mkdir_p(pid_path)
+      log_path = File.join(File.dirname(__FILE__), %w[process piked log])
+      FileUtils.mkdir_p(log_path)
       Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
                                                                               :ARGV       => arguments,
                                                                               :dir_mode   => :normal,
@@ -84,7 +87,8 @@ namespace :pike do
                                                                               :multiple   => false,
                                                                               :mode       => :load,
                                                                               :backtrace  => true,
-                                                                              :monitor    => false)
+                                                                              :monitor    => false,
+                                                                              :log_dir    => log_path)
     end
 
   end

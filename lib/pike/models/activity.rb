@@ -15,7 +15,7 @@ module Pike
     after_save :on_after_save
     before_destroy :on_before_destroy
 
-    has_many :actions, :class_name => 'Pike::System::Actions::ActivityAction'
+    has_many :synchronize_actions, :class_name => 'Pike::System::Actions::ActivitySynchronizeAction'
 
     has_many   :copies,  :class_name => 'Pike::Activity', :inverse_of => :copy_of
     belongs_to :copy_of, :class_name => 'Pike::Activity', :inverse_of => :copies

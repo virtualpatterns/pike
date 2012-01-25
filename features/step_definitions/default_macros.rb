@@ -51,7 +51,7 @@ When /^I change the date from (yesterday|today|tomorrow) to (yesterday|today|tom
       to = Date.today + 1
   end
 
-  step "I click \"#{from.strftime(Pike::Application.configure.format.date)}\""
+  step "I click \"#{from.strftime(Pike::Application.configuration.format.date)}\""
 
   if from.month != to.month
     step "I click \"#{to.strftime('%b')}\""
