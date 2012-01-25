@@ -376,7 +376,6 @@ namespace :pike do
     desc 'Delete element cache'
     task :destroy do |task|
       Pike::Application.destroy_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]))
-      system "git commit --all --message='Deleting element cache'"
     end
 
   end
