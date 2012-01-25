@@ -92,6 +92,9 @@ module Pike
         end
 
         def mail_report(file)
+          RubyApp::Log.debug("#{self.class}##{__method__} Pike::Application.configuration.amazon.access_key=#{Pike::Application.configuration.amazon.access_key.inspect}")
+          RubyApp::Log.debug("#{self.class}##{__method__} Pike::Application.configuration.amazon.secret_key=#{Pike::Application.configuration.amazon.secret_key.inspect}")
+
           AWS::S3::Base.establish_connection!(:access_key_id => Pike::Application.configuration.amazon.access_key,
                                               :secret_access_key => Pike::Application.configuration.amazon.secret_key)
           name = file.gsub(Pike::ROOT, '')

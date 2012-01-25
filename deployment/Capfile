@@ -49,7 +49,7 @@ namespace :pike do
 
     desc 'Start the daemon'
     task :start do |task|
-      run 'cd /var/www/pike/current && bundle exec rake pike:daemon:start'
+      run "cd /var/www/pike/current && AMAZON_ACCESS_KEY='#{ENV['AMAZON_ACCESS_KEY']}' AMAZON_SECRET_KEY='#{ENV['AMAZON_SECRET_KEY']}' bundle exec rake pike:daemon:start"
     end
 
     desc 'Stop the daemon'

@@ -5,6 +5,7 @@ require 'mongoid'
 require 'sass/plugin'
 
 require 'ruby_app/application'
+require 'ruby_app/log'
 require 'ruby_app/themes/mobile'
 
 module Pike
@@ -20,6 +21,9 @@ module Pike
       super(options)
 
       Sass::Plugin.options[:load_paths] += [File.expand_path(File.join(File.dirname(__FILE__), %w[elements]))]
+
+      RubyApp::Log.debug("#{self.class}##{__method__} ENV['AMAZON_ACCESS_KEY']=#{ENV['AMAZON_ACCESS_KEY'].inspect}")
+      RubyApp::Log.debug("#{self.class}##{__method__} ENV['AMAZON_SECRET_KEY']=#{ENV['AMAZON_SECRET_KEY'].inspect}")
 
       self.configuration.amazon.access_key = ENV['AMAZON_ACCESS_KEY'] if ENV['AMAZON_ACCESS_KEY']
       self.configuration.amazon.secret_key = ENV['AMAZON_SECRET_KEY'] if ENV['AMAZON_SECRET_KEY']
