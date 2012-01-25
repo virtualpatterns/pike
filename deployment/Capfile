@@ -18,7 +18,7 @@ namespace :pike do
   desc 'Stop'
   task :stop do
     # BEGIN - REMOVE once deployed to staging
-    run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./thin/pid/thin.pid stop' : 'for pid in ./thin/pid/thin.*.pid; do thin --pid $pid stop; done'}"
+    run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./thin/pids/thin.pid stop' : 'for pid in ./thin/pids/thin.*.pid; do thin --pid $pid stop; done'}"
     # END   - REMOVE once deployed to staging
     run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./process/thin/pid/thin.pid stop' : 'for pid in ./process/thin/pid/thin.*.pid; do thin --pid $pid stop; done'}"
     find_and_execute_task('pike:daemon:stop')
