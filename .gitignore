@@ -5,7 +5,6 @@
 .temporary
 coverage
 data
-log
 process
 sandbox
 *.gem

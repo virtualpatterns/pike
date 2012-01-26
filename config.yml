@@ -5,8 +5,6 @@ pike:
     amazon:
       access_key: ABC
       secret_key: 123
-    mail:
-      to: frank.ficnar@gmail.com
     mongodb:
       host: localhost
       port: 27017
