@@ -7,4 +7,4 @@ Feature: About Functionality
   Scenario: View the about page
     Given I click "More ..."
     And I click "About"
-    Then I should see "Available on GitHub"
+    Then I should see "Source code available at"
