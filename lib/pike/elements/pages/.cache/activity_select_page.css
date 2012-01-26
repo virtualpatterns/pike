@@ -1,4 +1,4 @@
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.79/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.79/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -49,7 +49,7 @@ a {
   color: #196573;
   font-weight: bold;
   text-decoration: inherit; }
-/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
 div.header {
   background-color: black;
   color: white;
@@ -87,7 +87,7 @@ div.content {
   div.content div.markdown {
     text-align: center; }
 
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/lists/select.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.79/lib/ruby_app/themes/mobile/lists/select.css.haml */
 ul.select {
   background-color: #282828;
   border-radius: 5px;
@@ -108,14 +108,14 @@ ul.select {
     background-image: url("/ruby_app/resources/themes/mobile/lists/select.png");
     background-position: right center;
     background-repeat: no-repeat; }
-/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/lists/select.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/lists/select.css.haml */
 ul.select > li {
   padding: 10px; }
-/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/activity_select.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_select.css.haml */
 div.activity > div.details {
   font-size: 10pt; }
 
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.78/lib/ruby_app/themes/mobile/markdown.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.79/lib/ruby_app/themes/mobile/markdown.css.haml */
 div.markdown h1 {
   margin-top: 0px; }
 div.markdown li {
