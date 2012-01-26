@@ -7,7 +7,7 @@
   /
     #{__FILE__}
   = @date_link.render(:html) do |element|
-    - element.content_for(:body, RubyApp::Language.locale.strftime(self.first_date, Pike::Application.configuration.format.date))
+    - element.content_for(:body, RubyApp::Language.locale.strftime(self.first_date, Pike::Application.configuration.format.date.short))
 - self.content_for(:header_right) do
   /
     #{__FILE__}
@@ -26,7 +26,7 @@
   - (0..6).each do |index|
     - date = self.first_date + index
     %div.day
-      = RubyApp::Language.locale.strftime(date, Pike::Application.configuration.format.date)
+      = RubyApp::Language.locale.strftime(date, Pike::Application.configuration.format.date.short)
     - tasks.each do |task|
       - work = task.work.where_date(date).first
       - if work && work.duration && work.duration > 0

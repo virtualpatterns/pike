@@ -7,7 +7,7 @@
   /
     #{__FILE__}
   = @date_link.render(:html) do |element|
-    - element.content_for(:body, RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date))
+    - element.content_for(:body, RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
 - self.content_for(:header_right) do
   /
     #{__FILE__}

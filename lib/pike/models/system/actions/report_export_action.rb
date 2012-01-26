@@ -107,7 +107,7 @@ module Pike
                                        :secret_access_key => Pike::Application.configuration.amazon.secret_key)
           service.send_email(:to        => Pike::Application.configuration.mail.to || self.user.url,
                              :source    => '"Pike" <virtualpatterns@sympatico.ca>',
-                             :subject   => "Pike Summary For The Week Of #{self.first_date.strftime(Pike::Application.configuration.format.date)}",
+                             :subject   => "Pike Summary For The Week Of #{self.first_date.strftime(Pike::Application.configuration.format.date.short)}",
                              :text_body => "Your weekly summary is available for the next 24 hours at #{url}.")
         end
 

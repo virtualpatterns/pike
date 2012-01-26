@@ -29,6 +29,7 @@ set :secret_key,    ENV['AMAZON_SECRET_KEY']
 
 set :servers,       1
 
+set :configuration, 'default'
 set :stages,        %w[staging development development_ree]
 set :default_stage, 'development'
 require 'capistrano/ext/multistage'

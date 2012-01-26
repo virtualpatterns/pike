@@ -1,4 +1,5 @@
-set :servers, 3
+set :servers,       3
+set :configuration, 'staging'
 
 set :branch,        'staging'
 

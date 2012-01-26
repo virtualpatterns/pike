@@ -15,21 +15,21 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %div.properties
-    %div.property
-      %div.name
+  %table.properties
+    %tr.property
+      %td.name
         %label{:for => @user_target_input.element_id}
           User
-      %div.value
+      %td.value
         = @user_target_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to specify a user')
         %div.instructions
           :markdown
             Enter the user's email address.
-    %div.property
-      %div.name.last
+    %tr.property
+      %td.name
         %label{:for => @message_input.element_id}
           Message
-      %div.value.last
+      %td.value
         = @message_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => false, :placeholder => 'tap to enter a message')

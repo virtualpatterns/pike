@@ -1,19 +1,47 @@
-pike:
-  application:
-    format:
-      date: %a %b %-d
-    amazon:
-      access_key: ABC
-      secret_key: 123
-    mongodb:
-      host: localhost
-      port: 27017
-      database: pike
-  elements:
-    pages:
-      authentication:
-        open_id:
-          google_authentication_page:
-            identifier: https://www.google.com/accounts/o8/id
-            attributes:
-              email: http://schema.openid.net/contact/email
+default:
+  pike:
+    application:
+      format:
+        date:
+          long: %c
+          short: %a %b %-d
+      amazon:
+        access_key: ABC
+        secret_key: 123
+      mail:
+        to: frank.ficnar@gmail.com
+      mongodb:
+        host: localhost
+        port: 27017
+        database: pike
+    elements:
+      pages:
+        authentication:
+          open_id:
+            google_authentication_page:
+              identifier: https://www.google.com/accounts/o8/id
+              attributes:
+                email: http://schema.openid.net/contact/email
+
+staging:
+  pike:
+    application:
+      format:
+        date:
+          long: %c
+          short: %a %b %-d
+      amazon:
+        access_key: ABC
+        secret_key: 123
+      mongodb:
+        host: localhost
+        port: 27017
+        database: pike
+    elements:
+      pages:
+        authentication:
+          open_id:
+            google_authentication_page:
+              identifier: https://www.google.com/accounts/o8/id
+              attributes:
+                email: http://schema.openid.net/contact/email

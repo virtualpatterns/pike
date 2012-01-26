@@ -1,17 +1,17 @@
 /
   #{__FILE__}
-%div.properties
+%table.properties
   - @user.send(@properties).sort.each do |property|
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         = property
-      %div.value{:class => @object.read_attribute(property) ? '' : 'blank'}
+      %td.value{:class => @object.read_attribute(property) ? '' : 'blank'}
         - property_link = @property_links[property]
         = property_link.render(:html) do |element|
           - element.content_for(:body, @object.read_attribute(property) || 'tap to enter a value')
-  %div.property
-    %div.name.last
+  %tr.property
+    %td.name
       &nbsp;
-    %div.buttons.last
+    %td.buttons
       = @add_button.render(:html) do |element|
         - element.content_for(:body, 'Add Property')
