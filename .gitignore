@@ -4,7 +4,6 @@
 .sass-cache
 .temporary
 coverage
-data
 process
 sandbox
 *.gem

@@ -13,11 +13,11 @@ require 'pike/application'
 require 'pike/models'
 require 'pike/version'
 
-namespace :mongo do
+namespace :mongodb do
 
   desc 'Run MongoDB'
   task :run do |task|
-    system("clear; bundle exec mongod run --rest --quiet --config #{File.join(File.dirname(__FILE__), %w[mongod.conf])}")
+    system("clear; mkdir -p ./process/mongodb/data; mongod --dbpath ./process/mongodb/data --verbose --objcheck")
   end
 
 end
@@ -97,12 +97,12 @@ namespace :pike do
 
     desc 'Dump database'
     task :dump do |task|
-      system("rm -rf dump; bundle exec mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
+      system("rm -f dump.tgz; rm -rf dump; mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
     end
 
     desc 'Restore a dumped database'
     task :restore => ['data:drop'] do |task|
-      system("rm -rf dump; tar -xzf dump.tgz; bundle exec mongorestore --db pike --drop dump/pike;  rm -rf dump")
+      system("rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump")
     end
 
     desc 'Drop database'
@@ -191,7 +191,7 @@ namespace :pike do
       desc 'Print all projects'
       task :print_all do |task|
         Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Users',
+        table = Terminal::Table.new(:title => 'Projects',
                                     :headings => ['User',
                                                   'Id',
                                                   'Name',
@@ -214,6 +214,34 @@ namespace :pike do
 
     end
 
+    namespace :activities do
+
+      desc 'Print all activities'
+      task :print_all do |task|
+        Pike::Application.create_default!
+        table = Terminal::Table.new(:title => 'Activities',
+                                    :headings => ['User',
+                                                  'Id',
+                                                  'Name',
+                                                  'Shared?',
+                                                  'Copy of',
+                                                  'Created',
+                                                  'Updated']) do |table|
+          Pike::Activity.all.each do |activity|
+            table.add_row([activity.user.url,
+                           activity.id,
+                           activity.name,
+                           activity.shared?,
+                           activity.copy_of ? activity.copy_of.id : nil,
+                           activity.created_at,
+                           activity.updated_at])
+          end
+        end
+        puts table
+      end
+
+    end
+
     namespace :tasks do
 
       desc 'Print all tasks'
@@ -221,13 +249,17 @@ namespace :pike do
         Pike::Application.create_default!
         table = Terminal::Table.new(:title => 'Tasks',
                                     :headings => ['User',
+                                                  'Project Id',
                                                   'Project',
+                                                  'Activity Id',
                                                   'Activity']) do |table|
           Pike::User.all.each do |user|
             user.tasks.all.each do |task|
               table.add_row([task.user.url,
-                             task.project.name,
-                             task.activity.name])
+                             task.project_id,
+                             task.project ? task.project.name : nil,
+                             task.activity_id,
+                             task.activity ? task.activity.name : nil])
             end
           end
         end

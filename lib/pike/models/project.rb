@@ -30,7 +30,7 @@ module Pike
     validates_presence_of :name
     validates_uniqueness_of :name, :scope => [:user_id, :copy_of_id]
 
-    default_scope order_by([:_name, :asc])
+    default_scope order_by([:user_id, :asc], [:_name, :asc])
 
     scope :where_shared, where(:is_shared => true)
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
