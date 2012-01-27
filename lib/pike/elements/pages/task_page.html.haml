@@ -15,23 +15,23 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %div.properties
-    %div.property
-      %div.name
+  %table.properties
+    %tr.property
+      %td.name
         Project
-      %div.value{:class => @task.project ? '' : 'blank'}
+      %td.value{:class => @task.project ? '' : 'blank'}
         = @project_link.render(:html) do |element|
           - element.content_for(:body, @task.project ? @task.project.name : 'tap for a project')
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         Activity
-      %div.value{:class => @task.activity ? '' : 'blank'}
+      %td.value{:class => @task.activity ? '' : 'blank'}
         = @activity_link.render(:html) do |element|
           - element.content_for(:body, @task.activity ? @task.activity.name : 'tap for an activity')
-    %div.property
-      %div.name.last
+    %tr.property
+      %td.name
         Category
-      %div.value.last
+      %td.value
         = @flag_link.render(:html) do |element|
           - element.content_for(:body, Pike::Task::FLAG_NAMES[@task.flag])
         %div.instructions

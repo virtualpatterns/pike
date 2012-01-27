@@ -10,21 +10,21 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %div.properties
-    %div.property
-      %div.name
+  %table.properties
+    %tr.property
+      %td.name
         User
-      %div.value
+      %td.value
         = @introduction.user_source.url
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         Message
-      %div.value
+      %td.value
         = @introduction.message
-    %div.property
-      %div.name.last
+    %tr.property
+      %td.name
         &nbsp;
-      %div.buttons.last
+      %td.buttons
         = @accept_button.render(:html) do |element|
           - element.content_for(:body, 'Accept')
         = @reject_button.render(:html) do |element|

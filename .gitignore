@@ -2,11 +2,9 @@
 .DS_Store
 .idea
 .sass-cache
+.temporary
 coverage
-data
-deployment
-log
-pid
+process
 sandbox
 *.gem
 *.log

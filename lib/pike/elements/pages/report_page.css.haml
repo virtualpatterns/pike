@@ -33,7 +33,10 @@
       background-color: $odd_background
       border-radius: 5px
       color: $odd_foreground
+= RubyApp::Elements::Button.render(:css)
+= RubyApp::Elements::Dialogs::AcknowledgementDialog.render(:css)
 = RubyApp::Elements::Dialogs::Calendars::MonthDialog.render(:css)
+= RubyApp::Elements::Dialogs::ExceptionDialog.render(:css)
 = RubyApp::Elements::Dialogs::MessageDialog.render(:css)
 = RubyApp::Elements::Link.render(:css)
 = RubyApp::Elements::Navigation::BackButton.render(:css)
