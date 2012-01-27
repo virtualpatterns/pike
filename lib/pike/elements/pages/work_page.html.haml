@@ -15,23 +15,23 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %div.properties
-    %div.property
-      %div.name
+  %table.properties
+    %tr.property
+      %td.name
         Project
-      %div.value
+      %td.value
         = @project_link.render(:html) do |element|
           - element.content_for(:body, @work.task.project ? @work.task.project.name : 'tap for a project')
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         Activity
-      %div.value
+      %td.value
         = @activity_link.render(:html) do |element|
           - element.content_for(:body, @work.task.activity ? @work.task.activity.name : 'tap for an activity')
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         Category
-      %div.value
+      %td.value
         = @flag_link.render(:html) do |element|
           - element.content_for(:body, Pike::Task::FLAG_NAMES[@work.task.flag])
         %div.instructions
@@ -39,26 +39,26 @@
             **Liked** tasks appear at the top of the list.
 
             **Completed** tasks appear at the bottom of the list.
-    %div.property
-      %div.name
+    %tr.property
+      %td.name
         Date
-      %div.value
-        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configure.format.date)
-    %div.property
-      %div.name.last
+      %td.value
+        = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date.short)
+    %tr.property
+      %td.name
         %label{:for => @duration_input.element_id}
           Duration
-      %div.value.last
+      %td.value
         = @duration_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
           (e.g. 2h 30m)
   = @properties.render(:html)
-  %div.properties
-    %div.property
-      %div.name.last
+  %table.properties
+    %tr.property
+      %td.name
         &nbsp;
-      %div.buttons.last
+      %td.buttons
         = @delete_button.render(:html) do |element|
           - element.attributes.merge!(:class => 'delete')
           - element.content_for(:body, 'Delete Task')

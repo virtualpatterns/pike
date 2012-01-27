@@ -23,7 +23,7 @@ module Pike
 
     field :_user_target_url, :type => String
 
-    default_scope order_by([:_user_target_url, :asc])
+    default_scope order_by([:user_source_id, :asc], [:_user_target_url, :asc])
 
     protected
 

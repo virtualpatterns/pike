@@ -15,65 +15,22 @@ module Pike
       class FriendshipObserver < Mongoid::Observer
         observe Pike::Friendship
 
-        #def after_initialize(friendship)
-        #  # Called on Pike::Friendship#new
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def before_validation(friendship)
-        #  # Called on Pike::Friendship#save!
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def after_validation(friendship)
-        #  # Called on Pike::Friendship#save!
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def before_create(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def after_create(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def before_update(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def after_update(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
-        #def before_save(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship.url=#{friendship.url.inspect} friendship._friend_ids_change=#{friendship._friend_ids_change.inspect}")
-        #end
-
         def after_save(friendship)
-          Pike::System::Actions::ProjectAction.create!(:user_source => friendship.user_source,
-                                                       :user_target => friendship.user_target,
-                                                       :action => Pike::System::Action::ACTION_SYNC,
-                                                       :project => nil)
-          Pike::System::Actions::ActivityAction.create!(:user_source => friendship.user_source,
-                                                        :user_target => friendship.user_target,
-                                                        :action => Pike::System::Action::ACTION_SYNC,
-                                                        :project => nil)
+          Pike::System::Actions::ProjectCopyAction.create!(:user_source => friendship.user_source,
+                                                           :user_target => friendship.user_target,
+                                                           :project => nil)
+          Pike::System::Actions::ActivityCopyAction.create!(:user_source => friendship.user_source,
+                                                            :user_target => friendship.user_target,
+                                                            :project => nil)
         end
 
-        #def before_destroy(friendship)
-        #  RubyApp::Log.debug("#{self.class}##{__method__} friendship=#{friendship.inspect}")
-        #end
-
         def after_destroy(friendship)
-          Pike::System::Actions::ProjectAction.create!(:user_source => friendship.user_source,
-                                                       :user_target => friendship.user_target,
-                                                       :action => Pike::System::Action::ACTION_SYNC,
-                                                       :project => nil)
-          Pike::System::Actions::ActivityAction.create!(:user_source => friendship.user_source,
-                                                        :user_target => friendship.user_target,
-                                                        :action => Pike::System::Action::ACTION_SYNC,
-                                                        :project => nil)
+          Pike::System::Actions::ProjectCopyAction.create!(:user_source => friendship.user_source,
+                                                           :user_target => friendship.user_target,
+                                                           :project => nil)
+          Pike::System::Actions::ActivityCopyAction.create!(:user_source => friendship.user_source,
+                                                            :user_target => friendship.user_target,
+                                                            :project => nil)
         end
 
       end

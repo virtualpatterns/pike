@@ -5,37 +5,56 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %div{:style => 'text-align: center;'}
-    %div{:style => 'margin: 10px 0px 15px 0px;'}
-      Available on
-      %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
-        GitHub
-    %div{:style => 'margin: 0px 0px 10px 0px;'}
-      %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
-        %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :height=> '44', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
-    %div{:style => 'font-size: 10pt;'}
-      %div{:style => 'margin: 10px 0px 10px 0px;'}
-        RubyApp Version #{RubyApp::VERSION}
-        %br
-        Pike Version #{Pike::VERSION}
-      %div{:style => 'margin: 10px 0px 10px 0px;'}
-        You are logged on as
-        %br
-        %span{:style => 'font-weight: bold;'}
-          = RubyApp::Session.identity.url
-      %div{:style => 'margin: 10px 0px 10px 0px;'}
-        Server date/time is
-        %br
-        %span{:style => 'font-weight: bold;'}
-          = Time.now
-      %div{:style => 'margin: 10px 0px 10px 0px;'}
-        Local date/time is
-        %br
-        %span{:style => 'font-weight: bold;'}
-          = @now
-      %div{:style => 'margin: 10px 0px 10px 0px;'}
-        Server processing your session is
-        %br
-        %span{:style => 'font-weight: bold;'}
-          = Socket.gethostname
-          = RubyApp::Request.cookies['_server'] || '(unknown)'
+  %div{:style => 'font-size: 10pt; text-align: center;'}
+    Source code available at
+  %div{:style => 'margin: 15px 0px 20px 0px; text-align: center;'}
+    %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
+      %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :height=> '44', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
+  %table.properties
+    %tr.property
+      %td.name
+        Versions
+      %td.value
+        RubyApp #{RubyApp::VERSION}
+    %tr.property
+      %td.name
+        &nbsp;
+      %td.value
+        Pike #{Pike::VERSION}
+  %table.properties
+    %tr.property
+      %td.name
+        Configuration
+      %td.value
+        = ENV['RUBY_APP_CONFIGURATION'] || 'default'
+    %tr.property
+      %td.name
+        Current User
+      %td.value
+        = RubyApp::Session.identity.url
+    %tr.property
+      %td.name
+        Mail To
+      %td.value
+        = RubyApp::Application.configuration.mail.to || Pike::Session.identity.user.url
+        %div.instructions
+          :markdown
+            All mail will be sent to the address specified.
+
+  %table.properties
+    %tr.property
+      %td.name
+        Server
+      %td.value
+        = Socket.gethostname
+        = RubyApp::Request.cookies['_server']
+    %tr.property
+      %td.name
+        Remote
+      %td.value
+        = RubyApp::Language.locale.strftime(Time.now, Pike::Application.configuration.format.date.long)
+    %tr.property
+      %td.name
+        Local
+      %td.value
+        = RubyApp::Language.locale.strftime(@now, Pike::Application.configuration.format.date.long)

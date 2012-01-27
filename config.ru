@@ -22,7 +22,7 @@ use Rack::ContentLength
 
 use RubyApp::Rack::Application, :application_class => Pike::Application,
                                 :session_class => Pike::Session,
-                                :log_path => File.join(Pike::ROOT, %w[log application.log]),
+                                :log_path => File.join(Pike::ROOT, %w[process log application.log]),
                                 :configuration_paths => File.join(Pike::ROOT, %w[config.yml]),
                                 :default_language => :en,
                                 :translations_paths => File.join(Pike::ROOT, %w[translations])

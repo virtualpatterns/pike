@@ -10,9 +10,9 @@ module Pike
   module Elements
 
     module Pages
-      require 'pike/elements/pages/blank_page'
+      require 'pike/elements/pages/properties_page'
 
-      class AboutPage < Pike::Elements::Pages::BlankPage
+      class AboutPage < Pike::Elements::Pages::PropertiesPage
 
         template_path(:all, File.dirname(__FILE__))
 

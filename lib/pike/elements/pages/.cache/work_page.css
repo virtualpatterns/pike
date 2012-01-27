@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -49,7 +49,7 @@ a {
   color: #196573;
   font-weight: bold;
   text-decoration: inherit; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
+/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
 div.header {
   background-color: black;
   color: white;
@@ -86,81 +86,65 @@ div.content {
   position: relative; }
   div.content div.markdown {
     text-align: center; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/properties_page.css.haml */
-div.content > div.properties {
-  display: table;
+/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/properties_page.css.haml */
+div.content > table.properties {
   background-color: #282828;
-  border-radius: 5px;
+  border-radius: 10px;
   color: white;
   margin: 0px 0px 10px 0px;
   width: 100%; }
-  div.content > div.properties > div.property {
-    display: table-row; }
-    div.content > div.properties > div.property > div {
-      display: table-cell;
-      padding: 10px;
-      vertical-align: top; }
-    div.content > div.properties > div.property > div.name {
-      border-right: 2px solid black;
-      border-bottom: 2px solid black;
-      font-weight: bold;
-      text-align: right;
-      width: 33%; }
-    div.content > div.properties > div.property > div.name.last {
-      border-bottom: 0px; }
-    div.content > div.properties > div.property > div.value {
-      border-bottom: 2px solid black; }
-      div.content > div.properties > div.property > div.value input[type="text"], div.content > div.properties > div.property > div.value input[type="email"], div.content > div.properties > div.property > div.value textarea {
-        background: inherit;
-        border: 0px;
-        color: inherit;
-        display: block;
-        font-size: inherit;
-        margin-top: 1px;
-        padding: 0px;
-        width: 100%; }
-      div.content > div.properties > div.property > div.value textarea {
-        height: 100px; }
-      div.content > div.properties > div.property > div.value a {
-        background-image: url("/pike/resources/elements/pages/properties_page.png");
-        background-position: right center;
-        background-repeat: no-repeat;
-        color: inherit;
-        display: block;
-        font-weight: inherit; }
-      div.content > div.properties > div.property > div.value > div.instructions {
-        font-size: 10pt;
-        padding-top: 5px; }
-        div.content > div.properties > div.property > div.value > div.instructions > p {
-          margin: 0px; }
-    div.content > div.properties > div.property > div.value.blank {
-      color: #7f7f7f; }
-    div.content > div.properties > div.property > div.value.last {
-      border-bottom: 0px; }
-    div.content > div.properties > div.property > div.buttons {
-      border-bottom: 2px solid black; }
-      div.content > div.properties > div.property > div.buttons button {
-        background-color: #282828;
-        border: 2px solid white;
-        border-radius: 5px;
-        color: white;
-        display: inline;
-        font-size: 10pt;
-        font-weight: bold;
-        padding: 5px 10px; }
-      div.content > div.properties > div.property > div.buttons button.delete {
-        background-color: #7f0000;
-        border: 2px solid white;
-        color: white; }
-    div.content > div.properties > div.property > div.buttons.last {
-      border-bottom: 0px; }
+  div.content > table.properties tr.property > td {
+    padding: 10px;
+    vertical-align: top; }
+  div.content > table.properties tr.property > td.name {
+    font-weight: bold;
+    text-align: right;
+    width: 33%; }
+  div.content > table.properties tr.property > td.value input[type="text"], div.content > table.properties tr.property > td.value input[type="email"], div.content > table.properties tr.property > td.value textarea {
+    background: inherit;
+    border: 0px;
+    color: inherit;
+    display: block;
+    font-size: inherit;
+    margin-top: 1px;
+    padding: 0px;
+    width: 100%; }
+  div.content > table.properties tr.property > td.value textarea {
+    height: 100px; }
+  div.content > table.properties tr.property > td.value a {
+    background-image: url("/pike/resources/elements/pages/properties_page.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    color: inherit;
+    display: block;
+    font-weight: inherit; }
+  div.content > table.properties tr.property > td.value > div.instructions {
+    font-size: 10pt;
+    padding-top: 5px; }
+    div.content > table.properties tr.property > td.value > div.instructions > p {
+      margin: 0px; }
+  div.content > table.properties tr.property > td.value.blank {
+    color: #7f7f7f; }
+  div.content > table.properties tr.property > td.buttons button {
+    background-color: #282828;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    display: inline;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 5px 10px; }
+  div.content > table.properties tr.property > td.buttons button.delete {
+    background-color: #7f0000;
+    border: 2px solid white;
+    color: white; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/elements/base/base_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/base/base_dialog.css.haml */
 body > div.overlay > div.dialog {
   position: absolute;
   width: 40%; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/dialog.css.haml */
 body > div.overlay > div.dialog {
   background-color: white;
   color: black;
@@ -171,13 +155,13 @@ body > div.overlay > div.dialog {
     color: #196573;
     font-weight: bold;
     text-decoration: inherit; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/dialogs/blank_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/dialogs/blank_dialog.css.haml */
 body > div.overlay > div.dialog > div.title {
   font-weight: bold;
   padding-bottom: 10px; }
 body > div.overlay > div.dialog > div.footer {
   padding-top: 10px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/elements/dialogs/base/base_yes_no_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/dialogs/base/base_yes_no_dialog.css.haml */
 body > div.overlay > div.dialog > div.footer {
   text-align: right;
   width: 100%; }
@@ -186,7 +170,7 @@ body > div.overlay > div.dialog > div.footer {
   body > div.overlay > div.dialog > div.footer > a {
     padding-left: 10px; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/dialogs/yes_no_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/dialogs/yes_no_dialog.css.haml */
 body > div.overlay > div.dialog > div.title {
   font-weight: bold;
   padding-bottom: 10px; }
@@ -194,18 +178,18 @@ body > div.overlay > div.dialog > div.footer {
   padding-top: 10px; }
   body > div.overlay > div.dialog > div.footer > a {
     padding-left: 10px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/dialogs/base/base_close_dialog.css.haml */
 body > div.overlay > div.dialog > div.footer {
   text-align: right;
   width: 100%; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/dialogs/close_dialog.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/dialogs/close_dialog.css.haml */
 body > div.overlay > div.dialog > div.title {
   font-weight: bold;
   padding-bottom: 10px; }
 body > div.overlay > div.dialog > div.footer {
   padding-top: 10px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.76/lib/ruby_app/themes/mobile/input.css.haml */
+/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/input.css.haml */
 input[type="text"] {
   background: inherit;
   border: 0px;

@@ -16,20 +16,18 @@ module Pike
         def around_save(activity)
           create_action = ( activity.name_changed? || activity.is_shared_changed? ) ? true : false
           yield
-          Pike::System::Actions::ActivityAction.create!(:user_source => activity.user,
-                                                        :user_target => nil,
-                                                        :action => Pike::System::Action::ACTION_SYNC,
-                                                        :activity => activity) if create_action unless activity.copy_of
+          Pike::System::Actions::ActivityCopyAction.create!(:user_source => activity.user,
+                                                            :user_target => nil,
+                                                            :activity => activity) if create_action unless activity.copy_of
         end
 
         def around_destroy(activity)
           _activities = activity.copies.collect
           yield
           _activities.each do |_activity|
-            Pike::System::Actions::ActivityAction.create!(:user_source => nil,
-                                                          :user_target => nil,
-                                                          :action => Pike::System::Action::ACTION_DELETE,
-                                                          :activity => _activity)
+            Pike::System::Actions::ActivityDeleteAction.create!(:user_source => nil,
+                                                                :user_target => nil,
+                                                                :activity => _activity)
           end
         end
 

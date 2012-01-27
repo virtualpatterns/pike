@@ -15,8 +15,8 @@ module Pike
 
     has_many :identities, :class_name => 'Pike::System::Identity'
 
-    has_many :actions_as_source, :class_name => 'Pike::System::Action', :inverse_of => :user_source
-    has_many :actions_as_target, :class_name => 'Pike::System::Action', :inverse_of => :user_target
+    has_many :synchronize_actions_as_source, :class_name => 'Pike::System::Action', :inverse_of => :user_source
+    has_many :synchronize_actions_as_target, :class_name => 'Pike::System::Action', :inverse_of => :user_target
 
     has_many :introductions_as_source, :class_name => 'Pike::Introduction', :inverse_of => :user_source
     has_many :introductions_as_target, :class_name => 'Pike::Introduction', :inverse_of => :user_target
@@ -44,6 +44,10 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+
+    def demo_user?
+      self.url =~ /pike\.virtualpatterns\.com/
+    end
 
     def self.get_user_by_url(url, create = true)
       user = Pike::User.where_url(url).first
