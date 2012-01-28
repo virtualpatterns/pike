@@ -15,9 +15,9 @@ require 'pike/version'
 
 namespace :mongodb do
 
-  desc 'Run MongoDB'
-  task :run do |task|
-    system("clear; mkdir -p ./process/mongodb/data; mongod --dbpath ./process/mongodb/data --verbose --objcheck")
+  desc 'Start MongoDB'
+  task :start do |task|
+    system("mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --objcheck --fork")
   end
 
 end
