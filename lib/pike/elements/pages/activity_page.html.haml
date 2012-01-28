@@ -15,7 +15,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         %label{:for => @name_input.element_id}
@@ -28,19 +28,19 @@
             :markdown
               Names of shared activities cannot be changed and they cannot be re-shared.
     %tr.property
-      %td.name
+      %td.name.last
         %label{:for => @is_shared_input.element_id}
           Shared
-      %td.value
+      %td.value.last
         = @is_shared_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => false, :disabled => @activity.copy_of ? true : false)
   = @properties.render(:html)
   - unless @activity.new? || @activity.copy_of
-    %table.properties
+    %table.properties{:cellspacing => 0}
       %tr.property
-        %td.name
+        %td.name.last
           &nbsp;
-        %td.buttons
+        %td.buttons.last
           = @delete_button.render(:html) do |element|
             - element.attributes.merge!(:class => 'delete', :disabled => @activity.copy_of ? true : false)
             - element.content_for(:body, 'Delete Activity')

@@ -15,7 +15,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         Project
@@ -45,20 +45,20 @@
       %td.value
         = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date.short)
     %tr.property
-      %td.name
+      %td.name.last
         %label{:for => @duration_input.element_id}
           Duration
-      %td.value
+      %td.value.last
         = @duration_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
         %div.instructions
           (e.g. 2h 30m)
   = @properties.render(:html)
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
-      %td.name
+      %td.name.last
         &nbsp;
-      %td.buttons
+      %td.buttons.last
         = @delete_button.render(:html) do |element|
           - element.attributes.merge!(:class => 'delete')
           - element.content_for(:body, 'Delete Task')

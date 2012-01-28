@@ -1,6 +1,6 @@
 /
   #{__FILE__}
-%table.properties
+%table.properties{:cellspacing => 0}
   - @user.send(@properties).sort.each do |property|
     %tr.property
       %td.name
@@ -10,8 +10,8 @@
         = property_link.render(:html) do |element|
           - element.content_for(:body, @object.read_attribute(property) || 'tap to enter a value')
   %tr.property
-    %td.name
+    %td.name.last
       &nbsp;
-    %td.buttons
+    %td.buttons.last
       = @add_button.render(:html) do |element|
         - element.content_for(:body, 'Add Property')

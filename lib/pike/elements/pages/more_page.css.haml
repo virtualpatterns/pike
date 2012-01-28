@@ -8,7 +8,9 @@
         border-radius: 10px
         color: $properties_foreground
         margin: 0px 0px 10px 0px
+        width: 100%
         > div.link
+          border-bottom: 2px solid $properties_border
           padding: 10px
           a
             background-image: url('/pike/resources/elements/pages/properties_page.png')
@@ -17,6 +19,7 @@
             color: inherit
             display: block
         > div.link:last-child
+          border-bottom: inherit
 = RubyApp::Elements::Button.render(:css)
 = RubyApp::Elements::Link.render(:css)
 = RubyApp::Elements::Navigation::BackButton.render(:css)
