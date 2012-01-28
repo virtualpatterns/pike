@@ -10,16 +10,16 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         User
       %td.value
         = @friendship.user_target.url
     %tr.property
-      %td.name
+      %td.name.last
         &nbsp;
-      %td.buttons
+      %td.buttons.last
         = @delete_button.render(:html) do |element|
           - element.attributes.merge!(:class => 'delete')
           - element.content_for(:body, 'Remove Friend')

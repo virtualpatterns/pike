@@ -15,7 +15,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       - if @property
         %td.name
@@ -38,9 +38,9 @@
           - element.attributes.merge!(:autofocus => @property ? true : false, :placeholder => 'tap to enter a value')
     - if @property
       %tr.property
-        %td.name
+        %td.name.last
           &nbsp;
-        %td.buttons
+        %td.buttons.last
           = @delete_button.render(:html) do |element|
             - element.attributes.merge!(:class => 'delete')
             - element.content_for(:body, 'Remove Property')

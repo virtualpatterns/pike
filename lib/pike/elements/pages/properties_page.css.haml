@@ -14,10 +14,15 @@
             padding: 10px
             vertical-align: top
           > td.name
+            border-right: 2px solid $properties_border
+            border-bottom: 2px solid $properties_border
             font-weight: bold
             text-align: right
             width: 33%
+          > td.name.last
+            border-bottom: inherit
           > td.value
+            border-bottom: 2px solid $properties_border
             input[type="text"], input[type="email"], textarea
               background: inherit
               border: 0px
@@ -43,7 +48,10 @@
                 margin: 0px
           > td.value.blank
             color: $blank_foreground
+          > td.value.last
+            border-bottom: inherit
           > td.buttons
+            border-bottom: 2px solid $properties_border
             button
               background-color: $properties_background
               border: 2px solid $button_border
@@ -58,4 +66,6 @@
               background-color: $delete_background
               border: 2px solid $delete_border
               color: $delete_foreground
+          > td.buttons.last
+            border-bottom: inherit
 = yield

@@ -1,4 +1,4 @@
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/base/base_page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/elements/base/base_page.css.haml */
 body > div.overlay {
   display: none;
   height: 100%;
@@ -24,7 +24,7 @@ body > div.wait {
     width: 48px; }
 body > ul.log {
   display: none; }
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/page.css.haml */
 body {
   background-color: black;
   color: white;
@@ -49,7 +49,7 @@ a {
   color: #196573;
   font-weight: bold;
   text-decoration: inherit; }
-/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/blank_page.css.haml */
 div.header {
   background-color: black;
   color: white;
@@ -86,7 +86,7 @@ div.content {
   position: relative; }
   div.content div.markdown {
     text-align: center; }
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/list.css.haml */
 ul.list {
   list-style-type: none;
   margin: 0px;
@@ -106,13 +106,13 @@ ul.list {
     background-color: inherit;
     border-radius: 5px;
     color: white; }
-/* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/project_list.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list.css.haml */
 div.project {
   padding: 5px 10px; }
   div.project > div.details {
     font-size: 10pt; }
 
-/* /Users/frank.ficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/markdown.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.0.80/lib/ruby_app/themes/mobile/markdown.css.haml */
 div.markdown h1 {
   margin-top: 0px; }
 div.markdown li {

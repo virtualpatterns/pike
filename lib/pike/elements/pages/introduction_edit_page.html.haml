@@ -15,7 +15,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         %label{:for => @user_target_input.element_id}
@@ -27,9 +27,9 @@
           :markdown
             Enter the user's email address.
     %tr.property
-      %td.name
+      %td.name.last
         %label{:for => @message_input.element_id}
           Message
-      %td.value
+      %td.value.last
         = @message_input.render(:html) do |element|
           - element.attributes.merge!(:autofocus => false, :placeholder => 'tap to enter a message')

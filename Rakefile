@@ -15,9 +15,9 @@ require 'pike/version'
 
 namespace :mongodb do
 
-  desc 'Run MongoDB'
-  task :run do |task|
-    system("clear; mkdir -p ./process/mongodb/data; mongod --dbpath ./process/mongodb/data --verbose --objcheck")
+  desc 'Start MongoDB'
+  task :start do |task|
+    system("mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --objcheck --fork")
   end
 
 end
@@ -103,6 +103,7 @@ namespace :pike do
     desc 'Restore a dumped database'
     task :restore => ['data:drop'] do |task|
       system("rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump")
+      Rake::Task['pike:data:migrate:all'].invoke
     end
 
     desc 'Drop database'
@@ -276,7 +277,8 @@ namespace :pike do
                     'pike:data:migrate:add_activity_name',
                     'pike:data:migrate:update_task_project_and_activity_names',
                     'pike:data:migrate:update_user_demo_to_first',
-                    'pike:data:migrate:add_friendship_user_target_url'] do |task|
+                    'pike:data:migrate:add_friendship_user_target_url',
+                    'pike:data:migrate:remove_identities_and_migrations_collections'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -359,8 +361,21 @@ namespace :pike do
         end
       end
 
+      desc 'Remove the identities and migrations collections'
+      task :remove_identities_and_migrations_collections do |task|
+        Pike::Application.create_default!
+        Pike::System::Migration.run(task) do
+          database = Mongoid.configure.database
+          puts 'database.drop_collection(\'identities\') ...'
+          database.drop_collection('identities')
+          puts '... done'
+          puts 'database.drop_collection(\'migrations\') ...'
+          database.drop_collection('migrations')
+          puts '... done'
+        end
+      end
+
       # Next migration ...
-      #   Delete collections identities, migrations (have been prefixed with system_)
       #   ...
 
     end

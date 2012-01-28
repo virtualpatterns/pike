@@ -8,5 +8,6 @@ process
 sandbox
 *.gem
 *.log
+*.pem
 *.pid
 dump.tgz

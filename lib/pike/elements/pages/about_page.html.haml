@@ -6,42 +6,42 @@
   /
     #{__FILE__}
   %div{:style => 'font-size: 10pt; text-align: center;'}
-    Source code available at
+    Source code available on
   %div{:style => 'margin: 15px 0px 20px 0px; text-align: center;'}
     %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
       %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :height=> '44', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         Versions
       %td.value
         RubyApp #{RubyApp::VERSION}
     %tr.property
-      %td.name
+      %td.name.last
         &nbsp;
-      %td.value
+      %td.value.last
         Pike #{Pike::VERSION}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         Configuration
       %td.value
         = ENV['RUBY_APP_CONFIGURATION'] || 'default'
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
-        Current User
+        User
       %td.value
         = RubyApp::Session.identity.url
     %tr.property
-      %td.name
-        Mail To
-      %td.value
+      %td.name.last
+        To
+      %td.value.last
         = RubyApp::Application.configuration.mail.to || Pike::Session.identity.user.url
         %div.instructions
           :markdown
             All mail will be sent to the address specified.
-
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         Server
@@ -54,7 +54,7 @@
       %td.value
         = RubyApp::Language.locale.strftime(Time.now, Pike::Application.configuration.format.date.long)
     %tr.property
-      %td.name
+      %td.name.last
         Local
-      %td.value
+      %td.value.last
         = RubyApp::Language.locale.strftime(@now, Pike::Application.configuration.format.date.long)

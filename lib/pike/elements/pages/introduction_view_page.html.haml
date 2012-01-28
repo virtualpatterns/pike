@@ -10,7 +10,7 @@
 - self.content_for(:content) do
   /
     #{__FILE__}
-  %table.properties
+  %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         User
@@ -22,9 +22,9 @@
       %td.value
         = @introduction.message
     %tr.property
-      %td.name
+      %td.name.last
         &nbsp;
-      %td.buttons
+      %td.buttons.last
         = @accept_button.render(:html) do |element|
           - element.content_for(:body, 'Accept')
         = @reject_button.render(:html) do |element|
