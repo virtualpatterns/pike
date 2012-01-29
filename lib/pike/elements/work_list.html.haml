@@ -10,8 +10,6 @@
     - unless item.task.flag == @flag
       %li.flag
         = Pike::Task::FLAG_NAMES[item.task.flag]
-    - RubyApp::Log.debug("#{self.class}##{__method__} item.task.project=#{item.task.project.inspect}")
-    - RubyApp::Log.debug("#{self.class}##{__method__} item.task.activity=#{item.task.activity.inspect}")
     %li.item{:class => ( item.work.started? ? 'started' : ( is_even ? 'even' : 'odd' ) ), :project => item.task.project.name, :activity => item.task.activity.name, :index => index}
       %div.item
         - item.work.update_duration!
