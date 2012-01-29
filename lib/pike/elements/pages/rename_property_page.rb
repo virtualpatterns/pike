@@ -36,20 +36,26 @@ module Pike
                 if response
                   RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
                     user = Pike::Session.identity.user
-                    user.pull(:project_properties, @from_property_input.value)
-                    user.push(:project_properties, @to_property_input.value)
-                    user.projects.all.each do |project|
-                      project.rename(@from_property_input.value, @to_property_input.value)
+                    if user.project_properties.include?(@from_property_input.value)
+                      user.pull(:project_properties, @from_property_input.value)
+                      user.push(:project_properties, @to_property_input.value)
+                      user.projects.all.each do |project|
+                        project.rename(@from_property_input.value, @to_property_input.value)
+                      end
                     end
-                    user.pull(:activity_properties, @from_property_input.value)
-                    user.push(:activity_properties, @to_property_input.value)
-                    user.activities.all.each do |activity|
-                      activity.rename(@from_property_input.value, @to_property_input.value)
+                    if user.activity_properties.include?(@from_property_input.value)
+                      user.pull(:activity_properties, @from_property_input.value)
+                      user.push(:activity_properties, @to_property_input.value)
+                      user.activities.all.each do |activity|
+                        activity.rename(@from_property_input.value, @to_property_input.value)
+                      end
                     end
-                    user.pull(:task_properties, @from_property_input.value)
-                    user.push(:task_properties, @to_property_input.value)
-                    user.tasks.all.each do |task|
-                      task.rename(@from_property_input.value, @to_property_input.value)
+                    if user.task_properties.include?(@from_property_input.value)
+                      user.pull(:task_properties, @from_property_input.value)
+                      user.push(:task_properties, @to_property_input.value)
+                      user.tasks.all.each do |task|
+                        task.rename(@from_property_input.value, @to_property_input.value)
+                      end
                     end
                     Pike::Session.pages.pop
                     _event.refresh
