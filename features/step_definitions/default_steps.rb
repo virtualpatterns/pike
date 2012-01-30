@@ -3,8 +3,8 @@ Given /^I have an empty test database$/ do
 end
 
 Given /^I process all actions$/ do
-  Pike::System::Action.all.each do |action|
-    action.process!
+  Pike::System::Action.where_not_executed.each do |action|
+    action.execute!
   end
 end
 

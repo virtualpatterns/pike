@@ -14,6 +14,7 @@ module Pike
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/friend_list_page'
       require 'pike/elements/pages/project_list_page'
+      require 'pike/elements/pages/rename_property_page'
       require 'pike/elements/pages/report_page'
       require 'pike/models'
       require 'pike/session'
@@ -58,6 +59,12 @@ module Pike
           @report_link = RubyApp::Elements::Link.new
           @report_link.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::ReportPage.new(event.today))
+            event.refresh
+          end
+
+          @rename_property_link = RubyApp::Elements::Link.new
+          @rename_property_link.clicked do |element, event|
+            Pike::Session.pages.push(Pike::Elements::Pages::RenamePropertyPage.new)
             event.refresh
           end
 

@@ -24,14 +24,13 @@ module Pike
 
         validates_presence_of :date
 
-        def process!
+        def execute
           RubyApp::Log.duration("#{self.class}##{__method__} self.user.url=#{self.user.url.inspect} self.date=#{self.date.inspect}") do
             file = File.join(File.dirname(__FILE__), '.temporary', "#{self.id.to_s}.csv")
             self.generate_report(file)
             self.mail_report(file)
             self.delete_report(file)
           end
-          self.destroy
         end
 
         def first_date

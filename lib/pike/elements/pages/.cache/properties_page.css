@@ -123,7 +123,8 @@ div.content > table.properties {
       background-repeat: no-repeat;
       color: inherit;
       display: block;
-      font-weight: inherit; }
+      font-weight: inherit;
+      padding-right: 16px; }
     div.content > table.properties tr.property > td.value > div.instructions {
       font-size: 10pt;
       padding-top: 5px; }

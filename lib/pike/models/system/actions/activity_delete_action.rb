@@ -12,11 +12,10 @@ module Pike
 
       class ActivityDeleteAction < Pike::System::Actions::ActivitySynchronizeAction
 
-        def process!
-          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}")
-          # Delete
-          self.delete_activity(self.activity)
-          self.destroy
+        def execute
+          RubyApp::Log.duration("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
+            self.delete_activity(self.activity)
+          end
         end
 
       end

@@ -35,19 +35,20 @@
         = RubyApp::Session.identity.url
     %tr.property
       %td.name.last
-        To
+        Mail
       %td.value.last
         = RubyApp::Application.configuration.mail.to || Pike::Session.identity.user.url
         %div.instructions
           :markdown
-            All mail will be sent to the address specified.
+            All mail for this user will be sent to this address.
   %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
         Server
       %td.value
         = Socket.gethostname
-        = RubyApp::Request.cookies['_server']
+        %br
+        = RubyApp::Request.cookies['_server'] || '(unknown instance)'
     %tr.property
       %td.name
         Remote

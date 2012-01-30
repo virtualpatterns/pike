@@ -25,5 +25,9 @@
       = @report_link.render(:html) do |element|
         - element.content_for(:body, 'Weekly Summary')
     %div.link
+      = @rename_property_link.render(:html) do |element|
+        - element.content_for(:body, 'Rename Property')
+  %div.links
+    %div.link
       = @about_link.render(:html) do |element|
         - element.content_for(:body, 'About')

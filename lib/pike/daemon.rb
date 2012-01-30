@@ -12,13 +12,12 @@ require 'pike/version'
 Pike::Application.create_default!
 
 while true
-  RubyApp::Log.debug("Pike::System::Action.all at #{Time.now}")
-  Pike::System::Action.all.each do |action|
+  Pike::System::Action.where_not_executed.each do |action|
     begin
-      action.process!
+      action.execute!
     rescue Exception => exception
       RubyApp::Log.exception(exception)
     end
   end
-  sleep(60)
+  sleep(15)
 end

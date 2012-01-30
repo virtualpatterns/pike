@@ -14,37 +14,36 @@ module Pike
 
         belongs_to :project, :class_name => 'Pike::Project'
 
-        def process!
-          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}")
-          # Sync
-          unless self.user_target
-            # Sync to all friends
-            self.user_source.friendships_as_source.each do |friendship|
-              unless self.project
-                # Sync all shared projects to a friend
-                #self.sync_shared_projects_to_friend(friendship.user_target)
-              else
-                # Sync a specific project to a friend
-                self.sync_project_to_friend(self.project, friendship.user_target)
-              end
-            end
-          else
-            # Sync to a specific user
-            if self.user_source.friendships_as_source.where_user_target(self.user_target).exists?
-              # Sync to a friend
-              unless self.project
-                # Sync all shared projects to a friend
-                self.sync_shared_projects_to_friend(self.user_target)
-              else
-                # Sync a specific project to a friend
-                #self.sync_project_to_friend(self.project, self.user_target)
+        def execute
+          RubyApp::Log.duration("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}") do
+            unless self.user_target
+              # Sync to all friends
+              self.user_source.friendships_as_source.each do |friendship|
+                unless self.project
+                  # Sync all shared projects to a friend
+                  #self.sync_shared_projects_to_friend(friendship.user_target)
+                else
+                  # Sync a specific project to a friend
+                  self.sync_project_to_friend(self.project, friendship.user_target)
+                end
               end
             else
-              # Sync all shared projects to a non-friend
-              self.sync_shared_projects_to_non_friend(self.user_target)
+              # Sync to a specific user
+              if self.user_source.friendships_as_source.where_user_target(self.user_target).exists?
+                # Sync to a friend
+                unless self.project
+                  # Sync all shared projects to a friend
+                  self.sync_shared_projects_to_friend(self.user_target)
+                else
+                  # Sync a specific project to a friend
+                  #self.sync_project_to_friend(self.project, self.user_target)
+                end
+              else
+                # Sync all shared projects to a non-friend
+                self.sync_shared_projects_to_non_friend(self.user_target)
+              end
             end
           end
-          self.destroy
         end
 
         def sync_shared_projects_to_friend(user)

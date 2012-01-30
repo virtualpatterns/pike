@@ -33,6 +33,8 @@ staging:
       amazon:
         access_key: ABC
         secret_key: 123
+      mail:
+        to: ~
       mongodb:
         host: localhost
         port: 27017
