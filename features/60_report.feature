@@ -24,7 +24,7 @@ Feature: Weekly Summary Functionality
     And I click "More ..."
     And I click "Weekly Summary"
     Then I should not see "Export"
-    Then I should see "Project 1"
+    And I should see "Project 1"
     And I should see "Activity 1"
     And I should see "1 hr"
     And I should see "Project 2"
