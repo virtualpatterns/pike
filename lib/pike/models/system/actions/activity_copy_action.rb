@@ -14,37 +14,36 @@ module Pike
 
         belongs_to :activity, :class_name => 'Pike::Activity'
 
-        def process!
-          RubyApp::Log.debug("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}")
-          # Sync
-          unless self.user_target
-            # Sync to all friends
-            self.user_source.friendships_as_source.each do |friendship|
-              unless self.activity
-                # Sync all shared activities to a friend
-                #self.sync_shared_activities_to_friend(friendship.user_target)
-              else
-                # Sync a specific activity to a friend
-                self.sync_activity_to_friend(self.activity, friendship.user_target)
-              end
-            end
-          else
-            # Sync to a specific user
-            if self.user_source.friendships_as_source.where_user_target(self.user_target).exists?
-              # Sync to a friend
-              unless self.activity
-                # Sync all shared activities to a friend
-                self.sync_shared_activities_to_friend(self.user_target)
-              else
-                # Sync a specific activity to a friend
-                #self.sync_activity_to_friend(self.activity, self.user_target)
+        def execute
+          RubyApp::Log.duration("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
+            unless self.user_target
+              # Sync to all friends
+              self.user_source.friendships_as_source.each do |friendship|
+                unless self.activity
+                  # Sync all shared activities to a friend
+                  #self.sync_shared_activities_to_friend(friendship.user_target)
+                else
+                  # Sync a specific activity to a friend
+                  self.sync_activity_to_friend(self.activity, friendship.user_target)
+                end
               end
             else
-              # Sync all shared activities to a non-friend
-              self.sync_shared_activities_to_non_friend(self.user_target)
+              # Sync to a specific user
+              if self.user_source.friendships_as_source.where_user_target(self.user_target).exists?
+                # Sync to a friend
+                unless self.activity
+                  # Sync all shared activities to a friend
+                  self.sync_shared_activities_to_friend(self.user_target)
+                else
+                  # Sync a specific activity to a friend
+                  #self.sync_activity_to_friend(self.activity, self.user_target)
+                end
+              else
+                # Sync all shared activities to a non-friend
+                self.sync_shared_activities_to_non_friend(self.user_target)
+              end
             end
           end
-          self.destroy
         end
 
         def sync_shared_activities_to_friend(user)

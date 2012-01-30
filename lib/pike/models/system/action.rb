@@ -13,9 +13,32 @@ module Pike
 
       store_in :system_actions
 
+      field :exception_at, :type => Time
+      field :exception_class, :type => String
+      field :exception_message, :type => String
+      field :exception_backtrace, :type => Array
+
       default_scope order_by([:created_at, :asc])
 
-      def process!
+      scope :where_not_executed, where(:exception_at => nil)
+      scope :where_failed, where(:exception_at.ne => nil)
+
+      def execute!
+        begin
+          self.execute
+        rescue Exception => exception
+          self.exception_at = Time.now
+          self.exception_class = exception.class
+          self.exception_message = exception.message
+          self.exception_backtrace = exception.backtrace
+          self.save!
+          raise
+        else
+          self.destroy
+        end
+      end
+
+      def execute
       end
 
     end

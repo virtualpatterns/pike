@@ -119,19 +119,32 @@ namespace :pike do
         Pike::Application.create_default!
         table = Terminal::Table.new(:title => 'Actions',
                                     :headings => ['Type',
-                                                  'Action',
-                                                  'From',
-                                                  'To',
-                                                  'Created']) do |table|
+                                                  'Created',
+                                                  'Failed',
+                                                  'Class',
+                                                  'Message']) do |table|
           Pike::System::Action.all.each do |action|
             table.add_row([action.class,
-                           Pike::System::Action::ACTION_NAMES[action.action],
-                           action.user_source ? action.user_source.url : nil,
-                           action.user_target ? action.user_target.url : nil,
-                           action.created_at])
+                           action.created_at,
+                           action.exception_at,
+                           action.exception_class,
+                           action.exception_message])
+            if action.exception_backtrace
+              table.add_separator
+              table.add_row(['', {:value => action.exception_backtrace.join("\n"), :colspan => 4}])
+              table.add_separator
+            end
           end
         end
         puts table
+      end
+
+      desc 'Destroy failed actions'
+      task :destroy_failed do |task|
+        Pike::Application.create_default!
+        Pike::System::Action.where_failed.each do |action|
+          action.destroy
+        end
       end
 
     end
