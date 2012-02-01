@@ -7,7 +7,7 @@ default:
           short: %a %b %-d
       amazon:
         access_key: ABC
-        secret_key: 123
+        secret_key: DEF
       mail:
         to: frank.ficnar@gmail.com
       mongodb:
@@ -32,7 +32,7 @@ staging:
           short: %a %b %-d
       amazon:
         access_key: ABC
-        secret_key: 123
+        secret_key: DEF
       mail:
         to: ~
       mongodb:
@@ -57,7 +57,7 @@ production:
           short: %a %b %-d
       amazon:
         access_key: ABC
-        secret_key: 123
+        secret_key: DEF
       mail:
         to: ~
       mongodb:
