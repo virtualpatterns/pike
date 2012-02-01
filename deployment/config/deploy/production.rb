@@ -1,7 +1,5 @@
-set :default_environment, default_environment.merge {
-                                                      'RUBY_APP_CONFIGURATION' => 'production',
-                                                      'PATH' => '$PATH:/home/ec2-user/ruby/bin'
-                                                    }
+set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION'  => 'production',
+                                                    'PATH'                    => '$PATH:/home/ec2-user/ruby/bin')
 set :branch,              'production'
 set :user,                'ec2-user'
 

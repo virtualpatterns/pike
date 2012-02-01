@@ -1,4 +1,4 @@
-set :default_environment, default_environment.merge { 'RUBY_APP_CONFIGURATION' => 'default' }
+set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION' => 'default')
 set :branch,              'development'
 set :user,                'fficnar'
 

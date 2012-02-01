@@ -1,4 +1,4 @@
-set :default_environment, default_environment.merge { 'RUBY_APP_CONFIGURATION' => 'staging' }
+set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION' => 'staging')
 set :branch,              'staging'
 set :user,                'ec2-user'
 
