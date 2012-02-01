@@ -91,16 +91,16 @@ module Pike
         end
 
         def mail_report(file)
-          AWS::S3::Base.establish_connection!(:access_key_id => Pike::Application.configuration.amazon.access_key,
-                                              :secret_access_key => Pike::Application.configuration.amazon.secret_key)
+          AWS::S3::Base.establish_connection!(:access_key_id      => ENV['AMAZON_ACCESS_KEY'] || Pike::Application.configuration.amazon.access_key,
+                                              :secret_access_key  => ENV['AMAZON_SECRET_KEY'] || Pike::Application.configuration.amazon.secret_key)
           name = file.gsub(Pike::ROOT, '')
           File.open(file, 'r') do |file|
             AWS::S3::S3Object.store(name, file, 'Pike')
           end
           url = AWS::S3::S3Object.url_for(name, 'Pike', :expires_in => 60 * 60 * 24)
 
-          service = AWS::SES::Base.new(:access_key_id     => Pike::Application.configuration.amazon.access_key,
-                                       :secret_access_key => Pike::Application.configuration.amazon.secret_key)
+          service = AWS::SES::Base.new(:access_key_id     => ENV['AMAZON_ACCESS_KEY'] || Pike::Application.configuration.amazon.access_key,
+                                       :secret_access_key => ENV['AMAZON_SECRET_KEY'] || Pike::Application.configuration.amazon.secret_key)
           service.send_email(:to        => Pike::Application.configuration.mail.to || self.user.url,
                              :source    => '"Pike" <virtualpatterns@sympatico.ca>',
                              :subject   => "Pike Summary For The Week Of #{self.first_date.strftime(Pike::Application.configuration.format.date.short)}",

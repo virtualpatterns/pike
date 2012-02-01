@@ -12,7 +12,7 @@ namespace :pike do
   desc 'Start'
   task :start, :roles => :application do
     find_and_execute_task('pike:daemon:start')
-    run "cd /var/www/pike/current && mkdir --parents ./process/thin/pid && mkdir --parents ./process/thin/log && #{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'} && RUBY_APP_CONFIGURATION='#{configuration}' thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start"
+    run "cd /var/www/pike/current && mkdir --parents ./process/thin/pid && mkdir --parents ./process/thin/log && #{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'} && AMAZON_ACCESS_KEY='#{ENV['AMAZON_ACCESS_KEY']}' AMAZON_SECRET_KEY='#{ENV['AMAZON_SECRET_KEY']}' RUBY_APP_CONFIGURATION='#{configuration}' thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start"
   end
 
   desc 'Stop'
