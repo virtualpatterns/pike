@@ -1,18 +1,11 @@
 require 'bundler/capistrano'
 require 'AWS'
 
-def get_ec2(access_key_id, secret_access_key)
-  AWS::EC2::Base.new(:access_key_id => access_key_id,
-                     :secret_access_key => secret_access_key)
-end
-
-def get_ec2_public_dns(access_key_id, secret_access_key, instance_id)
-
-  ec2 = get_ec2(access_key_id, secret_access_key)
-
-  response = ec2.describe_instances(:instance_id => instance_id)
+def get_instance_public_dns(access_key_id, secret_access_key, instance_id)
+  service = AWS::EC2::Base.new(:access_key_id => access_key_id,
+                               :secret_access_key => secret_access_key)
+  response = service.describe_instances(:instance_id => instance_id)
   response.reservationSet.item[0].instancesSet.item[0].dnsName
-
 end
 
 set :access_key,    ENV['AMAZON_ACCESS_KEY']
@@ -22,7 +15,7 @@ set :servers,       3
 set :configuration, 'default'
 set :branch,        'development'
 
-set :stages,        %w[production staging development development_ree]
+set :stages,        %w[production staging development]
 set :default_stage, 'development'
 require 'capistrano/ext/multistage'
 
