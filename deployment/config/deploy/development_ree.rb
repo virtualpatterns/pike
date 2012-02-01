@@ -1,6 +1,4 @@
-set :servers, 3
+set :user,          'fficnar'
 
-set :branch, 'development'
-
-set :user, 'fficnar'
-role :server, 'rhombus.zapto.org:4022'
+role :data,         'rhombus.zapto.org:4022'
+role :application,  'rhombus.zapto.org:4022'

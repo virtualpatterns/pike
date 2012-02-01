@@ -15,22 +15,14 @@ def get_ec2_public_dns(access_key_id, secret_access_key, instance_id)
 
 end
 
-def get_ec2_private_dns(access_key_id, secret_access_key, instance_id)
-
-  ec2 = get_ec2(access_key_id, secret_access_key)
-
-  response = ec2.describe_instances(:instance_id => instance_id)
-  response.reservationSet.item[0].instancesSet.item[0].privateDnsName
-
-end
-
 set :access_key,    ENV['AMAZON_ACCESS_KEY']
 set :secret_key,    ENV['AMAZON_SECRET_KEY']
 
-set :servers,       1
-
+set :servers,       3
 set :configuration, 'default'
-set :stages,        %w[staging development development_ree]
+set :branch,        'development'
+
+set :stages,        %w[production staging development development_ree]
 set :default_stage, 'development'
 require 'capistrano/ext/multistage'
 

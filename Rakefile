@@ -53,9 +53,18 @@ namespace :pike do
     system "git commit --all --message='Incrementing version'"
   end
 
-  desc 'Merge development and staging, push staging'
-  task :merge do |task|
-    system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
+  namespace :merge do
+
+    desc 'Merge development and staging, push staging'
+    task :staging do |task|
+      system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
+    end
+
+    desc 'Merge staging and production, push production'
+    task :production do |task|
+      system "git checkout production; git pull origin production; git merge origin/staging; git push origin production; git checkout development"
+    end
+
   end
 
   namespace :daemon do

@@ -1,12 +1,6 @@
-set :servers,       3
 set :configuration, 'staging'
-
 set :branch,        'staging'
+set :user,          'ec2-user'
 
-set :instance_id,   'i-9e08ccfc'
-set :public_dns,    get_ec2_public_dns(access_key, secret_key, instance_id)
-set :private_dns,   get_ec2_private_dns(access_key, secret_key, instance_id)
-
-set :user, 'ec2-user'
-
-role :server,       public_dns
+role :data,         get_ec2_public_dns(access_key, secret_key, 'i-9e08ccfc')
+role :application,  get_ec2_public_dns(access_key, secret_key, 'i-9e08ccfc')
