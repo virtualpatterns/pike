@@ -2,9 +2,12 @@ require 'bundler/capistrano'
 require 'AWS'
 
 def get_instance_public_dns(instance)
+  puts "#{self.class}##{__method__} instance=#{instance.inspect}"
+  puts "#{self.class}##{__method__} AWS::EC2::Base.new(:access_key_id => #{ENV['AMAZON_ACCESS_KEY'].inspect}, :secret_access_key => #{ENV['AMAZON_SECRET_KEY'].inspect})"
   service = AWS::EC2::Base.new(:access_key_id =>      ENV['AMAZON_ACCESS_KEY'],
                                :secret_access_key =>  ENV['AMAZON_SECRET_KEY'])
   response = service.describe_instances(:instance_id => instance)
+  puts "#{self.class}##{__method__} response.reservationSet.item[0].instancesSet.item[0].dnsName=#{response.reservationSet.item[0].instancesSet.item[0].dnsName.inspect}"
   response.reservationSet.item[0].instancesSet.item[0].dnsName
 end
 

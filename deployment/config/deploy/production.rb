@@ -3,5 +3,5 @@ set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION'  =>
 set :branch,              'production'
 set :user,                'ec2-user'
 
-role :data,               get_instance_public_dns(access_key, secret_key, 'i-51d50f34')
-role :application,        get_instance_public_dns(access_key, secret_key, 'i-51d50f34')
+role :data,         get_instance_public_dns('i-51d50f34')
+role :application,  get_instance_public_dns('i-9e08ccfc')
