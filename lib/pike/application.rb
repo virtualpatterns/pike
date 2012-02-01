@@ -28,6 +28,9 @@ module Pike
 
       self.configuration.mongodb.host = self.get_instance_private_dns(self.configuration.mongodb.host) if self.configuration.mongodb.host =~ /^i-/
 
+      RubyApp::Log.debug("#{self.class}##{__method__} self.configuration.mongodb.host=#{self.configuration.mongodb.host.inspect}")
+      RubyApp::Log.debug("#{self.class}##{__method__} self.configuration.mongodb.port=#{self.configuration.mongodb.port.inspect}")
+
       @connection = Mongo::Connection.new(self.configuration.mongodb.host,
                                           self.configuration.mongodb.port)
 
