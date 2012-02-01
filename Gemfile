@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 gem 'RubyApp'
+gem 'amazon-ec2'
 gem 'aws-s3'
 gem 'aws-ses'
 gem 'bson'

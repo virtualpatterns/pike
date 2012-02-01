@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'AWS'
 require 'mongoid'
 require 'sass/plugin'
 
@@ -25,6 +26,8 @@ module Pike
       self.configuration.amazon.access_key = ENV['AMAZON_ACCESS_KEY'] if ENV['AMAZON_ACCESS_KEY']
       self.configuration.amazon.secret_key = ENV['AMAZON_SECRET_KEY'] if ENV['AMAZON_SECRET_KEY']
 
+      self.configuration.mongodb.host = self.get_instance_private_dns(self.configuration.mongodb.host) if self.configuration.mongodb.host =~ /^i-/
+
       @connection = Mongo::Connection.new(self.configuration.mongodb.host,
                                           self.configuration.mongodb.port)
 
@@ -37,6 +40,13 @@ module Pike
                           Pike::System::Observers::ProjectObserver
       Mongoid.instantiate_observers
 
+    end
+
+    def get_instance_private_dns(instance)
+      service = AWS::EC2::Base.new(:access_key_id => self.configuration.amazon.access_key,
+                                   :secret_access_key => self.configuration.amazon.secret_key)
+      response = service.describe_instances(:instance_id => instance)
+      response.reservationSet.item[0].instancesSet.item[0].privateDnsName
     end
 
     def drop_database!

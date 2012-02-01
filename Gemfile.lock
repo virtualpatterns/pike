@@ -27,6 +27,8 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.6)
+    amazon-ec2 (0.9.17)
+      xml-simple (>= 1.0.12)
     aws-s3 (0.6.2)
       builder
       mime-types
@@ -49,7 +51,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.0)
       ffi (~> 1.0.6)
-    chronic (0.6.6)
+    chronic (0.6.7)
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
     cucumber (1.1.4)
@@ -146,6 +148,7 @@ PLATFORMS
 DEPENDENCIES
   RubyApp
   SystemTimer
+  amazon-ec2
   aws-s3
   aws-ses
   bson
