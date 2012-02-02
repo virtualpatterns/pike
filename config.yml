@@ -36,7 +36,7 @@ staging:
       mail:
         to: ~
       mongodb:
-        host: i-9e08ccfc
+        host: localhost
         port: 27017
         database: pike
     elements:
