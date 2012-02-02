@@ -30,7 +30,7 @@ namespace :pike do
   desc 'Update without stop/start'
   task :update_only do
     find_and_execute_task('deploy:update')
-    sudo 'gem update'
+    #sudo 'gem update'
     find_and_execute_task('pike:data:migrate')
   end
 
