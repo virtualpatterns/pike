@@ -10,6 +10,7 @@ default:
         secret_key: DEF
       mail:
         to: frank.ficnar@gmail.com
+        from: '"Pike" <virtualpatterns@sympatico.ca>'
       mongodb:
         host: localhost
         port: 27017
@@ -35,6 +36,7 @@ staging:
         secret_key: DEF
       mail:
         to: ~
+        from: '"Pike" <virtualpatterns@sympatico.ca>'
       mongodb:
         host: localhost
         port: 27017
@@ -60,6 +62,7 @@ production:
         secret_key: DEF
       mail:
         to: ~
+        from: '"Pike" <virtualpatterns@sympatico.ca>'
       mongodb:
         host: i-51d50f34
         port: 27017

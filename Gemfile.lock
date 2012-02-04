@@ -1,9 +1,7 @@
-GEM
-  remote: http://rubygems.org/
-  remote: http://gems.github.com/
+PATH
+  remote: /Users/fficnar/Dropbox/Projects/gems/ruby_app
   specs:
-    BlueCloth (1.0.1)
-    RubyApp (0.0.85)
+    RubyApp (0.0.86)
       BlueCloth
       chronic
       chronic_duration
@@ -19,6 +17,12 @@ GEM
       sass
       term-ansicolor
       yajl-ruby
+
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.github.com/
+  specs:
+    BlueCloth (1.0.1)
     SystemTimer (1.2.3)
     activemodel (3.2.1)
       activesupport (= 3.2.1)
@@ -119,7 +123,7 @@ GEM
     ruby-graphviz (1.0.4)
     ruby-openid (2.1.8)
     rubyzip (0.9.5)
-    sass (3.1.12)
+    sass (3.1.13)
     selenium-webdriver (2.18.0)
       childprocess (>= 0.2.5)
       ffi (~> 1.0.9)
@@ -146,7 +150,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RubyApp
+  RubyApp!
   SystemTimer
   amazon-ec2
   aws-s3

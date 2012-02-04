@@ -14,7 +14,9 @@ Pike::Application.create_default!
 while true
   Pike::System::Action.where_not_executed.each do |action|
     begin
-      action.execute!
+      RubyApp::Request.create! do
+        action.execute!
+      end
     rescue Exception => exception
       RubyApp::Log.exception(exception)
     end

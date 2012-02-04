@@ -65,10 +65,8 @@ namespace :pike do
 
     desc 'Restore dumped database from ./dump.tgz'
     task :restore, :roles => :data do
-      find_and_execute_task('pike:stop')
       upload './dump.tgz', '/var/www/pike/current', :via=> :scp
       run 'cd /var/www/pike/current && bundle exec rake pike:data:restore'
-      find_and_execute_task('pike:start')
     end
 
     namespace :identities do

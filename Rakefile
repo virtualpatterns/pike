@@ -140,7 +140,7 @@ namespace :pike do
                            action.exception_message])
             if action.exception_backtrace
               table.add_separator
-              table.add_row(['', {:value => action.exception_backtrace.join("\n"), :colspan => 4}])
+              table.add_row([{:value => action.exception_backtrace.join("\n"), :colspan => 5}])
               table.add_separator
             end
           end
