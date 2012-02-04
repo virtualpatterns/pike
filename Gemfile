@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-#gem 'RubyApp'
-gem 'RubyApp', :path => File.join(File.dirname(__FILE__), %w[.. gems ruby_app])
+gem 'RubyApp'
+#gem 'RubyApp', :path => File.join(File.dirname(__FILE__), %w[.. gems ruby_app])
 
 gem 'amazon-ec2'
 gem 'aws-s3'

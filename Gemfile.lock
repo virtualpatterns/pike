@@ -1,6 +1,8 @@
-PATH
-  remote: /Users/fficnar/Dropbox/Projects/gems/ruby_app
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.github.com/
   specs:
+    BlueCloth (1.0.1)
     RubyApp (0.0.86)
       BlueCloth
       chronic
@@ -17,12 +19,6 @@ PATH
       sass
       term-ansicolor
       yajl-ruby
-
-GEM
-  remote: http://rubygems.org/
-  remote: http://gems.github.com/
-  specs:
-    BlueCloth (1.0.1)
     SystemTimer (1.2.3)
     activemodel (3.2.1)
       activesupport (= 3.2.1)
@@ -150,7 +146,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RubyApp!
+  RubyApp
   SystemTimer
   amazon-ec2
   aws-s3
