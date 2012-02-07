@@ -19,6 +19,7 @@ gem 'mongoid-rspec'
 gem 'rake'
 gem 'SystemTimer'
 gem 'terminal-table'
+gem 'thin'
 gem 'uuid'
 gem 'whenever'
 

@@ -12,12 +12,12 @@ namespace :pike do
   desc 'Start'
   task :start, :roles => :application do
     find_and_execute_task('pike:daemon:start')
-    run "cd /var/www/pike/current && mkdir --parents ./process/thin/pid && mkdir --parents ./process/thin/log && #{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'} && thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start"
+    run "cd /var/www/pike/current && bundle exec rake pike:start[#{servers}]"
   end
 
   desc 'Stop'
   task :stop, :roles => :application do
-    run "cd /var/www/pike/current && #{servers == 1 ? 'thin --pid ./process/thin/pid/thin.pid stop' : 'for pid in ./process/thin/pid/thin.*.pid; do thin --pid $pid stop; done'}"
+    run "cd /var/www/pike/current && bundle exec rake pike:stop[#{servers}]"
     find_and_execute_task('pike:daemon:stop')
   end
 

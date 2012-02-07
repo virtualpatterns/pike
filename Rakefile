@@ -29,42 +29,31 @@ namespace :pike do
     system("clear; bundle exec ruby_app console")
   end
 
+  desc 'Start'
+  task :start, :servers do |task, arguments|
+    servers = arguments.servers || 1
+    system("#{arguments.servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; thin --port 8008 --servers #{arguments.servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+  end
+
+  desc 'Stop'
+  task :stop, :servers do |task, arguments|
+    servers = arguments.servers || 1
+    system(arguments.servers == 1 ? 'thin --pid ./process/thin/pid/thin.pid stop' : 'for pid in ./process/thin/pid/thin.*.pid; do thin --pid $pid stop; done')
+  end
+
+  desc 'Restart'
+  task :restart => ['pike:stop',
+                    'pike:start'] do
+  end
+
   desc 'Run'
   task :run do |task|
-    system("clear; bundle exec ruby_app run")
+    system('clear; bundle exec ruby_app run')
   end
 
   desc 'Run w/ coverage report'
   task :coverage => ['pike:cache:create'] do |task|
-    system("clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html")
-  end
-
-  desc 'Get version'
-  task :version do |task|
-    puts Pike::VERSION
-  end
-
-  desc 'Push to development and increment version'
-  task :push => ['pike:cache:create'] do |task|
-    system "git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development"
-    version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
-    Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
-    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'"
-    system "git commit --all --message='Incrementing version'"
-  end
-
-  namespace :merge do
-
-    desc 'Merge development and staging, push staging'
-    task :staging do |task|
-      system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
-    end
-
-    desc 'Merge staging and production, push production'
-    task :production do |task|
-      system "git checkout production; git pull origin production; git merge origin/staging; git push origin production; git checkout development"
-    end
-
+    system('clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html')
   end
 
   namespace :daemon do
@@ -98,6 +87,34 @@ namespace :pike do
                                                                               :backtrace  => true,
                                                                               :monitor    => false,
                                                                               :log_dir    => log_path)
+    end
+
+  end
+
+  desc 'Get version'
+  task :version do |task|
+    puts Pike::VERSION
+  end
+
+  desc 'Push to development and increment version'
+  task :push => ['pike:cache:create'] do |task|
+    system "git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development"
+    version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
+    Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
+    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'"
+    system "git commit --all --message='Incrementing version'"
+  end
+
+  namespace :merge do
+
+    desc 'Merge development and staging, push staging'
+    task :staging do |task|
+      system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
+    end
+
+    desc 'Merge staging and production, push production'
+    task :production do |task|
+      system "git checkout production; git pull origin production; git merge origin/staging; git push origin production; git checkout development"
     end
 
   end
