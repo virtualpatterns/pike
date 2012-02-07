@@ -13,72 +13,7 @@ require 'pike/application'
 require 'pike/models'
 require 'pike/version'
 
-namespace :mongodb do
-
-  desc 'Start MongoDB'
-  task :start do |task|
-    system("mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --objcheck --fork")
-  end
-
-end
-
 namespace :pike do
-
-  desc 'Create console'
-  task :console do |task|
-    system("clear; bundle exec ruby_app console")
-  end
-
-  desc 'Start'
-  task :start, :servers do |task, arguments|
-    servers = arguments.servers || 1
-    system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
-  end
-
-  desc 'Stop'
-  task :stop do |task|
-    system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
-  end
-
-  desc 'Restart'
-  task :restart => ['pike:stop',
-                    'pike:start'] do
-  end
-
-  namespace :daemon do
-
-    desc 'Run the daemon'
-    task :run do |task|
-      run_daemon(['run'])
-    end
-
-    desc 'Start the daemon'
-    task :start do |task|
-      run_daemon(['start'])
-    end
-
-    desc 'Stop the daemon'
-    task :stop do |task|
-      run_daemon(['stop'])
-    end
-
-    def run_daemon(arguments)
-      pid_path = File.join(File.dirname(__FILE__), %w[process piked pid])
-      FileUtils.mkdir_p(pid_path)
-      log_path = File.join(File.dirname(__FILE__), %w[process piked log])
-      FileUtils.mkdir_p(log_path)
-      Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
-                                                                              :ARGV       => arguments,
-                                                                              :dir_mode   => :normal,
-                                                                              :dir        => pid_path,
-                                                                              :multiple   => false,
-                                                                              :mode       => :load,
-                                                                              :backtrace  => true,
-                                                                              :monitor    => false,
-                                                                              :log_dir    => log_path)
-    end
-
-  end
 
   desc 'Get version'
   task :version do |task|
@@ -87,23 +22,90 @@ namespace :pike do
 
   desc 'Push to development and increment version'
   task :push => ['pike:cache:create'] do |task|
-    system "git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development"
+    system("git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development")
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
-    system "sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'"
-    system "git commit --all --message='Incrementing version'"
+    system("sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'")
+    system('git commit --all --message=\'Incrementing version\'')
   end
 
   namespace :merge do
 
     desc 'Merge development and staging, push staging'
     task :staging do |task|
-      system "git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development"
+      system('git checkout staging; git pull origin staging; git merge origin/development; git push origin staging; git checkout development')
     end
 
     desc 'Merge staging and production, push production'
     task :production do |task|
-      system "git checkout production; git pull origin production; git merge origin/staging; git push origin production; git checkout development"
+      system('git checkout production; git pull origin production; git merge origin/staging; git push origin production; git checkout development')
+    end
+
+  end
+
+  namespace :process do
+
+    desc 'Create console'
+    task :console do |task|
+      system('clear; bundle exec ruby_app console')
+    end
+
+    desc 'Start'
+    task :start, :servers do |task, arguments|
+      servers = arguments.servers || 1
+      system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+    end
+
+    desc 'Stop'
+    task :stop do |task|
+      system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
+    end
+
+    desc 'Restart'
+    task :restart => ['pike:stop',
+                      'pike:start']
+    namespace :mongodb do
+
+      desc 'Start MongoDB'
+      task :start do |task|
+        system('mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --objcheck --fork')
+      end
+
+    end
+
+    namespace :daemon do
+
+      desc 'Run the daemon'
+      task :run do |task|
+        run_daemon(['run'])
+      end
+
+      desc 'Start the daemon'
+      task :start do |task|
+        run_daemon(['start'])
+      end
+
+      desc 'Stop the daemon'
+      task :stop do |task|
+        run_daemon(['stop'])
+      end
+
+      def run_daemon(arguments)
+        pid_path = File.join(File.dirname(__FILE__), %w[process piked pid])
+        FileUtils.mkdir_p(pid_path)
+        log_path = File.join(File.dirname(__FILE__), %w[process piked log])
+        FileUtils.mkdir_p(log_path)
+        Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
+                                                                                :ARGV       => arguments,
+                                                                                :dir_mode   => :normal,
+                                                                                :dir        => pid_path,
+                                                                                :multiple   => false,
+                                                                                :mode       => :load,
+                                                                                :backtrace  => true,
+                                                                                :monitor    => false,
+                                                                                :log_dir    => log_path)
+      end
+
     end
 
   end
@@ -112,13 +114,12 @@ namespace :pike do
 
     desc 'Dump database'
     task :dump do |task|
-      system("rm -f dump.tgz; rm -rf dump; mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump")
+      system('rm -f dump.tgz; rm -rf dump; mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump')
     end
 
     desc 'Restore a dumped database'
     task :restore => ['data:drop'] do |task|
-      system("rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump")
-      Rake::Task['pike:data:migrate:all'].invoke
+      system('rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump')
     end
 
     desc 'Drop database'
@@ -425,14 +426,14 @@ namespace :pike do
           system("bundle exec rspec #{arguments.file} --format=documentation --colour")
         end
       else
-        system("bundle exec rspec spec/ --format=documentation --colour")
+        system('bundle exec rspec spec/ --format=documentation --colour')
       end
     end
 
     desc 'Run feature tests for all features or the given feature file'
     task :features, :file do |task, arguments|
       unless arguments.file
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features")
+        system('bundle exec cucumber --format pretty --tags ~@broken --require features')
       else
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
@@ -445,7 +446,7 @@ namespace :pike do
     desc 'Create element cache'
     task :create => ['pike:cache:destroy'] do |task|
       Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements pages]), File.join(File.dirname(__FILE__), %w[lib]))
-      system "find . -name '.cache' | xargs git add; git commit --all --message='Updating element cache'"
+      system('find . -name \'.cache\' | xargs git add; git commit --all --message=\'Updating element cache\'')
     end
 
     desc 'Delete element cache'
