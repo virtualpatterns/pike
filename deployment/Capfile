@@ -36,7 +36,7 @@ namespace :pike do
       find_and_execute_task('pike:process:daemon:stop')
     end
 
-    desc 'Restart; the server(s)'
+    desc 'Restart the server(s)'
     task :restart do
       find_and_execute_task('pike:process:stop')
       find_and_execute_task('pike:process:start')
