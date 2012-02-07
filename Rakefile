@@ -15,14 +15,14 @@ require 'pike/version'
 
 namespace :pike do
 
-  desc 'Get version'
+  desc 'Get the version information from Pike::VERSION'
   task :version do |task|
     puts Pike::VERSION
   end
 
-  desc 'Push to development and increment version'
+  desc 'Pull development, tag, push to development, and increment version'
   task :push => ['pike:cache:create'] do |task|
-    system("git checkout development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development")
+    system("git checkout development; git pull origin development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development")
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
     system("sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'")
@@ -45,25 +45,26 @@ namespace :pike do
 
   namespace :process do
 
-    desc 'Create console'
+    desc 'Create a console'
     task :console do |task|
       system('clear; bundle exec ruby_app console')
     end
 
-    desc 'Start'
+    desc 'Start the server(s)'
     task :start, :servers do |task, arguments|
       servers = arguments.servers || 1
       system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
     end
 
-    desc 'Stop'
+    desc 'Stop the server(s)'
     task :stop do |task|
       system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
     end
 
-    desc 'Restart'
+    desc 'Restart the server(s)'
     task :restart => ['pike:stop',
                       'pike:start']
+
     namespace :mongodb do
 
       desc 'Start MongoDB'
@@ -74,11 +75,6 @@ namespace :pike do
     end
 
     namespace :daemon do
-
-      desc 'Run the daemon'
-      task :run do |task|
-        run_daemon(['run'])
-      end
 
       desc 'Start the daemon'
       task :start do |task|
@@ -112,17 +108,17 @@ namespace :pike do
 
   namespace :data do
 
-    desc 'Dump database'
+    desc 'Dump the database to ./dump.tgz'
     task :dump do |task|
       system('rm -f dump.tgz; rm -rf dump; mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump')
     end
 
-    desc 'Restore a dumped database'
+    desc 'Restore a dumped database from ./dump.tgz'
     task :restore => ['data:drop'] do |task|
       system('rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump')
     end
 
-    desc 'Drop database'
+    desc 'Drop the database'
     task :drop do |task|
       Pike::Application.create_default!
       Pike::Application.drop_database!
@@ -417,7 +413,7 @@ namespace :pike do
     task :all => ['pike:test:specs',
                   'pike:test:features']
 
-    desc 'Run RSpec tests'
+    desc 'Run all RSpec tests or only those in the given file '
     task :specs, :file, :line do |task, arguments|
       if arguments.file
         if arguments.line
@@ -430,7 +426,7 @@ namespace :pike do
       end
     end
 
-    desc 'Run feature tests for all features or the given feature file'
+    desc 'Run all feature tests or only those in the given feature file'
     task :features, :file do |task, arguments|
       unless arguments.file
         system('bundle exec cucumber --format pretty --tags ~@broken --require features')
@@ -443,13 +439,13 @@ namespace :pike do
 
   namespace :cache do
 
-    desc 'Create element cache'
+    desc 'Create the element cache'
     task :create => ['pike:cache:destroy'] do |task|
       Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements pages]), File.join(File.dirname(__FILE__), %w[lib]))
       system('find . -name \'.cache\' | xargs git add; git commit --all --message=\'Updating element cache\'')
     end
 
-    desc 'Delete element cache'
+    desc 'Destroy the element cache'
     task :destroy do |task|
       Pike::Application.destroy_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]))
     end
