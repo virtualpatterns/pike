@@ -32,28 +32,17 @@ namespace :pike do
   desc 'Start'
   task :start, :servers do |task, arguments|
     servers = arguments.servers || 1
-    system("#{arguments.servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; thin --port 8008 --servers #{arguments.servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+    system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
   end
 
   desc 'Stop'
-  task :stop, :servers do |task, arguments|
-    servers = arguments.servers || 1
-    system(arguments.servers == 1 ? 'thin --pid ./process/thin/pid/thin.pid stop' : 'for pid in ./process/thin/pid/thin.*.pid; do thin --pid $pid stop; done')
+  task :stop do |task|
+    system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
   end
 
   desc 'Restart'
   task :restart => ['pike:stop',
                     'pike:start'] do
-  end
-
-  desc 'Run'
-  task :run do |task|
-    system('clear; bundle exec ruby_app run')
-  end
-
-  desc 'Run w/ coverage report'
-  task :coverage => ['pike:cache:create'] do |task|
-    system('clear; rm -rf coverage; bundle exec rcov --include $PATH --exclude bin,gems ruby_app -- run; open coverage/index.html')
   end
 
   namespace :daemon do

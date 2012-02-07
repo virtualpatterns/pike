@@ -17,7 +17,7 @@ namespace :pike do
 
   desc 'Stop'
   task :stop, :roles => :application do
-    run "cd /var/www/pike/current && bundle exec rake pike:stop[#{servers}]"
+    run "cd /var/www/pike/current && bundle exec rake pike:stop"
     find_and_execute_task('pike:daemon:stop')
   end
 
