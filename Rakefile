@@ -15,7 +15,7 @@ require 'pike/version'
 
 namespace :pike do
 
-  desc 'Get the version information from Pike::VERSION'
+  desc 'Print version information from Pike::VERSION'
   task :version do |task|
     puts Pike::VERSION
   end
@@ -62,8 +62,8 @@ namespace :pike do
     end
 
     desc 'Restart the server(s)'
-    task :restart => ['pike:stop',
-                      'pike:start']
+    task :restart => ['pike:process:stop',
+                      'pike:process:start']
 
     namespace :mongodb do
 
