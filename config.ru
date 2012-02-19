@@ -16,7 +16,7 @@ require 'pike/session'
 require 'pike/version'
 
 use Rack::ShowExceptions
-use Rack::Session::Pool
+use Rack::Session::Pool, :expire_after => 60 * 60 * 24
 use Rack::Reloader
 use Rack::ContentLength
 
