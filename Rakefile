@@ -50,21 +50,6 @@ namespace :pike do
       system('clear; bundle exec ruby_app console')
     end
 
-    desc 'Start the server(s)'
-    task :start, :servers do |task, arguments|
-      servers = arguments.servers || 1
-      system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
-    end
-
-    desc 'Stop the server(s)'
-    task :stop do |task|
-      system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
-    end
-
-    desc 'Restart the server(s)'
-    task :restart => ['pike:process:stop',
-                      'pike:process:start']
-
     namespace :mongodb do
 
       desc 'Start MongoDB'
@@ -101,6 +86,25 @@ namespace :pike do
                                                                                 :monitor    => false,
                                                                                 :log_dir    => log_path)
       end
+
+    end
+
+    namespace :thin do
+
+      desc 'Start the server(s)'
+      task :start, :servers do |task, arguments|
+        servers = arguments.servers || 1
+        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+      end
+
+      desc 'Stop the server(s)'
+      task :stop do |task|
+        system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
+      end
+
+      desc 'Restart the server(s)'
+      task :restart => ['pike:process:stop',
+                        'pike:process:start']
 
     end
 
