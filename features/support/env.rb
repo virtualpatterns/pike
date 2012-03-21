@@ -17,7 +17,16 @@ Capybara.app_host = 'http://localhost:8008'
 
 World(Capybara)
 
-require 'pike/application'
-require 'pike/models'
+require 'ruby_app'
+require 'pike'
 
-Pike::Application.create_default!
+RubyApp::Configuration.load!([ File.join(RubyApp::ROOT, %w[configuration.yml]),
+                               File.join(Pike::ROOT, %w[configuration.yml])])
+RubyApp::Log.open!
+RubyApp::Application.create!
+
+at_exit do
+  RubyApp::Application.destroy!
+  RubyApp::Log.close!
+  RubyApp::Configuration.unload!
+end

@@ -1,8 +1,8 @@
 module Pike
 
   module Elements
+    require 'pike'
     require 'pike/elements/lists/select'
-    require 'pike/session'
 
     class ProjectSelect < Pike::Elements::Lists::Select
 

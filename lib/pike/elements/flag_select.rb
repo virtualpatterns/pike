@@ -1,9 +1,9 @@
 module Pike
 
   module Elements
+    require 'pike'
     require 'pike/elements/lists/select'
     require 'pike/models'
-    require 'pike/session'
 
     class FlagSelect < Pike::Elements::Lists::Select
 

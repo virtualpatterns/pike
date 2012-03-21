@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 
@@ -15,7 +15,7 @@ module Pike
         belongs_to :activity, :class_name => 'Pike::Activity'
 
         def delete_activity(activity)
-          RubyApp::Log.debug("#{self.class}##{__method__} activity.name=#{activity.name.inspect}")
+          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect}")
           activity.tasks.each do |task|
             task.destroy
           end

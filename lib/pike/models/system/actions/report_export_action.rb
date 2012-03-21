@@ -6,16 +6,15 @@ require 'aws/ses'
 require 'fastercsv'
 require 'fileutils'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 
   module System
 
     module Actions
-      require 'pike/application'
-      require 'pike/elements/mail/report_mail'
-      require 'pike/version'
+      require 'pike'
+      require 'pike/elements/mail'
 
       class ReportExportAction < Pike::System::Action
 
@@ -26,7 +25,7 @@ module Pike
         validates_presence_of :date
 
         def execute
-          RubyApp::Log.duration("#{self.class}##{__method__} self.user.url=#{self.user.url.inspect} self.date=#{self.date.inspect}") do
+          RubyApp::Log.duration("#{RubyApp::Log.prefix(self, __method__)} self.user.url=#{self.user.url.inspect} self.date=#{self.date.inspect}") do
             file = File.join(File.dirname(__FILE__), '.temporary', "#{self.id.to_s}.csv")
             self.generate_report(file)
             self.mail_report(file)

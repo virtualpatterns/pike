@@ -1,21 +1,16 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/dialogs/confirmation_dialog'
-require 'ruby_app/elements/dialogs/exception_dialog'
-require 'ruby_app/elements/input'
-require 'ruby_app/elements/inputs/toggle_input'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/properties_page'
-      require 'pike/elements/properties'
-      require 'pike/session'
 
       class ActivityPage < Pike::Elements::Pages::PropertiesPage
 

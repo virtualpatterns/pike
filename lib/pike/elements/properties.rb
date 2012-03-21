@@ -1,15 +1,13 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/element'
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/link'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
+    require 'pike'
     require 'pike/elements/pages/property_page'
-    require 'pike/session'
 
     class Properties < RubyApp::Element
 

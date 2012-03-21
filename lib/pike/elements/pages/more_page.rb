@@ -1,14 +1,14 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
       require 'pike/elements/pages/about_page'
       require 'pike/elements/pages/activity_list_page'
       require 'pike/elements/pages/blank_page'
@@ -17,7 +17,6 @@ module Pike
       require 'pike/elements/pages/rename_property_page'
       require 'pike/elements/pages/report_page'
       require 'pike/models'
-      require 'pike/session'
 
       class MorePage < Pike::Elements::Pages::BlankPage
 

@@ -6,19 +6,22 @@ Feature: Work List Functionality
 
   Scenario: View the initial work list
     Then I should see "You haven't created any tasks."
+    Then I quit
 
   Scenario: View the initial project list
-    Given I click "Add"
+    And I click "Add"
     And I click "tap for a project"
     Then I should see "You haven't created any projects."
+    Then I quit
 
   Scenario: View the initial activity list
-    Given I click "Add"
+    And I click "Add"
     And I click "tap for an activity"
     Then I should see "You haven't created any activities."
+    Then I quit
 
   Scenario Outline: Create the first project
-    Given I click "Add"
+    And I click "Add"
     And I click "tap for a project"
     And I click "<click>"
     And I fill in the "Name" field with "Project 1" and I change focus
@@ -26,6 +29,7 @@ Feature: Work List Functionality
     Then I should see "Project 1"
     When I click "Project 1"
     Then I should see "Project 1"
+    Then I quit
 
     Scenarios: Values for click
       | click |
@@ -33,7 +37,7 @@ Feature: Work List Functionality
       | Add   |
 
   Scenario Outline: Create the first activity
-    Given I click "Add"
+    And I click "Add"
     And I click "tap for an activity"
     And I click "<click>"
     And I fill in the "Name" field with "Activity 1" and I change focus
@@ -41,6 +45,7 @@ Feature: Work List Functionality
     Then I should see "Activity 1"
     When I click "Activity 1"
     Then I should see "Activity 1"
+    Then I quit
 
     Scenarios: values for click
       | click |
@@ -48,7 +53,7 @@ Feature: Work List Functionality
       | Add   |
 
   Scenario Outline: Create the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I click "<click>"
     And I click "tap for a project"
@@ -58,6 +63,7 @@ Feature: Work List Functionality
     And I click "Done"
     Then I should see "Project 1"
     And I should see "Activity 1"
+    Then I quit
 
     Scenarios: values for click
       | click |
@@ -65,7 +71,7 @@ Feature: Work List Functionality
       | Add   |
 
   Scenario: Add a property to tasks
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I click "here"
     And I click "tap for a project"
@@ -80,9 +86,10 @@ Feature: Work List Functionality
     When I edit the task with project "Project 1" and activity "Activity 1"
     Then I should see "Property 1"
     And I should see "Value 1"
+    Then I quit
 
   Scenario: Delete a property from tasks
-    Given I add the task property "Property 1"
+    And I add the task property "Property 1"
     And I click "Add"
     And I click "tap to enter a value"
     And I click "Remove Property"
@@ -93,9 +100,10 @@ Feature: Work List Functionality
     And I click "Add"
     Then I should not see "Property 1"
     And I should not see "tap to enter a value"
+    Then I quit
 
   Scenario: Change task order by changing the project
-    Given I create the first project "Aaaa"
+    And I create the first project "Aaaa"
     And I create the project "Bbbb"
     And I create the project "Cccc"
     And I create the first activity "Activity 1"
@@ -107,9 +115,10 @@ Feature: Work List Functionality
     And I click "Aaaa"
     And I click "Done"
     Then the task with project "Aaaa" and activity "Activity 1" should appear first
+    Then I quit
 
   Scenario: Change task order by changing the project name
-    Given I create the first project "Bbbb"
+    And I create the first project "Bbbb"
     And I create the project "Cccc"
     And I create the first activity "Activity 1"
     And I create the first task with project "Bbbb" and activity "Activity 1"
@@ -117,9 +126,10 @@ Feature: Work List Functionality
     Then the task with project "Bbbb" and activity "Activity 1" should appear first
     When I change the name of project "Cccc" to "Aaaa"
     Then the task with project "Aaaa" and activity "Activity 1" should appear first
+    Then I quit
 
   Scenario: Change task order by changing the activity
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Aaaa"
     And I create the activity "Bbbb"
     And I create the activity "Cccc"
@@ -131,9 +141,10 @@ Feature: Work List Functionality
     And I click "Aaaa"
     And I click "Done"
     Then the task with project "Project 1" and activity "Aaaa" should appear first
+    Then I quit
 
   Scenario: Change task order by changing the activity name
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Bbbb"
     And I create the activity "Cccc"
     And I create the first task with project "Project 1" and activity "Bbbb"
@@ -141,18 +152,20 @@ Feature: Work List Functionality
     Then the task with project "Project 1" and activity "Bbbb" should appear first
     When I change the name of activity "Cccc" to "Aaaa"
     Then the task with project "Project 1" and activity "Aaaa" should appear first
+    Then I quit
 
   Scenario: Start/stop the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     And I start the task with project "Project 1" and activity "Activity 1"
     Then the task with project "Project 1" and activity "Activity 1" should be started
     When I stop the task with project "Project 1" and activity "Activity 1"
     Then the task with project "Project 1" and activity "Activity 1" should not be started
+    Then I quit
 
   Scenario: Specify a duration for the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the project "Project 2"
     And I create the activity "Activity 2"
@@ -167,9 +180,10 @@ Feature: Work List Functionality
     And I click "Done"
     Then I should see "2 hrs 10 min"
     And I should see "3 hrs 30 min"
+    Then I quit
 
   Scenario: Clear the duration for the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     And I edit the task with project "Project 1" and activity "Activity 1"
@@ -180,9 +194,10 @@ Feature: Work List Functionality
     And I fill in the "Duration" field with "" and I change focus
     And I click "Done"
     Then the duration for the task with project "Project 1" and activity "Activity 1" should be blank
+    Then I quit
 
   Scenario: Clear the duration for a started task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     And I start the task with project "Project 1" and activity "Activity 1"
@@ -196,9 +211,10 @@ Feature: Work List Functionality
     And I click "Done"
     Then the task with project "Project 1" and activity "Activity 1" should be started
     And the duration for the task with project "Project 1" and activity "Activity 1" should be blank
+    Then I quit
 
   Scenario: Change the project, activity, and category of the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the project "Project 2"
     And I create the activity "Activity 2"
@@ -215,9 +231,10 @@ Feature: Work List Functionality
     And I click "Done"
     Then I should see "Project 2"
     And I should see "Activity 2"
+    Then I quit
 
   Scenario: Delete the first task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     Then I should see "Project 1"
@@ -227,9 +244,10 @@ Feature: Work List Functionality
     And I click "Yes"
     Then I should not see "Project 1"
     And I should not see "Activity 1"
+    Then I quit
 
   Scenario: Delete a started task
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     And I start the task with project "Project 1" and activity "Activity 1"
@@ -239,10 +257,13 @@ Feature: Work List Functionality
     And I click "Yes"
     Then I should not see "Project 1"
     And I should not see "Activity 1"
+    Then I quit
 
   Scenario: Change the date to yesterday
-    Given I change the date from today to yesterday
+    And I change the date from today to yesterday
+    Then I quit
 
   Scenario: Change the date to tomorrow
-    Given I change the date from today to tomorrow
+    And I change the date from today to tomorrow
     Then I should see "The selected date is invalid."
+    Then I quit

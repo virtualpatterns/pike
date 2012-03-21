@@ -9,9 +9,8 @@ require 'terminal-table'
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
-require 'pike/application'
+require 'pike'
 require 'pike/models'
-require 'pike/version'
 
 namespace :pike do
 
@@ -94,7 +93,7 @@ namespace :pike do
       desc 'Start the server(s)'
       task :start, :servers do |task, arguments|
         servers = arguments.servers || 1
-        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup config.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
@@ -103,8 +102,8 @@ namespace :pike do
       end
 
       desc 'Restart the server(s)'
-      task :restart => ['pike:process:stop',
-                        'pike:process:start']
+      task :restart => ['pike:process:thin:stop',
+                        'pike:process:thin:start']
 
     end
 
@@ -124,42 +123,45 @@ namespace :pike do
 
     desc 'Drop the database'
     task :drop do |task|
-      Pike::Application.create_default!
-      Pike::Application.drop_database!
+      Pike::Application.create_context! do
+        Pike::Application.drop_database!
+      end
     end
 
     namespace :actions do
 
       desc 'Print all actions'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Actions',
-                                    :headings => ['Type',
-                                                  'Created',
-                                                  'Failed',
-                                                  'Class',
-                                                  'Message']) do |table|
-          Pike::System::Action.all.each do |action|
-            table.add_row([action.class,
-                           action.created_at,
-                           action.exception_at,
-                           action.exception_class,
-                           action.exception_message])
-            if action.exception_backtrace
-              table.add_separator
-              table.add_row([{:value => action.exception_backtrace.join("\n"), :colspan => 5}])
-              table.add_separator
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Actions',
+                                      :headings => ['Type',
+                                                    'Created',
+                                                    'Failed',
+                                                    'Class',
+                                                    'Message']) do |table|
+            Pike::System::Action.all.each do |action|
+              table.add_row([action.class,
+                             action.created_at,
+                             action.exception_at,
+                             action.exception_class,
+                             action.exception_message])
+              if action.exception_backtrace
+                table.add_separator
+                table.add_row([{:value => action.exception_backtrace.join("\n"), :colspan => 5}])
+                table.add_separator
+              end
             end
           end
+          puts table
         end
-        puts table
       end
 
       desc 'Destroy failed actions'
       task :destroy_failed do |task|
-        Pike::Application.create_default!
-        Pike::System::Action.where_failed.each do |action|
-          action.destroy
+        Pike::Application.create_context! do
+          Pike::System::Action.where_failed.each do |action|
+            action.destroy
+          end
         end
       end
 
@@ -169,26 +171,28 @@ namespace :pike do
 
       desc 'Print all identities'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Identities',
-                                    :headings => ['User',
-                                                  'Created',
-                                                  'Expires']) do |table|
-          Pike::System::Identity.all.each do |identity|
-            table.add_row([identity.user.url,
-                           identity.created_at,
-                           identity.expires])
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Identities',
+                                      :headings => ['User',
+                                                    'Created',
+                                                    'Expires']) do |table|
+            Pike::System::Identity.all.each do |identity|
+              table.add_row([identity.user.url,
+                             identity.created_at,
+                             identity.expires])
+            end
           end
+          puts table
         end
-        puts table
       end
 
       desc 'Expire all identities'
       task :expire_all do |task|
-        Pike::Application.create_default!
-        Pike::System::Identity.all.each do |identity|
-          identity.expires = Chronic.parse('yesterday')
-          identity.save!
+        Pike::Application.create_context! do
+          Pike::System::Identity.all.each do |identity|
+            identity.expires = Chronic.parse('yesterday')
+            identity.save!
+          end
         end
       end
 
@@ -198,20 +202,21 @@ namespace :pike do
 
       desc 'Print all users'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Users',
-                                    :headings => ['Id',
-                                                  'URL',
-                                                  'Created',
-                                                  'Updated']) do |table|
-          Pike::User.all.each do |user|
-            table.add_row([user.id,
-                           user.url,
-                           user.created_at,
-                           user.updated_at])
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Users',
+                                      :headings => ['Id',
+                                                    'URL',
+                                                    'Created',
+                                                    'Updated']) do |table|
+            Pike::User.all.each do |user|
+              table.add_row([user.id,
+                             user.url,
+                             user.created_at,
+                             user.updated_at])
+            end
           end
+          puts table
         end
-        puts table
       end
 
     end
@@ -220,26 +225,27 @@ namespace :pike do
 
       desc 'Print all projects'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Projects',
-                                    :headings => ['User',
-                                                  'Id',
-                                                  'Name',
-                                                  'Shared?',
-                                                  'Copy of',
-                                                  'Created',
-                                                  'Updated']) do |table|
-          Pike::Project.all.each do |project|
-            table.add_row([project.user.url,
-                           project.id,
-                           project.name,
-                           project.shared?,
-                           project.copy_of ? project.copy_of.id : nil,
-                           project.created_at,
-                           project.updated_at])
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Projects',
+                                      :headings => ['User',
+                                                    'Id',
+                                                    'Name',
+                                                    'Shared?',
+                                                    'Copy of',
+                                                    'Created',
+                                                    'Updated']) do |table|
+            Pike::Project.all.each do |project|
+              table.add_row([project.user.url,
+                             project.id,
+                             project.name,
+                             project.shared?,
+                             project.copy_of ? project.copy_of.id : nil,
+                             project.created_at,
+                             project.updated_at])
+            end
           end
+          puts table
         end
-        puts table
       end
 
     end
@@ -248,26 +254,27 @@ namespace :pike do
 
       desc 'Print all activities'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Activities',
-                                    :headings => ['User',
-                                                  'Id',
-                                                  'Name',
-                                                  'Shared?',
-                                                  'Copy of',
-                                                  'Created',
-                                                  'Updated']) do |table|
-          Pike::Activity.all.each do |activity|
-            table.add_row([activity.user.url,
-                           activity.id,
-                           activity.name,
-                           activity.shared?,
-                           activity.copy_of ? activity.copy_of.id : nil,
-                           activity.created_at,
-                           activity.updated_at])
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Activities',
+                                      :headings => ['User',
+                                                    'Id',
+                                                    'Name',
+                                                    'Shared?',
+                                                    'Copy of',
+                                                    'Created',
+                                                    'Updated']) do |table|
+            Pike::Activity.all.each do |activity|
+              table.add_row([activity.user.url,
+                             activity.id,
+                             activity.name,
+                             activity.shared?,
+                             activity.copy_of ? activity.copy_of.id : nil,
+                             activity.created_at,
+                             activity.updated_at])
+            end
           end
+          puts table
         end
-        puts table
       end
 
     end
@@ -276,24 +283,25 @@ namespace :pike do
 
       desc 'Print all tasks'
       task :print_all do |task|
-        Pike::Application.create_default!
-        table = Terminal::Table.new(:title => 'Tasks',
-                                    :headings => ['User',
-                                                  'Project Id',
-                                                  'Project',
-                                                  'Activity Id',
-                                                  'Activity']) do |table|
-          Pike::User.all.each do |user|
-            user.tasks.all.each do |task|
-              table.add_row([task.user.url,
-                             task.project_id,
-                             task.project ? task.project.name : nil,
-                             task.activity_id,
-                             task.activity ? task.activity.name : nil])
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Tasks',
+                                      :headings => ['User',
+                                                    'Project Id',
+                                                    'Project',
+                                                    'Activity Id',
+                                                    'Activity']) do |table|
+            Pike::User.all.each do |user|
+              user.tasks.all.each do |task|
+                table.add_row([task.user.url,
+                               task.project_id,
+                               task.project ? task.project.name : nil,
+                               task.activity_id,
+                               task.activity ? task.activity.name : nil])
+              end
             end
           end
+          puts table
         end
-        puts table
       end
 
     end
@@ -312,95 +320,102 @@ namespace :pike do
 
       desc 'Add the Pike::User#_url property'
       task :add_user_url do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          puts 'Pike::User.all.each do |user| ...'
-          Pike::User.all.each do |user|
-            puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url.downcase.inspect})"
-            user.set(:_url, user.url.downcase)
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |user|
+              puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url.downcase.inspect})"
+              user.set(:_url, user.url.downcase)
+            end
+            puts '... end'
           end
-          puts '... end'
         end
       end
 
       desc 'Add the Pike::Project#_name property'
       task :add_project_name do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          puts 'Pike::Project.all.each do |project| ...'
-          Pike::Project.all.each do |project|
-            puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
-            project.set(:_name, project.name.downcase)
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Project.all.each do |project| ...'
+            Pike::Project.all.each do |project|
+              puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
+              project.set(:_name, project.name.downcase)
+            end
+            puts '... end'
           end
-          puts '... end'
         end
       end
 
       desc 'Add the Pike::Activity#_name property'
       task :add_activity_name do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          puts 'Pike::Activity.all.each do |activity| ...'
-          Pike::Activity.all.each do |activity|
-            puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
-            activity.set(:_name, activity.name.downcase)
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Activity.all.each do |activity| ...'
+            Pike::Activity.all.each do |activity|
+              puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
+              activity.set(:_name, activity.name.downcase)
+            end
+            puts '... end'
           end
-          puts '... end'
         end
       end
 
       desc 'Update the Pike::Task#_project_name and Pike::Task#_activity_name properties'
       task :update_task_project_and_activity_names do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          puts 'Pike::Task.all.each do |_task| ...'
-          Pike::Task.all.each do |_task|
-            puts "  _task.project.name=#{_task.project ? _task.project.name.inspect : '(nil)'} _task.set(:_project_name, #{_task.project ? _task.project.name.downcase.inspect : '(nil)'})"
-            _task.set(:_project_name, _task.project ? _task.project.name.downcase : nil)
-            puts "  _task.activity.name=#{_task.activity ? _task.activity.name.inspect : '(nil)'} _task.set(:_activity_name, #{_task.activity ? _task.activity.name.downcase.inspect : '(nil)'})"
-            _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Task.all.each do |_task| ...'
+            Pike::Task.all.each do |_task|
+              puts "  _task.project.name=#{_task.project ? _task.project.name.inspect : '(nil)'} _task.set(:_project_name, #{_task.project ? _task.project.name.downcase.inspect : '(nil)'})"
+              _task.set(:_project_name, _task.project ? _task.project.name.downcase : nil)
+              puts "  _task.activity.name=#{_task.activity ? _task.activity.name.inspect : '(nil)'} _task.set(:_activity_name, #{_task.activity ? _task.activity.name.downcase.inspect : '(nil)'})"
+              _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
+            end
+            puts '... end'
           end
-          puts '... end'
         end
       end
 
       desc 'Update the user demo@pike.virtualpatterns.com to first@pike.virtualpatterns.com'
       task :update_user_demo_to_first do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
-          if user
-            puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
-            user.url = 'first@pike.virtualpatterns.com'
-            user.save!
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
+            if user
+              puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
+              user.url = 'first@pike.virtualpatterns.com'
+              user.save!
+            end
           end
         end
       end
 
       desc 'Add the Pike::Friendship#_user_target_url property'
       task :add_friendship_user_target_url do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          puts 'Pike::Friendship.all.each do |friendship| ...'
-          Pike::Friendship.all.each do |friendship|
-            puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
-            friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Friendship.all.each do |friendship| ...'
+            Pike::Friendship.all.each do |friendship|
+              puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
+              friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+            end
+            puts '... end'
           end
-          puts '... end'
         end
       end
 
       desc 'Remove the identities and migrations collections'
       task :remove_identities_and_migrations_collections do |task|
-        Pike::Application.create_default!
-        Pike::System::Migration.run(task) do
-          database = Mongoid.configure.database
-          puts 'database.drop_collection(\'identities\') ...'
-          database.drop_collection('identities')
-          puts '... done'
-          puts 'database.drop_collection(\'migrations\') ...'
-          database.drop_collection('migrations')
-          puts '... done'
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            database = Mongoid.configure.database
+            puts 'database.drop_collection(\'identities\') ...'
+            database.drop_collection('identities')
+            puts '... done'
+            puts 'database.drop_collection(\'migrations\') ...'
+            database.drop_collection('migrations')
+            puts '... done'
+          end
         end
       end
 
@@ -414,21 +429,7 @@ namespace :pike do
   namespace :test do
 
     desc 'Run all tests'
-    task :all => ['pike:test:specs',
-                  'pike:test:features']
-
-    desc 'Run all RSpec tests or only those in the given file '
-    task :specs, :file, :line do |task, arguments|
-      if arguments.file
-        if arguments.line
-          system("bundle exec rspec #{arguments.file} --line_number=#{arguments.line} --format=documentation --colour")
-        else
-          system("bundle exec rspec #{arguments.file} --format=documentation --colour")
-        end
-      else
-        system('bundle exec rspec spec/ --format=documentation --colour')
-      end
-    end
+    task :all => ['pike:test:features']
 
     desc 'Run all feature tests or only those in the given feature file'
     task :features, :file do |task, arguments|
@@ -437,21 +438,6 @@ namespace :pike do
       else
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
-    end
-
-  end
-
-  namespace :cache do
-
-    desc 'Create the element cache'
-    task :create => ['pike:cache:destroy'] do |task|
-      Pike::Application.create_cache(File.join(File.dirname(__FILE__), %w[lib pike elements pages]), File.join(File.dirname(__FILE__), %w[lib]))
-      system('find . -name \'.cache\' | xargs git add; git commit --all --message=\'Updating element cache\'')
-    end
-
-    desc 'Destroy the element cache'
-    task :destroy do |task|
-      Pike::Application.destroy_cache(File.join(File.dirname(__FILE__), %w[lib pike elements]))
     end
 
   end

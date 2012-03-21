@@ -4,14 +4,14 @@ require 'bundler/setup'
 require 'chronic_duration'
 require 'ruby-event'
 
-require 'ruby_app/elements/list'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
+    require 'pike'
     require 'pike/elements/pages/work_page'
     require 'pike/models'
-    require 'pike/session'
 
     class WorkList < RubyApp::Elements::List
 

@@ -3,23 +3,18 @@ require 'bundler/setup'
 
 require 'chronic'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/dialogs/exception_dialog'
-require 'ruby_app/elements/markdown'
-require 'ruby_app/elements/page'
-require 'ruby_app/request'
-require 'ruby_app/version'
+require 'ruby_app'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
+      require 'pike/models'
       require 'pike/elements/pages/authentication/open_id/google_authentication_page'
       require 'pike/elements/pages/work_list_page'
-      require 'pike/models'
-      require 'pike/session'
-      require 'pike/version'
 
       class DefaultPage < RubyApp::Elements::Page
 

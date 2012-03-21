@@ -1,12 +1,12 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/list'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
-    require 'pike/session'
+    require 'pike'
 
     class FriendList < RubyApp::Elements::List
 

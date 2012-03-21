@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 
@@ -15,7 +15,7 @@ module Pike
         belongs_to :activity, :class_name => 'Pike::Activity'
 
         def execute
-          RubyApp::Log.duration("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
+          RubyApp::Log.duration("#{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
             unless self.user_target
               # Sync to all friends
               self.user_source.friendships_as_source.each do |friendship|
@@ -84,14 +84,14 @@ module Pike
         end
 
         def add_activity_to_user(activity, user)
-          RubyApp::Log.debug("#{self.class}##{__method__} activity.name=#{activity.name.inspect} user.url=#{user.url.inspect}")
+          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect} user.url=#{user.url.inspect}")
           user.activities.create!(:copy_of => activity,
                                 :name => activity.name,
                                 :is_shared => false)
         end
 
         def update_activity(activity, _activity)
-          RubyApp::Log.debug("#{self.class}##{__method__} activity.name=#{activity.name.inspect} _activity.name=#{_activity.name.inspect}")
+          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect} _activity.name=#{_activity.name.inspect}")
           _activity.name = activity.name
           _activity.save!
         end

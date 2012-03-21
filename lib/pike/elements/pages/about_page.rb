@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 require 'socket'
 
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 

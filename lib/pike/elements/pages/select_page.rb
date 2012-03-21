@@ -1,8 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
@@ -10,7 +9,6 @@ module Pike
 
     module Pages
       require 'pike/elements/pages/blank_page'
-      require 'pike/session'
 
       class SelectPage < Pike::Elements::Pages::BlankPage
 

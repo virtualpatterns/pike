@@ -1,25 +1,20 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/dialogs/calendars/month_dialog'
-require 'ruby_app/elements/link'
-require 'ruby_app/elements/markdown'
-require 'ruby_app/language'
+require 'ruby_app'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
-      require 'pike/application'
-      require 'pike/elements/introduction_list'
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/introduction_view_page'
       require 'pike/elements/pages/more_page'
       require 'pike/elements/pages/task_page'
-      require 'pike/elements/work_list'
-      require 'pike/session'
 
       class WorkListPage < Pike::Elements::Pages::BlankPage
 

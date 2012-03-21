@@ -37,7 +37,7 @@
       %td.name.last
         Mail
       %td.value.last
-        = RubyApp::Application.configuration.mail.to || Pike::Session.identity.user.url
+        = Pike::Application.configuration.mail.to || Pike::Session.identity.user.url
         %div.instructions
           :markdown
             All mail for this user will be sent to this address.

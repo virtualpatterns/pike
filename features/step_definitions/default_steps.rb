@@ -9,7 +9,7 @@ Given /^I process all actions$/ do
 end
 
 Given /^I am viewing "([^"]*)"$/ do |url|
-  visit("#{url}?event_error=false")
+  visit("#{url}?_event_error=false")
 end
 
 When /^I refresh the page$/ do

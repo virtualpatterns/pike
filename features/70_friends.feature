@@ -5,13 +5,14 @@ Feature: Friend Functionality
     And I create all demo users
 
   Scenario: View the initial friend list
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I click "More ..."
     And I click "Friends"
     Then I should see "You have no introductions and no friends."
+    Then I quit
 
   Scenario: Add the first friend
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I click "More ..."
     And I click "Friends"
     And I click "here"
@@ -19,9 +20,10 @@ Feature: Friend Functionality
     And I click "Send"
     And I click "OK"
     Then I should see "You have no introductions and no friends."
+    Then I quit
 
   Scenario: See the first introduction
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
@@ -31,9 +33,10 @@ Feature: Friend Functionality
     And I click "Friends"
     Then I should not see "You have no introductions and no friends."
     And I should see "first@pike.virtualpatterns.com"
+    Then I quit
 
   Scenario: Accept the first introduction
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
@@ -54,9 +57,10 @@ Feature: Friend Functionality
     And I click "Friends"
     Then I should not see "You have no introductions and no friends."
     And I should see "second@pike.virtualpatterns.com"
+    Then I quit
 
   Scenario: Ignore the first introduction
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
@@ -77,9 +81,10 @@ Feature: Friend Functionality
     And I click "Friends"
     Then I should see "You have no introductions and no friends."
     And I should not see "second@pike.virtualpatterns.com"
+    Then I quit
 
   Scenario: Remove the first friend
-    Given I logon as the first demo user
+    And I logon as the first demo user
     When I add the first friend "second@pike.virtualpatterns.com"
     And I logoff
     And I logon as the second demo user
@@ -93,19 +98,21 @@ Feature: Friend Functionality
     And I click "Yes"
     Then I should see "You have no introductions and no friends."
     And I should not see "second@pike.virtualpatterns.com"
+    Then I quit
 
   Scenario: Share the first project
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared project "Project 1"
     And I logoff
     And I process all actions
     And I logon as the second demo user
     Then I should see the project "Project 1"
+    Then I quit
 
   Scenario: Rename the first project
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared project "Project 1"
     And I logoff
     And I process all actions
@@ -119,10 +126,11 @@ Feature: Friend Functionality
     And I logon as the second demo user
     Then I should see the project "Project 2"
     Then I should not see the project "Project 1"
+    Then I quit
 
   Scenario: Unshare the first project
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared project "Project 1"
     And I logoff
     And I process all actions
@@ -135,10 +143,11 @@ Feature: Friend Functionality
     And I process all actions
     And I logon as the second demo user
     Then I should not see the project "Project 1"
+    Then I quit
 
   Scenario: Delete the first project
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared project "Project 1"
     And I logoff
     And I process all actions
@@ -151,19 +160,21 @@ Feature: Friend Functionality
     And I process all actions
     And I logon as the second demo user
     Then I should not see the project "Project 1"
+    Then I quit
 
   Scenario: Share the first activity
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared activity "Activity 1"
     And I logoff
     And I process all actions
     And I logon as the second demo user
     Then I should see the activity "Activity 1"
+    Then I quit
 
   Scenario: Rename the first activity
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared activity "Activity 1"
     And I logoff
     And I process all actions
@@ -177,10 +188,11 @@ Feature: Friend Functionality
     And I logon as the second demo user
     Then I should see the activity "Activity 2"
     Then I should not see the activity "Activity 1"
+    Then I quit
 
   Scenario: Unshare the first activity
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared activity "Activity 1"
     And I logoff
     And I process all actions
@@ -193,10 +205,11 @@ Feature: Friend Functionality
     And I process all actions
     And I logon as the second demo user
     Then I should not see the activity "Activity 1"
+    Then I quit
 
   Scenario: Delete the first activity
-    Given I create all demo friendships
-    Given I logon as the first demo user
+    And I create all demo friendships
+    And I logon as the first demo user
     And I create the first shared activity "Activity 1"
     And I logoff
     And I process all actions
@@ -209,3 +222,4 @@ Feature: Friend Functionality
     And I process all actions
     And I logon as the second demo user
     Then I should not see the activity "Activity 1"
+    Then I quit

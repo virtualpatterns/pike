@@ -31,3 +31,4 @@ Feature: Full Functionality
     And I click "More ..."
     And I click "Logoff"
     Then I should see "Logon with Google"
+    Then I quit

@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/pages/authentication/open_id/google_authentication_page'
+require 'ruby_app/elements'
 
 module Pike
 
@@ -12,8 +12,8 @@ module Pike
       module Authentication
 
         module OpenId
+          require 'pike'
           require 'pike/models'
-          require 'pike/session'
 
           class GoogleAuthenticationPage < RubyApp::Elements::Pages::Authentication::OpenId::GoogleAuthenticationPage
 

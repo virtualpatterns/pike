@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 
@@ -15,7 +15,7 @@ module Pike
         belongs_to :project, :class_name => 'Pike::Project'
 
         def delete_project(project)
-          RubyApp::Log.debug("#{self.class}##{__method__} project.name=#{project.name.inspect}")
+          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} project.name=#{project.name.inspect}")
           project.tasks.each do |task|
             task.destroy
           end

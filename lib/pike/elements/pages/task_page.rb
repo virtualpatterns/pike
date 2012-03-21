@@ -1,21 +1,19 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/link'
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/activity_select_page'
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
-      require 'pike/elements/properties'
-      require 'pike/session'
 
       class TaskPage < Pike::Elements::Pages::PropertiesPage
 

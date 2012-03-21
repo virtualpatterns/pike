@@ -1,26 +1,20 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/dialogs/confirmation_dialog'
-require 'ruby_app/elements/dialogs/exception_dialog'
-require 'ruby_app/elements/inputs/duration_input'
-require 'ruby_app/elements/link'
-require 'ruby_app/elements/navigation/back_button'
-require 'ruby_app/language'
+require 'ruby_app/elements'
+require 'ruby_app'
 
 module Pike
 
   module Elements
 
     module Pages
-      require 'pike/application'
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/activity_select_page'
       require 'pike/elements/pages/flag_select_page'
       require 'pike/elements/pages/project_select_page'
       require 'pike/elements/pages/properties_page'
-      require 'pike/elements/properties'
-      require 'pike/session'
 
       class WorkPage < Pike::Elements::Pages::PropertiesPage
 

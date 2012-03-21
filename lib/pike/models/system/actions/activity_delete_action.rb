@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 
@@ -13,7 +13,7 @@ module Pike
       class ActivityDeleteAction < Pike::System::Actions::ActivitySynchronizeAction
 
         def execute
-          RubyApp::Log.duration("#{self.class}##{__method__} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
+          RubyApp::Log.duration("#{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
             self.delete_activity(self.activity)
           end
         end

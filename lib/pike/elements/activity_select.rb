@@ -1,8 +1,8 @@
 module Pike
 
   module Elements
+    require 'pike'
     require 'pike/elements/lists/select'
-    require 'pike/session'
 
     class ActivitySelect < Pike::Elements::Lists::Select
 

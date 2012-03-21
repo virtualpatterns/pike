@@ -1,22 +1,19 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/markdown'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
-      require 'pike/elements/friend_list'
-      require 'pike/elements/introduction_list'
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/friend_page'
       require 'pike/elements/pages/introduction_edit_page'
       require 'pike/elements/pages/introduction_view_page'
-      require 'pike/session'
 
       class FriendListPage < Pike::Elements::Pages::BlankPage
 

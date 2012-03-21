@@ -1,19 +1,18 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/markdown'
-require 'ruby_app/elements/button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/project_list_page'
       require 'pike/elements/pages/project_page'
       require 'pike/elements/pages/select_page'
-      require 'pike/elements/project_select'
-      require 'pike/session'
 
       class ProjectSelectPage < Pike::Elements::Pages::SelectPage
 

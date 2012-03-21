@@ -1,19 +1,17 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/markdown'
-require 'ruby_app/elements/navigation/back_button'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/project_page'
-      require 'pike/elements/project_list'
-      require 'pike/session'
 
       class ProjectListPage < Pike::Elements::Pages::BlankPage
 

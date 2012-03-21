@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 require 'mongoid'
 
-require 'ruby_app/log'
+require 'ruby_app'
 
 module Pike
 

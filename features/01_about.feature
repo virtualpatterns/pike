@@ -5,6 +5,7 @@ Feature: About Functionality
     And I logon as the first demo user
 
   Scenario: View the about page
-    Given I click "More ..."
+    And I click "More ..."
     And I click "About"
     Then I should see "Source code available on"
+    Then I quit

@@ -34,3 +34,4 @@ Feature: Weekly Summary Functionality
     And I should see "Activity 3"
     And I should see "3 hrs"
     And I should see "6 hrs"
+    Then I quit

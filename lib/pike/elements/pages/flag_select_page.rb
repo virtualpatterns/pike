@@ -3,9 +3,9 @@ module Pike
   module Elements
 
     module Pages
-      require 'pike/session'
+      require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/select_page'
-      require 'pike/elements/flag_select'
 
       class FlagSelectPage < Pike::Elements::Pages::SelectPage
 

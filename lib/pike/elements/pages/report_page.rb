@@ -1,22 +1,16 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/button'
-require 'ruby_app/elements/dialogs/acknowledgement_dialog'
-require 'ruby_app/elements/dialogs/calendars/month_dialog'
-require 'ruby_app/elements/dialogs/exception_dialog'
-require 'ruby_app/elements/dialogs/message_dialog'
-require 'ruby_app/elements/link'
-require 'ruby_app/elements/navigation/back_button'
-require 'ruby_app/language'
+require 'ruby_app'
+require 'ruby_app/elements'
 
 module Pike
 
   module Elements
 
     module Pages
+      require 'pike'
       require 'pike/elements/pages/blank_page'
-      require 'pike/session'
 
       class ReportPage < Pike::Elements::Pages::BlankPage
 

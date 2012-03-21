@@ -4,6 +4,12 @@ Given /^I am testing the application$/ do
   step 'I should see "Logon with Google"'
 end
 
+Then /^I quit$/ do
+  steps %Q{
+    Given I am viewing "/quit"
+  }
+end
+
 And /^I logon as the (first|second) demo user$/ do |count|
   step "I click \"#{count}\""
 end

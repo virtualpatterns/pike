@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/page'
+require 'ruby_app/elements'
 
 module Pike
 

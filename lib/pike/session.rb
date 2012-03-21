@@ -1,11 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/session'
+require 'ruby_app'
 
 module Pike
-  require 'pike/elements/pages/default_page'
-  require 'pike/models'
 
   class Session < RubyApp::Session
 
@@ -20,8 +18,9 @@ module Pike
 
     end
 
-    def initialize(session_id, page = nil, data = {})
-      super(session_id, page || Pike::Elements::Pages::DefaultPage.new, data)
+    def initialize
+      require 'pike/elements/pages'
+      super(Pike::Elements::Pages::DefaultPage.new)
     end
 
   end

@@ -5,7 +5,7 @@ Feature: Project Functionality
     And I logon as the first demo user
 
   Scenario: Add a property to projects
-    Given I click "More ..."
+    And I click "More ..."
     And I click "Projects"
     And I click "here"
     And I fill in the "Name" field with "Project 1" and I change focus
@@ -22,9 +22,10 @@ Feature: Project Functionality
     And I click "Add"
     Then I should see "Property 1"
     And I should see "tap to enter a value"
+    Then I quit
 
   Scenario: Delete a property from projects
-    Given I add the project property "Property 1"
+    And I add the project property "Property 1"
     And I click "More ..."
     And I click "Projects"
     And I click "Add"
@@ -37,18 +38,20 @@ Feature: Project Functionality
     And I click "Add"
     Then I should not see "Property 1"
     And I should not see "tap to enter a value"
+    Then I quit
 
   Scenario: Delete the first project
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I click "More ..."
     And I click "Projects"
     And I click "Project 1"
     And I click "Delete"
     And I click "Yes"
     Then I should not see "Project 1"
+    Then I quit
 
   Scenario: Delete an in-use project
-    Given I create the first project "Project 1"
+    And I create the first project "Project 1"
     And I create the first activity "Activity 1"
     And I create the first task with project "Project 1" and activity "Activity 1"
     And I click "More ..."
@@ -58,3 +61,4 @@ Feature: Project Functionality
     And I click "Yes"
     Then I should see "The selected project cannot be deleted."
     Then I click "Close"
+    Then I quit

@@ -1,8 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/dialogs/exception_dialog'
-require 'ruby_app/elements/inputs/email_input'
+require 'ruby_app/elements'
 
 module Pike
 
