@@ -20,7 +20,7 @@ namespace :pike do
   end
 
   desc 'Pull development, tag, push to development, and increment version'
-  task :push => ['pike:cache:create'] do |task|
+  task :push do |task|
     system("git checkout development; git pull origin development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push origin development")
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
