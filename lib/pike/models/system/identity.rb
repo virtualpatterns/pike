@@ -3,7 +3,6 @@ require 'bundler/setup'
 
 require 'chronic'
 require 'mongoid'
-require 'uuid'
 
 module Pike
 
@@ -17,12 +16,12 @@ module Pike
 
       belongs_to :user, :class_name => 'Pike::User'
 
-      field :value, :type => String, :default => lambda { UUID.new.generate }
+      field :value, :type => String, :default => lambda { Pike::System::Identity.generate_identity_value }
       field :expires, :type => Time, :default => lambda { Chronic.parse('next month') }
 
       validates_presence_of :value
       validates_presence_of :expires
-      validates_uniqueness_of :value, :scope => [:deleted_at]
+      validates_uniqueness_of :value
 
       default_scope where(:expires.gt => Time.now).order_by([[:created_at, :desc]])
 
@@ -30,6 +29,14 @@ module Pike
 
       def self.get_identity_by_value(value)
         Pike::System::Identity.where_value(value).first
+      end
+
+      def self.generate_identity_value
+        value = SecureRandom.hex
+        while Pike::System::Identity.get_identity_by_value(value)
+          value = SecureRandom.hex
+        end
+        return value
       end
 
     end

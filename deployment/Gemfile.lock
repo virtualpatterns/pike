@@ -3,7 +3,7 @@ GEM
   specs:
     amazon-ec2 (0.9.17)
       xml-simple (>= 1.0.12)
-    capistrano (2.9.0)
+    capistrano (2.11.2)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)

@@ -20,7 +20,6 @@ gem 'rake'
 gem 'SystemTimer'
 gem 'terminal-table'
 gem 'thin'
-gem 'uuid'
 gem 'whenever'
 
 group :test do
