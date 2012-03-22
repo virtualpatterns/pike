@@ -33,8 +33,6 @@ pike:
         title: Pike Project
       project_select_page:
         title: Pike Select Project
-      properties_page:
-        title: Pike Properties
       property_page:
         title: Pike Property
       rename_property_page:
