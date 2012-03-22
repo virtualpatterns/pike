@@ -20,7 +20,6 @@ gem 'rake'
 gem 'SystemTimer'
 gem 'terminal-table'
 gem 'thin'
-gem 'whenever'
 
 group :test do
   gem 'capybara'
