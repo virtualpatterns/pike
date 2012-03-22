@@ -24,9 +24,25 @@
   %table.properties{:cellspacing => 0}
     %tr.property
       %td.name
-        Memory
+        Memory Usage
       %td.value
-        = "#{`ps -o rss= -p #{$$}`.to_i} bytes"
+        - memory = `ps -o rss= -p #{$$}`.to_i
+        - RubyApp::Response.set_cookie('_memory', { :value    => memory,
+                                                    :expires  => Chronic.parse('next year'),
+                                                    :path     => '/'})
+        = "#{memory} bytes"
+        %div.instructions
+          :markdown
+            (currently)
+    - if RubyApp::Request.cookies['_memory']
+      %tr.property
+        %td.name
+          &nbsp;
+        %td.value
+          = "#{(RubyApp::Request.cookies['_memory']).to_i} bytes"
+          %div.instructions
+            :markdown
+              (previously)
   %table.properties{:cellspacing => 0}
     %tr.property
       %td.name

@@ -17,6 +17,14 @@ pike:
         title: Pike
       flag_select_page:
         title: Pike Select Category
+      friend_list_page:
+        title: Pike Friends
+      friend_page:
+        title: Pike Friend
+      introduction_edit_page:
+        title: Pike Introduction
+      introduction_view_page:
+        title: Pike Introduction
       more_page:
         title: Pike More
       project_list_page:
@@ -25,10 +33,14 @@ pike:
         title: Pike Project
       project_select_page:
         title: Pike Select Project
+      properties_page:
+        title: Pike Properties
+      property_page:
+        title: Pike Property
+      rename_property_page:
+        title: Pike Rename Property
       report_page:
         title: Pike Weekly Summary
-      task_list_page:
-        title: Pike Tasks
       task_page:
         title: Pike Task
       work_list_page:

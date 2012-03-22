@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'chronic'
 require 'socket'
 
 require 'ruby_app/elements'
