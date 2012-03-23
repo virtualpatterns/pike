@@ -429,7 +429,8 @@ namespace :pike do
   namespace :test do
 
     desc 'Run all tests'
-    task :all => ['pike:test:features']
+    task :all => ['pike:cache:destroy',
+                  'pike:test:features']
 
     desc 'Run all feature tests or only those in the given feature file'
     task :features, :file do |task, arguments|
@@ -438,6 +439,21 @@ namespace :pike do
       else
         system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
       end
+    end
+
+  end
+
+  namespace :cache do
+
+    desc 'List all cached files'
+    task :list do
+      system('find . | grep \'\\.cache\'')
+    end
+
+    desc 'Remove all cached files'
+    task :destroy do
+      puts 'Removing cached files ...'
+      system('find . -name \'.cache\' | xargs rm -rv')
     end
 
   end
