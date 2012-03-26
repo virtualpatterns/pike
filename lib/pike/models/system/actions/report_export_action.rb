@@ -93,14 +93,6 @@ module Pike
         def mail_report(file)
           service = AWS::SES::Base.new(:access_key_id     => ENV['AMAZON_ACCESS_KEY'] || Pike::Application.configuration.amazon.access_key,
                                        :secret_access_key => ENV['AMAZON_SECRET_KEY'] || Pike::Application.configuration.amazon.secret_key)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} file=#{file.inspect}")
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} self.first_date=#{self.first_date.inspect}")
-
-          html_body = Pike::Elements::Mail::ReportMail.new(file, self.first_date).render(:html)
-          html_body.each_line do |line|
-            RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} :html_body=#{line.inspect}")
-          end
-
           service.send_email(:to        => Pike::Application.configuration.mail.to || self.user.url,
                              :source    => Pike::Application.configuration.mail.from,
                              :subject   => "Summary For The Week Of #{self.first_date.strftime(Pike::Application.configuration.format.date.short)}",
