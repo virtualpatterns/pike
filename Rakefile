@@ -70,6 +70,10 @@ namespace :pike do
         run_daemon(['stop'])
       end
 
+      desc 'Restart the daemon'
+      task :restart => ['pike:process:daemon:stop',
+                        'pike:process:daemon:start']
+
       def run_daemon(arguments)
         pid_path = File.join(File.dirname(__FILE__), %w[process piked pid])
         FileUtils.mkdir_p(pid_path)

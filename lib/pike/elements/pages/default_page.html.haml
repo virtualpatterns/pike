@@ -1,4 +1,4 @@
-- self.content_for(:body) do
+- self.content_for(:html, :body) do
   /
     #{__FILE__}
   %div.logo
@@ -14,9 +14,9 @@
     - unless RubyApp::Session.identity
       = @logon_button.render(:html) do |element|
         - element.attributes.merge!(:class => 'logon')
-        - element.content_for(:body, 'Logon with Google')
+        - element.content_for(:html, :body, 'Logon with Google')
       = @content.render(:html) do |element|
-        - element.content_for(:body) do
+        - element.content_for(:html, :body) do
           Logon as the [first](logon_first) demo user or the [second](logon_second) demo user.
     - else
       You are logged on as ...
@@ -24,7 +24,7 @@
         = RubyApp::Session.identity.url
       = @logoff_button.render(:html) do |element|
         - element.attributes.merge!(:class => 'logoff')
-        - element.content_for(:body, 'Logoff')
+        - element.content_for(:html, :body, 'Logoff')
       = @continue_button.render(:html) do |element|
         - element.attributes.merge!(:class => 'continue')
-        - element.content_for(:body, 'Continue')
+        - element.content_for(:html, :body, 'Continue')

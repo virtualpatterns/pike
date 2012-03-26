@@ -1,8 +1,8 @@
-- self.content_for(:header_center) do
+- self.content_for(:html, :header_center) do
   /
     #{__FILE__}
   Select Category
-- self.content_for(:content) do
+- self.content_for(:html, :content) do
   /
     #{__FILE__}
   = @flag_select.render(:html)

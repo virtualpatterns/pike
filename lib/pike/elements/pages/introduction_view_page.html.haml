@@ -1,13 +1,13 @@
-- self.content_for(:header_left) do
+- self.content_for(:html, :header_left) do
   /
     #{__FILE__}
   = @cancel_button.render(:html) do |element|
-    - element.content_for(:body, 'Cancel')
-- self.content_for(:header_center) do
+    - element.content_for(:html, :body, 'Cancel')
+- self.content_for(:html, :header_center) do
   /
     #{__FILE__}
   Introduction
-- self.content_for(:content) do
+- self.content_for(:html, :content) do
   /
     #{__FILE__}
   %table.properties{:cellspacing => 0}
@@ -26,7 +26,7 @@
         &nbsp;
       %td.buttons.last
         = @accept_button.render(:html) do |element|
-          - element.content_for(:body, 'Accept')
+          - element.content_for(:html, :body, 'Accept')
         = @reject_button.render(:html) do |element|
           - element.attributes.merge!(:class => 'delete')
-          - element.content_for(:body, 'Ignore')
+          - element.content_for(:html, :body, 'Ignore')

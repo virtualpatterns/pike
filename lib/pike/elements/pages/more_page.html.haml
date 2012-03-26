@@ -1,33 +1,33 @@
-- self.content_for(:header_left) do
+- self.content_for(:html, :header_left) do
   /
     #{__FILE__}
   = @back_button.render(:html)
-- self.content_for(:header_right) do
+- self.content_for(:html, :header_right) do
   /
     #{__FILE__}
   = @logoff_button.render(:html) do |element|
-    - element.content_for(:body, 'Logoff')
-- self.content_for(:content) do
+    - element.content_for(:html, :body, 'Logoff')
+- self.content_for(:html, :content) do
   /
     #{__FILE__}
   %div.links
     %div.link
       = @project_list_link.render(:html) do |element|
-        - element.content_for(:body, 'Projects')
+        - element.content_for(:html, :body, 'Projects')
     %div.link
       = @activity_list_link.render(:html) do |element|
-        - element.content_for(:body, 'Activities')
+        - element.content_for(:html, :body, 'Activities')
     %div.link
       = @friend_list_link.render(:html) do |element|
-        - element.content_for(:body, 'Friends')
+        - element.content_for(:html, :body, 'Friends')
   %div.links
     %div.link
       = @report_link.render(:html) do |element|
-        - element.content_for(:body, 'Weekly Summary')
+        - element.content_for(:html, :body, 'Weekly Summary')
     %div.link
       = @rename_property_link.render(:html) do |element|
-        - element.content_for(:body, 'Rename Property')
+        - element.content_for(:html, :body, 'Rename Property')
   %div.links
     %div.link
       = @about_link.render(:html) do |element|
-        - element.content_for(:body, 'About')
+        - element.content_for(:html, :body, 'About')

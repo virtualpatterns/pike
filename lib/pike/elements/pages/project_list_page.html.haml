@@ -1,22 +1,22 @@
-- self.content_for(:header_left) do
+- self.content_for(:html, :header_left) do
   /
     #{__FILE__}
   = @back_button.render(:html)
-- self.content_for(:header_center) do
+- self.content_for(:html, :header_center) do
   /
     #{__FILE__}
   Projects
-- self.content_for(:header_right) do
+- self.content_for(:html, :header_right) do
   /
     #{__FILE__}
   = @add_button.render(:html) do |element|
-    - element.content_for(:body, 'Add')
-- self.content_for(:content) do
+    - element.content_for(:html, :body, 'Add')
+- self.content_for(:html, :content) do
   /
     #{__FILE__}
   - if Pike::Session.identity.user.projects.exists?
     = @project_list.render(:html)
   - else
     = @content.render(:html) do |element|
-      - element.content_for(:body) do
+      - element.content_for(:html, :body) do
         You haven't created any projects.  Tap [here](add_project) or use the [Add](add_project) button to create your first project.

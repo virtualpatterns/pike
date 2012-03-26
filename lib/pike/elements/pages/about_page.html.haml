@@ -1,8 +1,8 @@
-- self.content_for(:header_left) do
+- self.content_for(:html, :header_left) do
   /
     #{__FILE__}
   = @back_button.render(:html)
-- self.content_for(:content) do
+- self.content_for(:html, :content) do
   /
     #{__FILE__}
   %div{:style => 'font-size: 10pt; text-align: center;'}
