@@ -1,0 +1,13 @@
+- self.content_for(:html, :page) do
+  /
+    #{__FILE__}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      = RubyApp::Language.locale.strftime(@work_report.date, Pike::Application.configuration.format.date.short)
+    - unless Pike::Session.identity.user.guest?
+      = @export_button.render(:html) do |element|
+        - element.content_for(:html, :link, 'Export')
+  %div{'data-role' => 'content'}
+    = @work_report.render(:html)

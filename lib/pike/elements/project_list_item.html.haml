@@ -1,0 +1,8 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.project
+    = self.project.name
+    - if self.project.copy_of || self.project.shared?
+      %div.details
+        Shared by #{self.project.copy_of ? self.project.copy_of.user.url : 'you'}

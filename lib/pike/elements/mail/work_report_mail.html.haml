@@ -1,0 +1,8 @@
+- self.content_for(:html, :content) do
+  /
+    #{__FILE__}
+  Your summary for the week of #{@date.strftime(Pike::Application.configuration.format.date.short)}
+  is available
+  %a{:href => @url}
+    here
+  for the next 24 hours.

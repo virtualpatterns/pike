@@ -1,0 +1,6 @@
+load_script! 'about'
+load_script! 'project'
+load_script! 'activity'
+load_script! 'task'
+load_script! 'work'
+load_script! 'work_report'

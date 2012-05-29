@@ -1,0 +1,14 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.task
+    %div.project
+      = self.item.task.project.name
+    %div.activity
+      = self.item.task.activity.name
+  %span.ui-li-count{'style'     => "display: #{self.item.work.duration_minutes > 0 ? 'block' : 'none'};",
+                    'data-work' => self.item.work.id}
+    = ChronicDuration.output(self.item.work.duration_minutes)
+
+- self.content_for(:html, :link, "Project=#{self.item.task.project.name.inspect} Activity=#{self.item.task.activity.name.inspect}")
+
