@@ -9,9 +9,9 @@ module Pike
 
     module Pages
       require 'pike'
-      require 'pike/elements/pages/properties_page'
+      require 'pike/elements'
 
-      class PropertyPage < Pike::Elements::Pages::PropertiesPage
+      class PropertyPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -24,38 +24,39 @@ module Pike
           @property = property
           @value = @property ? @object.read_attribute(@property) : nil
 
-          @cancel_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @done_button = RubyApp::Elements::Button.new
+          @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
               @user.push(@properties, @property) unless @user.send(@properties).include?(@property)
               @object.write_attribute(@property, @value) if @property
-              Pike::Session.pages.pop
-              event.refresh
+              self.hide(event)
             end
           end
 
-          @property_input = RubyApp::Elements::Input.new
+          @property_input = Pike::Elements::Input.new
+          @property_input.attributes.merge!('placeholder' => 'tap to enter a name')
           @property_input.value = @property
           @property_input.changed do |element, event|
             @property = @property_input.value
           end
 
-          @value_input = RubyApp::Elements::Input.new
+          @value_input = Pike::Elements::Input.new
+          @value_input.attributes.merge!(:placeholder => 'tap to enter a value')
           @value_input.value = @value
           @value_input.changed do |element, event|
             @value = @value_input.value
           end
 
-          @delete_button = RubyApp::Elements::Button.new
+          @delete_button = RubyApp::Elements::Mobile::Button.new
+          @delete_button.attributes.merge!('data-theme' => 'f')
           @delete_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this property?')) do |_event, response|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this property?')) do |_event, response|
               if response
-                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
                   @user.pull(@properties, @property)
-                  Pike::Session.pages.pop
-                  _event.refresh
+                  self.hide(_event, @done_button.options)
                 end
               end
             end

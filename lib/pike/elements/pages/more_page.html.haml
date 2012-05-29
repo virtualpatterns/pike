@@ -1,33 +1,39 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @back_button.render(:html)
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @logoff_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Logoff')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %div.links
-    %div.link
-      = @project_list_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'Projects')
-    %div.link
-      = @activity_list_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'Activities')
-    %div.link
-      = @friend_list_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'Friends')
-  %div.links
-    %div.link
-      = @report_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'Weekly Summary')
-    %div.link
-      = @rename_property_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'Rename Property')
-  %div.links
-    %div.link
-      = @about_link.render(:html) do |element|
-        - element.content_for(:html, :body, 'About')
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      More
+  %div{'style'      => 'padding-top: 0px',
+       'data-role'  => 'content'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        = @project_list_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'Projects')
+      %li
+        = @activity_list_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'Activities')
+      -#%li
+      -#  = @friend_list_link.render(:html) do |element|
+      -#    - element.content_for(:html, :link, 'Friends')
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        = @work_report_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'Weekly Summary')
+    -#  %li
+    -#    = @rename_property_link.render(:html) do |element|
+    -#      - element.content_for(:html, :link, 'Rename Property')
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        = @about_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'About')

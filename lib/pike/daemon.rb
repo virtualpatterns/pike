@@ -24,8 +24,8 @@ while true
     RubyApp::Request.create_context! do
       begin
         action.execute!
-      rescue Exception => exception
-        RubyApp::Log.exception(exception)
+      rescue => exception
+        RubyApp::Log.exception(RubyApp::Log::ERROR, exception)
       end
     end
   end

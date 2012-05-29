@@ -7,20 +7,9 @@ module Pike
 
   class Session < RubyApp::Session
 
-    class Identity < RubyApp::Session::Identity
-
-      attr_reader :user
-
-      def initialize(user)
-        @user = user
-        super(user.url)
-      end
-
-    end
-
     def initialize
-      require 'pike/elements/pages'
-      super(Pike::Elements::Pages::DefaultPage.new)
+      require 'pike/elements/document'
+      super(Pike::Elements::Document.new)
     end
 
   end

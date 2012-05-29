@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'chronic'
 require 'socket'
 
 require 'ruby_app/elements'
@@ -11,9 +10,9 @@ module Pike
   module Elements
 
     module Pages
-      require 'pike/elements/pages/properties_page'
+      require 'pike/elements'
 
-      class AboutPage < Pike::Elements::Pages::PropertiesPage
+      class AboutPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -22,7 +21,12 @@ module Pike
 
           @now = now
 
-          @back_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
+
+          @information_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+          @information_link.clicked do |element, event|
+            RubyApp::Elements::Mobile::Pages::InformationPage.new(event.now).show(event)
+          end
 
         end
 

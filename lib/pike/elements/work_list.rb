@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'chronic_duration'
-require 'ruby-event'
 
 require 'ruby_app/elements'
 
@@ -10,67 +9,116 @@ module Pike
 
   module Elements
     require 'pike'
+    require 'pike/elements/pages/task_page'
     require 'pike/elements/pages/work_page'
     require 'pike/models'
 
-    class WorkList < RubyApp::Elements::List
+    class WorkList < RubyApp::Elements::Mobile::List
 
-      class StartedEvent < RubyApp::Elements::List::ClickedEvent
+      class WorkListStartedDivider < RubyApp::Elements::Mobile::List::ListDivider
 
-        def initialize(data)
-          super(data)
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super('Started')
         end
 
       end
 
-      class EditedEvent < RubyApp::Elements::List::ClickedEvent
+      class WorkListFlagDivider < RubyApp::Elements::Mobile::List::ListDivider
 
-        def initialize(data)
-          super(data)
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize(flag)
+          super(Pike::Task::FLAG_NAMES[flag])
         end
 
       end
 
-      class Item
+      class WorkListAddItem < RubyApp::Elements::Mobile::List::ListItem
 
-        attr_reader :date, :task, :work
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('data-icon' => 'plus')
+        end
+
+      end
+
+      class WorkListItem < RubyApp::Elements::Mobile::List::ListSplitItem
+
+        template_path(:all, File.dirname(__FILE__))
 
         def initialize(date, task, work)
-          @date = date
-          @task = task
-          @work = work || Pike::Session.identity.user.work.create!(:task => @task, :date => @date)
+          super({:date => date,
+                 :task => task,
+                 :work => work})
+        end
+
+      end
+
+      class WorkListStartedItem < Pike::Elements::WorkList::WorkListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize(date, task, work)
+          super(date, task, work)
+          self.attributes.merge!('data-theme' => 'b')
         end
 
       end
 
       template_path(:all, File.dirname(__FILE__))
-      exclude_parent_template(:html, :css, :js)
 
-      attr_accessor :today, :date
-
-      event :started
-      event :edited
+      attr_accessor :today
+      attr_accessor :date
 
       def initialize(today = Date.today, date = Date.today)
         super()
 
+        self.attributes.merge!('data-divider-theme' => 'd',
+                               'data-split-theme'   => 'd',
+                               'data-theme'         => 'd')
+
         @today = today
         @date = date
 
-        self.started do |element, event|
-          unless event.item.work.started?
-            Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
-            event.item.work.start!
+        self.item_clicked do |element, event|
+          @today = event.today
+          if event.item.is_a?(Pike::Elements::WorkList::WorkListAddItem)
+            page = Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
           else
-            Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
+            if self.today?
+              unless event.item.item.work.started?
+                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
+                event.item.item.work.start!
+              else
+                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
+              end
+              event.update_element(self)
+            else
+              event.item.item.work.reload
+              page = Pike::Elements::Pages::WorkPage.new(event.item.item)
+              page.removed do |element, _event|
+                _event.update_element(self)
+              end
+              page.show(event)
+            end
           end
-          event.update_element(self)
         end
-
-        self.edited do |element, event|
-          event.item.work.update_duration!
-          Pike::Session.pages.push(Pike::Elements::Pages::WorkPage.new(event.item.work))
-          event.refresh
+        self.link_clicked do |element, event|
+          @today = event.today
+          event.item.item.work.reload
+          page = Pike::Elements::Pages::WorkPage.new(event.item.item)
+          page.removed do |element, _event|
+            _event.update_element(self)
+          end
+          page.show(event)
         end
 
       end
@@ -79,14 +127,15 @@ module Pike
         @date == @today
       end
 
-      def update_duration!(event)
+      def update!(event)
         @today = event.today
         Pike::Session.identity.user.work.where_started.each do |work|
           if work.date == self.today
             work.update_duration!
-            event.remove_class("div.work[work_id='#{work.id}']", 'blank')
-            event.update_text("div.work[work_id='#{work.id}']", ChronicDuration.output(work.duration || 0))
-            event.update_text('span.total', ChronicDuration.output(self.items.inject(0) { |total, item| total + ( item.work.reload.duration || 0 ) }))
+            if work.duration_minutes > 0
+              event.update_style("span[data-work='#{work.id}']", 'display', 'block')
+              event.update_text("span[data-work='#{work.id}']", ChronicDuration.output(work.duration_minutes))
+            end
           else
             work.finish!
             event.update_element(self)
@@ -96,33 +145,34 @@ module Pike
 
       def render(format)
         if format == :html
-          work = {}
-          Pike::Session.identity.user.work.where_date(@date).each do |_work|
-            work[_work.task] = _work
+
+          self.items.clear
+
+          self.items.push(Pike::Elements::WorkList::WorkListAddItem.new)
+
+          Pike::Session.identity.user.work.where_date(@date).where_started.each_with_index do |work, index|
+            self.items.push(Pike::Elements::WorkList::WorkListStartedDivider.new) if index == 0
+            self.items.push(Pike::Elements::WorkList::WorkListStartedItem.new(@date, work.task, work))
           end
-          self.items = Pike::Session.identity.user.tasks.all.collect do |task|
-            Pike::Elements::WorkList::Item.new(@date, task, work[task])
+
+          _work = {}
+          Pike::Session.identity.user.work.where_date(@date).each do |work|
+            _work[work.task] = work
           end
-          @flag = nil
+
+          flag = nil
+          Pike::Session.identity.user.tasks.all.each do |task|
+            work = _work[task] || Pike::Session.identity.user.work.create!(:task => task, :date => @date)
+            unless work.started?
+              self.items.push(Pike::Elements::WorkList::WorkListFlagDivider.new(task.flag)) unless task.flag == flag
+              self.items.push(Pike::Elements::WorkList::WorkListItem.new(@date, work.task, work))
+              flag = task.flag
+            end
+          end
+
         end
         super(format)
       end
-
-      protected
-
-        def on_event(event)
-          on_started(event) if event.is_a?(Pike::Elements::WorkList::StartedEvent)
-          on_edited(event) if event.is_a?(Pike::Elements::WorkList::EditedEvent)
-          super(event)
-        end
-
-        def on_started(event)
-          started(event)
-        end
-
-        def on_edited(event)
-          edited(event)
-        end
 
     end
 

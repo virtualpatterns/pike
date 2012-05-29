@@ -1,64 +1,72 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @cancel_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Cancel')
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  Work
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @done_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Done')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Project
-      %td.value
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Work
+    = @done_button.render(:html)
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
         = @project_link.render(:html) do |element|
-          - element.content_for(:html, :body, @work.task.project ? @work.task.project.name : 'tap for a project')
-    %tr.property
-      %td.name
-        Activity
-      %td.value
+          - element.content_for(:html, :link) do
+            - if @task.project
+              %span
+                = @task.project.name
+            - else
+              %span.ui-disabled
+                tap to select a project
+      %li
         = @activity_link.render(:html) do |element|
-          - element.content_for(:html, :body, @work.task.activity ? @work.task.activity.name : 'tap for an activity')
-    %tr.property
-      %td.name
-        Category
-      %td.value
+          - element.content_for(:html, :link) do
+            - if @task.activity
+              %span
+                = @task.activity.name
+            - else
+              %span.ui-disabled
+                tap to select an activity
+      %li
         = @flag_link.render(:html) do |element|
-          - element.content_for(:html, :body, Pike::Task::FLAG_NAMES[@work.task.flag])
-        %div.instructions
-          :markdown
-            **Liked** tasks appear at the top of the list.
+          - element.content_for(:html, :link) do
+            %span
+              = Pike::Task::FLAG_NAMES[@task.flag]
 
-            **Completed** tasks appear at the bottom of the list.
-    %tr.property
-      %td.name
-        Date
-      %td.value
+    %p.instructions
+      %span{'style' => 'font-weight: bold'}
+        Liked
+      tasks appear at the top of the list.
+      %br
+      %span{'style' => 'font-weight: bold'}
+        Completed
+      tasks appear at the bottom of the list.
+      %br
+      %span{'style' => 'font-weight: bold'}
+        Other
+      tasks appear in the middle of the list.
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
         = RubyApp::Language.locale.strftime(@work.date, Pike::Application.configuration.format.date.short)
-    %tr.property
-      %td.name.last
-        %label{:for => @duration_input.element_id}
+      %li
+        %label.ui-hidden-accessible{'for' => @duration_input.element_id}
           Duration
-      %td.value.last
-        = @duration_input.render(:html) do |element|
-          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a duration')
-        %div.instructions
-          (e.g. 2h 30m)
-  = @properties.render(:html)
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name.last
-        &nbsp;
-      %td.buttons.last
-        = @delete_button.render(:html) do |element|
-          - element.attributes.merge!(:class => 'delete')
-          - element.content_for(:html, :body, 'Delete Task')
+        = @duration_input.render(:html)
+
+    %p.instructions
+      Look
+      %a{'href'   => 'https://github.com/hpoydar/chronic_duration',
+         'target' => '_blank'}
+        here
+      for other examples of parse-able duration strings, e.g. 2h 30m or 2:30
+
+    = @properties.render(:html)
+
+    = @delete_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Delete Task')

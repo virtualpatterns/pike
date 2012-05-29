@@ -1,17 +1,19 @@
 /
   #{__FILE__}
-%table.properties{:cellspacing => 0}
-  - @user.send(@properties).sort.each do |property|
-    %tr.property
-      %td.name
-        = property
-      %td.value{:class => @object.read_attribute(property) ? '' : 'blank'}
-        - property_link = @property_links[property]
-        = property_link.render(:html) do |element|
-          - element.content_for(:html, :body, @object.read_attribute(property) || 'tap to enter a value')
-  %tr.property
-    %td.name.last
-      &nbsp;
-    %td.buttons.last
-      = @add_button.render(:html) do |element|
-        - element.content_for(:html, :body, 'Add Property')
+%ul.properties{attributes}
+  - properties = @user.send(@properties).sort
+  - properties.each do |property|
+    %li.property
+      - property_link = @property_links[property]
+      = property_link.render(:html) do |element|
+        - element.content_for(:html, :link) do
+          %span.name
+            = property
+          - if @object.read_attribute(property)
+            %span.value.ui-li-aside
+              = @object.read_attribute(property)
+  %li{'data-icon' => 'plus'}
+    = @add_link.render(:html) do |element|
+      - element.content_for(:html, :link) do
+        %span.ui-disabled
+          tap to add a property

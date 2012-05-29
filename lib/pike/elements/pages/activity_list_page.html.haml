@@ -1,22 +1,10 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @back_button.render(:html)
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  Activities
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @add_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Add')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  - if Pike::Session.identity.user.activities.exists?
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Activities
+  %div{'data-role'  => 'content'}
     = @activity_list.render(:html)
-  - else
-    = @content.render(:html) do |element|
-      - element.content_for(:html, :body) do
-        You haven't created any activities.  Tap [here](add_activity) or use the [Add](add_activity) button to create your first activity.

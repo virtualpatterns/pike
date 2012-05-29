@@ -1,32 +1,32 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @more_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'More ...')
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  = @date_link.render(:html) do |element|
-    - element.content_for(:html, :body, RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @add_task_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Add')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  - introductions_exist = Pike::Session.identity.user.introductions_as_target.exists?
-  - tasks_exist = Pike::Session.identity.user.tasks.exists?
-  - if introductions_exist
-    %div.notice
-      #{Pike::Session.identity.user.introductions_as_target.count} introduction(s) pending acceptance
-    = @introduction_list.render(:html)
-  - if tasks_exist
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @more_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'More ...')
+    %h1
+      = RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short)
+    = @logoff_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Logoff')
+  %div{'data-role' => 'content'}
     = @work_list.render(:html)
-  - else
-    - if introductions_exist
-      %div{:style => 'margin-top: 10px;'}
-    = @content.render(:html) do |element|
-      - element.content_for(:html, :body) do
-        You haven't created any tasks.  Tap [here](add_task) or use the [Add](add_task) button to create your first task.
+
+-#
+-#- self.content_for(:html, :content) do
+-#  /
+-#    #{__FILE__}
+-#  - introductions_exist = Pike::Session.identity.user.introductions_as_target.exists?
+-#  - tasks_exist = Pike::Session.identity.user.tasks.exists?
+-#  - if introductions_exist
+-#    %div.notice
+-#      #{Pike::Session.identity.user.introductions_as_target.count} introduction(s) pending acceptance
+-#    = @introduction_list.render(:html)
+-#  - if tasks_exist
+-#    = @work_list.render(:html)
+-#  - else
+-#    - if introductions_exist
+-#      %div{:style => 'margin-top: 10px;'}
+-#    = @content.render(:html) do |element|
+-#      - element.content_for(:html, :body) do
+-#        You haven't created any tasks.  Tap [here](add_task) or use the [Add](add_task) button to create your first task.

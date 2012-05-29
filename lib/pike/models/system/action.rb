@@ -26,7 +26,7 @@ module Pike
       def execute!
         begin
           self.execute
-        rescue Exception => exception
+        rescue => exception
           self.exception_at = Time.now
           self.exception_class = exception.class
           self.exception_message = exception.message

@@ -1,64 +1,17 @@
-- self.rendered?(__FILE__) do
-  :sass
-    /* #{__FILE__}
-    @import '#{File.join(File.dirname(__FILE__), %w[colors.sass])}'
-    ul.list
-      list-style-type: none
-      margin: 0px
-      padding-left: 0px
-      > li
-        margin-bottom: 2px
-      > li.flag, > li.total
-        font-size: 10pt
-        background-color: $flag_background
-        border-radius: 5px
-        color: $flag_foreground
-        padding: 5px 10px
-      > li.total
-        background-color: $total_background
-        color: $total_foreground
-      > li.item
-        > div.item
-          display: table
-          width: 100%
-          > a
-            color: inherit
-            display: table-cell
-            font-weight: inherit
-            vertical-align: middle
-          > a.start
-            background:
-              image: url('/pike/resources/elements/work_list.png')
-              position: right center
-              repeat: no-repeat
-              size: 30px
-            width: 40px
-          > a.started
-            background:
-              image: url('/pike/resources/elements/work_list.started.png')
-          > a.edit
-            div.task_work
-              padding: 5px 10px
-              display: table
-              width: 100%
-              > div
-                display: table-cell
-                vertical-align: middle
-              > div.task
-                > div.activity
-                  font-size: 10pt
-              > div.work
-                text-align: right
-      > li.even
-        background-color: $even_background
-        border-radius: 5px
-        color: $even_foreground
-      > li.odd
-        background-color: $odd_background
-        border-radius: 5px
-        color: $odd_foreground
-      > li.started
-        background-color: $started_background
-        border-radius: 5px
-        color: $started_foreground
+:sass
+  /* #{__FILE__}
+  ul
+    li.ui-li-has-count
+      div.task
+        div.activity
+          font-size: 80%
+      span.ui-li-count
+        margin-right: 7px
+= Pike::Elements::Pages::TaskPage.render(:css)
+= Pike::Elements::Pages::WorkPage.render(:css)
+= Pike::Elements::WorkList::WorkListAddItem.render(:css)
+= Pike::Elements::WorkList::WorkListStartedDivider.render(:css)
+= Pike::Elements::WorkList::WorkListFlagDivider.render(:css)
+= Pike::Elements::WorkList::WorkListItem.render(:css)
+= Pike::Elements::WorkList::WorkListStartedItem.render(:css)
 = yield

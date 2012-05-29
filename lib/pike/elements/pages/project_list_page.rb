@@ -10,37 +10,32 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/project_page'
 
-      class ProjectListPage < Pike::Elements::Pages::BlankPage
+      class ProjectListPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize
           super
 
-          @back_button = RubyApp::Elements::Navigation::BackButton.new
-
-          @add_button = RubyApp::Elements::Button.new
-          @add_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new))
-            event.refresh
-          end
-
-          @content = RubyApp::Elements::Markdown.new
-          @content.clicked do |element, event|
-            case event.name
-              when 'add_project'
-                Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new))
-                event.refresh
-            end
-          end
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
           @project_list = Pike::Elements::ProjectList.new
-          @project_list.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ProjectPage.new(event.item))
-            event.refresh
+          @project_list.item_clicked do |element, event|
+            if event.item.is_a?(Pike::Elements::ProjectList::ProjectListAddItem)
+              page = Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new)
+              page.removed do |element, _event|
+                _event.update_element(@project_list)
+              end
+              page.show(event)
+            else
+              page = Pike::Elements::Pages::ProjectPage.new(event.item.project)
+              page.removed do |element, _event|
+                _event.update_element(@project_list)
+              end
+              page.show(event)
+            end
           end
 
         end

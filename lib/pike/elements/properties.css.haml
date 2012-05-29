@@ -1,3 +1,11 @@
-= RubyApp::Elements::Button.render(:css)
-= RubyApp::Elements::Link.render(:css)
+:sass
+  /* #{__FILE__}
+  li.property
+    span.value
+      font-weight: normal
+      margin-bottom: 0px
+      margin-right: 10px
+      margin-top: 0px
+= RubyApp::Elements::Mobile::Navigation::NavigationLink.render(:css)
+= Pike::Elements::Pages::PropertyPage.render(:css)
 = yield

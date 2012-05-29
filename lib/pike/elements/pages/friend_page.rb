@@ -9,9 +9,9 @@ module Pike
 
     module Pages
       require 'pike'
-      require 'pike/elements/pages/properties_page'
+      require 'pike/elements'
 
-      class FriendPage < Pike::Elements::Pages::PropertiesPage
+      class FriendPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -20,13 +20,13 @@ module Pike
 
           @friendship = friendship
 
-          @cancel_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @delete_button = RubyApp::Elements::Button.new
+          @delete_button = RubyApp::Elements::Mobile::Button.new
           @delete_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this friend?  Any shared projects and activities will be deleted momentarily.')) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to remove this friend?  Any shared projects and activities will be deleted momentarily.')) do |_event, response|
               if response
-                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
                   Pike::Friendship.where_friendship(@friendship.user_source, @friendship.user_target).each do |_friendship|
                     _friendship.destroy
                   end

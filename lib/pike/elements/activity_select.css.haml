@@ -1,7 +1,3 @@
-- self.rendered?(__FILE__) do
-  :sass
-    /* #{__FILE__}
-    div.activity
-      > div.details
-        font-size: 10pt
+= Pike::Elements::ActivitySelect::ActivitySelectItem.render(:css)
+= Pike::Elements::ActivitySelect::ActivitySelectedItem.render(:css)
 = yield

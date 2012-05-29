@@ -10,21 +10,20 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/pages/blank_page'
       require 'pike/elements/pages/friend_page'
       require 'pike/elements/pages/introduction_edit_page'
       require 'pike/elements/pages/introduction_view_page'
 
-      class FriendListPage < Pike::Elements::Pages::BlankPage
+      class FriendListPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize
           super
 
-          @back_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @add_button = RubyApp::Elements::Button.new
+          @add_button = Pike::Elements::Navigation::AddButton.new
           @add_button.clicked do |element, event|
             Pike::Session.pages.push(Pike::Elements::Pages::IntroductionEditPage.new(Pike::Session.identity.user.introductions_as_source.new))
             event.refresh
@@ -42,7 +41,7 @@ module Pike
             event.refresh
           end
 
-          @content = RubyApp::Elements::Markdown.new
+          @content = RubyApp::Elements::Mobile::Markdown.new
           @content.clicked do |element, event|
             case event.name
               when 'add_friend'

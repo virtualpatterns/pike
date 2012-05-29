@@ -95,9 +95,10 @@ namespace :pike do
     namespace :thin do
 
       desc 'Start the server(s)'
-      task :start, :servers do |task, arguments|
+      task :start, :daemonize, :servers do |task, arguments|
+        daemonize = arguments.daemonize ? arguments.daemonize.to_b : true
         servers = arguments.servers || 1
-        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8008 --servers #{servers} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; #{daemonize ? nil : 'clear; '} bundle exec thin --port 8008 #{servers > 1 ? "--servers #{servers}" : nil} --rackup configuration.ru #{daemonize && servers ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
@@ -143,7 +144,8 @@ namespace :pike do
                                                     'Failed',
                                                     'Class',
                                                     'Message']) do |table|
-            Pike::System::Action.all.each do |action|
+            count = Pike::System::Action.all.count
+            Pike::System::Action.all.each_with_index do |action, index|
               table.add_row([action.class,
                              action.created_at,
                              action.exception_at,
@@ -152,11 +154,37 @@ namespace :pike do
               if action.exception_backtrace
                 table.add_separator
                 table.add_row([{:value => action.exception_backtrace.join("\n"), :colspan => 5}])
-                table.add_separator
+                table.add_separator unless index == count - 1
               end
             end
           end
           puts table
+        end
+      end
+
+      desc 'Execute all actions'
+      task :execute_all do |task|
+        print_all = false
+        Pike::Application.create_context! do
+          Pike::System::Action.where_not_executed.each do |action|
+            RubyApp::Request.create_context! do
+              begin
+                action.execute!
+              rescue => exception
+                print_all = true
+              end
+            end
+          end
+        end
+        Rake::Task['pike:data:actions:print_all'].invoke if print_all
+      end
+
+      desc 'Destroy all actions'
+      task :destroy_all do |task|
+        Pike::Application.create_context! do
+          Pike::System::Action.all.each do |action|
+            action.destroy
+          end
         end
       end
 
@@ -319,7 +347,9 @@ namespace :pike do
                     'pike:data:migrate:update_task_project_and_activity_names',
                     'pike:data:migrate:update_user_demo_to_first',
                     'pike:data:migrate:add_friendship_user_target_url',
-                    'pike:data:migrate:remove_identities_and_migrations_collections'] do |task|
+                    'pike:data:migrate:remove_identities_and_migrations_collections',
+                    'pike:data:migrate:destroy_work_where_task_destroyed',
+                    'pike:data:migrate:update_work_project_and_activity_names'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -423,26 +453,44 @@ namespace :pike do
         end
       end
 
+      desc 'Destroy all work where the task has been destroyed'
+      task :destroy_work_where_task_destroyed do |task|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Work.all.each do |work| ...'
+            Pike::Work.all.each do |work|
+              puts "  work.date=#{work.date} work.duration=#{work.duration}"
+              if work.task
+                puts "    work.task.project.name=#{work.task.project.name.inspect} work.task.activity.name=#{work.task.activity.name.inspect}"
+              else
+                puts "    work.destroy"
+                work.destroy
+              end
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Update the Pike::Work#_project_name and Pike::Work#_activity_name properties'
+      task :update_work_project_and_activity_names do |task|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Work.all.each do |_work| ...'
+            Pike::Work.all.each do |_work|
+              puts "  _work.task.project.name=#{_work.task.project ? _work.task.project.name.inspect : '(nil)'} _work.set(:_project_name, #{_work.task.project ? _work.task.project.name.downcase.inspect : '(nil)'})"
+              _work.set(:_project_name, _work.task.project ? _work.task.project.name.downcase : nil)
+              puts "  _work.task.activity.name=#{_work.task.activity ? _work.task.activity.name.inspect : '(nil)'} _work.set(:_activity_name, #{_work.task.activity ? _work.task.activity.name.downcase.inspect : '(nil)'})"
+              _work.set(:_activity_name, _work.task.activity ? _work.task.activity.name.downcase : nil)
+            end
+            puts '... end'
+          end
+        end
+      end
+
       # Next migration ...
       #   ...
 
-    end
-
-  end
-
-  namespace :test do
-
-    desc 'Run all tests'
-    task :all => ['pike:cache:destroy',
-                  'pike:test:features']
-
-    desc 'Run all feature tests or only those in the given feature file'
-    task :features, :file do |task, arguments|
-      unless arguments.file
-        system('bundle exec cucumber --format pretty --tags ~@broken --require features')
-      else
-        system("bundle exec cucumber --format pretty --tags ~@broken --require features '#{arguments.file}'")
-      end
     end
 
   end

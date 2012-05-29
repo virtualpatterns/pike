@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'ruby_app/elements'
+
 module Pike
 
   module Elements
@@ -5,9 +10,8 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/pages/select_page'
 
-      class FlagSelectPage < Pike::Elements::Pages::SelectPage
+      class FlagSelectPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -16,12 +20,12 @@ module Pike
 
           @task = task
 
-          @flag_select = Pike::Elements::FlagSelect.new
-          @flag_select.selected_item = @task.flag
-          @flag_select.clicked do |element, event|
-            @task.flag = @flag_select.selected_item
-            Pike::Session.pages.pop
-            event.refresh
+          @back_button = Pike::Elements::Navigation::BackButton.new
+
+          @flag_select = Pike::Elements::FlagSelect.new(@task)
+          @flag_select.item_clicked do |element, event|
+            @task.flag = event.item.flag
+            self.hide(event, @back_button.options)
           end
 
         end

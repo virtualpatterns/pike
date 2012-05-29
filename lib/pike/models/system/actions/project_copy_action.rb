@@ -15,10 +15,10 @@ module Pike
         belongs_to :project, :class_name => 'Pike::Project'
 
         def execute
-          RubyApp::Log.duration("#{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}") do
+          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION #{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}") do
             unless self.user_target
               # Sync to all friends
-              self.user_source.friendships_as_source.each do |friendship|
+              self.user_source.friendships_as_source.all.each do |friendship|
                 unless self.project
                   # Sync all shared projects to a friend
                   #self.sync_shared_projects_to_friend(friendship.user_target)

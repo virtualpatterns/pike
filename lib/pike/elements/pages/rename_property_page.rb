@@ -9,27 +9,27 @@ module Pike
 
     module Pages
       require 'pike'
-      require 'pike/elements/pages/properties_page'
+      require 'pike/elements'
       require 'pike/models'
 
-      class RenamePropertyPage < Pike::Elements::Pages::PropertiesPage
+      class RenamePropertyPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize
           super
 
-          @cancel_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @done_button = RubyApp::Elements::Button.new
+          @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
             if @from_property_input.value.blank? || @to_property_input.value.blank?
-              Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::MessageDialog.new('Rename Property',
+              Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::MessageDialog.new('Rename Property',
                                                                                              'From and to values are both required.'))
             else
-              Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::ConfirmationDialog.new('Confirm', "Are you sure you want to change the name of the property '#{@from_property_input.value}' to '#{@to_property_input.value}'?")) do |_event, response|
+              Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', "Are you sure you want to change the name of the property '#{@from_property_input.value}' to '#{@to_property_input.value}'?")) do |_event, response|
                 if response
-                  RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                  RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
                     user = Pike::Session.identity.user
                     if user.project_properties.include?(@from_property_input.value)
                       user.pull(:project_properties, @from_property_input.value)
@@ -60,8 +60,8 @@ module Pike
             end
           end
 
-          @from_property_input = RubyApp::Elements::Input.new
-          @to_property_input = RubyApp::Elements::Input.new
+          @from_property_input = Pike::Elements::Input.new
+          @to_property_input = Pike::Elements::Input.new
 
         end
 

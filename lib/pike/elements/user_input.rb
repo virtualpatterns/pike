@@ -8,7 +8,7 @@ module Pike
   module Elements
     require 'pike/models'
 
-    class UserInput < RubyApp::Elements::Inputs::EmailInput
+    class UserInput < RubyApp::Elements::Mobile::Inputs::EmailInput
 
       template_path(:all, File.dirname(__FILE__))
 
@@ -26,7 +26,7 @@ module Pike
       protected
 
         def on_changed(event)
-          RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
+          RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(event) do
             @user = Pike::User.get_user_by_url(event.value, false)
             @value = @user ? user.url : nil
             raise "The user #{event.value} does not exist." unless @user

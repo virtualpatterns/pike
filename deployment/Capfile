@@ -27,7 +27,7 @@ namespace :pike do
     desc 'Start the server(s)'
     task :start, :roles => :application do
       find_and_execute_task('pike:process:daemon:start')
-      run("cd /var/www/pike/current && bundle exec rake pike:process:thin:start[#{servers}]")
+      run("cd /var/www/pike/current && bundle exec rake pike:process:thin:start[true, #{servers}]")
     end
 
     desc 'Stop the server(s)'

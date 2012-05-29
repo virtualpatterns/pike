@@ -27,6 +27,10 @@ module Pike
 
       scope :where_value, lambda { |value| where(:value => value) }
 
+      def url
+        return self.user.url
+      end
+
       def self.get_identity_by_value(value)
         Pike::System::Identity.where_value(value).first
       end

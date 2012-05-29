@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app/elements/mail'
+require 'ruby_app/elements'
 
 module Pike
 
@@ -9,7 +9,7 @@ module Pike
 
     module Mail
 
-      class BlankMail < RubyApp::Elements::Mail
+      class BlankMail < RubyApp::Elements::Mobile::Documents::MailDocument
 
         template_path(:all, File.dirname(__FILE__))
 

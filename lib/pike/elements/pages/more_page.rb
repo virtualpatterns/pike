@@ -9,68 +9,54 @@ module Pike
 
     module Pages
       require 'pike'
+      require 'pike/elements'
       require 'pike/elements/pages/about_page'
       require 'pike/elements/pages/activity_list_page'
-      require 'pike/elements/pages/blank_page'
-      require 'pike/elements/pages/friend_list_page'
+      #require 'pike/elements/pages/friend_list_page'
       require 'pike/elements/pages/project_list_page'
-      require 'pike/elements/pages/rename_property_page'
-      require 'pike/elements/pages/report_page'
+      #require 'pike/elements/pages/rename_property_page'
+      require 'pike/elements/pages/work_report_page'
       require 'pike/models'
 
-      class MorePage < Pike::Elements::Pages::BlankPage
+      class MorePage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize
           super
 
-          @back_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @logoff_button = RubyApp::Elements::Button.new
-          @logoff_button.clicked do |element, event|
-            identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
-            identity.destroy if identity
-            event.set_cookie('_identity', nil, Time.now)
-            Pike::Session.identity = nil
-            Pike::Session.pages.pop(2)
-            event.refresh
-          end
-
-          @project_list_link = RubyApp::Elements::Link.new
+          @project_list_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @project_list_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ProjectListPage.new)
-            event.refresh
+            Pike::Elements::Pages::ProjectListPage.new.show(event)
           end
 
-          @activity_list_link = RubyApp::Elements::Link.new
+          @activity_list_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @activity_list_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ActivityListPage.new)
-            event.refresh
+            Pike::Elements::Pages::ActivityListPage.new.show(event)
           end
 
-          @friend_list_link = RubyApp::Elements::Link.new
+          @friend_list_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @friend_list_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::FriendListPage.new)
-            event.refresh
+            #Pike::Session.pages.push(Pike::Elements::Pages::FriendListPage.new)
+            #event.refresh
           end
 
-          @report_link = RubyApp::Elements::Link.new
-          @report_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ReportPage.new(event.today))
-            event.refresh
+          @work_report_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+          @work_report_link.clicked do |element, event|
+            Pike::Elements::Pages::WorkReportPage.new.show(event)
           end
 
-          @rename_property_link = RubyApp::Elements::Link.new
+          @rename_property_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @rename_property_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::RenamePropertyPage.new)
-            event.refresh
+            #Pike::Session.pages.push(Pike::Elements::Pages::RenamePropertyPage.new)
+            #event.refresh
           end
 
-          @about_link = RubyApp::Elements::Link.new
+          @about_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @about_link.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::AboutPage.new(event.now))
-            event.refresh
+            Pike::Elements::Pages::AboutPage.new(event.now).show(event)
           end
 
         end

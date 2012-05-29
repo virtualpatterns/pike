@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app'
 require 'ruby_app/elements'
 
 module Pike
@@ -11,69 +10,67 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/pages/blank_page'
-      require 'pike/elements/pages/introduction_view_page'
+      #require 'pike/elements/pages/introduction_view_page'
       require 'pike/elements/pages/more_page'
-      require 'pike/elements/pages/task_page'
 
-      class WorkListPage < Pike::Elements::Pages::BlankPage
-
-        INTERVAL = 75
+      class WorkListPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize(today = Date.today, date = Date.today)
           super()
 
-          @more_button = RubyApp::Elements::Button.new
+          self.loaded do |element, event|
+            #RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} event.create_trigger(#{@work_list.element_id.inspect}, #{Pike::Elements::Pages::WorkListPage.configuration.interval})")
+            event.create_trigger(self, Pike::Elements::Pages::WorkListPage.configuration.interval)
+          end
+          self.shown do |element, event|
+            #RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} event.create_trigger(#{self.element_id.inspect}, #{Pike::Elements::Pages::WorkListPage.configuration.interval})")
+            event.create_trigger(self, Pike::Elements::Pages::WorkListPage.configuration.interval)
+          end
+          self.hidden do |element, event|
+            #RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} event.destroy_trigger(#{self.element_id.inspect})")
+            event.destroy_trigger(self)
+          end
+
+          self.triggered do |element, event|
+            @work_list.update!(event)
+          end
+
+          self.swiped do |element, event|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::Calendars::MonthDialog.new(today, @work_list.date)) do |_event, response|
+              @work_list.date = response
+              _event.update_text('div[data-role="header"] h1', RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
+              _event.update_element(@work_list)
+            end
+          end
+
+          @more_button = RubyApp::Elements::Mobile::Navigation::NavigationButton.new
           @more_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::MorePage.new)
-            event.refresh
-          end
-
-          @date_link = RubyApp::Elements::Link.new
-          @date_link.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::Calendars::MonthDialog.new('Select Date', today, @work_list.date, @work_list.date)) do |_event, response|
-              if response
-                if response > today
-                  Pike::Session.show_dialog(_event, RubyApp::Elements::Dialogs::MessageDialog.new('Select Date',
-                                                                                                  'The selected date is invalid.  Work cannot be updated for future dates.'))
-                else
-                  @work_list.date = response
-                  self.interval = @work_list.date.today? ? Pike::Elements::Pages::WorkListPage::INTERVAL : 0
-                  _event.refresh
-                end
-              end
+            page = Pike::Elements::Pages::MorePage.new
+            page.removed do |element, _event|
+              _event.update_element(@work_list)
             end
+            page.show(event)
           end
 
-          @add_task_button = RubyApp::Elements::Button.new
-          @add_task_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
-            event.refresh
+          @logoff_button = RubyApp::Elements::Mobile::Button.new
+          @logoff_button.clicked do |element, event|
+            Pike::Session.identity.destroy
+            Pike::Session.identity = nil
+            RubyApp::Response.set_cookie('identity', {:value    => nil,
+                                                      :path     => '/',
+                                                      :expires  => Time.now})
+            self.hide(event)
           end
 
-          @content = RubyApp::Elements::Markdown.new
-          @content.clicked do |element, event|
-            case event.name
-              when 'add_task'
-                Pike::Session.pages.push(Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new))
-                event.refresh
-            end
-          end
-
-          @introduction_list = Pike::Elements::IntroductionList.new
-          @introduction_list.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::IntroductionViewPage.new(event.item))
-            event.refresh
-          end
+          #@introduction_list = Pike::Elements::IntroductionList.new
+          #@introduction_list.clicked do |element, event|
+          #  Pike::Session.pages.push(Pike::Elements::Pages::IntroductionViewPage.new(event.item))
+          #  event.refresh
+          #end
 
           @work_list = Pike::Elements::WorkList.new(today, date)
-
-          self.interval = Pike::Elements::Pages::WorkListPage::INTERVAL
-          self.triggered do |element, event|
-            @work_list.update_duration!(event)
-          end
 
         end
 

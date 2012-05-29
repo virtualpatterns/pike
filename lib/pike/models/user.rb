@@ -3,11 +3,14 @@ require 'bundler/setup'
 
 require 'mongoid'
 
+require 'ruby_app/mixins'
+
 module Pike
 
   class User
     include Mongoid::Document
     include Mongoid::Timestamps
+    extend RubyApp::Mixins::ConfigurationMixin
 
     store_in :users
 
@@ -45,8 +48,64 @@ module Pike
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
 
-    def demo_user?
+    def guest?
       self.url =~ /pike\.virtualpatterns\.com/
+    end
+
+    def create_project!(project_name, properties = {})
+      project = self.projects.create!(:name => project_name)
+      unless properties.empty?
+        properties.each do |name, value|
+          self.push(:project_properties, name) unless self.send(:project_properties).include?(name)
+          project.write_attribute(name, value)
+        end
+        project.save!
+      end
+      return project
+    end
+
+    def create_activity!(activity_name, properties = {})
+      activity = self.activities.create!(:name => activity_name)
+      unless properties.empty?
+        properties.each do |name, value|
+          self.push(:activity_properties, name) unless self.send(:activity_properties).include?(name)
+          activity.write_attribute(name, value)
+        end
+        activity.save!
+      end
+      return activity
+    end
+
+    def create_task!(project_name, activity_name, flag = Pike::Task::FLAG_NORMAL, properties = {})
+      project = self.create_project!(project_name)
+      activity = self.create_activity!(activity_name)
+      task = self.tasks.create!(:project_id  => project.id,
+                                :activity_id => activity.id,
+                                :flag        => flag)
+      unless properties.empty?
+        properties.each do |name, value|
+          self.push(:task_properties, name) unless self.send(:task_properties).include?(name)
+          task.write_attribute(name, value)
+        end
+        task.save!
+      end
+      return task
+    end
+
+    def create_work!(project_name, activity_name, date, duration)
+      task = self.create_task!(project_name, activity_name)
+      return self.work.create!(:task_id   => task.id,
+                               :date      => date,
+                               :duration  => duration)
+    end
+
+    def self.get_random_user
+      RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} Pike::User.configuration._length=#{Pike::User.configuration._length}")
+      url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      while Pike::User.where_url(url).first
+        url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      end
+      return Pike::User.create!(:url => url)
     end
 
     def self.get_user_by_url(url, create = true)

@@ -6,6 +6,7 @@ require 'mongoid'
 require 'ruby_app'
 
 module Pike
+  require 'pike/mixins'
 
   class Work
     include Mongoid::Document
@@ -26,14 +27,24 @@ module Pike
     field :duration, :type => Integer, :default => 0
     field :started, :type => Time
     field :updated, :type => Time
+    field :_project_name, :type => String
+    field :_activity_name, :type => String
 
     validates_presence_of :date
 
     validates_uniqueness_of :task_id, :scope => [:date]
 
+    default_scope order_by([[:date, :asc], [:_project_name, :asc],[:_activity_name, :asc]])
+
+    scope :where_task, lambda { |task| where(:task_id => task.id) }
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }
+    scope :where_week, lambda { |date| where(:date.gte => date.start_of_week).and(:date.lt => date.end_of_week) }
     scope :where_started, where(:started.ne => nil)
+
+    def duration_minutes
+      return (self.duration/60).round * 60
+    end
 
     def started?
       self.started
@@ -67,10 +78,9 @@ module Pike
     protected
 
       def on_before_save
-        if self.duration
-          self.duration = (self.duration/60).round * 60
-        else
-          self.duration = 0
+        if self.task_id_changed?
+          self._project_name = self.task.project.name.downcase
+          self._activity_name = self.task.activity.name.downcase
         end
       end
 

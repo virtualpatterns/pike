@@ -1,7 +1,7 @@
 - self.content_for(:html, :header_left) do
   /
     #{__FILE__}
-  = @cancel_button.render(:html) do |element|
+  = @back_button.render(:html) do |element|
     - element.content_for(:html, :body, 'Cancel')
 - self.content_for(:html, :header_center) do
   /

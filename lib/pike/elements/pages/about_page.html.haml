@@ -1,83 +1,66 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @back_button.render(:html)
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %div{:style => 'font-size: 10pt; text-align: center;'}
-    Source code available on
-  %div{:style => 'margin: 15px 0px 20px 0px; text-align: center;'}
-    %a{:href => 'https://github.com/virtualpatterns/pike', :target => '_blank'}
-      %img{:src => '/pike/resources/elements/pages/about_page.png', :width => '100', :height=> '44', :style => 'background-color: white; border-radius: 20px; padding: 10px;'}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Versions
-      %td.value
-        RubyApp #{RubyApp::VERSION}
-    %tr.property
-      %td.name.last
-        &nbsp;
-      %td.value.last
-        Pike #{Pike::VERSION}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Memory&nbsp;Usage
-      %td.value
-        - memory = `ps -o rss= -p #{$$}`.to_i
-        - RubyApp::Response.set_cookie('_memory', { :value    => memory,
-                                                    :expires  => Chronic.parse('next year'),
-                                                    :path     => '/'})
-        = "#{memory} bytes"
-        %div.instructions
-          :markdown
-            (currently)
-    - if RubyApp::Request.cookies['_memory']
-      %tr.property
-        %td.name
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      About
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        %a{'href'       => 'https://github.com/virtualpatterns/pike',
+           'target'     => '_blank'}
+          %img.github{'src'   => '/pike/resources/elements/pages/about_page/git.png',
+                      'height' => 60}
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li{'data-role' => 'list-divider'}
+        %span
+          Versions
+      %li
+        %span
+          %code
+            RubyApp
+        %span.ui-li-aside
+          %code
+            #{RubyApp::VERSION}
+      %li
+        %span
+          %code
+            Pike
+        %span.ui-li-aside
+          %code
+            #{Pike::VERSION}
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li{'data-role' => 'list-divider'}
+        %span
+          Miscellaneous
+      %li
+        %span
+          User
+        %span.ui-li-aside
+          %code
+            = Pike::Session.identity.user.url
+      %li
+        %span
+          Server
+          %br
           &nbsp;
-        %td.value
-          = "#{(RubyApp::Request.cookies['_memory']).to_i} bytes"
-          %div.instructions
-            :markdown
-              (previously)
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Configuration
-      %td.value
-        = ENV['RUBY_APP_CONFIGURATION'] || 'default'
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        User
-      %td.value
-        = RubyApp::Session.identity.url
-    %tr.property
-      %td.name.last
-        Mail
-      %td.value.last
-        = Pike::Application.configuration.mail.to || Pike::Session.identity.user.url
-        %div.instructions
-          :markdown
-            All mail for this user will be sent to this address.
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Server
-      %td.value
-        = Socket.gethostname
-        %br
-        = RubyApp::Request.cookies['_server'] || '(unknown instance)'
-    %tr.property
-      %td.name
-        Remote
-      %td.value
-        = RubyApp::Language.locale.strftime(Time.now, Pike::Application.configuration.format.date.long)
-    %tr.property
-      %td.name.last
-        Local
-      %td.value.last
-        = RubyApp::Language.locale.strftime(@now, Pike::Application.configuration.format.date.long)
+        %span.ui-li-aside
+          %code
+            = Socket.gethostname
+            %br
+            = RubyApp::Request.cookies['_server'] || '(unknown instance)'
+      %li
+        = @information_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'System')

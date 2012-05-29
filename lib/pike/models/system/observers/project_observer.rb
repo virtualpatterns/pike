@@ -22,7 +22,7 @@ module Pike
         end
 
         def around_destroy(project)
-          _projects = project.copies.collect
+          _projects = project.copies.all.collect
           yield
           _projects.each do |_project|
             Pike::System::Actions::ProjectDeleteAction.create!(:user_source => nil,

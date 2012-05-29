@@ -1,14 +1,8 @@
-- self.rendered?(__FILE__) do
-  :plain
-    // #{__FILE__}
-    $(document).ready(function() {
-      $('ul.list > li.item > div.item > a.start').live('click', function(event) {
-        event.preventDefault();
-        RubyApp.queueEvent({_class:'Pike::Elements::WorkList::StartedEvent', source_id:$(this).parents('ul.list').attr('id'), index:$(this).attr('index')}, false);
-      });
-      $('ul.list > li.item > div.item > a.edit').live('click', function(event) {
-        event.preventDefault();
-        RubyApp.queueEvent({_class:'Pike::Elements::WorkList::EditedEvent', source_id:$(this).parents('ul.list').attr('id'), index:$(this).attr('index')}, true);
-      });
-    });
+= Pike::Elements::Pages::TaskPage.render(:js)
+= Pike::Elements::Pages::WorkPage.render(:js)
+= Pike::Elements::WorkList::WorkListAddItem.render(:js)
+= Pike::Elements::WorkList::WorkListStartedDivider.render(:js)
+= Pike::Elements::WorkList::WorkListFlagDivider.render(:js)
+= Pike::Elements::WorkList::WorkListItem.render(:js)
+= Pike::Elements::WorkList::WorkListStartedItem.render(:js)
 = yield

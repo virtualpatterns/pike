@@ -1,140 +1,71 @@
 default:
   ruby_app:
     application:
-      _class: "Pike::Application"
-    language:
-      default: "en"
-      paths:
-        - "#{RubyApp::ROOT}/translations"
-        - "#{Pike::ROOT}/translations"
-    log:
-      path: "#{Pike::ROOT}/process/log/application.log"
-    response:
-      cache:
-        formats:
-          - :css
-          - :js
-        read?: true
-        write?: true
-    session:
-      _class: "Pike::Session"
-      expires: 900
-      interval: 15
-  pike:
-    application:
+      _class: 'Pike::Application'
       format:
         date:
-          long: %c
-          short: %a %b %-d
-      amazon:
-        access_key: ABC
-        secret_key: DEF
-      mail:
-        to: frank.ficnar@gmail.com
-        from: '"Pike" <virtualpatterns@sympatico.ca>'
-      mongodb:
-        host: localhost
-        port: 27017
-        database: pike
-    elements:
-      pages:
-        authentication:
-          open_id:
-            google_authentication_page:
-              identifier: https://www.google.com/accounts/o8/id
-              attributes:
-                email: http://schema.openid.net/contact/email
-
-staging:
-  ruby_app:
-    application:
-      _class: "Pike::Application"
+          long: '%b %d %H:%M %Z'
+          short: '%a %b %-d'
     language:
-      default: "en"
+      default: 'en'
       paths:
-        - "#{RubyApp::ROOT}/translations"
-        - "#{Pike::ROOT}/translations"
+        - '#{RubyApp::ROOT}/translations'
+        - '#{Pike::ROOT}/translations'
     log:
-      path: "#{Pike::ROOT}/process/log/application.log"
+      path: '#{Pike::ROOT}/process/log/application.log'
     response:
       cache:
         formats:
           - :css
           - :js
-        read?: true
+        read?: false
         write?: false
     session:
-      _class: "Pike::Session"
+      _class: 'Pike::Session'
       expires: 900
       interval: 15
+      _length: 10
+      scripts:
+        enabled: true
+        path: '#{Pike::ROOT}/scripts'
+    elements:
+      mobile:
+        documents:
+          authentication:
+            open_id:
+              ax_authentication_document:
+                attributes:
+                  email: 'http://schema.openid.net/contact/email'
+              google_authentication_document:
+                identifier: 'https://www.google.com/accounts/o8/id'
+              my_open_id_authentication_document:
+                identifier: 'http://myopenid.com'
+              yahoo_authentication_document:
+                attributes:
+                  email: 'http://axschema.org/contact/email'
+                identifier: 'https://www.yahoo.com'
   pike:
     application:
       format:
         date:
-          long: %c
-          short: %a %b %-d
+          long: '%c'
+          short: '%a %b %-d'
       amazon:
-        access_key: ABC
-        secret_key: DEF
+        access_key: 'ABC'
+        secret_key: '123'
       mail:
-        to: ~
+        to: 'frank.ficnar@gmail.com'
         from: '"Pike" <virtualpatterns@sympatico.ca>'
       mongodb:
-        host: localhost
+        host: 'localhost'
         port: 27017
-        database: pike
+        database: 'pike'
     elements:
       pages:
-        authentication:
-          open_id:
-            google_authentication_page:
-              identifier: https://www.google.com/accounts/o8/id
-              attributes:
-                email: http://schema.openid.net/contact/email
-
-production:
-  ruby_app:
-    application:
-      _class: "Pike::Application"
-    language:
-      default: "en"
-      paths:
-        - "#{RubyApp::ROOT}/translations"
-        - "#{Pike::ROOT}/translations"
-    log:
-      path: "#{Pike::ROOT}/process/log/application.log"
-    response:
-      cache:
-        formats:
-          - :css
-          - :js
-        read?: true
-        write?: false
-    session:
-      _class: "Pike::Session"
-      expires: 900
-      interval: 15
-  pike:
-    application:
-      format:
-        date:
-          long: %c
-          short: %a %b %-d
-      amazon:
-        access_key: ABC
-        secret_key: DEF
-      mail:
-        to: ~
-        from: '"Pike" <virtualpatterns@sympatico.ca>'
-      mongodb:
-        host: i-51d50f34
-        port: 27017
-        database: pike
-    elements:
-      pages:
-        authentication:
-          open_id:
-            google_authentication_page:
-              identifier: https://www.google.com/accounts/o8/id
-              attributes:
-                email: http://schema.openid.net/contact/email
+        default_page:
+          scripts?: true
+          guests?: true
+        work_list_page:
+          interval: 15
+    user:
+      _length: 10

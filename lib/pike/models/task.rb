@@ -40,6 +40,7 @@ module Pike
 
     default_scope order_by([[:flag, :asc], [:_project_name, :asc],[:_activity_name, :asc]])
 
+    scope :where_flag, lambda { |flag| where(:flag => flag) }
     scope :where_not_flag, lambda { |flag| where(:flag.ne => flag) }
 
     protected
@@ -50,9 +51,8 @@ module Pike
       end
 
       def on_before_destroy
-        self.work.where_started.each do |work|
-          work.finish!
-        end
+        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} Pike::Work.destroy_all(:task_id => #{self.id})")
+        Pike::Work.destroy_all(:task_id => self.id)
       end
 
   end

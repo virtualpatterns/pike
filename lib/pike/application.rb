@@ -3,10 +3,8 @@ require 'bundler/setup'
 
 require 'AWS'
 require 'mongoid'
-require 'sass/plugin'
 
 require 'ruby_app'
-require 'ruby_app/themes/mobile'
 
 module Pike
   require 'pike/models/system/observers'
@@ -17,8 +15,6 @@ module Pike
 
     def initialize
       super
-
-      Sass::Plugin.options[:load_paths] += [File.expand_path(File.join(File.dirname(__FILE__), %w[elements]))]
 
       @connection = Mongo::Connection.new(Pike::Application.configuration.mongodb.host =~ /^i-/ ? Pike::Application.get_instance_private_dns(Pike::Application.configuration.mongodb.host) : Pike::Application.configuration.mongodb.host,
                                           Pike::Application.configuration.mongodb.port)

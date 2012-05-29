@@ -11,9 +11,8 @@ module Pike
       require 'pike'
       require 'pike/elements'
       require 'pike/elements/pages/activity_page'
-      require 'pike/elements/pages/select_page'
 
-      class ActivitySelectPage < Pike::Elements::Pages::SelectPage
+      class ActivitySelectPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -22,27 +21,20 @@ module Pike
 
           @task = task
 
-          @add_activity_button = RubyApp::Elements::Button.new
-          @add_activity_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new))
-            event.refresh
-          end
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @content = RubyApp::Elements::Markdown.new
-          @content.clicked do |element, event|
-            case event.name
-              when 'add_activity'
-                Pike::Session.pages.push(Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new))
-                event.refresh
+          @activity_select = Pike::Elements::ActivitySelect.new(@task)
+          @activity_select.item_clicked do |element, event|
+            if event.item.is_a?(Pike::Elements::ActivitySelect::ActivitySelectAddItem)
+              page = Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new)
+              page.removed do |element, _event|
+                _event.update_element(@activity_select)
+              end
+              page.show(event)
+            else
+              @task.activity = event.item.activity
+              self.hide(event)
             end
-          end
-
-          @activity_select = Pike::Elements::ActivitySelect.new
-          @activity_select.selected_item = @task.activity
-          @activity_select.clicked do |element, event|
-            @task.activity = @activity_select.selected_item
-            Pike::Session.pages.pop
-            event.refresh
           end
 
         end

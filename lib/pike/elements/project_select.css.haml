@@ -1,7 +1,4 @@
-- self.rendered?(__FILE__) do
-  :sass
-    /* #{__FILE__}
-    div.project
-      > div.details
-        font-size: 10pt
+= Pike::Elements::ProjectSelect::ProjectSelectAddItem.render(:css)
+= Pike::Elements::ProjectSelect::ProjectSelectItem.render(:css)
+= Pike::Elements::ProjectSelect::ProjectSelectedItem.render(:css)
 = yield

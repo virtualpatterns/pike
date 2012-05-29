@@ -8,7 +8,7 @@ module Pike
   module Elements
     require 'pike'
 
-    class FriendList < RubyApp::Elements::List
+    class FriendList < RubyApp::Elements::Mobile::Navigation::NavigationList
 
       template_path(:all, File.dirname(__FILE__))
 

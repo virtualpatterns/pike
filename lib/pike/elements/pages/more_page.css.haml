@@ -1,26 +1,7 @@
-- self.rendered?(__FILE__) do
-  :sass
-    /* #{__FILE__}
-    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
-    div.content
-      > div.links
-        background-color: $properties_background
-        border-radius: 10px
-        color: $properties_foreground
-        margin: 0px 0px 10px 0px
-        width: 100%
-        > div.link
-          border-bottom: 2px solid $properties_border
-          padding: 10px
-          a
-            background-image: url('/pike/resources/elements/pages/properties_page.png')
-            background-position: right center
-            background-repeat: no-repeat
-            color: inherit
-            display: block
-        > div.link:last-child
-          border-bottom: inherit
-= RubyApp::Elements::Button.render(:css)
-= RubyApp::Elements::Link.render(:css)
-= RubyApp::Elements::Navigation::BackButton.render(:css)
+= RubyApp::Elements::Mobile::Navigation::NavigationLink.render(:css)
+= Pike::Elements::Navigation::BackButton.render(:css)
+= Pike::Elements::Pages::AboutPage.render(:css)
+= Pike::Elements::Pages::ActivityListPage.render(:css)
+= Pike::Elements::Pages::ProjectListPage.render(:css)
+= Pike::Elements::Pages::WorkReportPage.render(:css)
 = yield

@@ -15,8 +15,8 @@ module Pike
         belongs_to :activity, :class_name => 'Pike::Activity'
 
         def delete_activity(activity)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect}")
-          activity.tasks.each do |task|
+          RubyApp::Log.debug(RubyApp::Log::INFO, "ACTION #{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect}")
+          activity.tasks.all.each do |task|
             task.destroy
           end
           activity.destroy

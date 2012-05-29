@@ -1,30 +1,30 @@
-- self.content_for(:html, :body) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  %div.logo
-    %div.left
+  %div{'data-fullscreen'  => 'true',
+       'data-position'    => 'fixed',
+       'data-role'        => 'header'}
+    %h1
       Pike
-    %div.right
-      Efficient Mobile Task Tracking
-  %div.version
-    RubyApp Version #{RubyApp::VERSION}
-    %br
-    Pike Version #{Pike::VERSION}
-  %div.logon
-    - unless RubyApp::Session.identity
-      = @logon_button.render(:html) do |element|
-        - element.attributes.merge!(:class => 'logon')
-        - element.content_for(:html, :body, 'Logon with Google')
-      = @content.render(:html) do |element|
-        - element.content_for(:html, :body) do
-          Logon as the [first](logon_first) demo user or the [second](logon_second) demo user.
-    - else
-      You are logged on as ...
-      %div.email
-        = RubyApp::Session.identity.url
-      = @logoff_button.render(:html) do |element|
-        - element.attributes.merge!(:class => 'logoff')
-        - element.content_for(:html, :body, 'Logoff')
-      = @continue_button.render(:html) do |element|
-        - element.attributes.merge!(:class => 'continue')
-        - element.content_for(:html, :body, 'Continue')
+    - if Pike::Elements::Pages::DefaultPage.configuration.scripts?
+      = @scripts_button.render(:html) do |element|
+        - element.content_for(:html, :link, 'Scripts')
+  %div{'data-role' => 'content'}
+    %div.logon
+    = @logon_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Logon with Google')
+  - if Pike::Elements::Pages::DefaultPage.configuration.guests?
+    %div{'class'            => 'ui-bar',
+         'data-fullscreen'  => 'true',
+         'data-position'    => 'fixed',
+         'data-role'        => 'footer'}
+      %div.label
+        Guest Logons
+      %div{'data-role' => 'controlgroup',
+           'data-type' => 'horizontal'}
+        = @first_button.render(:html) do |element|
+          - element.content_for(:html, :link, 'First')
+        = @second_button.render(:html) do |element|
+          - element.content_for(:html, :link, 'Second')
+        = @random_button.render(:html) do |element|
+          - element.content_for(:html, :link, 'Random')

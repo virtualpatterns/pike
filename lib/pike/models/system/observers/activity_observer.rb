@@ -22,7 +22,7 @@ module Pike
         end
 
         def around_destroy(activity)
-          _activities = activity.copies.collect
+          _activities = activity.copies.all.collect
           yield
           _activities.each do |_activity|
             Pike::System::Actions::ActivityDeleteAction.create!(:user_source => nil,

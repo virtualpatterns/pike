@@ -8,7 +8,7 @@ module Pike
   module Elements
     require 'pike'
 
-    class IntroductionList < RubyApp::Elements::List
+    class IntroductionList < RubyApp::Elements::Mobile::Navigation::NavigationList
 
       template_path(:all, File.dirname(__FILE__))
 

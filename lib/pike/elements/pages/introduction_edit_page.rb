@@ -10,9 +10,8 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/pages/properties_page'
 
-      class IntroductionEditPage < Pike::Elements::Pages::PropertiesPage
+      class IntroductionEditPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -21,13 +20,13 @@ module Pike
 
           @introduction = introduction
 
-          @cancel_button = RubyApp::Elements::Navigation::BackButton.new
+          @back_button = Pike::Elements::Navigation::BackButton.new
 
-          @done_button = RubyApp::Elements::Button.new
+          @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Dialogs::AcknowledgementDialog.new('Introduction', 'An introduction will be sent to the user specified.  They will not appear as your friend until the introduction is accepted.')) do |_event, response|
+            Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'An introduction will be sent to the user specified.  They will not appear as your friend until the introduction is accepted.')) do |_event, response|
               if response
-                RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(_event) do
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
                   @introduction.save!
                   Pike::Session.pages.pop
                   _event.refresh
@@ -41,7 +40,7 @@ module Pike
             @introduction.user_target = @user_target_input.user
           end
 
-          @message_input = RubyApp::Elements::Inputs::MultilineInput.new
+          @message_input = RubyApp::Elements::Mobile::Inputs::MultilineInput.new
           @message_input.changed do |element, event|
             @introduction.message = @message_input.value
           end

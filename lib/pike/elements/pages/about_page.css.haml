@@ -1,20 +1,8 @@
-- self.rendered?(__FILE__) do
-  :sass
-    /* #{__FILE__}
-    @import '#{File.join(File.dirname(__FILE__), %w[.. colors.sass])}'
-    div.content
-      > table.properties
-        font-size: 10pt
-        margin: 0px 0px 5px 0px
-        width: 100%
-        tr.property
-          > td
-            padding: 7px
-          > td.name
-            width: 20%
-          > td.value
-            > div.instructions
-              font-size: 8pt
-              padding-top: 2px
-= RubyApp::Elements::Navigation::BackButton.render(:css)
+:sass
+  /* #{__FILE__}
+  img.github
+    margin-left: 15px
+    margin-top: 10px
+= RubyApp::Elements::Mobile::Pages::InformationPage.render(:css)
+= Pike::Elements::Navigation::BackButton.render(:css)
 = yield

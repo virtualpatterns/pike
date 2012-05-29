@@ -1,42 +1,52 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @cancel_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Cancel')
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  Task
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @done_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Done')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        Project
-      %td.value{:class => @task.project ? '' : 'blank'}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Task
+    = @done_button.render(:html)
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
         = @project_link.render(:html) do |element|
-          - element.content_for(:html, :body, @task.project ? @task.project.name : 'tap for a project')
-    %tr.property
-      %td.name
-        Activity
-      %td.value{:class => @task.activity ? '' : 'blank'}
+          - element.content_for(:html, :link) do
+            - if @task.project
+              %span
+                = @task.project.name
+            - else
+              %span.ui-disabled
+                tap to select a project
+      %li
         = @activity_link.render(:html) do |element|
-          - element.content_for(:html, :body, @task.activity ? @task.activity.name : 'tap for an activity')
-    %tr.property
-      %td.name.last
-        Category
-      %td.value.last
+          - element.content_for(:html, :link) do
+            - if @task.activity
+              %span
+                = @task.activity.name
+            - else
+              %span.ui-disabled
+                tap to select an activity
+      %li
         = @flag_link.render(:html) do |element|
-          - element.content_for(:html, :body, Pike::Task::FLAG_NAMES[@task.flag])
-        %div.instructions
-          :markdown
-            **Liked** tasks appear at the top of the list.
+          - element.content_for(:html, :link) do
+            %span
+              = Pike::Task::FLAG_NAMES[@task.flag]
 
-            **Completed** tasks appear at the bottom of the list.
-  = @properties.render(:html)
+    %p.instructions
+      %span{'style' => 'font-weight: bold'}
+        Liked
+      tasks appear at the top of the list.
+      %br
+      %span{'style' => 'font-weight: bold'}
+        Completed
+      tasks appear at the bottom of the list.
+      %br
+      %span{'style' => 'font-weight: bold'}
+        Other
+      tasks appear in the middle of the list.
+
+    = @properties.render(:html)

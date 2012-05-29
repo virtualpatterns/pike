@@ -12,63 +12,74 @@ module Pike
 
     module Pages
       require 'pike'
-      require 'pike/models'
-      require 'pike/elements/pages/authentication/open_id/google_authentication_page'
+      require 'pike/elements'
+      require 'pike/elements/documents/authentication/open_id/google_authentication_document'
       require 'pike/elements/pages/work_list_page'
+      require 'pike/models'
 
-      class DefaultPage < RubyApp::Elements::Page
+      class DefaultPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
         def initialize
           super
 
+          self.attributes.merge!('data-theme' => 'a')
+
           self.loaded do |element, event|
             unless Pike::Session.identity
-              if RubyApp::Request.cookies['_identity']
-                identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['_identity'])
+              if RubyApp::Request.cookies['identity']
+                identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['identity'])
                 if identity
-                  Pike::Session.identity = Pike::Session::Identity.new(identity.user)
-                  identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
-                  Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
-                  event.refresh
+                  Pike::Session.identity = identity
+                  Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+                  Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
                 end
               end
+            else
+              RubyApp::Response.set_cookie('identity', {:value    => Pike::Session.identity.value,
+                                                        :path     => '/',
+                                                        :expires  => Pike::Session.identity.expires})
+              Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+              Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
             end
           end
 
-          @logon_button = RubyApp::Elements::Button.new
+          @scripts_button = RubyApp::Elements::Mobile::Button.new
+          @scripts_button.attributes.merge!('class' => 'ui-btn-right')
+          @scripts_button.clicked do |element, event|
+            RubyApp::Elements::Mobile::Pages::Information::ScriptsPage.new.show(event)
+          end
+
+          @logon_button = RubyApp::Elements::Mobile::Button.new
+          @logon_button.attributes.merge!('class' => 'logon')
           @logon_button.clicked do |element, event|
-            Pike::Session.pages.push(Pike::Elements::Pages::Authentication::OpenId::GoogleAuthenticationPage.new)
-            event.refresh
+            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::OpenId::GoogleAuthenticationDocument.new)
+            event.refresh_browser
           end
 
-          @content = RubyApp::Elements::Markdown.new
-          @content.clicked do |element, event|
-            if event.name =~ /^logon_(.*)$/
-              user = Pike::User.get_user_by_url("#{$1}@pike.virtualpatterns.com")
-              Pike::Session.identity = Pike::Session::Identity.new(user)
-              user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
-              Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
-              event.refresh
-            end
+          @first_button = RubyApp::Elements::Mobile::Button.new
+          @first_button.attributes.merge!('data-mini' => 'true')
+          @first_button.clicked do |element, event|
+            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('first@pike.virtualpatterns.com'))
+            Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+            Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
 
-          @logoff_button = RubyApp::Elements::Button.new
-          @logoff_button.clicked do |element, event|
-            Pike::Session.identity = nil
-            event.refresh
+          @second_button = RubyApp::Elements::Mobile::Button.new
+          @second_button.attributes.merge!('data-mini'  => 'true')
+          @second_button.clicked do |element, event|
+            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('second@pike.virtualpatterns.com'))
+            Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+            Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
 
-          @continue_button = RubyApp::Elements::Button.new
-          @continue_button.clicked do |element, event|
-            RubyApp::Elements::Dialogs::ExceptionDialog.show_dialog(event) do
-              identity = Pike::Session.identity.user.identities.create!
-              event.set_cookie('_identity', identity.value, Chronic.parse('next month'))
-              identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
-              Pike::Session.pages.push(Pike::Elements::Pages::WorkListPage.new(event.today, event.today))
-              event.refresh
-            end
+          @random_button = RubyApp::Elements::Mobile::Button.new
+          @random_button.attributes.merge!('data-mini'  => 'true')
+          @random_button.clicked do |element, event|
+            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_random_user)
+            Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
+            Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
 
         end
