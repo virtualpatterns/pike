@@ -8,7 +8,7 @@
       %li.divider{'data-role' => 'list-divider'}
         = RubyApp::Language.locale.strftime(start_of_week + index, Pike::Application.configuration.format.date.short)
         - index = index + 1
-    - if work.duration.minutes > 0
+    - if work.duration_minutes > 0
       %li.work
         %div.task
           %div.project
