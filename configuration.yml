@@ -62,6 +62,8 @@ default:
         database: 'pike'
     elements:
       pages:
+        about_page:
+          system?: true
         default_page:
           scripts?: true
           guests?: true

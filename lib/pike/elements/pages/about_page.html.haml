@@ -39,28 +39,10 @@
           %code
             #{Pike::VERSION}
 
-    %ul{'data-inset'  => 'true',
-        'data-role'   => 'listview',
-        'data-theme'  => 'd'}
-      %li{'data-role' => 'list-divider'}
-        %span
-          Miscellaneous
-      %li
-        %span
-          User
-        %span.ui-li-aside
-          %code
-            = Pike::Session.identity.user.url
-      %li
-        %span
-          Server
-          %br
-          &nbsp;
-        %span.ui-li-aside
-          %code
-            = Socket.gethostname
-            %br
-            = RubyApp::Request.cookies['_server'] || '(unknown instance)'
-      %li
-        = @information_link.render(:html) do |element|
-          - element.content_for(:html, :link, 'System')
+    - if Pike::Elements::Pages::AboutPage.configuration.system?
+      %ul{'data-inset'  => 'true',
+          'data-role'   => 'listview',
+          'data-theme'  => 'd'}
+        %li
+          = @information_link.render(:html) do |element|
+            - element.content_for(:html, :link, 'System')
