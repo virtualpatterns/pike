@@ -97,7 +97,7 @@ namespace :pike do
       desc 'Start the server(s)'
       task :start, :daemonize, :servers do |task, arguments|
         daemonize = arguments.daemonize ? arguments.daemonize.to_b : true
-        servers = arguments.servers || 1
+        servers = arguments.servers ? arguments.servers.to_i : 1
         system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; #{daemonize ? nil : 'clear; '} bundle exec thin --port 8008 #{servers > 1 ? "--servers #{servers}" : nil} --rackup configuration.ru #{daemonize && servers ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
