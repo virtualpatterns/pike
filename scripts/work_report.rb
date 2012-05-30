@@ -1,9 +1,9 @@
 load_script! 'common/logon_random'
 
 # Go to weekly report
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 1', 'Activity 1', Date.today, 1 * 60 * 60) } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 2', 'Activity 2', Date.today, 2 * 60 * 60) } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 3', 'Activity 3', Date.today, 3 * 60 * 60) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 1', 'Activity 1', event.today, 1 * 60 * 60) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 2', 'Activity 2', event.today, 2 * 60 * 60) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 3', 'Activity 3', event.today, 3 * 60 * 60) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Weekly Summary') }
