@@ -1,32 +1,22 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @back_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Cancel')
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  Introduction
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        User
-      %td.value
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Introduction
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul.introduction{'data-inset'  => 'true',
+                     'data-role'   => 'listview',
+                     'data-theme'  => 'd'}
+      %li.url
         = @introduction.user_source.url
-    %tr.property
-      %td.name
-        Message
-      %td.value
+      %li.message
         = @introduction.message
-    %tr.property
-      %td.name.last
-        &nbsp;
-      %td.buttons.last
-        = @accept_button.render(:html) do |element|
-          - element.content_for(:html, :body, 'Accept')
-        = @reject_button.render(:html) do |element|
-          - element.attributes.merge!(:class => 'delete')
-          - element.content_for(:html, :body, 'Ignore')
+
+    = @accept_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Accept')
+    = @reject_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Ignore')

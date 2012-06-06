@@ -29,6 +29,12 @@ module Pike
       self.destroy
     end
 
+    def self.create_introduction!(user_source_url, user_target_url, message)
+      return Pike::Introduction.create!(:user_source_id => Pike::User.get_user_by_url(user_source_url).id,
+                                        :user_target_id => Pike::User.get_user_by_url(user_target_url).id,
+                                        :message        => message)
+    end
+
   end
 
 end

@@ -52,8 +52,9 @@ module Pike
       self.url =~ /pike\.virtualpatterns\.com/
     end
 
-    def create_project!(project_name, properties = {})
-      project = self.projects.create!(:name => project_name)
+    def create_project!(project_name, is_shared = false, properties = {})
+      project = self.projects.create!(:name       => project_name,
+                                      :is_shared  => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           self.push(:project_properties, name) unless self.send(:project_properties).include?(name)
@@ -64,8 +65,9 @@ module Pike
       return project
     end
 
-    def create_activity!(activity_name, properties = {})
-      activity = self.activities.create!(:name => activity_name)
+    def create_activity!(activity_name, is_shared = false, properties = {})
+      activity = self.activities.create!(:name      => activity_name,
+                                         :is_shared => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           self.push(:activity_properties, name) unless self.send(:activity_properties).include?(name)
@@ -99,19 +101,28 @@ module Pike
                                :duration  => duration)
     end
 
-    def self.get_random_user
-      RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} Pike::User.configuration._length=#{Pike::User.configuration._length}")
-      url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
-      while Pike::User.where_url(url).first
-        url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
-      end
-      return Pike::User.create!(:url => url)
+    def create_friendship!(user_target_url)
+      user_target = Pike::User.get_user_by_url(user_target_url)
+      Pike::Friendship::create!(:user_source_id => self.id, :user_target_id => user_target.id)
+      Pike::Friendship::create!(:user_source_id => user_target.id, :user_target_id => self.id)
+    end
+
+    def self.create_user!(url)
+      return self.get_user_by_url(url)
     end
 
     def self.get_user_by_url(url, create = true)
       user = Pike::User.where_url(url).first
       user = Pike::User.create!(:url => url) if create && user == nil
       return user
+    end
+
+    def self.get_random_user
+      url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      while Pike::User.where_url(url).first
+        url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      end
+      return Pike::User.create!(:url => url)
     end
 
     protected

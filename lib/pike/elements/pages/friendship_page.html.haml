@@ -5,18 +5,14 @@
        'data-theme' => 'b'}
     = @back_button.render(:html)
     %h1
-      Introduction
-    = @done_button.render(:html)
+      Friend
   %div{'data-role'  => 'content',
        'style'      => 'padding-top: 0px'}
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
       %li
-        %label.ui-hidden-accessible{'for' => @user_target_input.element_id}
-          User
-        = @user_target_input.render(:html)
-      %li
-        %label.ui-hidden-accessible{'for' => @message_input.element_id}
-          Message
-        = @message_input.render(:html)
+        = @friendship.user_target.url
+
+    = @delete_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Delete Friend')

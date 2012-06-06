@@ -17,9 +17,9 @@
       %li
         = @activity_list_link.render(:html) do |element|
           - element.content_for(:html, :link, 'Activities')
-      -#%li
-      -#  = @friend_list_link.render(:html) do |element|
-      -#    - element.content_for(:html, :link, 'Friends')
+      %li
+        = @friendship_list_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'Friends')
 
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',

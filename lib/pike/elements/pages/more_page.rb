@@ -12,7 +12,7 @@ module Pike
       require 'pike/elements'
       require 'pike/elements/pages/about_page'
       require 'pike/elements/pages/activity_list_page'
-      #require 'pike/elements/pages/friend_list_page'
+      require 'pike/elements/pages/friendship_list_page'
       require 'pike/elements/pages/project_list_page'
       #require 'pike/elements/pages/rename_property_page'
       require 'pike/elements/pages/work_report_page'
@@ -37,10 +37,9 @@ module Pike
             Pike::Elements::Pages::ActivityListPage.new.show(event)
           end
 
-          @friend_list_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
-          @friend_list_link.clicked do |element, event|
-            #Pike::Session.pages.push(Pike::Elements::Pages::FriendListPage.new)
-            #event.refresh
+          @friendship_list_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+          @friendship_list_link.clicked do |element, event|
+            Pike::Elements::Pages::FriendshipListPage.new.show(event)
           end
 
           @work_report_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new

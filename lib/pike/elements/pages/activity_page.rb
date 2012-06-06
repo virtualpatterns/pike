@@ -54,7 +54,7 @@ module Pike
               if response
                 RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
                   @activity.destroy
-                  self.hide(_event, @done_button.options)
+                  self.hide(_event)
                 end
               end
             end

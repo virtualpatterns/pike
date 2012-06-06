@@ -20,14 +20,6 @@ at_exit do
 end
 
 while true
-  Pike::System::Action.where_not_executed.each do |action|
-    RubyApp::Request.create_context! do
-      begin
-        action.execute!
-      rescue => exception
-        RubyApp::Log.exception(RubyApp::Log::ERROR, exception)
-      end
-    end
-  end
+  Pike::System::Action.execute_all!
   sleep(15)
 end

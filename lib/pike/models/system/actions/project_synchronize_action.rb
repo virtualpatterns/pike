@@ -15,7 +15,6 @@ module Pike
         belongs_to :project, :class_name => 'Pike::Project'
 
         def delete_project(project)
-          RubyApp::Log.debug(RubyApp::Log::INFO, "ACTION #{RubyApp::Log.prefix(self, __method__)} project.name=#{project.name.inspect}")
           project.tasks.all.each do |task|
             task.destroy
           end

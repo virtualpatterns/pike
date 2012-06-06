@@ -23,26 +23,26 @@ module Pike
           @back_button = Pike::Elements::Navigation::BackButton.new
 
           @accept_button = RubyApp::Elements::Mobile::Button.new
+          @accept_button.attributes.merge!('data-theme' => 'c')
           @accept_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will be added momentarily.')) do |_event, response|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will be added momentarily.')) do |_event, response|
               if response
-                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
                   @introduction.accept!
-                  Pike::Session.pages.pop
-                  _event.refresh
+                  self.hide(_event)
                 end
               end
             end
           end
 
           @reject_button = RubyApp::Elements::Mobile::Button.new
+          @reject_button.attributes.merge!('data-theme' => 'f')
           @reject_button.clicked do |element, event|
-            Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to ignore this introduction?')) do |_event, response|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to ignore this introduction?')) do |_event, response|
               if response
-                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
                   @introduction.reject!
-                  Pike::Session.pages.pop
-                  _event.refresh
+                  self.hide(_event)
                 end
               end
             end

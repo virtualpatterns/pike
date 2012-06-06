@@ -164,19 +164,10 @@ namespace :pike do
 
       desc 'Execute all actions'
       task :execute_all do |task|
-        print_all = false
         Pike::Application.create_context! do
-          Pike::System::Action.where_not_executed.each do |action|
-            RubyApp::Request.create_context! do
-              begin
-                action.execute!
-              rescue => exception
-                print_all = true
-              end
-            end
-          end
+          Pike::System::Action.execute_all!
         end
-        Rake::Task['pike:data:actions:print_all'].invoke if print_all
+        Rake::Task['pike:data:actions:print_all'].invoke
       end
 
       desc 'Destroy all actions'

@@ -32,13 +32,18 @@ module Pike
           self.exception_message = exception.message
           self.exception_backtrace = exception.backtrace
           self.save!
-          raise
         else
           self.destroy
         end
       end
 
       def execute
+      end
+
+      def self.execute_all!
+        Pike::System::Action.where_not_executed.each do |action|
+          action.execute!
+        end
       end
 
     end

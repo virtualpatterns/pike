@@ -32,6 +32,7 @@ module Pike
 
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
+    scope :where_name, lambda { |name| where(:name => name) }
     scope :where_shared, where(:is_shared => true)
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
 
@@ -41,6 +42,32 @@ module Pike
 
     def exists_tasks?
       self.tasks.exists?
+    end
+
+    def self.create_shared_project!(user_source_url, user_target_url, project_name)
+      user_source = Pike::User.get_user_by_url(user_source_url)
+      user_source.create_friendship!(user_target_url)
+      return user_source.create_project!(project_name, true)
+    end
+
+    def self.update_shared_project!(user_source_url, project_name_from, project_name_to)
+      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name_from).each do |project|
+        project.name = project_name_to
+        project.save!
+      end
+    end
+
+    def self.delete_shared_project!(user_source_url, project_name)
+      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name).each do |project|
+        project.destroy
+      end
+    end
+
+    def self.unshare_project!(user_source_url, project_name)
+      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name).each do |project|
+        project.is_shared = false
+        project.save!
+      end
     end
 
     protected

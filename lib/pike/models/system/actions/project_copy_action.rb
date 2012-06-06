@@ -84,14 +84,12 @@ module Pike
         end
 
         def add_project_to_user(project, user)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} project.name=#{project.name.inspect} user.url=#{user.url.inspect}")
           user.projects.create!(:copy_of => project,
                                 :name => project.name,
                                 :is_shared => false)
         end
 
         def update_project(project, _project)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} project.name=#{project.name.inspect} _project.name=#{_project.name.inspect}")
           _project.name = project.name
           _project.save!
         end

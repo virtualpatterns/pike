@@ -84,14 +84,12 @@ module Pike
         end
 
         def add_activity_to_user(activity, user)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect} user.url=#{user.url.inspect}")
           user.activities.create!(:copy_of => activity,
                                 :name => activity.name,
                                 :is_shared => false)
         end
 
         def update_activity(activity, _activity)
-          RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} activity.name=#{activity.name.inspect} _activity.name=#{_activity.name.inspect}")
           _activity.name = activity.name
           _activity.save!
         end

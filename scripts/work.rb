@@ -61,10 +61,10 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.swipe(:left) }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link(RubyApp::Language.locale.strftime(event.today << 1, '%b')) }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link(RubyApp::Language.locale.strftime(event.today << 1, '%b')) }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link((event.today << 1).day) }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link((event.today << 1).day) }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('15') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link('15') }
 add_step! (RubyApp::Element::UpdatedEvent)
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today << 1, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today << 1, '%b 15')) }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.swipe(:left) }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Today') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link('Today') }
@@ -81,10 +81,10 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.swipe(:left) }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link(RubyApp::Language.locale.strftime(event.today << 1, '%b')) }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link(RubyApp::Language.locale.strftime(event.today << 1, '%b')) }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link((event.today << 1).day) }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link((event.today << 1).day) }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('15') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_link('15') }
 add_step! (RubyApp::Element::UpdatedEvent)
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today << 1, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today << 1, '%b 15')) }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 5') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.tap_list_item('Project 5') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }

@@ -9,11 +9,21 @@ module Pike
 
   module Elements
     require 'pike'
-    require 'pike/elements/pages/task_page'
-    require 'pike/elements/pages/work_page'
     require 'pike/models'
 
     class WorkList < RubyApp::Elements::Mobile::List
+
+      class WorkListFriendshipListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('data-icon'  => 'arrow-r',
+                                 'data-theme' => 'e')
+        end
+
+      end
 
       class WorkListStartedDivider < RubyApp::Elements::Mobile::List::ListDivider
 
@@ -35,7 +45,7 @@ module Pike
 
       end
 
-      class WorkListAddItem < RubyApp::Elements::Mobile::List::ListItem
+      class WorkListAddTaskItem < RubyApp::Elements::Mobile::List::ListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -46,7 +56,7 @@ module Pike
 
       end
 
-      class WorkListItem < RubyApp::Elements::Mobile::List::ListSplitItem
+      class WorkListWorkItem < RubyApp::Elements::Mobile::List::ListSplitItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -58,7 +68,7 @@ module Pike
 
       end
 
-      class WorkListStartedItem < Pike::Elements::WorkList::WorkListItem
+      class WorkListStartedWorkItem < Pike::Elements::WorkList::WorkListWorkItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -83,43 +93,6 @@ module Pike
 
         @today = today
         @date = date
-
-        self.item_clicked do |element, event|
-          @today = event.today
-          if event.item.is_a?(Pike::Elements::WorkList::WorkListAddItem)
-            page = Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new)
-            page.removed do |element, _event|
-              _event.update_element(self)
-            end
-            page.show(event)
-          else
-            if self.today?
-              unless event.item.item.work.started?
-                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
-                event.item.item.work.start!
-              else
-                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
-              end
-              event.update_element(self)
-            else
-              event.item.item.work.reload
-              page = Pike::Elements::Pages::WorkPage.new(event.item.item)
-              page.removed do |element, _event|
-                _event.update_element(self)
-              end
-              page.show(event)
-            end
-          end
-        end
-        self.link_clicked do |element, event|
-          @today = event.today
-          event.item.item.work.reload
-          page = Pike::Elements::Pages::WorkPage.new(event.item.item)
-          page.removed do |element, _event|
-            _event.update_element(self)
-          end
-          page.show(event)
-        end
 
       end
 
@@ -148,11 +121,13 @@ module Pike
 
           self.items.clear
 
-          self.items.push(Pike::Elements::WorkList::WorkListAddItem.new)
+          self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.count > 0
+
+          self.items.push(Pike::Elements::WorkList::WorkListAddTaskItem.new)
 
           Pike::Session.identity.user.work.where_date(@date).where_started.each_with_index do |work, index|
             self.items.push(Pike::Elements::WorkList::WorkListStartedDivider.new) if index == 0
-            self.items.push(Pike::Elements::WorkList::WorkListStartedItem.new(@date, work.task, work))
+            self.items.push(Pike::Elements::WorkList::WorkListStartedWorkItem.new(@date, work.task, work))
           end
 
           _work = {}
@@ -165,7 +140,7 @@ module Pike
             work = _work[task] || Pike::Session.identity.user.work.create!(:task => task, :date => @date)
             unless work.started?
               self.items.push(Pike::Elements::WorkList::WorkListFlagDivider.new(task.flag)) unless task.flag == flag
-              self.items.push(Pike::Elements::WorkList::WorkListItem.new(@date, work.task, work))
+              self.items.push(Pike::Elements::WorkList::WorkListWorkItem.new(@date, work.task, work))
               flag = task.flag
             end
           end
