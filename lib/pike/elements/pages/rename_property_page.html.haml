@@ -1,32 +1,22 @@
-- self.content_for(:html, :header_left) do
+- self.content_for(:html, :page) do
   /
     #{__FILE__}
-  = @back_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Cancel')
-- self.content_for(:html, :header_center) do
-  /
-    #{__FILE__}
-  Rename
-- self.content_for(:html, :header_right) do
-  /
-    #{__FILE__}
-  = @done_button.render(:html) do |element|
-    - element.content_for(:html, :body, 'Done')
-- self.content_for(:html, :content) do
-  /
-    #{__FILE__}
-  %table.properties{:cellspacing => 0}
-    %tr.property
-      %td.name
-        %label{:for => @from_property_input.element_id}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Rename
+    = @done_button.render(:html)
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        %label.ui-hidden-accessible{'for' => @from_property_input.element_id}
           From
-      %td.value
-        = @from_property_input.render(:html) do |element|
-          - element.attributes.merge!(:autofocus => true, :placeholder => 'tap to enter a name')
-    %tr.property
-      %td.name
-        %label{:for => @to_property_input.element_id}
+        = @from_property_input.render(:html)
+      %li
+        %label.ui-hidden-accessible{'for' => @to_property_input.element_id}
           To
-      %td.value
-        = @to_property_input.render(:html) do |element|
-          - element.attributes.merge!(:placeholder => 'tap to enter a name')
+        = @to_property_input.render(:html)

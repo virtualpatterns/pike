@@ -24,12 +24,11 @@ module Pike
           @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
             if @from_property_input.value.blank? || @to_property_input.value.blank?
-              Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::MessageDialog.new('Rename Property',
-                                                                                             'From and to values are both required.'))
+              RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Rename Property', 'From and to values are both required.'))
             else
-              Pike::Session.show_dialog(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', "Are you sure you want to change the name of the property '#{@from_property_input.value}' to '#{@to_property_input.value}'?")) do |_event, response|
+              RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', "Are you sure you want to change the name of the property '#{@from_property_input.value}' to '#{@to_property_input.value}'?")) do |_event, response|
                 if response
-                  RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_dialog(_event) do
+                  RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
                     user = Pike::Session.identity.user
                     if user.project_properties.include?(@from_property_input.value)
                       user.pull(:project_properties, @from_property_input.value)
@@ -52,8 +51,7 @@ module Pike
                         task.rename(@from_property_input.value, @to_property_input.value)
                       end
                     end
-                    Pike::Session.pages.pop
-                    _event.refresh
+                    self.hide(_event)
                   end
                 end
               end
@@ -61,7 +59,10 @@ module Pike
           end
 
           @from_property_input = Pike::Elements::Input.new
+          @from_property_input.attributes.merge!('placeholder' => 'tap to enter a from name')
+
           @to_property_input = Pike::Elements::Input.new
+          @to_property_input.attributes.merge!('placeholder' => 'tap to enter a to name')
 
         end
 

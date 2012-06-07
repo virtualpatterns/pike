@@ -40,6 +40,8 @@ module Pike
 
     default_scope order_by([[:flag, :asc], [:_project_name, :asc],[:_activity_name, :asc]])
 
+    scope :where_project, lambda { |project| where(:project_id => project.id) }
+    scope :where_activity, lambda { |activity| where(:activity_id => activity.id) }
     scope :where_flag, lambda { |flag| where(:flag => flag) }
     scope :where_not_flag, lambda { |flag| where(:flag.ne => flag) }
 

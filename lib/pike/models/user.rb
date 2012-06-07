@@ -53,8 +53,8 @@ module Pike
     end
 
     def create_project!(project_name, is_shared = false, properties = {})
-      project = self.projects.create!(:name       => project_name,
-                                      :is_shared  => is_shared)
+      project = self.projects.where_name(project_name).first || self.projects.create!(:name       => project_name,
+                                                                                      :is_shared  => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           self.push(:project_properties, name) unless self.send(:project_properties).include?(name)
@@ -64,10 +64,14 @@ module Pike
       end
       return project
     end
+    
+    def get_project_property(project_name, property_name)
+      return self.projects.where_name(project_name).first.read_attribute(property_name)
+    end
 
     def create_activity!(activity_name, is_shared = false, properties = {})
-      activity = self.activities.create!(:name      => activity_name,
-                                         :is_shared => is_shared)
+      activity = self.activities.where_name(activity_name).first || self.activities.create!(:name      => activity_name,
+                                                                                            :is_shared => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           self.push(:activity_properties, name) unless self.send(:activity_properties).include?(name)
@@ -77,13 +81,17 @@ module Pike
       end
       return activity
     end
+    
+    def get_activity_property(activity_name, property_name)
+      return self.activities.where_name(activity_name).first.read_attribute(property_name)
+    end
 
     def create_task!(project_name, activity_name, flag = Pike::Task::FLAG_NORMAL, properties = {})
       project = self.create_project!(project_name)
       activity = self.create_activity!(activity_name)
-      task = self.tasks.create!(:project_id  => project.id,
-                                :activity_id => activity.id,
-                                :flag        => flag)
+      task = self.tasks.where_project(project).where_activity(activity).first || self.tasks.create!(:project_id  => project.id,
+                                                                                                    :activity_id => activity.id,
+                                                                                                    :flag        => flag)
       unless properties.empty?
         properties.each do |name, value|
           self.push(:task_properties, name) unless self.send(:task_properties).include?(name)
@@ -92,6 +100,12 @@ module Pike
         task.save!
       end
       return task
+    end
+
+    def get_task_property(project_name, activity_name, property_name)
+      project = self.projects.where_name(project_name).first
+      activity = self.activities.where_name(activity_name).first
+      return self.tasks.where_project(project).where_activity(activity).first.read_attribute(property_name)
     end
 
     def create_work!(project_name, activity_name, date, duration)
