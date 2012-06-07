@@ -1,34 +1,12 @@
 default:
   ruby_app:
-    application:
+    application: &default_ruby_app_application
       _class: 'Pike::Application'
       format:
         date:
           long: '%b %d %H:%M %Z'
           short: '%a %b %-d'
-    language:
-      default: 'en'
-      paths:
-        - '#{RubyApp::ROOT}/translations'
-        - '#{Pike::ROOT}/translations'
-    log:
-      path: '#{Pike::ROOT}/process/log/application.log'
-    response:
-      cache:
-        formats:
-          - :css
-          - :js
-        read?: false
-        write?: false
-    session:
-      _class: 'Pike::Session'
-      expires: 900
-      interval: 15
-      _length: 10
-      scripts:
-        enabled: true
-        path: '#{Pike::ROOT}/scripts'
-    elements:
+    elements: &default_ruby_app_elements
       mobile:
         documents:
           authentication:
@@ -44,8 +22,30 @@ default:
                 attributes:
                   email: 'http://axschema.org/contact/email'
                 identifier: 'https://www.yahoo.com'
+    language: &default_ruby_app_language
+      default: 'en'
+      paths:
+        - '#{RubyApp::ROOT}/translations'
+        - '#{Pike::ROOT}/translations'
+    log: &default_ruby_app_log
+      path: '#{Pike::ROOT}/process/log/application.log'
+    response: &default_ruby_app_response
+      cache:
+        formats:
+          - :css
+          - :js
+        read?: false
+        write?: true
+    session: &default_ruby_app_session
+      _class: 'Pike::Session'
+      expires: 900
+      interval: 15
+      _length: 10
+      scripts:
+        enabled: true
+        path: '#{Pike::ROOT}/scripts'
   pike:
-    application:
+    application: &default_pike_application
       format:
         date:
           long: '%c'
@@ -60,7 +60,7 @@ default:
         host: 'localhost'
         port: 27017
         database: 'pike'
-    elements:
+    elements: &default_pike_elements
       pages:
         about_page:
           system?: true
@@ -69,5 +69,94 @@ default:
           guests?: true
         work_list_page:
           interval: 15
-    user:
+    user: &default_pike_user
       _length: 10
+
+development:
+  ruby_app:
+    application: &development_ruby_app_application
+      <<: *default_ruby_app_application
+    elements: &development_ruby_app_elements
+      <<: *default_ruby_app_elements
+    language: &development_ruby_app_language
+      <<: *default_ruby_app_language
+    log: &development_ruby_app_log
+      <<: *default_ruby_app_log
+    response: &development_ruby_app_response
+      cache:
+        formats:
+          - :css
+          - :js
+        read?: true
+        write?: false
+    session: &development_ruby_app_session
+      <<: *default_ruby_app_session
+  pike:
+    application: &development_pike_application
+      <<: *default_pike_application
+    elements: &development_pike_elements
+      <<: *default_pike_elements
+    user: &development_pike_user
+      <<: *default_pike_user
+
+staging:
+  ruby_app:
+    application: &staging_ruby_app_application
+      <<: *development_ruby_app_application
+    elements: &staging_ruby_app_elements
+      <<: *development_ruby_app_elements
+    language: &staging_ruby_app_language
+      <<: *development_ruby_app_language
+    log: &staging_ruby_app_log
+      <<: *development_ruby_app_log
+    response: &staging_ruby_app_response
+      cache:
+        formats:
+          - :css
+          - :js
+        read?: true
+        write?: false
+    session: &staging_ruby_app_session
+      _class: 'Pike::Session'
+      expires: 900
+      interval: 15
+      _length: 10
+      scripts:
+        enabled: false
+        path: '#{Pike::ROOT}/scripts'
+  pike:
+    application: &staging_pike_application
+      <<: *development_pike_application
+    elements: &staging_pike_elements
+      pages:
+        about_page:
+          system?: false
+        development_page:
+          scripts?: false
+          guests?: true
+        work_list_page:
+          interval: 15
+    user: &staging_pike_user
+      <<: *development_pike_user
+
+production:
+  ruby_app:
+    application: &production_ruby_app_application
+      <<: *staging_ruby_app_application
+    elements: &production_ruby_app_elements
+      <<: *staging_ruby_app_elements
+    language: &production_ruby_app_language
+      <<: *staging_ruby_app_language
+    log: &production_ruby_app_log
+      <<: *staging_ruby_app_log
+    response: &production_ruby_app_response
+      <<: *staging_ruby_app_response
+    session: &production_ruby_app_session
+      <<: *staging_ruby_app_session
+  pike:
+    application: &production_pike_application
+      <<: *staging_pike_application
+    elements: &production_pike_elements
+      <<: *staging_pike_elements
+    user: &production_pike_user
+      <<: *staging_pike_user
