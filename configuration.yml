@@ -131,7 +131,7 @@ staging:
       pages:
         about_page:
           system?: false
-        development_page:
+        default_page:
           scripts?: false
           guests?: true
         work_list_page:
