@@ -102,20 +102,7 @@ development:
 staging:
   ruby_app:
     application: &staging_ruby_app_application
-      format:
-        date:
-          long: '%c'
-          short: '%a %b %-d'
-      amazon:
-        access_key: 'ABC'
-        secret_key: '123'
-      mail:
-        to:
-        from: '"Pike" <virtualpatterns@sympatico.ca>'
-      mongodb:
-        host: 'localhost'
-        port: 27017
-        database: 'pike'
+      <<: *development_ruby_app_application
     elements: &staging_ruby_app_elements
       <<: *development_ruby_app_elements
     language: &staging_ruby_app_language
@@ -139,7 +126,20 @@ staging:
         path: '#{Pike::ROOT}/scripts'
   pike:
     application: &staging_pike_application
-      <<: *development_pike_application
+      format:
+        date:
+          long: '%c'
+          short: '%a %b %-d'
+      amazon:
+        access_key: 'ABC'
+        secret_key: '123'
+      mail:
+        to: 
+        from: '"Pike" <virtualpatterns@sympatico.ca>'
+      mongodb:
+        host: 'localhost'
+        port: 27017
+        database: 'pike'
     elements: &staging_pike_elements
       pages:
         about_page:
