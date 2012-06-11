@@ -349,8 +349,8 @@ namespace :pike do
           Pike::System::Migration.run(task) do
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url.downcase.inspect})"
-              user.set(:_url, user.url.downcase)
+              puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url ? user.url.downcase.inspect : nil})"
+              user.set(:_url, user.url ? user.url.downcase : nil)
             end
             puts '... end'
           end
