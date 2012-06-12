@@ -28,10 +28,14 @@ module Pike
 
           @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
-            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
-              @user.push(@properties, @property) unless @user.send(@properties).include?(@property)
-              @object.write_attribute(@property, @value) if @property
-              self.hide(event)
+            unless @property
+              RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Property', 'A name is required.'))
+            else
+              RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+                @user.push(@properties, @property) unless @user.send(@properties).include?(@property)
+                @object.write_attribute(@property, @value)
+                self.hide(event)
+              end
             end
           end
 

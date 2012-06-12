@@ -340,7 +340,8 @@ namespace :pike do
                     'pike:data:migrate:add_friendship_user_target_url',
                     'pike:data:migrate:remove_identities_and_migrations_collections',
                     'pike:data:migrate:destroy_work_where_task_destroyed',
-                    'pike:data:migrate:update_work_project_and_activity_names'] do |task|
+                    'pike:data:migrate:update_work_project_and_activity_names',
+                    'pike:data:migrate:remove_nil_properties'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -473,6 +474,22 @@ namespace :pike do
               _work.set(:_project_name, _work.task.project ? _work.task.project.name.downcase : nil)
               puts "  _work.task.activity.name=#{_work.task.activity ? _work.task.activity.name.inspect : '(nil)'} _work.set(:_activity_name, #{_work.task.activity ? _work.task.activity.name.downcase.inspect : '(nil)'})"
               _work.set(:_activity_name, _work.task.activity ? _work.task.activity.name.downcase : nil)
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Remove any nil properties'
+      task :remove_nil_properties do |task|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |user|
+              puts "  user.url=#{user.url.inspect}"
+              user.pull(:project_properties, nil) if user.send(:project_properties).include?(nil)
+              user.pull(:activity_properties, nil) if user.send(:activity_properties).include?(nil)
+              user.pull(:task_properties, nil) if user.send(:task_properties).include?(nil)
             end
             puts '... end'
           end

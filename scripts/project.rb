@@ -91,26 +91,48 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Add a property to a project
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_project!('Project 5') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_project!('Project 5.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Projects') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Project 5') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 5') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Project 5.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 5.1') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to add a property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1_1') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_input('Value') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1_1') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1_1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1_1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 5') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 5.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Add a blank property to a project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_project!('Project 5.2') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Projects') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Project 5.2') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 5.2') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to add a property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('A name is required.') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 5.2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Edit a property on a project

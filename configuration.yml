@@ -134,7 +134,6 @@ staging:
         access_key: 'ABC'
         secret_key: '123'
       mail:
-        to: 
         from: '"Pike" <virtualpatterns@sympatico.ca>'
       mongodb:
         host: 'localhost'
