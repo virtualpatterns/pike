@@ -341,7 +341,8 @@ namespace :pike do
                     'pike:data:migrate:remove_identities_and_migrations_collections',
                     'pike:data:migrate:destroy_work_where_task_destroyed',
                     'pike:data:migrate:update_work_project_and_activity_names',
-                    'pike:data:migrate:remove_nil_properties'] do |task|
+                    'pike:data:migrate:remove_nil_properties',
+                    'pike:data:migrate:update_friendship_user_target_url'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -490,6 +491,20 @@ namespace :pike do
               user.pull(:project_properties, nil) if user.send(:project_properties).include?(nil)
               user.pull(:activity_properties, nil) if user.send(:activity_properties).include?(nil)
               user.pull(:task_properties, nil) if user.send(:task_properties).include?(nil)
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Update the Pike::Friendship#_user_target_url property'
+      task :update_friendship_user_target_url do |task|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::Friendship.all.each do |friendship| ...'
+            Pike::Friendship.all.each do |friendship|
+              puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
+              friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
             end
             puts '... end'
           end

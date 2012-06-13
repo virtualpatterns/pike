@@ -110,12 +110,7 @@ staging:
     log: &staging_ruby_app_log
       <<: *development_ruby_app_log
     response: &staging_ruby_app_response
-      cache:
-        formats:
-          - :css
-          - :js
-        read?: true
-        write?: false
+      <<: *development_ruby_app_response
     session: &staging_ruby_app_session
       _class: 'Pike::Session'
       expires: 900

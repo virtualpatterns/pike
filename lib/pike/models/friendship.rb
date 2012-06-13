@@ -11,6 +11,8 @@ module Pike
 
     store_in :friendships
 
+    before_save :on_before_save
+
     belongs_to :user_source, :class_name => 'Pike::User', :inverse_of => :friendships_as_source
     belongs_to :user_target, :class_name => 'Pike::User', :inverse_of => :friendships_as_target
 
