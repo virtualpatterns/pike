@@ -25,6 +25,21 @@ module Pike
 
       end
 
+      class WorkListTotalDivider < RubyApp::Elements::Mobile::List::ListDivider
+
+        template_path(:all, File.dirname(__FILE__))
+
+        attr_accessor :date
+
+        def initialize(date = Date.today)
+          super(nil)
+
+          @date = date
+
+        end
+
+      end
+
       class WorkListStartedDivider < RubyApp::Elements::Mobile::List::ListDivider
 
         template_path(:all, File.dirname(__FILE__))
@@ -108,6 +123,7 @@ module Pike
             if work.duration_minutes > 0
               event.update_style("span[data-work='#{work.id}']", 'display', 'block')
               event.update_text("span[data-work='#{work.id}']", ChronicDuration.output(work.duration_minutes))
+              event.update_text('span.total', ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date)))
             end
           else
             work.finish!
@@ -122,6 +138,8 @@ module Pike
           self.items.clear
 
           self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.count > 0
+
+          self.items.push(Pike::Elements::WorkList::WorkListTotalDivider.new(@date))
 
           self.items.push(Pike::Elements::WorkList::WorkListAddTaskItem.new)
 

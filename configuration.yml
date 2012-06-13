@@ -68,7 +68,7 @@ default:
           scripts?: true
           guests?: true
         work_list_page:
-          interval: 15
+          interval: 70
     user: &default_pike_user
       _length: 10
 
@@ -142,7 +142,7 @@ staging:
           scripts?: false
           guests?: true
         work_list_page:
-          interval: 15
+          interval: 70
     user: &staging_pike_user
       <<: *development_pike_user
 

@@ -52,6 +52,10 @@ module Pike
       self.url =~ /pike\.virtualpatterns\.com/
     end
 
+    def get_work_duration_minutes(date)
+      ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
+    end
+
     def create_project!(project_name, is_shared = false, properties = {})
       project = self.projects.where_name(project_name).first || self.projects.create!(:name       => project_name,
                                                                                       :is_shared  => is_shared)
@@ -64,7 +68,7 @@ module Pike
       end
       return project
     end
-    
+
     def get_project_property(project_name, property_name)
       return self.projects.where_name(project_name).first.read_attribute(property_name)
     end
@@ -81,7 +85,7 @@ module Pike
       end
       return activity
     end
-    
+
     def get_activity_property(activity_name, property_name)
       return self.activities.where_name(activity_name).first.read_attribute(property_name)
     end

@@ -1,0 +1,6 @@
+- self.content_for(:html, :divider) do
+  /
+    #{__FILE__}
+  Total:
+  %span.total
+    = ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date))
