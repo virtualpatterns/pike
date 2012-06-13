@@ -123,7 +123,7 @@ module Pike
             if work.duration_minutes > 0
               event.update_style("span[data-work='#{work.id}']", 'display', 'block')
               event.update_text("span[data-work='#{work.id}']", ChronicDuration.output(work.duration_minutes))
-              event.update_text('span.total', ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date)))
+              event.update_text('span.total', "Total: #{ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date))}")
             end
           else
             work.finish!

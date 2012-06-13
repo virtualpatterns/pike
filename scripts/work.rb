@@ -29,6 +29,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Activity 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('2 hrs 30 mins') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Total: 2 hrs 30 mins') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Edit the duration of a started task
@@ -47,6 +48,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Activity 3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('2 hrs 30 mins') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Total: 5 hrs') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_item('Project 3') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
