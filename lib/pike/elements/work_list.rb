@@ -144,6 +144,7 @@ module Pike
           self.items.push(Pike::Elements::WorkList::WorkListAddTaskItem.new)
 
           Pike::Session.identity.user.work.where_date(@date).where_started.each_with_index do |work, index|
+            work.update_duration!
             self.items.push(Pike::Elements::WorkList::WorkListStartedDivider.new) if index == 0
             self.items.push(Pike::Elements::WorkList::WorkListStartedWorkItem.new(@date, work.task, work))
           end
