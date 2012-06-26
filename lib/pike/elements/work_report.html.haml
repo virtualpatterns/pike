@@ -1,7 +1,7 @@
 /
   #{__FILE__}
 %ul.work_report{attributes}
-  - start_of_week = @date.start_of_week
+  - start_of_week = @date.week_start
   - index = 0
   - Pike::Session.identity.user.work.where_week(@date).each do |work|
     - while start_of_week + index <= work.date
@@ -17,7 +17,7 @@
             = work.task.activity.name
         %span.ui-li-count
           = ChronicDuration.output(work.duration_minutes)
-  - end_of_week = @date.end_of_week - 1
+  - end_of_week = @date.week_end - 1
   - while start_of_week + index <= end_of_week
     %li.divider{'data-role' => 'list-divider'}
       = RubyApp::Language.locale.strftime(start_of_week + index, Pike::Application.configuration.format.date.short)

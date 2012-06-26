@@ -60,7 +60,7 @@ module Pike
             report << header
             self.user.tasks.all.each do |task|
               row = [self.user.url,
-                     self.date.start_of_week,
+                     self.date.week_start,
                      task.project.name]
               self.user.project_properties.each do |name|
                 row += [task.project.read_attribute(name)]
@@ -73,7 +73,7 @@ module Pike
                 row += [task.read_attribute(name)]
               end
               (0..6).each do |index|
-                date = self.date.start_of_week + index
+                date = self.date.week_start + index
                 work = task.work.where_date(date).first
                 if work && work.duration && work.duration > 0
                   row += [work.duration]
