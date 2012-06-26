@@ -2,12 +2,12 @@
   #{__FILE__}
 %ul.work_report{attributes}
   - RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @date.week_start=#{@date.week_start.inspect} @date.week_end=#{@date.week_end.inspect}")
-  - start_of_week = @date.week_start
+  - week_start = @date.week_start
   - index = 0
   - Pike::Session.identity.user.work.where_week(@date).each do |work|
-    - while start_of_week + index <= work.date
+    - while week_start + index <= work.date
       %li.divider{'data-role' => 'list-divider'}
-        = RubyApp::Language.locale.strftime(start_of_week + index, Pike::Application.configuration.format.date.short)
+        = RubyApp::Language.locale.strftime(week_start + index, Pike::Application.configuration.format.date.short)
         - index = index + 1
     - if work.duration_minutes > 0
       %li.work
@@ -18,8 +18,8 @@
             = work.task.activity.name
         %span.ui-li-count
           = ChronicDuration.output(work.duration_minutes)
-  - end_of_week = @date.week_end - 1
-  - while start_of_week + index <= end_of_week
+  - week_end = @date.week_end
+  - while week_start + index <= week_end
     %li.divider{'data-role' => 'list-divider'}
-      = RubyApp::Language.locale.strftime(start_of_week + index, Pike::Application.configuration.format.date.short)
+      = RubyApp::Language.locale.strftime(week_start + index, Pike::Application.configuration.format.date.short)
       - index = index + 1

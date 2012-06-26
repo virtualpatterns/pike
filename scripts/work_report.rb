@@ -1,6 +1,20 @@
 load_script! 'common/logon_random'
 
-# Go to weekly report
+# Go to weekly report and verify days
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Weekly Summary') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Weekly Summary') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 0, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 1, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 2, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 3, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 4, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 5, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today.week_start + 6, Pike::Application.configuration.format.date.short)) }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Go to weekly report and verify durations
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 1', 'Activity 1', event.today.week_start + 0, 1 * 60 * 60) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 2', 'Activity 2', event.today.week_start + 1, 2 * 60 * 60) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 3', 'Activity 3', event.today.week_start + 2, 3 * 60 * 60) } }
@@ -8,8 +22,8 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.ex
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 5', 'Activity 5', event.today.week_start + 4, 5 * 60 * 60) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 6', 'Activity 6', event.today.week_start + 5, 6 * 60 * 60) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_work!('Project 7', 'Activity 7', event.today.week_start + 6, 7 * 60 * 60) } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Weekly Summary') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Weekly Summary') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project 1') }
