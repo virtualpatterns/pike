@@ -39,7 +39,7 @@ module Pike
     scope :where_task, lambda { |task| where(:task_id => task.id) }
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }
-    scope :where_week, lambda { |date| where(:date.gte => date.week_start).and(:date.lt => date.week_end) }
+    scope :where_week, lambda { |date| where(:date.gte => date.week_start).and(:date.lte => date.week_end) }
     scope :where_started, where(:started.ne => nil)
 
     def duration_minutes

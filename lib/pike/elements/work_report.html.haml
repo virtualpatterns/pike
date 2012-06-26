@@ -1,6 +1,7 @@
 /
   #{__FILE__}
 %ul.work_report{attributes}
+  - RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @date.week_start=#{@date.week_start.inspect} @date.week_end=#{@date.week_end.inspect}")
   - start_of_week = @date.week_start
   - index = 0
   - Pike::Session.identity.user.work.where_week(@date).each do |work|
