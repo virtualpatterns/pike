@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.5.54)
+    RubyApp (0.5.56)
       BlueCloth
       chronic
       chronic_duration
