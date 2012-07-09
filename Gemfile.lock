@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.5.62)
+    RubyApp (0.5.63)
       BlueCloth
       chronic
       chronic_duration
@@ -108,7 +108,7 @@ DEPENDENCIES
   daemons (= 1.1.6)
   fastercsv
   mongo
-  mongoid
+  mongoid (= 2.4.10)
   rake
   ruby-debug-base
   terminal-table
