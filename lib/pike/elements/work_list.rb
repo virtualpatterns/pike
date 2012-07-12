@@ -79,6 +79,9 @@ module Pike
           super({:date => date,
                  :task => task,
                  :work => work})
+
+          self.attributes.merge!('class' => 'work-list-item')
+
         end
 
       end
@@ -102,7 +105,8 @@ module Pike
       def initialize(today = Date.today, date = Date.today)
         super()
 
-        self.attributes.merge!('data-divider-theme' => 'd',
+        self.attributes.merge!('class'              => 'work-list',
+                               'data-divider-theme' => 'd',
                                'data-split-theme'   => 'd',
                                'data-theme'         => 'd')
 

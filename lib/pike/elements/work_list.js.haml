@@ -1,3 +1,13 @@
+:plain
+  // #{__FILE__}
+  $(document).on('pageinit', null, function(event) {
+    $('ul.work-list > li.work-list-item').draggable({axis         :'y',
+                                                     helper       :'original',
+                                                     opacity      :0.5,
+                                                     revert       :true,
+                                                     scroll       :true,
+                                                     stack        :'ul.work-list > li.work-list-item'});
+  });
 = Pike::Elements::WorkList::WorkListAddTaskItem.render(:js)
 = Pike::Elements::WorkList::WorkListFlagDivider.render(:js)
 = Pike::Elements::WorkList::WorkListFriendshipListItem.render(:js)
