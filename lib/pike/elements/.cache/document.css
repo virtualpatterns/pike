@@ -218,7 +218,7 @@ input.ui-input-text {
   padding-right: 0px;
   padding-top: 0px; }
 /* /Users/frank.ficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.css.haml */
-ul li.ui-li-has-count div.task div.activity {
+ul.work-list li.work-list-item.ui-li-has-count div.task div.activity {
   font-size: 80%; }
-ul li.ui-li-has-count span.ui-li-count {
+ul.work-list li.work-list-item.ui-li-has-count span.ui-li-count {
   margin-right: 7px; }

@@ -66,12 +66,6 @@ module Pike
             self.hide(event)
           end
 
-          #@introduction_list = Pike::Elements::IntroductionList.new
-          #@introduction_list.clicked do |element, event|
-          #  Pike::Session.pages.push(Pike::Elements::Pages::IntroductionViewPage.new(event.item))
-          #  event.refresh
-          #end
-
           @work_list = Pike::Elements::WorkList.new(today, date)
           @work_list.item_clicked do |element, event|
             @today = event.today
