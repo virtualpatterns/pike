@@ -44,7 +44,7 @@ module Pike
 
           @work_report_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @work_report_link.clicked do |element, event|
-            Pike::Elements::Pages::WorkReportPage(event.now).new.show(event)
+            Pike::Elements::Pages::WorkReportPage.new(event.now).show(event)
           end
 
           @rename_property_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
