@@ -229,16 +229,27 @@ namespace :pike do
           table = Terminal::Table.new(:title => 'Users',
                                       :headings => ['Id',
                                                     'URL',
+                                                    'Administrator?',
                                                     'Created',
                                                     'Updated']) do |table|
             Pike::User.all.each do |user|
               table.add_row([user.id,
                              user.url,
+                             user.administrator?,
                              user.created_at,
                              user.updated_at])
             end
           end
           puts table
+        end
+      end
+
+      desc 'Update user administrator'
+      task :update_is_administrator, :url, :is_administrator do |task, arguments|
+        Pike::Application.create_context! do
+          is_administrator = arguments.is_administrator ? arguments.is_administrator.to_b : false
+          user = Pike::User.get_user_by_url(arguments.url, false)
+          user.set(:is_administrator, is_administrator) if user
         end
       end
 
@@ -342,7 +353,8 @@ namespace :pike do
                     'pike:data:migrate:destroy_work_where_task_destroyed',
                     'pike:data:migrate:update_work_project_and_activity_names',
                     'pike:data:migrate:remove_nil_properties',
-                    'pike:data:migrate:update_friendship_user_target_url'] do |task|
+                    'pike:data:migrate:update_friendship_user_target_url',
+                    'pike:data:migrate:add_user_is_administrator'] do |task|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -505,6 +517,20 @@ namespace :pike do
             Pike::Friendship.all.each do |friendship|
               puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
               friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the Pike::User#is_administrator property'
+      task :add_user_is_administrator do |task|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |user|
+              puts "  user.url=#{user.url.inspect} user.set(:is_administrator, false)"
+              user.set(:is_administrator, false)
             end
             puts '... end'
           end

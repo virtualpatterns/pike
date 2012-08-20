@@ -41,12 +41,18 @@ module Pike
     field :url, :type => String
     field :_url, :type => String
 
+    field :is_administrator, :type => Boolean, :default => false
+
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
 
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+
+    def administrator?
+      self.is_administrator
+    end
 
     def guest?
       self.url =~ /pike\.virtualpatterns\.com/

@@ -40,7 +40,7 @@
         %a{'href'   => 'https://github.com/virtualpatterns/pike',
            'target' => '_blank'}
           Source
-      - if Pike::Elements::Pages::AboutPage.configuration.system?
+      - if Pike::Session.identity.user.administrator? || Pike::Elements::Pages::AboutPage.configuration.system?
         %li
           = @information_link.render(:html) do |element|
             - element.content_for(:html, :link, 'System')
