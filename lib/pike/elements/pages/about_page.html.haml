@@ -30,10 +30,17 @@
           %code
             #{Pike::VERSION}
 
-    - if Pike::Elements::Pages::AboutPage.configuration.system?
-      %ul{'data-inset'  => 'true',
-          'data-role'   => 'listview',
-          'data-theme'  => 'd'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li{'data-role' => 'list-divider'}
+        %span
+          Miscellaneous
+      %li
+        %a{'href'   => 'https://github.com/virtualpatterns/pike',
+           'target' => '_blank'}
+          Source
+      - if Pike::Elements::Pages::AboutPage.configuration.system?
         %li
           = @information_link.render(:html) do |element|
             - element.content_for(:html, :link, 'System')
