@@ -41,6 +41,11 @@ default:
       expires: 900
       interval: 15
       _length: 10
+      log:
+        - 'REMOTE_ADDR'
+        - 'HTTP_X_FORWARDED_FOR'
+        - 'HTTP_REFERER'
+        - 'HTTP_USER_AGENT'
       scripts:
         enabled: true
         path: '#{Pike::ROOT}/scripts'
@@ -116,6 +121,10 @@ staging:
       expires: 900
       interval: 15
       _length: 10
+      log:
+        - 'HTTP_X_FORWARDED_FOR'
+        - 'HTTP_REFERER'
+        - 'HTTP_USER_AGENT'
       scripts:
         enabled: false
         path: '#{Pike::ROOT}/scripts'
