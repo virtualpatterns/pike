@@ -25,6 +25,7 @@ module Pike
 
     field :date, :type => Date
     field :duration, :type => Integer, :default => 0
+    field :note, :type => String
     field :started, :type => Time
     field :updated, :type => Time
     field :_project_name, :type => String

@@ -118,11 +118,12 @@ module Pike
       return self.tasks.where_project(project).where_activity(activity).first.read_attribute(property_name)
     end
 
-    def create_work!(project_name, activity_name, date, duration)
+    def create_work!(project_name, activity_name, date, duration, note = nil)
       task = self.create_task!(project_name, activity_name)
       return self.work.create!(:task_id   => task.id,
                                :date      => date,
-                               :duration  => duration)
+                               :duration  => duration,
+                               :note      => note)
     end
 
     def create_friendship!(user_target_url)

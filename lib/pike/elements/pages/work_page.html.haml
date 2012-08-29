@@ -58,6 +58,10 @@
         %label.ui-hidden-accessible{'for' => @duration_input.element_id}
           Duration
         = @duration_input.render(:html)
+      %li
+        %label.ui-hidden-accessible{'for' => @note_input.element_id}
+          Note
+        = @note_input.render(:html)
 
     %p.instructions
       Tap

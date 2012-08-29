@@ -81,6 +81,13 @@ module Pike
             @work.duration = @duration_input.duration || 0
           end
 
+          @note_input = Pike::Elements::Inputs::MultilineInput.new
+          @note_input.attributes.merge!('placeholder' => 'tap to enter a note')
+          @note_input.value = @work.note
+          @note_input.changed do |element, event|
+            @work.note = @note_input.value
+          end
+
           @properties = Pike::Elements::Properties.new(:task_properties, @task)
 
           @delete_button = RubyApp::Elements::Mobile::Button.new

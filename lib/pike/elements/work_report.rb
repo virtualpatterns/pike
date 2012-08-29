@@ -22,7 +22,8 @@ module Pike
       def initialize(date = Date.today)
         super()
 
-        self.attributes.merge!('data-divider-theme' => 'd',
+        self.attributes.merge!('class'              => 'work-report',
+                               'data-divider-theme' => 'd',
                                'data-role'          => 'listview',
                                'data-split-theme'   => 'd',
                                'data-theme'         => 'd')
