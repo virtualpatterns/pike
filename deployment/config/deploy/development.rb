@@ -1,4 +1,4 @@
-set :servers,             25
+set :servers,             5
 set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION'        => 'development',
                                                     'PATH'                          => '$PATH:/opt/ruby/bin')
 set :branch,              'development'
