@@ -1,3 +1,4 @@
+set :servers,             25
 set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION'        => 'staging',
                                                     'PATH'                          => '$PATH:/home/ec2-user/ruby/bin')
 set :branch,              'staging'

@@ -8,7 +8,7 @@ def get_instance_public_dns(instance)
   response.reservationSet.item[0].instancesSet.item[0].dnsName
 end
 
-set :servers,             3
+set :servers,             1
 set :default_environment, {
                             'AMAZON_ACCESS_KEY' => ENV['AMAZON_ACCESS_KEY'],
                             'AMAZON_SECRET_KEY' => ENV['AMAZON_SECRET_KEY']
