@@ -60,10 +60,11 @@ namespace :pike do
 
   namespace :data do
 
-    desc 'Dump the database to ./dump.tgz'
+    desc 'Dump the database to ./dump.(stamp).tgz'
     task :dump, :roles => :data do
-      run 'cd /var/www/pike/current && bundle exec rake pike:data:dump'
-      download '/var/www/pike/current/dump.tgz', '.', :via=> :scp
+      stamp = "#{stage}.#{Time.now.strftime('%Y%m%d%H%M%S')}"
+      run "cd /var/www/pike/current && bundle exec rake pike:data:dump['#{stamp}']"
+      download "/var/www/pike/current/dump.#{stamp}.tgz", '.', :via=> :scp
     end
 
     desc 'Restore a dumped database from ./dump.tgz'

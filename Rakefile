@@ -116,9 +116,10 @@ namespace :pike do
 
   namespace :data do
 
-    desc 'Dump the database to ./dump.tgz'
-    task :dump do |task|
-      system('rm -f dump.tgz; rm -rf dump; mongodump --db pike --out dump; tar -czf dump.tgz dump; rm -rf dump')
+    desc 'Dump the database to ./dump.(stamp).tgz'
+    task :dump, :stamp do |task, arguments|
+      stamp = arguments.stamp || Time.now.strftime('%Y%m%d%H%M%S')
+      system("rm -f dump.#{stamp}.tgz; rm -rf dump.#{stamp}; mongodump --db pike --out dump.#{stamp}; tar -czf dump.#{stamp}.tgz dump.#{stamp}; rm -rf dump.#{stamp}")
     end
 
     desc 'Restore a dumped database from ./dump.tgz'
