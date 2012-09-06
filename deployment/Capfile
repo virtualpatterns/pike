@@ -67,10 +67,10 @@ namespace :pike do
       download "/var/www/pike/current/dump.#{stamp}.tgz", '.', :via=> :scp
     end
 
-    desc 'Restore a dumped database from ./dump.tgz'
+    desc 'Restore a dumped database from ./dump.(stamp).tgz'
     task :restore, :roles => :data do
-      upload './dump.tgz', '/var/www/pike/current', :via=> :scp
-      run 'cd /var/www/pike/current && bundle exec rake pike:data:restore'
+      upload "./dump.#{stage}.#{stamp}.tgz", '/var/www/pike/current', :via=> :scp
+      run "cd /var/www/pike/current && bundle exec rake pike:data:restore['#{stage}.#{stamp}']"
     end
 
     namespace :identities do
