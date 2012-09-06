@@ -119,16 +119,19 @@ namespace :pike do
     desc 'Dump the database to ./dump.(stamp).tgz'
     task :dump, :stamp do |task, arguments|
       stamp = arguments.stamp || Time.now.strftime('%Y%m%d%H%M%S')
+      puts "Creating dump.#{stamp}.tgz ..."
       system("rm -f dump.#{stamp}.tgz; rm -rf dump.#{stamp}; mongodump --db pike --out dump.#{stamp}; tar -czf dump.#{stamp}.tgz dump.#{stamp}; rm -rf dump.#{stamp}")
     end
 
     desc 'Restore a dumped database from ./dump.tgz'
-    task :restore => ['data:drop'] do |task|
-      system('rm -rf dump; tar -xzf dump.tgz; mongorestore --db pike --verbose --objcheck dump/pike; rm -rf dump')
+    task :restore, [ :stamp ] => ['data:drop'] do |task, arguments|
+      puts "Restoring from dump.#{arguments.stamp}.tgz ..."
+      system("rm -rf dump.#{arguments.stamp}; tar -xzf dump.#{arguments.stamp}.tgz; mongorestore --db pike --verbose --objcheck dump.#{arguments.stamp}/pike; rm -rf dump.#{arguments.stamp}")
     end
 
     desc 'Drop the database'
     task :drop do |task|
+      puts "Dropping database ..."
       Pike::Application.create_context! do
         Pike::Application.drop_database!
       end
