@@ -26,6 +26,7 @@ namespace :pike do
 
     desc 'Start the server(s)'
     task :start, :roles => :application do
+      #run("cd /var/www/pike/current && bundle exec rake pike:process:cron:start")
       find_and_execute_task('pike:process:daemon:start')
       run("cd /var/www/pike/current && bundle exec rake pike:process:thin:start[true,#{servers}]")
     end
@@ -34,6 +35,7 @@ namespace :pike do
     task :stop, :roles => :application do
       run('cd /var/www/pike/current && bundle exec rake pike:process:thin:stop')
       find_and_execute_task('pike:process:daemon:stop')
+      #run("cd /var/www/pike/current && bundle exec rake pike:process:cron:stop")
     end
 
     desc 'Restart the server(s)'
@@ -60,17 +62,20 @@ namespace :pike do
 
   namespace :data do
 
-    desc 'Dump the database to ./dump.(stamp).tgz'
-    task :dump, :roles => :data do
+    desc 'Backup the database'
+    task :backup, :roles => :data do
       stamp = "#{stage}.#{Time.now.strftime('%Y%m%d%H%M%S')}"
-      run "cd /var/www/pike/current && bundle exec rake pike:data:dump['#{stamp}']"
-      download "/var/www/pike/current/dump.#{stamp}.tgz", '.', :via=> :scp
+      run "cd /var/www/pike/current && bundle exec rake pike:data:backup['#{stamp}']"
+      download "/var/www/pike/current/pike.#{stamp}.tar.gz", '.', :via=> :scp
+      run "rm -f /var/www/pike/current/pike.#{stamp}.tar.gz"
     end
 
-    desc 'Restore a dumped database from ./dump.(stamp).tgz'
+    desc 'Restore a database backup'
     task :restore, :roles => :data do
-      upload "./dump.#{stage}.#{stamp}.tgz", '/var/www/pike/current', :via=> :scp
-      run "cd /var/www/pike/current && bundle exec rake pike:data:restore['#{stage}.#{stamp}']"
+      stamp = "#{stage}.#{stamp}"
+      upload "./pike.#{stamp}.tar.gz", '/var/www/pike/current', :via=> :scp
+      run "cd /var/www/pike/current && bundle exec rake pike:data:restore['#{stamp}']"
+      run "rm -f /var/www/pike/current/pike.#{stamp}.tar.gz"
     end
 
     namespace :identities do

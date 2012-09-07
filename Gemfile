@@ -18,6 +18,7 @@ gem 'rake'
 gem 'SystemTimer'
 gem 'terminal-table'
 gem 'thin'
+gem 'whenever'
 
 group :development do
   gem 'ruby-debug-base'

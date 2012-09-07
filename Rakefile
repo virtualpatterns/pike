@@ -112,26 +112,37 @@ namespace :pike do
 
     end
 
+    namespace :cron do
+
+      desc 'Start the schedule'
+      task :start do |task|
+        system('bundle exec whenever --load-file ./schedule.rb --update-crontab pike')
+      end
+
+      desc 'Stop the schedule'
+      task :stop do |task|
+        system('bundle exec whenever --load-file ./schedule.rb --clear-crontab pike')
+      end
+
+    end
+
   end
 
   namespace :data do
 
-    desc 'Dump the database to ./dump.(stamp).tgz'
-    task :dump, :stamp do |task, arguments|
+    desc 'Backup the database'
+    task :backup, :stamp do |task, arguments|
       stamp = arguments.stamp || Time.now.strftime('%Y%m%d%H%M%S')
-      puts "Creating dump.#{stamp}.tgz ..."
-      system("rm -f dump.#{stamp}.tgz; rm -rf dump.#{stamp}; mongodump --db pike --out dump.#{stamp}; tar -czf dump.#{stamp}.tgz dump.#{stamp}; rm -rf dump.#{stamp}")
+      system("rm -f pike.#{stamp}.tar.gz; rm -rf pike.#{stamp}; mongodump --db pike --out pike.#{stamp}; tar -czf pike.#{stamp}.tar.gz pike.#{stamp}; rm -rf pike.#{stamp}")
     end
 
-    desc 'Restore a dumped database from ./dump.tgz'
-    task :restore, [ :stamp ] => ['data:drop'] do |task, arguments|
-      puts "Restoring from dump.#{arguments.stamp}.tgz ..."
-      system("rm -rf dump.#{arguments.stamp}; tar -xzf dump.#{arguments.stamp}.tgz; mongorestore --db pike --verbose --objcheck dump.#{arguments.stamp}/pike; rm -rf dump.#{arguments.stamp}")
+    desc 'Restore a database backup'
+    task :restore, [:stamp] => ['data:drop'] do |task, arguments|
+      system("tar -xzf pike.#{arguments.stamp}.tar.gz; mongorestore --db pike --verbose --objcheck pike.#{arguments.stamp}/pike; rm -rf pike.#{arguments.stamp}")
     end
 
     desc 'Drop the database'
     task :drop do |task|
-      puts "Dropping database ..."
       Pike::Application.create_context! do
         Pike::Application.drop_database!
       end

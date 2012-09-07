@@ -10,4 +10,4 @@ sandbox
 *.log
 *.pem
 *.pid
-dump.*.tgz
+*.tar.gz
