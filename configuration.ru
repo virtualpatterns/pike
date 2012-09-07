@@ -32,6 +32,10 @@ map '/favicon.ico' do
   run Rack::File.new(File.join(RubyApp::ROOT, %w[resources favicon.ico]))
 end
 
+map '/robots.txt' do
+  run Rack::File.new(File.join(Pike::ROOT, %w[resources robots.txt]))
+end
+
 map '/' do
   use RubyApp::Rack::Request
   use RubyApp::Rack::Response
