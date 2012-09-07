@@ -72,7 +72,6 @@ namespace :pike do
 
     desc 'Restore a database backup'
     task :restore, :roles => :data do
-      stamp = "#{stage}.#{stamp}"
       upload "./pike.#{stamp}.tar.gz", '/var/www/pike/current', :via=> :scp
       run "cd /var/www/pike/current && bundle exec rake pike:data:restore['#{stamp}']"
       run "rm -f /var/www/pike/current/pike.#{stamp}.tar.gz"
