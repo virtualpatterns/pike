@@ -114,14 +114,14 @@ namespace :pike do
 
     namespace :cron do
 
-      desc 'Start the schedule'
-      task :start do |task|
-        system('bundle exec whenever --load-file ./schedule.rb --update-crontab pike')
+      desc 'Install the schedule'
+      task :install do |task|
+        system("bundle exec whenever --load-file ./schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --update-crontab pike")
       end
 
-      desc 'Stop the schedule'
-      task :stop do |task|
-        system('bundle exec whenever --load-file ./schedule.rb --clear-crontab pike')
+      desc 'Uninstall the schedule'
+      task :uninstall do |task|
+        system("bundle exec whenever --load-file ./schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --clear-crontab pike")
       end
 
     end
