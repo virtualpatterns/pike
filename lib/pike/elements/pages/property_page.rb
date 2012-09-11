@@ -40,7 +40,8 @@ module Pike
           end
 
           @property_input = Pike::Elements::Input.new
-          @property_input.attributes.merge!('placeholder' => 'tap to enter a name')
+          @property_input.attributes.merge!('autofocus'   => true,
+                                            'placeholder' => 'tap to enter a name')
           @property_input.value = @property
           @property_input.changed do |element, event|
             @property = @property_input.value

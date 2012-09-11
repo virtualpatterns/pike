@@ -31,7 +31,8 @@ module Pike
           end
 
           @name_input = Pike::Elements::Input.new
-          @name_input.attributes.merge!('disabled'    => @project.copy_of ? true : false,
+          @name_input.attributes.merge!('autofocus'   => @project.copy_of ? false : true,
+                                        'disabled'    => @project.copy_of ? true : false,
                                         'placeholder' => 'tap to enter a name')
           @name_input.value = @project.name
           @name_input.changed do |element, event|

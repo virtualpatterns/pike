@@ -59,7 +59,8 @@ module Pike
           end
 
           @from_property_input = Pike::Elements::Input.new
-          @from_property_input.attributes.merge!('placeholder' => 'tap to enter a from name')
+          @from_property_input.attributes.merge!('autofocus'   => true,
+                                                 'placeholder' => 'tap to enter a from name')
 
           @to_property_input = Pike::Elements::Input.new
           @to_property_input.attributes.merge!('placeholder' => 'tap to enter a to name')

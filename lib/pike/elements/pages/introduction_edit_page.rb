@@ -39,7 +39,8 @@ module Pike
           end
 
           @user_target_input = Pike::Elements::Inputs::UserInput.new
-          @user_target_input.attributes.merge!('placeholder' => 'tap to enter a user\'s email')
+          @user_target_input.attributes.merge!('autofocus'   => true,
+                                               'placeholder' => 'tap to enter a user\'s email')
           @user_target_input.changed do |element, event|
             @introduction.user_target = @user_target_input.user
           end

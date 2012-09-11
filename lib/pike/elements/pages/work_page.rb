@@ -75,7 +75,8 @@ module Pike
           end
 
           @duration_input = Pike::Elements::Inputs::DurationInput.new
-          @duration_input.attributes.merge!('placeholder' => 'tap to enter a duration')
+          @duration_input.attributes.merge!('autofocus'   => true,
+                                            'placeholder' => 'tap to enter a duration')
           @duration_input.duration = @work.duration_minutes || 0
           @duration_input.changed do |element, event|
             @work.duration = @duration_input.duration || 0
