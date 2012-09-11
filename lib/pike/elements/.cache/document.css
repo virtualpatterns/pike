@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/document.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/document.css.haml */
 div.overlay {
   display: none;
   height: 100%;
@@ -22,15 +22,15 @@ a.logon {
   width: 250px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/page.css.haml */
 div.ui-header a.ui-btn-left {
   margin-left: 0px; }
 div.ui-header a.ui-btn-right {
   margin-right: 0px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/dialog.css.haml */
 div.dialog a.ui-btn-left.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-notext.ui-btn-up-a {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
 div.dialog div.message {
   padding-bottom: 5px;
   padding-left: 5px;
@@ -39,13 +39,13 @@ div.dialog div.message {
 div.dialog div.buttons {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
 div.dialog div.buttons div.ui-block-a {
   text-align: left; }
 div.dialog div.buttons div.ui-block-b {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/calendars/month.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/calendars/month.css.haml */
 div.month table {
   width: 100%; }
   div.month table thead td {
@@ -125,7 +125,7 @@ input.ui-input-text {
   padding-top: 0px; }
 ul.introduction li.message {
   font-weight: normal; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/list.css.haml */
 ul.list li.item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
   margin-left: 14px;
   margin-top: -14px; }
@@ -140,13 +140,13 @@ img.github {
   margin-top: 10px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/hash.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/hash.css.haml */
 div.hash > div.node > div.hash {
   padding-left: 10px; }
 div.hash > div.node > div.item {
   padding-left: 10px; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
 li.ui-li-static {
   font-size: inherit; }
   li.ui-li-static span.ui-li-aside {
@@ -157,7 +157,7 @@ li.ui-li-static {
 
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.85/lib/ruby_app/elements/mobile/pages/information/scripts_list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.86/lib/ruby_app/elements/mobile/pages/information/scripts_list.css.haml */
 ul li div.script div.url {
   font-size: 85%; }
 
