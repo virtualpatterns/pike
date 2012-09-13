@@ -6,10 +6,12 @@ require 'mongoid'
 module Pike
 
   module System
+    require 'pike/mixins'
 
     class Action
       include Mongoid::Document
       include Mongoid::Timestamps
+      extend Pike::Mixins::IndexMixin
 
       store_in :system_actions
 
@@ -22,6 +24,11 @@ module Pike
 
       scope :where_not_executed, where(:exception_at => nil)
       scope :where_failed, where(:exception_at.ne => nil)
+
+      index [[:exception_at, 1],
+             [:created_at,   1]], { :background => true }
+
+      index [[:created_at,   1]]
 
       def execute!
         begin
@@ -44,6 +51,18 @@ module Pike
         Pike::System::Action.where_not_executed.each do |action|
           action.execute!
         end
+      end
+
+      def self.assert_indexes
+        Pike::System::Actions::EmptyAction.create!
+
+        self.assert_index(Pike::System::Action.all)
+        self.assert_index(Pike::System::Action.where_not_executed)
+
+        Pike::System::Action.execute_all!
+
+        self.assert_index(Pike::System::Action.where_failed)
+
       end
 
     end

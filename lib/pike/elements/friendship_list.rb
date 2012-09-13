@@ -78,7 +78,7 @@ module Pike
 
           self.items.clear
 
-          if Pike::Session.identity.user.introductions_as_target.count > 0
+          if Pike::Session.identity.user.introductions_as_target.exists?
             self.items.push(Pike::Elements::FriendshipList::FriendshipListIntroductionDivider.new)
             Pike::Session.identity.user.introductions_as_target.all.each do |introduction|
               self.items.push(Pike::Elements::FriendshipList::FriendshipListIntroductionItem.new(introduction))

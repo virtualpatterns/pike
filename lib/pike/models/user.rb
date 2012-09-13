@@ -6,11 +6,13 @@ require 'mongoid'
 require 'ruby_app/mixins'
 
 module Pike
+  require 'pike/mixins'
 
   class User
     include Mongoid::Document
     include Mongoid::Timestamps
     extend RubyApp::Mixins::ConfigurationMixin
+    extend Pike::Mixins::IndexMixin
 
     store_in :users
 
@@ -49,6 +51,8 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+
+    index [[:_url, 1]], { :unique => true }
 
     def administrator?
       self.is_administrator
@@ -120,16 +124,18 @@ module Pike
 
     def create_work!(project_name, activity_name, date, duration, note = nil)
       task = self.create_task!(project_name, activity_name)
-      return self.work.create!(:task_id   => task.id,
-                               :date      => date,
-                               :duration  => duration,
-                               :note      => note)
+      work = self.work.where_task(task).where_date(date).first || self.work.create!(:task_id   => task.id,
+                                                                                    :date      => date)
+      work.duration = duration
+      work.note = note
+      work.save!
+      return work
     end
 
     def create_friendship!(user_target_url)
       user_target = Pike::User.get_user_by_url(user_target_url)
-      Pike::Friendship::create!(:user_source_id => self.id, :user_target_id => user_target.id)
-      Pike::Friendship::create!(:user_source_id => user_target.id, :user_target_id => self.id)
+      Pike::Friendship::create!(:user_source_id => self.id, :user_target_id => user_target.id) unless Pike::Friendship.where_friendship(self, user_target).exists?
+      Pike::Friendship::create!(:user_source_id => user_target.id, :user_target_id => self.id) unless Pike::Friendship.where_friendship(user_target, self).exists?
     end
 
     def self.create_user!(url)
@@ -148,6 +154,12 @@ module Pike
         url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
       end
       return Pike::User.create!(:url => url)
+    end
+
+    def self.assert_indexes
+      user = Pike::User.get_user_by_url('Assert Indexes User')
+      self.assert_index(Pike::User.all)
+      self.assert_index(Pike::User.where_url('Assert Indexes User'))
     end
 
     protected

@@ -355,27 +355,52 @@ namespace :pike do
 
     end
 
+    namespace :migrations do
+
+      desc 'Print all migrations'
+      task :print_all do |task|
+        Pike::Application.create_context! do
+          table = Terminal::Table.new(:title => 'Migrations',
+                                      :headings => ['Name',
+                                                    'Count',
+                                                    'Created',
+                                                    'Updated']) do |table|
+            Pike::System::Migration.all.each do |migration|
+              table.add_row([migration.name,
+                             migration.count,
+                             migration.created_at,
+                             migration.updated_at])
+            end
+          end
+          puts table
+        end
+      end
+
+    end
+
     namespace :migrate do
 
       desc 'Run all migrations'
-      task :all => ['pike:data:migrate:add_user_url',
-                    'pike:data:migrate:add_project_name',
-                    'pike:data:migrate:add_activity_name',
-                    'pike:data:migrate:update_task_project_and_activity_names',
-                    'pike:data:migrate:update_user_demo_to_first',
-                    'pike:data:migrate:add_friendship_user_target_url',
-                    'pike:data:migrate:remove_identities_and_migrations_collections',
-                    'pike:data:migrate:destroy_work_where_task_destroyed',
-                    'pike:data:migrate:update_work_project_and_activity_names',
-                    'pike:data:migrate:remove_nil_properties',
-                    'pike:data:migrate:update_friendship_user_target_url',
-                    'pike:data:migrate:add_user_is_administrator'] do |task|
+      task :all, [:force] => ['pike:data:migrate:add_user_url',
+                              'pike:data:migrate:add_project_name',
+                              'pike:data:migrate:add_activity_name',
+                              'pike:data:migrate:update_task_project_and_activity_names',
+                              'pike:data:migrate:update_user_demo_to_first',
+                              'pike:data:migrate:add_friendship_user_target_url',
+                              'pike:data:migrate:remove_identities_and_migrations_collections',
+                              'pike:data:migrate:destroy_work_where_task_destroyed',
+                              'pike:data:migrate:update_work_project_and_activity_names',
+                              'pike:data:migrate:remove_nil_properties',
+                              'pike:data:migrate:update_friendship_user_target_url',
+                              'pike:data:migrate:add_user_is_administrator',
+                              'pike:data:migrate:add_migration_count',
+                              'pike:data:migrate:create_indexes'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
-      task :add_user_url do |task|
+      task :add_user_url, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url ? user.url.downcase.inspect : nil})"
@@ -387,9 +412,9 @@ namespace :pike do
       end
 
       desc 'Add the Pike::Project#_name property'
-      task :add_project_name do |task|
+      task :add_project_name, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Project.all.each do |project| ...'
             Pike::Project.all.each do |project|
               puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
@@ -401,9 +426,9 @@ namespace :pike do
       end
 
       desc 'Add the Pike::Activity#_name property'
-      task :add_activity_name do |task|
+      task :add_activity_name, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Activity.all.each do |activity| ...'
             Pike::Activity.all.each do |activity|
               puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
@@ -415,9 +440,9 @@ namespace :pike do
       end
 
       desc 'Update the Pike::Task#_project_name and Pike::Task#_activity_name properties'
-      task :update_task_project_and_activity_names do |task|
+      task :update_task_project_and_activity_names, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Task.all.each do |_task| ...'
             Pike::Task.all.each do |_task|
               puts "  _task.project.name=#{_task.project ? _task.project.name.inspect : '(nil)'} _task.set(:_project_name, #{_task.project ? _task.project.name.downcase.inspect : '(nil)'})"
@@ -431,9 +456,9 @@ namespace :pike do
       end
 
       desc 'Update the user demo@pike.virtualpatterns.com to first@pike.virtualpatterns.com'
-      task :update_user_demo_to_first do |task|
+      task :update_user_demo_to_first, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
             if user
               puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
@@ -445,9 +470,9 @@ namespace :pike do
       end
 
       desc 'Add the Pike::Friendship#_user_target_url property'
-      task :add_friendship_user_target_url do |task|
+      task :add_friendship_user_target_url, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Friendship.all.each do |friendship| ...'
             Pike::Friendship.all.each do |friendship|
               puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
@@ -459,9 +484,9 @@ namespace :pike do
       end
 
       desc 'Remove the identities and migrations collections'
-      task :remove_identities_and_migrations_collections do |task|
+      task :remove_identities_and_migrations_collections, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             database = Mongoid.configure.database
             puts 'database.drop_collection(\'identities\') ...'
             database.drop_collection('identities')
@@ -474,9 +499,9 @@ namespace :pike do
       end
 
       desc 'Destroy all work where the task has been destroyed'
-      task :destroy_work_where_task_destroyed do |task|
+      task :destroy_work_where_task_destroyed, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Work.all.each do |work| ...'
             Pike::Work.all.each do |work|
               puts "  work.date=#{work.date} work.duration=#{work.duration}"
@@ -493,9 +518,9 @@ namespace :pike do
       end
 
       desc 'Update the Pike::Work#_project_name and Pike::Work#_activity_name properties'
-      task :update_work_project_and_activity_names do |task|
+      task :update_work_project_and_activity_names, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Work.all.each do |_work| ...'
             Pike::Work.all.each do |_work|
               puts "  _work.task.project.name=#{_work.task.project ? _work.task.project.name.inspect : '(nil)'} _work.set(:_project_name, #{_work.task.project ? _work.task.project.name.downcase.inspect : '(nil)'})"
@@ -509,9 +534,9 @@ namespace :pike do
       end
 
       desc 'Remove any nil properties'
-      task :remove_nil_properties do |task|
+      task :remove_nil_properties, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect}"
@@ -525,9 +550,9 @@ namespace :pike do
       end
 
       desc 'Update the Pike::Friendship#_user_target_url property'
-      task :update_friendship_user_target_url do |task|
+      task :update_friendship_user_target_url, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::Friendship.all.each do |friendship| ...'
             Pike::Friendship.all.each do |friendship|
               puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
@@ -539,9 +564,9 @@ namespace :pike do
       end
 
       desc 'Add the Pike::User#is_administrator property'
-      task :add_user_is_administrator do |task|
+      task :add_user_is_administrator, :force do |task, arguments|
         Pike::Application.create_context! do
-          Pike::System::Migration.run(task) do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect} user.set(:is_administrator, false)"
@@ -552,8 +577,125 @@ namespace :pike do
         end
       end
 
+      desc 'Add the Pike::System::Migration#count property'
+      task :add_migration_count, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Migration.all.each do |migration| ...'
+            Pike::System::Migration.all.each do |migration|
+              puts "  migration.name=#{migration.name.inspect} migration.set(:count, 1)"
+              migration.set(:count, 1)
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Create indexes'
+      task :create_indexes, :force do |task, arguments|
+
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            $stdout.sync = true
+
+            print 'Pike::User.create_indexes ... '
+            Pike::User.create_indexes
+            puts 'end'
+
+            print 'Pike::System::Identity.create_indexes ... '
+            Pike::System::Identity.create_indexes
+            puts 'end'
+
+            print 'Pike::Project.create_indexes ... '
+            Pike::Project.create_indexes
+            puts 'end'
+
+            print 'Pike::Activity.create_indexes ... '
+            Pike::Activity.create_indexes
+            puts 'end'
+
+            print 'Pike::Task.create_indexes ... '
+            Pike::Task.create_indexes
+            puts 'end'
+
+            print 'Pike::Work.create_indexes ... '
+            Pike::Work.create_indexes
+            puts 'end'
+
+            print 'Pike::Introduction.create_indexes ... '
+            Pike::Introduction.create_indexes
+            puts 'end'
+
+            print 'Pike::Friendship.create_indexes ... '
+            Pike::Friendship.create_indexes
+            puts 'end'
+
+            print 'Pike::System::Action.create_indexes ... '
+            Pike::System::Action.create_indexes
+            puts 'end'
+
+            print 'Pike::System::Migration.create_indexes ... '
+            Pike::System::Migration.create_indexes
+            puts 'end'
+
+          end
+        end
+      end
+
       # Next migration ...
       #   ...
+
+    end
+
+    namespace :indexes do
+
+      desc 'Verify queries are supported by indexes'
+      task :assert do |task|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+
+          print 'Pike::User.assert_indexes ... '
+          Pike::User.assert_indexes
+          puts 'end'
+
+          print 'Pike::System::Identity.assert_indexes ... '
+          Pike::System::Identity.assert_indexes
+          puts 'end'
+
+          print 'Pike::Project.assert_indexes ... '
+          Pike::Project.assert_indexes
+          puts 'end'
+
+          print 'Pike::Activity.assert_indexes ... '
+          Pike::Activity.assert_indexes
+          puts 'end'
+
+          print 'Pike::Task.assert_indexes ... '
+          Pike::Task.assert_indexes
+          puts 'end'
+
+          print 'Pike::Work.assert_indexes ... '
+          Pike::Work.assert_indexes
+          puts 'end'
+
+          print 'Pike::Introduction.assert_indexes ... '
+          Pike::Introduction.assert_indexes
+          puts 'end'
+
+          print 'Pike::Friendship.assert_indexes ... '
+          Pike::Friendship.assert_indexes
+          puts 'end'
+
+          print 'Pike::System::Action.assert_indexes ... '
+          Pike::System::Action.assert_indexes
+          puts 'end'
+
+          print 'Pike::System::Migration.assert_indexes ... '
+          Pike::System::Migration.assert_indexes
+          puts 'end'
+
+        end
+      end
 
     end
 

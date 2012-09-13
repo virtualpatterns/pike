@@ -4,10 +4,12 @@ require 'bundler/setup'
 require 'mongoid'
 
 module Pike
+  require 'pike/mixins'
 
   class Task
     include Mongoid::Document
     include Mongoid::Timestamps
+    extend Pike::Mixins::IndexMixin
 
     store_in :tasks
 
@@ -42,8 +44,25 @@ module Pike
 
     scope :where_project, lambda { |project| where(:project_id => project.id) }
     scope :where_activity, lambda { |activity| where(:activity_id => activity.id) }
-    scope :where_flag, lambda { |flag| where(:flag => flag) }
-    scope :where_not_flag, lambda { |flag| where(:flag.ne => flag) }
+
+    index [[:user_id,        1],
+           [:flag,           1],
+           [:project_id,     1],
+           [:_project_name,  1],
+           [:activity_id,    1],
+           [:_activity_name, 1]]
+
+    def self.assert_indexes
+      user = Pike::User.get_user_by_url('Assert Indexes User')
+      project = user.create_project!('Assert Indexes Project')
+      activity = user.create_activity!('Assert Indexes Activity')
+      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
+
+      self.assert_index(user.tasks.all)
+      self.assert_index(user.tasks.where_project(project))
+      self.assert_index(user.tasks.where_activity(activity))
+
+    end
 
     protected
 

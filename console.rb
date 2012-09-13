@@ -3,6 +3,8 @@ require 'bundler/setup'
 
 require 'ruby_app'
 
+require 'pp'
+
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
 require 'pike'

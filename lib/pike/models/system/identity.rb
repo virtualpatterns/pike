@@ -7,10 +7,12 @@ require 'mongoid'
 module Pike
 
   module System
+    require 'pike/mixins'
 
     class Identity
       include Mongoid::Document
       include Mongoid::Timestamps
+      extend Pike::Mixins::IndexMixin
 
       store_in :system_identities
 
@@ -27,6 +29,13 @@ module Pike
 
       scope :where_value, lambda { |value| where(:value => value) }
 
+      index [[:value,      1],
+             [:expires,    1],
+             [:created_at, -1]]
+
+      index [[:expires,    1],
+             [:created_at, -1]]
+
       def url
         return self.user.url
       end
@@ -41,6 +50,12 @@ module Pike
           value = SecureRandom.hex
         end
         return value
+      end
+
+      def self.assert_indexes
+        identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('Assert Indexes User'))
+        self.assert_index(Pike::System::Identity.all)
+        self.assert_index(Pike::System::Identity.where_value(identity.value))
       end
 
     end

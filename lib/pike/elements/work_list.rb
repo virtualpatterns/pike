@@ -141,7 +141,7 @@ module Pike
 
           self.items.clear
 
-          self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.count > 0
+          self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
 
           self.items.push(Pike::Elements::WorkList::WorkListTotalDivider.new(@date))
 

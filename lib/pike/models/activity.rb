@@ -4,10 +4,12 @@ require 'bundler/setup'
 require 'mongoid'
 
 module Pike
+  require 'pike/mixins'
 
   class Activity
     include Mongoid::Document
     include Mongoid::Timestamps
+    extend Pike::Mixins::IndexMixin
 
     store_in :activities
 
@@ -32,9 +34,14 @@ module Pike
 
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
-    scope :where_name, lambda { |name| where(:name => name) }
+    scope :where_name, lambda { |name| where(:_name => name.downcase) }
     scope :where_shared, where(:is_shared => true)
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
+
+    index [[:user_id,    1],
+           [:_name,      1],
+           [:is_shared,  1],
+           [:copy_of_id, 1]]
 
     def shared?
       self.is_shared
@@ -68,6 +75,22 @@ module Pike
         activity.is_shared = false
         activity.save!
       end
+    end
+
+    def self.assert_indexes
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      activity1 = user1.create_activity!('Assert Indexes Activity 1', true)
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      friendship = user1.create_friendship!('Assert Indexes User 2')
+
+      Pike::System::Action.execute_all!
+
+      self.assert_index(Pike::Activity.all)
+      self.assert_index(user1.activities.all)
+      self.assert_index(user1.activities.where_name('Assert Indexes Activity 1'))
+      self.assert_index(user1.activities.where_shared)
+      self.assert_index(user2.activities.where_copy_of(activity1))
+
     end
 
     protected

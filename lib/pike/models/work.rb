@@ -11,6 +11,7 @@ module Pike
   class Work
     include Mongoid::Document
     include Mongoid::Timestamps
+    extend Pike::Mixins::IndexMixin
 
     store_in :work
 
@@ -37,11 +38,23 @@ module Pike
 
     default_scope order_by([[:date, :asc], [:_project_name, :asc],[:_activity_name, :asc]])
 
-    scope :where_task, lambda { |task| where(:task_id => task.id) }
+    scope :where_task, lambda { |task| where(:task_id => task.id ) }
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }
     scope :where_week, lambda { |date| where(:date.gte => date.week_start).and(:date.lte => date.week_end) }
     scope :where_started, where(:started.ne => nil)
+
+    index [[:user_id,        1],
+           [:task_id,        1],
+           [:date,           1],
+           [:_project_name,  1],
+           [:_activity_name, 1],
+           [:started,        1]]
+
+    index [[:task_id,        1],
+           [:date,           1],
+           [:_project_name,  1],
+           [:_activity_name, 1]]
 
     def duration_minutes
       return (self.duration/60).round * 60
@@ -74,6 +87,22 @@ module Pike
         self.updated = Time.now
         self.save!
       end
+    end
+
+    def self.assert_indexes
+      user = Pike::User.get_user_by_url('Assert Indexes User')
+      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
+      work = user.create_work!('Assert Indexes Project', 'Assert Indexes Activity', Date.today, 123)
+      work.start!
+
+      self.assert_index(user.work.where_task(task))
+      self.assert_index(user.work.where_date(Date.today))
+      self.assert_index(user.work.where_not_date(Date.today - 1))
+      self.assert_index(user.work.where_week(Date.today))
+      self.assert_index(user.work.where_started)
+
+      self.assert_index(task.work.where_date(Date.today))
+
     end
 
     protected
