@@ -11,9 +11,9 @@ div.overlay {
 div.logon {
   background-image: url("/pike/resources/elements/pages/default_page/pike.png");
   background-position: center bottom;
-  background-size: auto;
+  background-size: 200px;
   background-repeat: no-repeat;
-  height: 320px;
+  height: 250px;
   margin-bottom: 20px; }
 
 a.logon {
@@ -21,9 +21,6 @@ a.logon {
   margin-right: auto;
   width: 250px; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.87/lib/ruby_app/elements/mobile/buttons/google_button.css.haml */
-.ui-icon-google {
-  background-image: url("/ruby_app/resources/elements/mobile/buttons/google_button.png"); }
 
 /* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.5.87/lib/ruby_app/elements/mobile/page.css.haml */
 div.ui-header a.ui-btn-left {
