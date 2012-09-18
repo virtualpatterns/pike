@@ -11,10 +11,10 @@ module Pike
 
       module Authentication
 
-        module OpenId
+        module Facebook
           require 'pike/models'
 
-          class GoogleAuthenticationDocument < RubyApp::Elements::Mobile::Documents::Authentication::OpenId::GoogleAuthenticationDocument
+          class EmailAuthenticationDocument < RubyApp::Elements::Mobile::Documents::Authentication::Facebook::EmailAuthenticationDocument
 
             template_path(:all, File.dirname(__FILE__))
 
@@ -22,8 +22,8 @@ module Pike
               super
             end
 
-            def create_identity_from_email(email)
-              Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(email))
+            def create_identity_from_me(me)
+              Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(me['email']))
             end
 
           end
