@@ -10,6 +10,10 @@ default:
       mobile:
         documents:
           authentication:
+            facebook:
+              authentication_document:
+                access_key: 'ABC'
+                secret_key: '123'
             open_id:
               ax_authentication_document:
                 attributes:
