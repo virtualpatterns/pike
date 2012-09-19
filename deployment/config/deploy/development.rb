@@ -1,6 +1,8 @@
 set :servers,             3
-set :default_environment, default_environment.merge('RUBY_APP_CONFIGURATION'        => 'development',
-                                                    'PATH'                          => '$PATH:/opt/ruby/bin')
+set :default_environment, default_environment.merge('FACEBOOK_ACCESS_KEY'     => ENV['PIKE_DEVELOPMENT_ACCESS_KEY'],
+                                                    'FACEBOOK_SECRET_KEY'     => ENV['PIKE_DEVELOPMENT_SECRET_KEY'],
+                                                    'RUBY_APP_CONFIGURATION'  => 'development',
+                                                    'PATH'                    => '$PATH:/opt/ruby/bin')
 set :branch,              'development'
 set :user,                'fficnar'
 

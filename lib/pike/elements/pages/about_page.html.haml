@@ -37,11 +37,9 @@
         %span
           Miscellaneous
       %li
-        %span
-          User
-        %span.ui-li-aside
-          %code
-            #{Pike::Session.identity.user.url}
+        %a{'href'   => '/pike/resources/elements/pages/privacy.html',
+           'target' => '_blank'}
+          Privacy
       %li
         %a{'href'   => 'https://github.com/virtualpatterns/pike',
            'target' => '_blank'}

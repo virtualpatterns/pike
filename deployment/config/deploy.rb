@@ -11,9 +11,7 @@ end
 set :servers,             1
 set :default_environment, {
                             'AMAZON_ACCESS_KEY'   => ENV['AMAZON_ACCESS_KEY'],
-                            'AMAZON_SECRET_KEY'   => ENV['AMAZON_SECRET_KEY'],
-                            'FACEBOOK_ACCESS_KEY' => ENV['FACEBOOK_ACCESS_KEY'],
-                            'FACEBOOK_SECRET_KEY' => ENV['FACEBOOK_SECRET_KEY']
+                            'AMAZON_SECRET_KEY'   => ENV['AMAZON_SECRET_KEY']
                           }
 
 set :stages,              %w[development staging production]
