@@ -19,8 +19,8 @@ module Pike
 
         self.metadata.merge!('apple-mobile-web-app-status-bar-style' => 'black')
 
-        self.links.merge!('apple-touch-icon'          => '/pike/resources/elements/apple-touch-icon.png',
-                          'apple-touch-startup-image' => '/pike/resources/elements/apple-touch-startup-image.png')
+        self.links.merge!('apple-touch-icon'          => '/pike/resources/elements/document/apple-touch-icon.png',
+                          'apple-touch-startup-image' => '/pike/resources/elements/document/apple-touch-startup-image.png')
 
         require 'pike/elements/pages/default_page'
         self.pages.push(Pike::Elements::Pages::DefaultPage.new)
