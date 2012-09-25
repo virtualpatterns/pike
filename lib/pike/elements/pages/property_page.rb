@@ -40,7 +40,7 @@ module Pike
           end
 
           @property_input = Pike::Elements::Input.new
-          @property_input.attributes.merge!('autofocus'   => true,
+          @property_input.attributes.merge!('autofocus'   => @property ? false : true,
                                             'placeholder' => 'tap to enter a name')
           @property_input.value = @property
           @property_input.changed do |element, event|
@@ -48,7 +48,8 @@ module Pike
           end
 
           @value_input = Pike::Elements::Input.new
-          @value_input.attributes.merge!(:placeholder => 'tap to enter a value')
+          @value_input.attributes.merge!('autofocus'  => @property ? true : false,
+                                         :placeholder => 'tap to enter a value')
           @value_input.value = @value
           @value_input.changed do |element, event|
             @value = @value_input.value

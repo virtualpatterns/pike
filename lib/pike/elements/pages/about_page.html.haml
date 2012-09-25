@@ -37,6 +37,11 @@
         %span
           Miscellaneous
       %li
+        - subject = URI.escape('Mobile and Desktop Task Tracking')
+        - body = URI.escape("Mobile and desktop task tracking ... #{RubyApp::Request.base_url}")
+        %a{'href' => "mailto:?subject=#{subject}&body=#{body}"}
+          Share
+      %li
         %a{'href'   => '/pike/resources/elements/pages/privacy.html',
            'target' => '_blank'}
           Privacy

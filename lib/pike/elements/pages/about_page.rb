@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'socket'
+require 'uri'
 
 require 'ruby_app/elements'
 
