@@ -33,14 +33,15 @@
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
-      %li{'data-role' => 'list-divider'}
-        %span
-          Miscellaneous
       %li
         - subject = URI.escape('Mobile and Desktop Task Tracking')
         - body = URI.escape("Mobile and desktop task tracking ... #{RubyApp::Request.base_url}")
         %a{'href' => "mailto:?subject=#{subject}&body=#{body}"}
-          Share
+          Share this App
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
       %li
         %a{'href'   => '/pike/resources/elements/pages/privacy.html',
            'target' => '_blank'}
@@ -52,4 +53,4 @@
       - if Pike::Session.identity.user.administrator? || Pike::Elements::Pages::AboutPage.configuration.system?
         %li
           = @information_link.render(:html) do |element|
-            - element.content_for(:html, :link, 'System')
+            - element.content_for(:html, :link, 'System Information')
