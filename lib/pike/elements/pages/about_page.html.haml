@@ -37,7 +37,7 @@
         - subject = URI.escape('Mobile and Desktop Task Tracking')
         - body = URI.escape("Mobile and desktop task tracking ... #{RubyApp::Request.base_url}")
         %a{'href' => "mailto:?subject=#{subject}&body=#{body}"}
-          Share this App
+          Share App
 
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',
@@ -45,11 +45,11 @@
       %li
         %a{'href'   => '/pike/resources/elements/pages/privacy.html',
            'target' => '_blank'}
-          Privacy
+          Privacy Policy
       %li
         %a{'href'   => 'https://github.com/virtualpatterns/pike',
            'target' => '_blank'}
-          Source
+          Source Code
       - if Pike::Session.identity.user.administrator? || Pike::Elements::Pages::AboutPage.configuration.system?
         %li
           = @information_link.render(:html) do |element|
