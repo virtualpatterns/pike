@@ -14,6 +14,13 @@ module Pike
 
         belongs_to :property, :class_name => 'Pike::Property'
 
+        def delete_property(property)
+          property.property_values.all.each do |property_values|
+            property_values.destroy
+          end
+          property.destroy
+        end
+
       end
 
     end

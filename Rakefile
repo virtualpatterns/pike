@@ -394,7 +394,8 @@ namespace :pike do
                               'pike:data:migrate:update_friendship_user_target_url',
                               'pike:data:migrate:add_user_is_administrator',
                               'pike:data:migrate:add_migration_count',
-                              'pike:data:migrate:create_indexes'] do |task, arguments|
+                              'pike:data:migrate:create_indexes',
+                              'pike:data:migrate:create_property_indexes'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -653,6 +654,10 @@ namespace :pike do
             Pike::Property.create_indexes
             puts 'end'
 
+            print 'Pike::ProjectPropertyValue.create_indexes ... '
+            Pike::ProjectPropertyValue.create_indexes
+            puts 'end'
+
           end
         end
       end
@@ -727,6 +732,14 @@ namespace :pike do
           Pike::Task.assert_indexes
           puts 'end'
 
+          print 'Pike::Property.assert_indexes ... '
+          Pike::Property.assert_indexes
+          puts 'end'
+
+          print 'Pike::ProjectPropertyValue.assert_indexes ... '
+          Pike::ProjectPropertyValue.assert_indexes
+          puts 'end'
+
           print 'Pike::Work.assert_indexes ... '
           Pike::Work.assert_indexes
           puts 'end'
@@ -737,10 +750,6 @@ namespace :pike do
 
           print 'Pike::Friendship.assert_indexes ... '
           Pike::Friendship.assert_indexes
-          puts 'end'
-
-          print 'Pike::Property.assert_indexes ... '
-          Pike::Property.assert_indexes
           puts 'end'
 
           print 'Pike::System::Action.assert_indexes ... '

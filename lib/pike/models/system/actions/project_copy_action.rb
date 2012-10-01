@@ -82,17 +82,26 @@ module Pike
         end
 
         def add_project_to_user(project, user)
-          user.projects.create!(:copy_of => project,
-                                :name => project.name,
-                                :is_shared => false)
+          _project = user.projects.create!(:copy_of => project,
+                                           :name => project.name,
+                                           :is_shared => false)
+          project.property_values.all.each do |property_value|
+            _property = user.properties.where_copy_of(property_value.property).first
+            _project.property_values.create!(:property  => _property,
+                                             :value     => property.value)
+          end
         end
 
         def update_project(project, _project)
           _project.name = project.name
+          project.property_values.all.each do |property_value|
+            _property = _project.user.properties.where_copy_of(property_value.property).first
+            _property_value = _project.property_values.where_property(_property).first || _project.property_values.create!(:property => _property)
+            _property_value.value = property_value.value
+          end
           _project.save!
         end
 
-        Why does this work!?
         def delete_project_from_user(project, user)
           user.projects.where_copy_of(project).each do |_project|
             self.delete_project(_project)

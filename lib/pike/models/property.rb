@@ -40,7 +40,7 @@ module Pike
     validates_presence_of :name
     validates_uniqueness_of :name, :scope => [:user_id, :type, :copy_of_id]
 
-    default_scope order_by([:user_id, :asc], [:type, asc], [:_name, :asc])
+    default_scope order_by([:user_id, :asc], [:type, :asc], [:_name, :asc])
 
     scope :where_type_and_name, lambda { |type, name| where(:type => type).and(:_name => name.downcase) }
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }

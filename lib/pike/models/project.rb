@@ -24,7 +24,7 @@ module Pike
 
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
-    has_many :property_values, :class_name => 'Pike::ProjectPropertyValue', :inverse_of => :project
+    has_many :property_values, :class_name => 'Pike::ProjectPropertyValue', :inverse_of => :project, :autosave => true
 
     field :name, :type => String
     field :_name, :type => String

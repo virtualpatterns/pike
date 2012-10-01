@@ -1,5 +1,6 @@
 module Pike
-  require 'pike/mixins'
+  #require 'pike/mixins'
+  require 'pike/models/property_value'
 
   class ProjectPropertyValue < Pike::PropertyValue
     extend Pike::Mixins::IndexMixin

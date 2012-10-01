@@ -29,7 +29,7 @@ module Pike
     has_many :friendships_as_source, :class_name => 'Pike::Friendship', :inverse_of => :user_source
     has_many :friendships_as_target, :class_name => 'Pike::Friendship', :inverse_of => :user_target
 
-    has_many :properties, :class_name => 'Pike::Properties'
+    has_many :properties, :class_name => 'Pike::Property'
 
     has_many :projects, :class_name => 'Pike::Project'
     has_many :activities, :class_name => 'Pike::Activity'
@@ -63,7 +63,7 @@ module Pike
       ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
     end
 
-    def create_property!(name, type = Pike::Property::TYPE_NONE)
+    def create_property!(type, name)
       return self.properties.where_type_and_name(type, name).first || self.properties.create!(:type => type,
                                                                                               :name => name)
     end
