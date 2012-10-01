@@ -12,15 +12,13 @@ module Pike
 
       class ActivityCopyAction < Pike::System::Actions::ActivitySynchronizeAction
 
-        belongs_to :activity, :class_name => 'Pike::Activity'
-
         def execute
           RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.activity.name=#{self.activity ? self.activity.name.inspect : '(nil)'}") do
             unless self.user_target
               # Sync to all friends
               self.user_source.friendships_as_source.all.each do |friendship|
                 unless self.activity
-                  # Sync all shared activities to a friend
+                  # Sync all shared activities to a friend ... never a scenario
                   #self.sync_shared_activities_to_friend(friendship.user_target)
                 else
                   # Sync a specific activity to a friend
@@ -35,7 +33,7 @@ module Pike
                   # Sync all shared activities to a friend
                   self.sync_shared_activities_to_friend(self.user_target)
                 else
-                  # Sync a specific activity to a friend
+                  # Sync a specific activity to a friend ... never a scenario
                   #self.sync_activity_to_friend(self.activity, self.user_target)
                 end
               else

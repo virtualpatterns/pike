@@ -24,6 +24,7 @@ module Pike
 
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
+    has_many :property_values, :class_name => 'Pike::ProjectPropertyValue', :inverse_of => :project
 
     field :name, :type => String
     field :_name, :type => String
@@ -49,6 +50,13 @@ module Pike
 
     def exists_tasks?
       self.tasks.exists?
+    end
+
+    def create_property_value!(property_name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_PROJECT, property_name)
+      property_value = self.property_values.where_property(property).first || self.property_values.create!(:property => property)
+      property_value.value = value
+      property_value.save!
     end
 
     def self.create_shared_project!(user_source_url, user_target_url, project_name)

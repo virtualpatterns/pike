@@ -642,6 +642,59 @@ namespace :pike do
         end
       end
 
+      desc 'Create property indexes'
+      task :create_property_indexes, :force do |task, arguments|
+
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            $stdout.sync = true
+
+            print 'Pike::Property.create_indexes ... '
+            Pike::Property.create_indexes
+            puts 'end'
+
+          end
+        end
+      end
+
+      desc 'Create Pike::Property from Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties'
+      task :create_properties, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |migration|
+              puts "  user.url=#{user.url.inspect}"
+              user[:project_properties].each do |property|
+                user.create_property!(Pike::Property::TYPE_PROJECT, property)
+              end
+              user[:activity_properties].each do |property|
+                user.create_property!(Pike::Property::TYPE_ACTIVITY, property)
+              end
+              user[:task_properties].each do |property|
+                user.create_property!(Pike::Property::TYPE_TASK, property)
+              end
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Remove the Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties fields'
+      task :remove_user_project_activity_task_properties, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |migration|
+              puts "  user.url=#{user.url.inspect}"
+              user.unset(:project_properties)
+              user.unset(:activity_properties)
+              user.unset(:task_properties)
+            end
+            puts '... end'
+          end
+        end
+      end
+
       # Next migration ...
       #   ...
 
@@ -684,6 +737,10 @@ namespace :pike do
 
           print 'Pike::Friendship.assert_indexes ... '
           Pike::Friendship.assert_indexes
+          puts 'end'
+
+          print 'Pike::Property.assert_indexes ... '
+          Pike::Property.assert_indexes
           puts 'end'
 
           print 'Pike::System::Action.assert_indexes ... '

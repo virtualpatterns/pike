@@ -29,14 +29,11 @@ module Pike
     has_many :friendships_as_source, :class_name => 'Pike::Friendship', :inverse_of => :user_source
     has_many :friendships_as_target, :class_name => 'Pike::Friendship', :inverse_of => :user_target
 
+    has_many :properties, :class_name => 'Pike::Properties'
+
     has_many :projects, :class_name => 'Pike::Project'
-    field :project_properties, :type => Array, :default => []
-
     has_many :activities, :class_name => 'Pike::Activity'
-    field :activity_properties, :type => Array, :default => []
-
     has_many :tasks, :class_name => 'Pike::Task'
-    field :task_properties, :type => Array, :default => []
 
     has_many :work, :class_name => 'Pike::Work'
 
@@ -66,15 +63,18 @@ module Pike
       ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
     end
 
+    def create_property!(name, type = Pike::Property::TYPE_NONE)
+      return self.properties.where_type_and_name(type, name).first || self.properties.create!(:type => type,
+                                                                                              :name => name)
+    end
+
     def create_project!(project_name, is_shared = false, properties = {})
       project = self.projects.where_name(project_name).first || self.projects.create!(:name       => project_name,
                                                                                       :is_shared  => is_shared)
       unless properties.empty?
         properties.each do |name, value|
-          self.push(:project_properties, name) unless self.send(:project_properties).include?(name)
-          project.write_attribute(name, value)
+          project.create_property_value!(name, value)
         end
-        project.save!
       end
       return project
     end
