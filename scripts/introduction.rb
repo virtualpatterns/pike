@@ -29,7 +29,7 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a friend') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('User') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('User', "Friend 2 of #{Pike::Session.identity.user.id}") }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text("The user Friend 2 of #{Pike::Session.identity.user.id} does not exist.") }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text("The user specified does not exist.") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
