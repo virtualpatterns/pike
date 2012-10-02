@@ -31,6 +31,14 @@
         = @rename_property_link.render(:html) do |element|
           - element.content_for(:html, :link, 'Rename Property')
 
+    - if Pike::Session.identity.user.administrator? || Pike::Elements::Pages::MorePage.configuration.user?
+      %ul{'data-inset'  => 'true',
+          'data-role'   => 'listview',
+          'data-theme'  => 'd'}
+        %li
+          = @users_link.render(:html) do |element|
+            - element.content_for(:html, :link, 'Manage Users')
+
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',
         'data-theme'  => 'd'}

@@ -15,6 +15,7 @@ module Pike
       require 'pike/elements/pages/friendship_list_page'
       require 'pike/elements/pages/project_list_page'
       require 'pike/elements/pages/rename_property_page'
+      require 'pike/elements/pages/user_page'
       require 'pike/elements/pages/work_report_page'
       require 'pike/models'
 
@@ -50,6 +51,11 @@ module Pike
           @rename_property_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
           @rename_property_link.clicked do |element, event|
             Pike::Elements::Pages::RenamePropertyPage.new.show(event)
+          end
+
+          @users_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+          @users_link.clicked do |element, event|
+            Pike::Elements::Pages::UserPage.new.show(event)
           end
 
           @about_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new

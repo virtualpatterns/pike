@@ -1,0 +1,40 @@
+- self.content_for(:html, :page) do
+  /
+    #{__FILE__}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      User
+    = @save_button.render(:html)
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        %label.ui-hidden-accessible{'for' => @user_input.element_id}
+          User
+        = @user_input.render(:html)
+      %li
+        %label.ui-hidden-accessible{'for' => @is_administrator_input.element_id}
+          Administrator
+        = @is_administrator_input.render(:html) do |element|
+          - element.content_for(:html, :on, 'Administrator')
+          - element.content_for(:html, :off, 'User')
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        %span
+          Created
+        %span.ui-li-aside
+          %code{'data-field' => 'created_at'}
+            = @user ? RubyApp::Language.locale.strftime(@user.created_at, Pike::Application.configuration.format.date.long) : nil
+      %li
+        %span
+          Modified
+        %span.ui-li-aside
+          %code{'data-field' => 'updated_at'}
+            = @user ? RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long) : nil

@@ -31,10 +31,10 @@ module Pike
             RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
               @user = Pike::User.get_user_by_url(event.value, false)
               @value = @user ? user.url : nil
-              raise "The user #{event.value} does not exist." unless @user
-              event.update_value("##{self.element_id}", @value)
-              changed(event)
+              raise 'The user specified does not exist.' unless @user
+              event.update_value("##{self.element_id}", @value, false)
             end
+            changed(event)
           end
 
       end

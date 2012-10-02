@@ -76,6 +76,8 @@ default:
         default_page:
           scripts?: true
           guests?: true
+        more_page:
+          user?: true
         work_list_page:
           interval: 70
     user: &default_pike_user
@@ -154,6 +156,8 @@ staging:
         default_page:
           scripts?: false
           guests?: true
+        more_page:
+          user?: false
         work_list_page:
           interval: 70
     user: &staging_pike_user

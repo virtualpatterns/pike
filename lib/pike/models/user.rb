@@ -138,8 +138,10 @@ module Pike
       Pike::Friendship::create!(:user_source_id => user_target.id, :user_target_id => self.id) unless Pike::Friendship.where_friendship(user_target, self).exists?
     end
 
-    def self.create_user!(url)
-      return self.get_user_by_url(url)
+    def self.create_user!(url, is_administrator = false)
+      user = self.get_user_by_url(url)
+      user.set(:is_administrator, true) if is_administrator
+      return user
     end
 
     def self.get_user_by_url(url, create = true)
