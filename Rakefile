@@ -19,6 +19,11 @@ namespace :pike do
     puts Pike::VERSION
   end
 
+  desc 'Display commit difference between current branch and staging'
+  task :changes do |task|
+    system("git checkout development; git pull origin development; git shortlog staging..HEAD")
+  end
+
   desc 'Pull development, tag, push to development, and increment version'
   task :push do |task|
     system("git checkout development; git pull origin development; git tag -a -m 'Tagging #{Pike::VERSION}' '#{Pike::VERSION}'; git push --tags origin development")
