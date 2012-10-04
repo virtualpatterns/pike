@@ -21,7 +21,7 @@ namespace :pike do
 
   desc 'Display commit difference between current branch and staging'
   task :changes do |task|
-    system("git checkout development; git pull origin development; git shortlog staging..HEAD")
+    system("git checkout development; git pull origin development; git log --pretty=format:'%H %s' staging..HEAD")
   end
 
   desc 'Pull development, tag, push to development, and increment version'
