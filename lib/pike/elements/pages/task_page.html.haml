@@ -49,4 +49,11 @@
         Other
       tasks appear in the middle of the list.
 
-    = @properties.render(:html)
+    %p.instructions.new
+      - if @task.new_record?
+        = @save_link.render(:html) do |element|
+          - element.content_for(:html, :link, 'Save')
+        the task in order to add or edit properties.
+
+    = @property_value_list.render(:html)
+

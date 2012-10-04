@@ -70,7 +70,7 @@
         here
       for other examples of parse-able duration strings, e.g. 2h 30m or 2:30
 
-    = @properties.render(:html)
+    = @property_value_list.render(:html)
 
     = @delete_button.render(:html) do |element|
       - element.content_for(:html, :link, 'Delete Task')

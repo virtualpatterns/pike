@@ -17,13 +17,13 @@ module Pike
     after_save :on_after_save
     before_destroy :on_before_destroy
 
-    has_many :synchronize_actions, :class_name => 'Pike::System::Actions::ActivitySynchronizeAction'
-
     has_many   :copies,  :class_name => 'Pike::Activity', :inverse_of => :copy_of
     belongs_to :copy_of, :class_name => 'Pike::Activity', :inverse_of => :copies
 
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
+
+    has_many :values, :class_name => 'Pike::ActivityPropertyValue', :inverse_of => :activity
 
     field :name, :type => String
     field :_name, :type => String
@@ -34,9 +34,9 @@ module Pike
 
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
-    scope :where_name, lambda { |name| where(:_name => name.downcase) }
+    scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_shared, where(:is_shared => true)
-    scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
+    scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
 
     index [[:user_id,    1],
            [:_name,      1],
@@ -49,6 +49,13 @@ module Pike
 
     def exists_tasks?
       self.tasks.exists?
+    end
+
+    def create_value!(property_name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_ACTIVITY, property_name)
+      _value = self.values.where_property(property).first || self.values.create!(:property => property)
+      _value.value = value
+      _value.save!
     end
 
     def self.create_shared_activity!(user_source_url, user_target_url, activity_name)
@@ -109,6 +116,8 @@ module Pike
 
       def on_before_destroy
         raise 'The selected activity cannot be deleted.  The activity is assigned to a task.' if exists_tasks?
+        # TODO ... index ?
+        Pike::ActivityPropertyValue.destroy_all(:activity_id => self.id)
       end
 
   end

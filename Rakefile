@@ -25,7 +25,7 @@ namespace :pike do
     version_file = File.join(Pike::ROOT, %w[lib pike version.rb])
     Pike::VERSION =~ /(\d+)\.(\d+)\.(\d+)/
     system("sed 's|[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*|#{$1}.#{$2}.#{$3.to_i + 1}|g' < '#{version_file}' > '#{version_file}.out'; rm '#{version_file}'; mv '#{version_file}.out' '#{version_file}'")
-    system('git commit --all --message=\'Incrementing version\'')
+    system("git commit --all --message='Version #{Pike::VERSION}'")
   end
 
   namespace :merge do
@@ -662,38 +662,69 @@ namespace :pike do
         end
       end
 
-      desc 'Create Pike::Property from Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties'
+      desc 'Create Pike::Property, Pike::ProjectPropertyValue, Pike::ActivityPropertyValue, and Pike::TaskPropertyValue from Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties'
       task :create_properties, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.all.each do |user| ...'
-            Pike::User.all.each do |migration|
+            # TODO ... index Pike::User.all
+            Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect}"
-              user[:project_properties].each do |property|
-                user.create_property!(Pike::Property::TYPE_PROJECT, property)
-              end
-              user[:activity_properties].each do |property|
-                user.create_property!(Pike::Property::TYPE_ACTIVITY, property)
-              end
-              user[:task_properties].each do |property|
-                user.create_property!(Pike::Property::TYPE_TASK, property)
-              end
-            end
-            puts '... end'
-          end
-        end
-      end
 
-      desc 'Remove the Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties fields'
-      task :remove_user_project_activity_task_properties, :force do |task, arguments|
-        Pike::Application.create_context! do
-          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
-            Pike::User.all.each do |migration|
-              puts "  user.url=#{user.url.inspect}"
-              user.unset(:project_properties)
-              user.unset(:activity_properties)
-              user.unset(:task_properties)
+              puts "    user.project_properties=#{user[:project_properties].inspect}"
+              user[:project_properties] ||= []
+              user[:project_properties].each do |property|
+                puts "    property=#{property.inspect}"
+                # TODO ... index user.properties.where_project and user.properties.where_name
+                _property = user.properties.where_project.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_PROJECT,
+                                                                                                                :name => property)
+                # TODO ... index user.projects.all
+                user.projects.all.each do |project|
+                  puts "      project.name=#{project.name.inspect}"
+                  # TODO ... index project.values.where_property
+                  value = project.values.where_property(_property).first || project.values.create!(:property  => _property,
+                                                                                                   :value     => project[property])
+                  project.unset(property)
+                end
+                user.unset(:project_properties)
+              end
+
+              puts "    user.activity_properties=#{user[:activity_properties].inspect}"
+              user[:activity_properties] ||= []
+              user[:activity_properties].each do |property|
+                puts "    property=#{property.inspect}"
+                # TODO ... index user.properties.where_type_and_name
+                _property = user.properties.where_activity.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_ACTIVITY,
+                                                                                                                 :name => property)
+                # TODO ... index user.activities.all
+                user.activities.all.each do |activity|
+                  puts "      activity.name=#{activity.name.inspect}"
+                  # TODO ... index activity.values.where_property
+                  value = activity.values.where_property(_property).first || activity.values.create!(:property  => _property,
+                                                                                                     :value     => activity[property])
+                  activity.unset(property)
+                end
+                user.unset(:activity_properties)
+              end
+
+              puts "    user.task_properties=#{user[:task_properties].inspect}"
+              user[:task_properties] ||= []
+              user[:task_properties].each do |property|
+                puts "    property=#{property.inspect}"
+                # TODO ... index user.properties.where_type_and_name
+                _property = user.properties.where_task.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_TASK,
+                                                                                                             :name => property)
+                # TODO ... index user.tasks.all
+                user.tasks.all.each do |task|
+                  puts "      task.project.name=#{task.project.name.inspect} task.activity.name=#{task.activity.name.inspect}"
+                  # TODO ... index task.values.where_property
+                  value = task.values.where_property(_property).first || task.values.create!(:property  => _property,
+                                                                                             :value     => task[property])
+                  task.unset(property)
+                end
+                user.unset(:task_properties)
+              end
+
             end
             puts '... end'
           end

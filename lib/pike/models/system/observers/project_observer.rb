@@ -14,7 +14,7 @@ module Pike
         observe Pike::Project
 
         def around_save(project)
-          create_action = ( project.name_changed? || project.is_shared_changed? ) ? true : false
+          create_action = ( project.name_changed? || project.is_shared_changed? )
           yield
           Pike::System::Actions::ProjectCopyAction.create!(:user_source => project.user,
                                                            :user_target => nil,
@@ -22,6 +22,7 @@ module Pike
         end
 
         def around_destroy(project)
+          # TODO ... index project.copies.all
           _projects = project.copies.all.collect
           yield
           _projects.each do |_project|

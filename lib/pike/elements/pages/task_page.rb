@@ -72,7 +72,16 @@ module Pike
             page.show(event)
           end
 
-          @properties = Pike::Elements::Properties.new(:task_properties, @task)
+          @save_link = RubyApp::Elements::Mobile::Link.new
+          @save_link.clicked do |element, event|
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+              @task.save!
+              event.update_text('p.instructions.new', '')
+              event.update_element(@property_value_list)
+            end
+          end
+
+          @property_value_list = Pike::Elements::PropertyValueList.new(@task, Pike::Property::TYPE_TASK)
 
         end
 

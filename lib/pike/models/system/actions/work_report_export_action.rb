@@ -40,15 +40,18 @@ module Pike
             header = ['User',
                       'Week Of',
                       'Project']
-            self.user.project_properties.each do |name|
-              header += [name]
+            # TODO ... index user.properties.where_project
+            self.user.properties.where_project.each do |property|
+              header += [property.name]
             end
             header += ['Activity']
-            self.user.activity_properties.each do |name|
-              header += [name]
+            # TODO ... index user.properties.where_activity
+            self.user.properties.where_activity.each do |property|
+              header += [property.name]
             end
-            self.user.task_properties.each do |name|
-              header += [name]
+            # TODO ... index user.properties.where_task
+            self.user.properties.where_task.each do |property|
+              header += [property.name]
             end
             header += ['Sunday',
                        'Monday',
@@ -58,22 +61,33 @@ module Pike
                        'Friday',
                        'Saturday']
             report << header
+            # TODO ... index user.tasks.all
             self.user.tasks.all.each do |task|
               row = [self.user.url,
                      self.date.week_start,
                      task.project.name]
-              self.user.project_properties.each do |name|
-                row += [task.project.read_attribute(name)]
+              # TODO ... index user.properties.where_project
+              self.user.properties.where_project.each do |property|
+                # TODO ... index task.project.values.where_property
+                value = task.project.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
               row += [task.activity.name]
-              self.user.activity_properties.each do |name|
-                row += [task.activity.read_attribute(name)]
+              # TODO ... index user.properties.where_activity
+              self.user.properties.where_activity.each do |property|
+                # TODO ... index task.activity.values.where_property
+                value = task.activity.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
-              self.user.task_properties.each do |name|
-                row += [task.read_attribute(name)]
+              # TODO ... index user.properties.where_task
+              self.user.properties.where_task.each do |property|
+                # TODO ... index task.values.where_property
+                value = task.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
               (0..6).each do |index|
                 date = self.date.week_start + index
+                # TODO ... index task.work.where_date
                 work = task.work.where_date(date).first
                 if work && work.duration && work.duration > 0
                   row += [work.duration]

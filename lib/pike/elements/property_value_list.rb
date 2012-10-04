@@ -10,11 +10,11 @@ module Pike
     require 'pike/elements/navigation/add_button'
     require 'pike/elements/pages/property_page'
 
-    class Properties < RubyApp::Element
+    class PropertyValueList < RubyApp::Element
 
       template_path(:all, File.dirname(__FILE__))
 
-      def initialize(properties, object)
+      def initialize(object, type)
         super()
 
         self.attributes.merge!('data-inset' => 'true',
@@ -22,12 +22,12 @@ module Pike
                                'data-theme' => 'd')
 
         @user = Pike::Session.identity.user
-        @properties = properties
         @object = object
+        @type = type
 
         @add_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
         @add_link.clicked do |element, event|
-          page = Pike::Elements::Pages::PropertyPage.new(@properties, @object)
+          page = Pike::Elements::Pages::PropertyPage.new(@object, @type)
           page.removed do |element, _event|
             _event.update_element(self)
           end
@@ -38,17 +38,18 @@ module Pike
 
       def render(format)
         if format == :html
-          @property_links = {}
-          @user.send(@properties).each do |property|
-            property_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
-            property_link.clicked do |element, event|
-              page = Pike::Elements::Pages::PropertyPage.new(@properties, @object, property)
+          @links = {}
+          # TODO ... index user.properties.where_type
+          @user.properties.where_type(@type).each do |property|
+            link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+            link.clicked do |element, event|
+              page = Pike::Elements::Pages::PropertyPage.new(@object, @type, property)
               page.removed do |element, _event|
                 _event.update_element(self)
               end
               page.show(event)
             end
-            @property_links[property] = property_link
+            @links[property] = link
           end
         end
         super(format)

@@ -14,11 +14,11 @@
         'data-theme'  => 'd'}
       %li
         - if @property
-          = @property
+          = @property.name
         - else
-          %label.ui-hidden-accessible{'for' => @property_input.element_id}
+          %label.ui-hidden-accessible{'for' => @name_input.element_id}
             Name
-          = @property_input.render(:html)
+          = @name_input.render(:html)
       %li
         %label.ui-hidden-accessible{'for' => @value_input.element_id}
           Value

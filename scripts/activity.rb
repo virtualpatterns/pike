@@ -18,6 +18,18 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Activity 1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
+# Create a blank activity
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add an activity') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add an activity') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Name can\'t be blank.') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
+
 # Edit an activity
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_activity!('Activity 2') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
@@ -90,6 +102,40 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Activity 4.3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
+# Add a property to a new activity
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add an activity') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add an activity') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Activity 5.0') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Save') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('tap to add a property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1_0') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_input('Value') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1_0') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1_0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1_0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Activity 5.0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Add a property to a new, blank activity
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add an activity') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add an activity') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Save') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Name can\'t be blank.') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
+
 # Add a property to an activity
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_activity!('Activity 5.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
@@ -113,7 +159,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Activity 5.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
-# Add a blank property to an activity
+# Add a blank property to an existing activity
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_activity!('Activity 5.2') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -125,7 +171,7 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('A name is required.') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Name can\'t be blank.') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }

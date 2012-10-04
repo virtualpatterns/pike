@@ -1,0 +1,22 @@
+/
+  #{__FILE__}
+%ul.properties{attributes}
+  - unless @object.new_record?
+    - #TODO ... index user.properties.where_type
+    - @user.properties.where_type(@type).all.each do |property|
+      %li.property
+        - link = @links[property]
+        = link.render(:html) do |element|
+          - element.content_for(:html, :link) do
+            %span.name
+              = property.name
+            - #TODO ... index object.values.where_property
+            - value = @object.values.where_property(property).first
+            - if value
+              %span.value.ui-li-aside
+                = value.value
+    %li{'data-icon' => 'plus'}
+      = @add_link.render(:html) do |element|
+        - element.content_for(:html, :link) do
+          %span.ui-disabled
+            tap to add a property

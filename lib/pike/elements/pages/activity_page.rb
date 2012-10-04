@@ -46,7 +46,16 @@ module Pike
             @activity.is_shared = @is_shared_input.value
           end
 
-          @properties = Pike::Elements::Properties.new(:activity_properties, @activity)
+          @save_link = RubyApp::Elements::Mobile::Link.new
+          @save_link.clicked do |element, event|
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+              @activity.save!
+              event.update_text('p.instructions.new', '')
+              event.update_element(@property_value_list)
+            end
+          end
+
+          @property_value_list = Pike::Elements::PropertyValueList.new(@activity, Pike::Property::TYPE_ACTIVITY)
 
           @delete_button = RubyApp::Elements::Mobile::Button.new
           @delete_button.attributes.merge!('data-theme' => 'f')

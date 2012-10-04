@@ -14,7 +14,7 @@ module Pike
         observe Pike::Property
 
         def around_save(property)
-          create_action = property.name_changed? ? true : false
+          create_action = property.name_changed?
           yield
           Pike::System::Actions::PropertyCopyAction.create!(:user_source => property.user,
                                                             :user_target => nil,
@@ -22,9 +22,10 @@ module Pike
         end
 
         def around_destroy(property)
-          _properties = property.copies.all.collect
+          # TODO ... index property.copies.all
+          _propertys = property.copies.all.collect
           yield
-          _properties.each do |_property|
+          _propertys.each do |_property|
             Pike::System::Actions::PropertyDeleteAction.create!(:user_source => nil,
                                                                 :user_target => nil,
                                                                 :property => _property)

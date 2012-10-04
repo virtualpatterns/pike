@@ -17,14 +17,13 @@ module Pike
     after_save :on_after_save
     before_destroy :on_before_destroy
 
-    has_many :synchronize_actions, :class_name => 'Pike::System::Actions::ProjectSynchronizeAction'
-
     has_many   :copies,  :class_name => 'Pike::Project', :inverse_of => :copy_of
     belongs_to :copy_of, :class_name => 'Pike::Project', :inverse_of => :copies
 
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
-    has_many :property_values, :class_name => 'Pike::ProjectPropertyValue', :inverse_of => :project, :autosave => true
+
+    has_many :values, :class_name => 'Pike::ProjectPropertyValue', :inverse_of => :project
 
     field :name, :type => String
     field :_name, :type => String
@@ -35,9 +34,9 @@ module Pike
 
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
-    scope :where_name, lambda { |name| where(:_name => name.downcase) }
+    scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_shared, where(:is_shared => true)
-    scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
+    scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
 
     index [[:user_id,    1],
            [:_name,      1],
@@ -52,11 +51,11 @@ module Pike
       self.tasks.exists?
     end
 
-    def create_property_value!(property_name, value)
+    def create_value!(property_name, value)
       property = self.user.create_property!(Pike::Property::TYPE_PROJECT, property_name)
-      property_value = self.property_values.where_property(property).first || self.property_values.create!(:property => property)
-      property_value.value = value
-      property_value.save!
+      _value = self.values.where_property(property).first || self.values.create!(:property => property)
+      _value.value = value
+      _value.save!
     end
 
     def self.create_shared_project!(user_source_url, user_target_url, project_name)
@@ -117,6 +116,8 @@ module Pike
 
       def on_before_destroy
         raise 'The selected project cannot be deleted.  The project is assigned to a task.' if exists_tasks?
+        # TODO ... index ?
+        Pike::ProjectPropertyValue.destroy_all(:project_id => self.id)
       end
 
   end
