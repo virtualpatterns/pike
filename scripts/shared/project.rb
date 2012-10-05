@@ -36,15 +36,29 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Confirm a shared project
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1.1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Projects') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project 3') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Confirm a shared project cannot be deleted
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1.2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3.2') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Projects') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Project 3.2') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 3.2') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Delete Project') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
 
 # Confirm an edited shared project
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 4') } }
