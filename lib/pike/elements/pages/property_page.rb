@@ -29,9 +29,11 @@ module Pike
           @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
             RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
-              @property = @user.properties.where_type(@type).where_name(@name_input.value).first || @user.properties.create!(:type => @type,
-                                                                                                                             :name => @name_input.value) unless @property
-              @value = @object.values.where_property(@property).first || @object.values.create!(:property => @property) unless @value
+              # TODO ... index user.properties.where_type, user.properties.where_name, and user.properties.where_not_copy
+              @property = @property || @user.properties.where_type(@type).where_name(@name_input.value).where_not_copy.first || @user.properties.create!(:type => @type,
+                                                                                                                                          :name => @name_input.value) unless @property
+              # TODO ... index object.values.where_property
+              @value = @value || @object.values.where_property(@property).first || @object.values.create!(:property => @property) unless @value
               @value.value = @value_input.value
               @value.save!
               self.hide(event)

@@ -24,6 +24,11 @@
           Value
         = @value_input.render(:html)
 
+    - if @property && @property.copy_of
+      %p.instructions
+        Properties shared with you by a friend cannot be deleted.
+
     - if @property
-      = @delete_button.render(:html) do |element|
-        - element.content_for(:html, :link, 'Remove Property')
+      - unless @property.copy_of
+        = @delete_button.render(:html) do |element|
+          - element.content_for(:html, :link, 'Remove Property')

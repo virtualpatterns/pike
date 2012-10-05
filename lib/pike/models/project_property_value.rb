@@ -8,6 +8,8 @@ module Pike
 
     belongs_to :project, :class_name => 'Pike::Project'
 
+    scope :where_copy_of, lambda { |value| where(:copy_of_id => value ? value.id : nil) }
+
   end
 
 end

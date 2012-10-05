@@ -1,11 +1,16 @@
 :sass
   /* #{__FILE__}
   li.property
-    span.value
+    div.name
+      > div.details
+        font-size: 10pt
+    div.value
       font-weight: normal
       margin-bottom: 0px
       margin-right: 10px
       margin-top: 0px
+    div.value.shared
+      margin-top: 8px
 = RubyApp::Elements::Mobile::Navigation::NavigationLink.render(:css)
 = Pike::Elements::Pages::PropertyPage.render(:css)
 = yield

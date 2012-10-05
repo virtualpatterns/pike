@@ -34,7 +34,7 @@ module Pike
 
     validates_presence_of :type
     validates_presence_of :name
-    validates_uniqueness_of :name, :scope => [:user_id, :type]
+    validates_uniqueness_of :name, :scope => [:user_id, :type, :copy_of_id]
 
     default_scope order_by([:user_id, :asc], [:type, :asc], [:_name, :asc])
 
@@ -43,6 +43,8 @@ module Pike
     scope :where_task, where(:type => Pike::Property::TYPE_TASK)
     scope :where_type, lambda { |type| where(:type => type) }
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
+    scope :where_copy_of, lambda { |property| where(:copy_of_id => property ? property.id : nil) }
+    scope :where_not_copy, where(:copy_of_id => nil)
 
     protected
 

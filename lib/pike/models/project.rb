@@ -58,10 +58,10 @@ module Pike
       _value.save!
     end
 
-    def self.create_shared_project!(user_source_url, user_target_url, project_name)
+    def self.create_shared_project!(user_source_url, user_target_url, project_name, properties = {})
       user_source = Pike::User.get_user_by_url(user_source_url)
       user_source.create_friendship!(user_target_url)
-      return user_source.create_project!(project_name, true)
+      return user_source.create_project!(project_name, true, properties)
     end
 
     def self.update_shared_project!(user_source_url, project_name_from, project_name_to)

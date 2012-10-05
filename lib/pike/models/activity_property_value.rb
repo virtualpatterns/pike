@@ -8,6 +8,8 @@ module Pike
 
     belongs_to :activity, :class_name => 'Pike::Activity'
 
+    scope :where_copy_of, lambda { |value| where(:copy_of_id => value ? value.id : nil) }
+
   end
 
 end

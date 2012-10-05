@@ -8,12 +8,15 @@
         - link = @links[property]
         = link.render(:html) do |element|
           - element.content_for(:html, :link) do
-            %span.name
+            %div.name
               = property.name
+              - if property.copy_of
+                %div.details
+                  Shared by #{property.copy_of.user.url}
             - #TODO ... index object.values.where_property
             - value = @object.values.where_property(property).first
             - if value
-              %span.value.ui-li-aside
+              %div.value.ui-li-aside{:class => property.copy_of ? 'shared' : nil}
                 = value.value
     %li{'data-icon' => 'plus'}
       = @add_link.render(:html) do |element|

@@ -58,10 +58,10 @@ module Pike
       _value.save!
     end
 
-    def self.create_shared_activity!(user_source_url, user_target_url, activity_name)
+    def self.create_shared_activity!(user_source_url, user_target_url, activity_name, properties = {})
       user_source = Pike::User.get_user_by_url(user_source_url)
       user_source.create_friendship!(user_target_url)
-      return user_source.create_activity!(activity_name, true)
+      return user_source.create_activity!(activity_name, true, properties)
     end
 
     def self.update_shared_activity!(user_source_url, activity_name_from, activity_name_to)
