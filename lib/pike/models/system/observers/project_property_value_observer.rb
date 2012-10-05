@@ -29,6 +29,7 @@ module Pike
             Pike::System::Actions::ProjectPropertyValueDeleteAction.create!(:user_source => nil,
                                                                             :user_target => nil,
                                                                             :value => _value)
+          end
         end
 
       end

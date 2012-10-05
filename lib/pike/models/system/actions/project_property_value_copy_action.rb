@@ -8,7 +8,7 @@ module Pike
   module System
 
     module Actions
-      require 'pike/models/system/actions/value_synchronize_action'
+      require 'pike/models/system/actions/project_property_value_synchronize_action'
 
       class ProjectPropertyValueCopyAction < Pike::System::Actions::ProjectPropertyValueSynchronizeAction
 

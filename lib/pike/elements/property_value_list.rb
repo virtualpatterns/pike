@@ -42,6 +42,7 @@ module Pike
           # TODO ... index user.properties.where_type
           @user.properties.where_type(@type).each do |property|
             link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+            link.attributes.merge!('disabled' => @object.copy_of ? true : false)
             link.clicked do |element, event|
               page = Pike::Elements::Pages::PropertyPage.new(@object, @type, property)
               page.removed do |element, _event|

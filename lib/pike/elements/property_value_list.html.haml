@@ -18,8 +18,9 @@
             - if value
               %div.value.ui-li-aside{:class => property.copy_of ? 'shared' : nil}
                 = value.value
-    %li{'data-icon' => 'plus'}
-      = @add_link.render(:html) do |element|
-        - element.content_for(:html, :link) do
-          %span.ui-disabled
-            tap to add a property
+    - unless @object.copy_of
+      %li{'data-icon' => 'plus'}
+        = @add_link.render(:html) do |element|
+          - element.content_for(:html, :link) do
+            %span.ui-disabled
+              tap to add a property
