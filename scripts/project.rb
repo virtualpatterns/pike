@@ -194,13 +194,15 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 6') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 2') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Value') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 3') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 3.0') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_input('Value') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 3.0') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Delete Property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 2') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 3.0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3.0') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 6') }
