@@ -37,6 +37,7 @@ module Pike
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_shared, where(:is_shared => true)
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
+    scope :where_not_copy, where(:copy_of_id => nil)
 
     index [[:user_id,    1],
            [:_name,      1],
@@ -68,10 +69,15 @@ module Pike
       return user_source.create_project!(project_name, true, properties)
     end
 
-    def self.update_shared_project!(user_source_url, project_name_from, project_name_to)
-      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name_from).each do |project|
+    def self.update_shared_project!(user_source_url, project_name_from, project_name_to, properties = {})
+      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name_from).where_not_copy.each do |project|
         project.name = project_name_to
         project.save!
+        unless properties.empty?
+          properties.each do |name, value|
+            project.create_value!(name, value)
+          end
+        end
       end
     end
 

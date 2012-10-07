@@ -42,6 +42,8 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
+# Confirm a deleted shared project property
+
 # Go back to work list
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }

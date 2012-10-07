@@ -61,15 +61,15 @@ module Pike
     end
 
     def create_property!(type, name)
-      # TODO ... index self.properties.where_type and self.properties.where_name
-      return self.properties.where_type(type).where_name(name).first || self.properties.create!(:type => type,
-                                                                                                :name => name)
+      # TODO ... index self.properties.where_type and self.properties.where_name and self.properties.where_not_copy
+      return self.properties.where_type(type).where_name(name).where_not_copy.first || self.properties.create!(:type => type,
+                                                                                                               :name => name)
     end
 
     def create_project!(project_name, is_shared = false, properties = {})
-      # TODO ... index self.projects.where_name
-      project = self.projects.where_name(project_name).first || self.projects.create!(:name       => project_name,
-                                                                                      :is_shared  => is_shared)
+      # TODO ... index self.projects.where_name and self.projects.where_not_copy
+      project = self.projects.where_name(project_name).where_not_copy.first || self.projects.create!(:name       => project_name,
+                                                                                                     :is_shared  => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           project.create_value!(name, value)
@@ -85,9 +85,9 @@ module Pike
     end
 
     def create_activity!(activity_name, is_shared = false, properties = {})
-      # TODO ... index self.activities.where_name
-      activity = self.activities.where_name(activity_name).first || self.activities.create!(:name      => activity_name,
-                                                                                            :is_shared => is_shared)
+      # TODO ... index self.activities.where_name and self.activities.where_not_copy
+      activity = self.activities.where_name(activity_name).where_not_copy.first || self.activities.create!(:name      => activity_name,
+                                                                                                           :is_shared => is_shared)
       unless properties.empty?
         properties.each do |name, value|
           activity.create_value!(name, value)

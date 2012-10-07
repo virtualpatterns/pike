@@ -3,7 +3,7 @@
     #{__FILE__}
   %div.property
     = @property.name
-    - if @property.copy_of
+    - if @property.copy?
       %div.shared
         Shared by #{@property.copy_of.user.url}
   - if @value

@@ -24,6 +24,7 @@ module Pike
       end
 
       Mongoid.observers = Pike::System::Observers::ActivityObserver,
+                          Pike::System::Observers::ActivityPropertyValueObserver,
                           Pike::System::Observers::FriendshipObserver,
                           Pike::System::Observers::ProjectObserver,
                           Pike::System::Observers::ProjectPropertyValueObserver,

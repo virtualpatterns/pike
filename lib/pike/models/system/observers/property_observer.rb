@@ -18,7 +18,7 @@ module Pike
           yield
           Pike::System::Actions::PropertyCopyAction.create!(:user_source => property.user,
                                                             :user_target => nil,
-                                                            :property => property) if create_action unless property.copy_of
+                                                            :property => property) if create_action unless property.copy?
         end
 
         def around_destroy(property)

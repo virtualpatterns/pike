@@ -36,7 +36,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Confirm a shared project
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1.1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3.1') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1.1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3.1', 'Property 3.1' => 'Value 3.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -44,7 +44,14 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project 3.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 3.1') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Property 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Confirm a shared project cannot be deleted
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 1.2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 3.2') } }
@@ -61,9 +68,9 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
 
 # Confirm an edited shared project
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 4') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 4', 'Property 4' => 'Value 4') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.update_shared_project!("Friend 2 of #{Pike::Session.identity.user.id}", 'Project 4', 'Project 5') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.update_shared_project!("Friend 2 of #{Pike::Session.identity.user.id}", 'Project 4', 'Project 5', 'Property 4' => 'Value 5') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -71,7 +78,14 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Projects') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project 5') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 2 of #{Pike::Session.identity.user.id}") }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 5') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 5') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Property 4') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 5') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Confirm a deleted shared project
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_shared_project!("Friend 3 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Project 6') } }

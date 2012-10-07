@@ -36,7 +36,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Confirm a shared activity
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 1.1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 3.1') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 1.1 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 3.1', 'Property 3.1' => 'Value 3.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -44,7 +44,14 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activities') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Activity 3.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Activity 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activity 3.1') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Property 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Confirm a shared activity cannot be deleted
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 1.2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 3.2') } }
@@ -61,9 +68,9 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
 
 # Confirm an edited shared activity
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 4') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 2 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 4', 'Property 4' => 'Value 4') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.update_shared_activity!("Friend 2 of #{Pike::Session.identity.user.id}", 'Activity 4', 'Activity 5') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.update_shared_activity!("Friend 2 of #{Pike::Session.identity.user.id}", 'Activity 4', 'Activity 5', 'Property 4' => 'Value 5') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -71,7 +78,14 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activities') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Activity 5') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 2 of #{Pike::Session.identity.user.id}") }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Activity 5') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activity 5') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Property 4') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text("Shared by Friend 1.1 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 5') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Confirm a deleted shared activity
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_shared_activity!("Friend 3 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Activity 6') } }

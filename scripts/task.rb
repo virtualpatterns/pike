@@ -17,11 +17,25 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Other') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Liked') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Liked') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.click_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Delete Task') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Liked') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Activity 1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Create a blank task
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add a task') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a task') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project can\'t be blank, Activity can\'t be blank.') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Edit a task
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 2', 'Activity 2', Pike::Task::FLAG_LIKED) } }
@@ -45,7 +59,9 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Liked') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Completed') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Completed') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.click_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Task') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Completed') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Project 3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Activity 3') }
@@ -111,13 +127,14 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('tap to add a property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1_0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1.0') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_input('Value') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1_0') }
-add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1.0') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_not_exists_link('Delete Property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1_0') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1_0') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1.0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1.0') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 6.0') }
@@ -147,13 +164,13 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to add a property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1_1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Property 1.1') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_input('Value') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1_1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 1.1') }
 add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1_1') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1_1') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 1.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 1.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Project 6.1') }
@@ -195,7 +212,8 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 2') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Value') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Value', 'Value 3') }
-add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Delete Property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3') }
@@ -206,21 +224,21 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Delete a property from a task
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 8', 'Activity 8', Pike::Task::FLAG_LIKED, 'Property 3_1' => 'Value 3.1') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 8', 'Activity 8', Pike::Task::FLAG_LIKED, 'Property 3.1' => 'Value 3.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 8') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_link('Project 8') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3_1') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3_1') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3.1') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Delete Property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to remove this property?') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Yes') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Yes') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_text('Property 3_1') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_text('Property 3.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_text('Value 3.1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
@@ -229,15 +247,15 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Don't delete a property from a task
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 9', 'Activity 9', Pike::Task::FLAG_LIKED, 'Property 3_2' => 'Value 3.2') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 9', 'Activity 9', Pike::Task::FLAG_LIKED, 'Property 3.2' => 'Value 3.2') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 9') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_link('Project 9') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3_2') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3_2') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3.2') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3.2') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Delete Property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to remove this property?') }
@@ -245,7 +263,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('No') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 3_2') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text('Property 3.2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Value 3.2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }

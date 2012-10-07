@@ -37,6 +37,7 @@ module Pike
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_shared, where(:is_shared => true)
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
+    scope :where_not_copy, where(:copy_of_id => nil)
 
     index [[:user_id,    1],
            [:_name,      1],
@@ -68,10 +69,15 @@ module Pike
       return user_source.create_activity!(activity_name, true, properties)
     end
 
-    def self.update_shared_activity!(user_source_url, activity_name_from, activity_name_to)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name_from).each do |activity|
+    def self.update_shared_activity!(user_source_url, activity_name_from, activity_name_to, properties = {})
+      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name_from).where_not_copy.each do |activity|
         activity.name = activity_name_to
         activity.save!
+        unless properties.empty?
+          properties.each do |name, value|
+            activity.create_value!(name, value)
+          end
+        end
       end
     end
 

@@ -18,7 +18,7 @@ module Pike
           yield
           Pike::System::Actions::ProjectCopyAction.create!(:user_source => project.user,
                                                            :user_target => nil,
-                                                           :project => project) if create_action unless project.copy_of
+                                                           :project => project) if create_action unless project.copy?
         end
 
         def around_destroy(project)
