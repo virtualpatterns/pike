@@ -10,6 +10,7 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
+      require 'pike/elements/page'
 
       class ActivityPage < Pike::Elements::Page
 
@@ -31,8 +32,8 @@ module Pike
           end
 
           @name_input = Pike::Elements::Input.new
-          @name_input.attributes.merge!('autofocus'   => @activity.copy_of ? false : true,
-                                        'disabled'    => @activity.copy_of ? true : false,
+          @name_input.attributes.merge!('autofocus'   => @activity.copy? ? false : true,
+                                        'disabled'    => @activity.copy? ? true : false,
                                         'placeholder' => 'tap to enter a name')
           @name_input.value = @activity.name
           @name_input.changed do |element, event|
@@ -40,7 +41,7 @@ module Pike
           end
 
           @is_shared_input = Pike::Elements::Inputs::ToggleInput.new
-          @is_shared_input.attributes.merge!('disabled' => @activity.copy_of ? true : false)
+          @is_shared_input.attributes.merge!('disabled' => @activity.copy? ? true : false)
           @is_shared_input.value = @activity.is_shared
           @is_shared_input.changed do |element, event|
             @activity.is_shared = @is_shared_input.value
@@ -50,8 +51,9 @@ module Pike
           @save_link.clicked do |element, event|
             RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
               @activity.save!
-              event.update_text('p.instructions.new', '')
+              event.update_style('p.instructions.new', 'display', 'none')
               event.update_element(@property_value_list)
+              event.update_style('div.delete', 'display', 'block')
             end
           end
 

@@ -44,6 +44,11 @@ module Pike
 
         self.attributes.merge!('data-theme' => 'd')
 
+        self.item_clicked do |element, event|
+          @task.flag = event.item.flag
+          Pike::Session.document.page.hide(event)
+        end
+
       end
 
       def render(format)

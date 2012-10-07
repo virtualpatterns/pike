@@ -54,6 +54,10 @@ module Pike
            [:activity_id,    1],
            [:_activity_name, 1]]
 
+    def copy?
+      return false
+    end
+
     def create_value!(property_name, value)
       property = self.user.create_property!(Pike::Property::TYPE_TASK, property_name)
       _value = self.values.where_property(property).first || self.values.create!(:property => property)

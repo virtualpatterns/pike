@@ -3,6 +3,6 @@
     #{__FILE__}
   %div.project
     = self.project.name
-    - if self.project.copy_of || self.project.shared?
-      %div.details
-        Shared by #{self.project.copy_of ? self.project.copy_of.user.url : 'you'}
+    - if self.project.copy? || self.project.shared?
+      %div.shared
+        Shared by #{self.project.copy? ? self.project.copy_of.user.url : 'you'}

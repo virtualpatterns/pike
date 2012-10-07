@@ -43,12 +43,16 @@ module Pike
            [:is_shared,  1],
            [:copy_of_id, 1]]
 
+    def copy?
+      return self.copy_of
+    end
+
     def shared?
-      self.is_shared
+      return self.is_shared
     end
 
     def exists_tasks?
-      self.tasks.exists?
+      return self.tasks.exists?
     end
 
     def create_value!(property_name, value)

@@ -46,6 +46,10 @@ module Pike
     scope :where_copy_of, lambda { |property| where(:copy_of_id => property ? property.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
 
+    def copy?
+      return self.copy_of
+    end
+
     protected
 
       def on_before_save

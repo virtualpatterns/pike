@@ -1,0 +1,11 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.property
+    = @property.name
+    - if @property.copy_of
+      %div.shared
+        Shared by #{@property.copy_of.user.url}
+  - if @value
+    %div.ui-li-aside.value{'class' => @property.copy? ? 'shared' : nil}
+      = @value.value

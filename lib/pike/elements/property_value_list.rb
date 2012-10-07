@@ -7,10 +7,37 @@ module Pike
 
   module Elements
     require 'pike'
-    require 'pike/elements/navigation/add_button'
-    require 'pike/elements/pages/property_page'
+    require 'pike/elements/pages/property_value_page'
 
-    class PropertyValueList < RubyApp::Element
+    class PropertyValueList < RubyApp::Elements::Mobile::Navigation::NavigationList
+
+      class PropertyValueListAddItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('data-icon' => 'plus')
+        end
+
+      end
+
+      class PropertyValueListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        attr_reader :property
+        attr_reader :value
+
+        def initialize(property, value = nil)
+          super(nil)
+
+          @property = property
+          @value = value
+
+        end
+
+      end
 
       template_path(:all, File.dirname(__FILE__))
 
@@ -18,39 +45,39 @@ module Pike
         super()
 
         self.attributes.merge!('data-inset' => 'true',
-                               'data-role'  => 'listview',
                                'data-theme' => 'd')
 
-        @user = Pike::Session.identity.user
         @object = object
         @type = type
 
-        @add_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
-        @add_link.clicked do |element, event|
-          page = Pike::Elements::Pages::PropertyPage.new(@object, @type)
-          page.removed do |element, _event|
-            _event.update_element(self)
+        self.item_clicked do |element, event|
+          if event.item.is_a?(Pike::Elements::PropertyValueList::PropertyValueListAddItem)
+            page = Pike::Elements::Pages::PropertyValuePage.new(@object, @type)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          else
+            page = Pike::Elements::Pages::PropertyValuePage.new(@object, @type, event.item.property, event.item.value)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
           end
-          page.show(event)
         end
-
+        
       end
 
       def render(format)
         if format == :html
-          @links = {}
+          self.items.clear
+          self.items.push(Pike::Elements::PropertyValueList::PropertyValueListAddItem.new) unless @object.new? || @object.copy?
           # TODO ... index user.properties.where_type
-          @user.properties.where_type(@type).each do |property|
-            link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
-            link.attributes.merge!('disabled' => @object.copy_of ? true : false)
-            link.clicked do |element, event|
-              page = Pike::Elements::Pages::PropertyPage.new(@object, @type, property)
-              page.removed do |element, _event|
-                _event.update_element(self)
-              end
-              page.show(event)
-            end
-            @links[property] = link
+          Pike::Session.identity.user.properties.where_type(@type).each do |property|
+            # TODO ... index object.values.where_property
+            item = Pike::Elements::PropertyValueList::PropertyValueListItem.new(property, @object.values.where_property(property).first)
+            item.attributes.merge!('disabled' => true) if @object.new? || @object.copy?
+            self.items.push(item)
           end
         end
         super(format)

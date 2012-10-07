@@ -288,7 +288,7 @@ namespace :pike do
                              project.id,
                              project.name,
                              project.shared?,
-                             project.copy_of ? project.copy_of.id : nil,
+                             project.copy? ? project.copy_of.id : nil,
                              project.created_at,
                              project.updated_at])
             end
@@ -317,7 +317,7 @@ namespace :pike do
                              activity.id,
                              activity.name,
                              activity.shared?,
-                             activity.copy_of ? activity.copy_of.id : nil,
+                             activity.copy? ? activity.copy_of.id : nil,
                              activity.created_at,
                              activity.updated_at])
             end
@@ -484,7 +484,7 @@ namespace :pike do
         end
       end
 
-      desc 'Remove the identities and migrations collections'
+      desc 'Delete the identities and migrations collections'
       task :remove_identities_and_migrations_collections, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
@@ -534,7 +534,7 @@ namespace :pike do
         end
       end
 
-      desc 'Remove any nil properties'
+      desc 'Delete any nil properties'
       task :remove_nil_properties, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
@@ -805,7 +805,7 @@ namespace :pike do
       system('find . | grep \'\\.cache\'')
     end
 
-    desc 'Remove all cached files'
+    desc 'Delete all cached files'
     task :destroy do
       puts 'Removing cached files ...'
       system('find . -name \'.cache\' | xargs rm -rv')

@@ -23,18 +23,16 @@
           - element.content_for(:html, :on, 'Shared')
           - element.content_for(:html, :off, 'Private')
 
-    - if @activity.copy_of
-      %p.instructions
-        Activities shared with you by a friend cannot be updated, deleted, or shared with your friends.
+    %p.instructions.copy_of{'style' => "display: #{@activity.copy? ? 'block' : 'none'}"}
+      Activities shared with you by a friend cannot be updated, deleted, or shared with your friends.
 
-    %p.instructions.new
-      - if @activity.new_record?
-        = @save_link.render(:html) do |element|
-          - element.content_for(:html, :link, 'Save')
-        the activity in order to add or edit properties.
+    %p.instructions.new{'style' => "display: #{@activity.new? ? 'block' : 'none'}"}
+      = @save_link.render(:html) do |element|
+        - element.content_for(:html, :link, 'Save')
+      the activity in order to add or edit properties.
 
     = @property_value_list.render(:html)
 
-    - unless @activity.new? || @activity.copy_of
+    %div.delete{'style' => "display: #{@activity.new? || @activity.copy? ? 'none' : 'block'}"}
       = @delete_button.render(:html) do |element|
         - element.content_for(:html, :link, 'Delete Activity')

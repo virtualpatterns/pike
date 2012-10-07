@@ -13,22 +13,17 @@
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
       %li
-        - if @property
-          = @property.name
-        - else
-          %label.ui-hidden-accessible{'for' => @name_input.element_id}
-            Name
-          = @name_input.render(:html)
+        %label.ui-hidden-accessible{'for' => @name_input.element_id}
+          Name
+        = @name_input.render(:html)
       %li
         %label.ui-hidden-accessible{'for' => @value_input.element_id}
           Value
         = @value_input.render(:html)
 
-    - if @property && @property.copy_of
-      %p.instructions
-        Properties shared with you by a friend cannot be deleted.
+    %p.instructions.delete{'style' => "display: #{@property && @property.copy? ? 'block' : 'none'}"}
+      Properties shared with you by a friend cannot be deleted.
 
-    - if @property
-      - unless @property.copy_of
-        = @delete_button.render(:html) do |element|
-          - element.content_for(:html, :link, 'Remove Property')
+    %div.delete{'style' => "display: #{@property && !@property.copy? ? 'block' : 'none'}"}
+      = @delete_button.render(:html) do |element|
+        - element.content_for(:html, :link, 'Delete Property')

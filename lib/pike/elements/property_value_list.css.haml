@@ -1,16 +1,4 @@
-:sass
-  /* #{__FILE__}
-  li.property
-    div.name
-      > div.details
-        font-size: 10pt
-    div.value
-      font-weight: normal
-      margin-bottom: 0px
-      margin-right: 10px
-      margin-top: 0px
-    div.value.shared
-      margin-top: 8px
-= RubyApp::Elements::Mobile::Navigation::NavigationLink.render(:css)
-= Pike::Elements::Pages::PropertyPage.render(:css)
+= Pike::Elements::Pages::PropertyValuePage.render(:css)
+= Pike::Elements::PropertyValueList::PropertyValueListAddItem.render(:css)
+= Pike::Elements::PropertyValueList::PropertyValueListItem.render(:css)
 = yield

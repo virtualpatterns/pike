@@ -11,18 +11,17 @@ module Pike
       require 'pike'
       require 'pike/elements'
 
-      class PropertyPage < Pike::Elements::Page
+      class PropertyValuePage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(object, type, property = nil)
+        def initialize(object, type, property = nil, value = nil)
           super()
 
-          @user = Pike::Session.identity.user
           @object = object
           @type = type
           @property = property
-          @value = @property ? @object.values.where_property(@property).first : nil
+          @value = value
 
           @back_button = Pike::Elements::Navigation::BackButton.new
 
@@ -30,10 +29,10 @@ module Pike
           @done_button.clicked do |element, event|
             RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
               # TODO ... index user.properties.where_type, user.properties.where_name, and user.properties.where_not_copy
-              @property = @property || @user.properties.where_type(@type).where_name(@name_input.value).where_not_copy.first || @user.properties.create!(:type => @type,
-                                                                                                                                          :name => @name_input.value) unless @property
+              @property ||= Pike::Session.identity.user.properties.where_type(@type).where_name(@name_input.value).where_not_copy.first || Pike::Session.identity.user.properties.create!(:type => @type,
+                                                                                                                                                                                          :name => @name_input.value)
               # TODO ... index object.values.where_property
-              @value = @value || @object.values.where_property(@property).first || @object.values.create!(:property => @property) unless @value
+              @value ||= @object.values.where_property(@property).first || @object.values.create!(:property => @property)
               @value.value = @value_input.value
               @value.save!
               self.hide(event)
@@ -42,7 +41,8 @@ module Pike
 
           @name_input = Pike::Elements::Input.new
           @name_input.attributes.merge!('autofocus'   => @property ? false : true,
-                                            'placeholder' => 'tap to enter a name')
+                                        'disabled'    => @property ? true : false,
+                                        'placeholder' => 'tap to enter a name')
           @name_input.value = @property ? @property.name : nil
 
           @value_input = Pike::Elements::Input.new

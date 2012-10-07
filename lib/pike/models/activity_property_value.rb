@@ -10,6 +10,10 @@ module Pike
 
     scope :where_copy_of, lambda { |value| where(:copy_of_id => value ? value.id : nil) }
 
+    def copy?
+      return self.copy_of
+    end
+
   end
 
 end

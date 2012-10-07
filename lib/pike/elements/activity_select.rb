@@ -55,6 +55,19 @@ module Pike
 
         self.attributes.merge!('data-theme' => 'd')
 
+        self.item_clicked do |element, event|
+          if event.item.is_a?(Pike::Elements::ActivitySelect::ActivitySelectAddItem)
+            page = Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          else
+            @task.activity = event.item.activity
+            Pike::Session.document.page.hide(event)
+          end
+        end
+
       end
 
       def render(format)

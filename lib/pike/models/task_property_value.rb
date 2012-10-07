@@ -5,6 +5,10 @@ module Pike
 
     belongs_to :task, :class_name => 'Pike::Task'
 
+    def copy?
+      return false
+    end
+
   end
 
 end

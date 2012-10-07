@@ -212,8 +212,8 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 7.1') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3_1') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3_1') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Remove Property') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Remove Property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Delete Property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to remove this property?') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Yes') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Yes') }
@@ -234,8 +234,8 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 7.2') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Property 3_2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 3_2') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Remove Property') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Remove Property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Property') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Delete Property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to remove this property?') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('No') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('No') }

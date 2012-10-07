@@ -34,7 +34,7 @@ add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Property 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 2') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Remove Property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Delete Property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Done') }
@@ -84,7 +84,7 @@ add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Property 2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Property 2') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Remove Property') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Delete Property') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Done') }
