@@ -31,6 +31,10 @@ module Pike
               # TODO ... index user.properties.where_type, user.properties.where_name, and user.properties.where_not_copy
               @property ||= Pike::Session.identity.user.properties.where_type(@type).where_name(@name_input.value).where_not_copy.first || Pike::Session.identity.user.properties.create!(:type => @type,
                                                                                                                                                                                           :name => @name_input.value)
+              unless @property.copy?
+                @property.name = @name_input.value
+                @property.save!
+              end
               # TODO ... index object.values.where_property
               @value ||= @object.values.where_property(@property).first || @object.values.create!(:property => @property)
               @value.value = @value_input.value
@@ -40,13 +44,13 @@ module Pike
           end
 
           @name_input = Pike::Elements::Input.new
-          @name_input.attributes.merge!('autofocus'   => @property ? false : true,
-                                        'disabled'    => @property ? true : false,
+          @name_input.attributes.merge!('autofocus'   => @property && @property.copy? ? false : true,
+                                        'disabled'    => @property && @property.copy? ? true : false,
                                         'placeholder' => 'tap to enter a name')
           @name_input.value = @property ? @property.name : nil
 
           @value_input = Pike::Elements::Input.new
-          @value_input.attributes.merge!('autofocus'  => @property ? true : false,
+          @value_input.attributes.merge!('autofocus'  => @property && @property.copy? ? true : false,
                                          :placeholder => 'tap to enter a value')
           @value_input.value = @value ? @value.value : nil
 
