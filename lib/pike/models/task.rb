@@ -58,8 +58,8 @@ module Pike
       return false
     end
 
-    def create_value!(property_name, value)
-      property = self.user.create_property!(Pike::Property::TYPE_TASK, property_name)
+    def create_value!(name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_TASK, name)
       _value = self.values.where_property(property).first || self.values.create!(:property => property)
       _value.value = value
       _value.save!

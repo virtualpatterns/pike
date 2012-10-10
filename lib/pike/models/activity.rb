@@ -56,42 +56,24 @@ module Pike
       return self.tasks.exists?
     end
 
-    def create_value!(property_name, value)
-      property = self.user.create_property!(Pike::Property::TYPE_ACTIVITY, property_name)
+    def create_value!(name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_ACTIVITY, name)
       _value = self.values.where_property(property).first || self.values.create!(:property => property)
       _value.value = value
       _value.save!
     end
 
-    def self.create_shared_activity!(user_source_url, user_target_url, activity_name, properties = {})
-      user_source = Pike::User.get_user_by_url(user_source_url)
-      user_source.create_friendship!(user_target_url)
-      return user_source.create_activity!(activity_name, true, properties)
+    def self.create_activity!(url, name, is_shared = false, properties = {})
+      user = Pike::User.get_user_by_url(url)
+      return user.create_activity!(name, is_shared, properties)
     end
 
-    def self.update_shared_activity!(user_source_url, activity_name_from, activity_name_to, properties = {})
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name_from).where_not_copy.each do |activity|
-        activity.name = activity_name_to
-        activity.save!
-        unless properties.empty?
-          properties.each do |name, value|
-            activity.create_value!(name, value)
-          end
-        end
-      end
+    def self.update_activity!(url, name, to_name = nil, to_is_shared = nil, to_properties = {})
+      Pike::User.get_user_by_url(url).update_activity!(name, to_name, to_is_shared, to_properties)
     end
 
-    def self.delete_shared_activity!(user_source_url, activity_name)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name).each do |activity|
-        activity.destroy
-      end
-    end
-
-    def self.unshare_activity!(user_source_url, activity_name)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name).each do |activity|
-        activity.is_shared = false
-        activity.save!
-      end
+    def self.delete_activity!(url, name)
+      Pike::User.get_user_by_url(url).delete_activity!(name)
     end
 
     def self.assert_indexes

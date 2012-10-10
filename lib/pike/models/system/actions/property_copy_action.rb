@@ -47,15 +47,15 @@ module Pike
         end
 
         def sync_properties_to_friend(user)
-          # TODO ... index user.properties.all
-          self.user_source.properties.all.each do |property|
+          # TODO ... index user.properties.where_not_copy
+          self.user_source.properties.where_not_copy.each do |property|
             self.add_update_property_to_user(property, user)
           end
         end
 
         def sync_properties_to_non_friend(user)
-          # TODO ... index user.properties.all
-          self.user_source.properties.all.each do |property|
+          # TODO ... index user.properties.where_not_copy
+          self.user_source.properties.where_not_copy.each do |property|
             self.sync_property_to_non_friend(property, user)
           end
         end

@@ -50,6 +50,18 @@ module Pike
       return self.copy_of
     end
 
+    def self.create_property!(url, type, name)
+      Pike::User.get_user_by_url(url).create_property!(type, name)
+    end
+
+    def self.update_property!(url, type, name, to_name)
+      Pike::User.get_user_by_url(url).update_property!(type, name, to_name)
+    end
+
+    def self.delete_property!(url, type, name)
+      Pike::User.get_user_by_url(url).delete_property!(type, name)
+    end
+
     protected
 
       def on_before_save
@@ -57,11 +69,8 @@ module Pike
       end
 
       def on_after_destroy
-        # TODO ... index ?
         Pike::ProjectPropertyValue.destroy_all(:property_id => self.id)
-        # TODO ... index ?
         Pike::ActivityPropertyValue.destroy_all(:property_id => self.id)
-        # TODO ... index ?
         Pike::TaskPropertyValue.destroy_all(:property_id => self.id)
       end
 

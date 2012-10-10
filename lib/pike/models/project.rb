@@ -56,42 +56,24 @@ module Pike
       return self.tasks.exists?
     end
 
-    def create_value!(property_name, value)
-      property = self.user.create_property!(Pike::Property::TYPE_PROJECT, property_name)
+    def create_value!(name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_PROJECT, name)
       _value = self.values.where_property(property).first || self.values.create!(:property => property)
       _value.value = value
       _value.save!
     end
 
-    def self.create_shared_project!(user_source_url, user_target_url, project_name, properties = {})
-      user_source = Pike::User.get_user_by_url(user_source_url)
-      user_source.create_friendship!(user_target_url)
-      return user_source.create_project!(project_name, true, properties)
+    def self.create_project!(url, name, is_shared = false, properties = {})
+      user = Pike::User.get_user_by_url(url)
+      return user.create_project!(name, is_shared, properties)
     end
 
-    def self.update_shared_project!(user_source_url, project_name_from, project_name_to, properties = {})
-      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name_from).where_not_copy.each do |project|
-        project.name = project_name_to
-        project.save!
-        unless properties.empty?
-          properties.each do |name, value|
-            project.create_value!(name, value)
-          end
-        end
-      end
+    def self.update_project!(url, name, to_name = nil, to_is_shared = nil, to_properties = {})
+      Pike::User.get_user_by_url(url).update_project!(name, to_name, to_is_shared, to_properties)
     end
 
-    def self.delete_shared_project!(user_source_url, project_name)
-      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name).each do |project|
-        project.destroy
-      end
-    end
-
-    def self.unshare_project!(user_source_url, project_name)
-      Pike::User.get_user_by_url(user_source_url).projects.where_name(project_name).each do |project|
-        project.is_shared = false
-        project.save!
-      end
+    def self.delete_project!(url, name)
+      Pike::User.get_user_by_url(url).delete_project!(name)
     end
 
     def self.assert_indexes
