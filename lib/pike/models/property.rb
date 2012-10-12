@@ -4,10 +4,12 @@ require 'bundler/setup'
 require 'mongoid'
 
 module Pike
+  require 'pike/mixins'
 
   class Property
     include Mongoid::Document
     include Mongoid::Timestamps
+    extend Pike::Mixins::IndexMixin
 
     store_in :properties
 
@@ -45,6 +47,29 @@ module Pike
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_copy_of, lambda { |property| where(:copy_of_id => property ? property.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
+
+    index [[:user_id,     1],
+           [:type,        1],
+           [:_name,       1],
+           [:copy_of_id,  1]]
+
+    index [[:copy_of_id,  1]]
+
+    def self.assert_indexes
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      project_property1 = user1.create_property!(Pike::Property::TYPE_PROJECT, 'Assert Indexes Project Property 1')
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      friendship = user1.create_friendship!('Assert Indexes User 2')
+
+      Pike::System::Action.execute_all!
+
+      self.assert_index(user1.properties.where_type(Pike::Property::TYPE_PROJECT))
+      self.assert_index(user1.properties.where_name('Assert Indexes Project Property 1'))
+      self.assert_index(user2.properties.where_copy_of(project_property1))
+      self.assert_index(user1.properties.where_not_copy)
+      self.assert_index(project_property1.copies.all)
+
+    end
 
     def copy?
       return self.copy_of

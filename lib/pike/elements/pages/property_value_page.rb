@@ -28,14 +28,12 @@ module Pike
           @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
             RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
-              # TODO ... index user.properties.where_type, user.properties.where_name, and user.properties.where_not_copy
               @property ||= Pike::Session.identity.user.properties.where_type(@type).where_name(@name_input.value).where_not_copy.first || Pike::Session.identity.user.properties.create!(:type => @type,
                                                                                                                                                                                           :name => @name_input.value)
               unless @property.copy?
                 @property.name = @name_input.value
                 @property.save!
               end
-              # TODO ... index object.values.where_property
               @value ||= @object.values.where_property(@property).first || @object.values.create!(:property => @property)
               @value.value = @value_input.value
               @value.save!

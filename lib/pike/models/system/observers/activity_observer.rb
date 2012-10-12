@@ -22,7 +22,6 @@ module Pike
         end
 
         def around_destroy(activity)
-          # TODO ... index activity.copies.all
           _activities = activity.copies.all.collect
           yield
           _activities.each do |_activity|

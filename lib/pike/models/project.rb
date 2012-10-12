@@ -44,6 +44,26 @@ module Pike
            [:is_shared,  1],
            [:copy_of_id, 1]]
 
+    index [[:copy_of_id, 1]]
+
+    def self.assert_indexes
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      project1 = user1.create_project!('Assert Indexes Project 1', true)
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      friendship = user1.create_friendship!('Assert Indexes User 2')
+
+      Pike::System::Action.execute_all!
+
+      self.assert_index(Pike::Project.all)
+      self.assert_index(user1.projects.all)
+      self.assert_index(user1.projects.where_name('Assert Indexes Project 1'))
+      self.assert_index(user1.projects.where_shared)
+      self.assert_index(user2.projects.where_copy_of(project1))
+      self.assert_index(user1.projects.where_not_copy)
+      self.assert_index(project1.copies.all)
+
+    end
+
     def copy?
       return self.copy_of
     end
@@ -61,6 +81,7 @@ module Pike
       _value = self.values.where_property(property).first || self.values.create!(:property => property)
       _value.value = value
       _value.save!
+      return _value
     end
 
     def self.create_project!(url, name, is_shared = false, properties = {})
@@ -74,22 +95,6 @@ module Pike
 
     def self.delete_project!(url, name)
       Pike::User.get_user_by_url(url).delete_project!(name)
-    end
-
-    def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
-      project1 = user1.create_project!('Assert Indexes Project 1', true)
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
-
-      Pike::System::Action.execute_all!
-
-      self.assert_index(Pike::Project.all)
-      self.assert_index(user1.projects.all)
-      self.assert_index(user1.projects.where_name('Assert Indexes Project 1'))
-      self.assert_index(user1.projects.where_shared)
-      self.assert_index(user2.projects.where_copy_of(project1))
-
     end
 
     protected
@@ -108,7 +113,6 @@ module Pike
 
       def on_before_destroy
         raise 'The selected project cannot be deleted.  The project is assigned to a task.' if exists_tasks?
-        # TODO ... index ?
         Pike::ProjectPropertyValue.destroy_all(:project_id => self.id)
       end
 

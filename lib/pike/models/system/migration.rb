@@ -29,6 +29,18 @@ module Pike
 
       index [[:name, 1]], { :unique => true }
 
+      def self.assert_indexes
+        Pike::System::Migration.create_migration!('Assert Indexes Migration')
+
+        self.assert_index(Pike::System::Migration.all)
+        self.assert_index(Pike::System::Migration.where_name('Assert Indexes Migration'))
+
+      end
+
+      def self.create_migration!(name)
+        return Pike::System::Migration.where_name(name).first || Pike::System::Migration.create!(:name => name)
+      end
+
       def self.run(name, force = false)
         migration = Pike::System::Migration.where_name(name).first
         if !migration || force
@@ -42,14 +54,6 @@ module Pike
           migration.save!
         end
         return migration
-      end
-
-      def self.assert_indexes
-        Pike::System::Migration.create!(:name => 'Assert Indexes Migration') unless Pike::System::Migration.where_name('Assert Indexes Migration').first
-
-        self.assert_index(Pike::System::Migration.all)
-        self.assert_index(Pike::System::Migration.where_name('Assert Indexes Migration'))
-
       end
 
     end

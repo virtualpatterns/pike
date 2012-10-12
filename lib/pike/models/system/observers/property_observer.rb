@@ -22,7 +22,6 @@ module Pike
         end
 
         def around_destroy(property)
-          # TODO ... index property.copies.all
           _propertys = property.copies.all.collect
           yield
           _propertys.each do |_property|

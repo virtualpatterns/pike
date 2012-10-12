@@ -44,6 +44,26 @@ module Pike
            [:is_shared,  1],
            [:copy_of_id, 1]]
 
+    index [[:copy_of_id, 1]]
+
+    def self.assert_indexes
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      activity1 = user1.create_activity!('Assert Indexes Activity 1', true)
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      friendship = user1.create_friendship!('Assert Indexes User 2')
+
+      Pike::System::Action.execute_all!
+
+      self.assert_index(Pike::Activity.all)
+      self.assert_index(user1.activities.all)
+      self.assert_index(user1.activities.where_name('Assert Indexes Activity 1'))
+      self.assert_index(user1.activities.where_shared)
+      self.assert_index(user2.activities.where_copy_of(activity1))
+      self.assert_index(user1.activities.where_not_copy)
+      self.assert_index(activity1.copies.all)
+
+    end
+
     def copy?
       return self.copy_of
     end
@@ -61,6 +81,7 @@ module Pike
       _value = self.values.where_property(property).first || self.values.create!(:property => property)
       _value.value = value
       _value.save!
+      return _value
     end
 
     def self.create_activity!(url, name, is_shared = false, properties = {})
@@ -74,22 +95,6 @@ module Pike
 
     def self.delete_activity!(url, name)
       Pike::User.get_user_by_url(url).delete_activity!(name)
-    end
-
-    def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
-      activity1 = user1.create_activity!('Assert Indexes Activity 1', true)
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
-
-      Pike::System::Action.execute_all!
-
-      self.assert_index(Pike::Activity.all)
-      self.assert_index(user1.activities.all)
-      self.assert_index(user1.activities.where_name('Assert Indexes Activity 1'))
-      self.assert_index(user1.activities.where_shared)
-      self.assert_index(user2.activities.where_copy_of(activity1))
-
     end
 
     protected
@@ -108,7 +113,6 @@ module Pike
 
       def on_before_destroy
         raise 'The selected activity cannot be deleted.  The activity is assigned to a task.' if exists_tasks?
-        # TODO ... index ?
         Pike::ActivityPropertyValue.destroy_all(:activity_id => self.id)
       end
 

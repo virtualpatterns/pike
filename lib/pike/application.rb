@@ -33,7 +33,7 @@ module Pike
 
     end
 
-    def drop_database!
+    def destroy_database!
       @connection.drop_database(Pike::Application.configuration.mongodb.database)
     end
 

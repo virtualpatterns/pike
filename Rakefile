@@ -53,7 +53,7 @@ namespace :pike do
 
       desc 'Start MongoDB'
       task :start do |task|
-        system('mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --objcheck --fork')
+        system('mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --fork')
       end
 
     end
@@ -137,14 +137,14 @@ namespace :pike do
     end
 
     desc 'Restore a database backup'
-    task :restore, [:stamp] => ['data:drop'] do |task, arguments|
+    task :restore, [:stamp] => ['data:destroy'] do |task, arguments|
       system("tar -xzf pike.#{arguments.stamp}.tar.gz; mongorestore --db pike --verbose --objcheck pike.#{arguments.stamp}/pike; rm -rf pike.#{arguments.stamp}")
     end
 
     desc 'Drop the database'
-    task :drop do |task|
+    task :destroy do |task|
       Pike::Application.create_context! do
-        Pike::Application.drop_database!
+        Pike::Application.destroy_database!
       end
     end
 
@@ -393,9 +393,7 @@ namespace :pike do
                               'pike:data:migrate:remove_nil_properties',
                               'pike:data:migrate:update_friendship_user_target_url',
                               'pike:data:migrate:add_user_is_administrator',
-                              'pike:data:migrate:add_migration_count',
-                              'pike:data:migrate:create_indexes',
-                              'pike:data:migrate:create_property_indexes'] do |task, arguments|
+                              'pike:data:migrate:add_migration_count'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -592,82 +590,11 @@ namespace :pike do
         end
       end
 
-      desc 'Create indexes'
-      task :create_indexes, :force do |task, arguments|
-
-        Pike::Application.create_context! do
-          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            $stdout.sync = true
-
-            print 'Pike::User.create_indexes ... '
-            Pike::User.create_indexes
-            puts 'end'
-
-            print 'Pike::System::Identity.create_indexes ... '
-            Pike::System::Identity.create_indexes
-            puts 'end'
-
-            print 'Pike::Project.create_indexes ... '
-            Pike::Project.create_indexes
-            puts 'end'
-
-            print 'Pike::Activity.create_indexes ... '
-            Pike::Activity.create_indexes
-            puts 'end'
-
-            print 'Pike::Task.create_indexes ... '
-            Pike::Task.create_indexes
-            puts 'end'
-
-            print 'Pike::Work.create_indexes ... '
-            Pike::Work.create_indexes
-            puts 'end'
-
-            print 'Pike::Introduction.create_indexes ... '
-            Pike::Introduction.create_indexes
-            puts 'end'
-
-            print 'Pike::Friendship.create_indexes ... '
-            Pike::Friendship.create_indexes
-            puts 'end'
-
-            print 'Pike::System::Action.create_indexes ... '
-            Pike::System::Action.create_indexes
-            puts 'end'
-
-            print 'Pike::System::Migration.create_indexes ... '
-            Pike::System::Migration.create_indexes
-            puts 'end'
-
-          end
-        end
-      end
-
-      desc 'Create property indexes'
-      task :create_property_indexes, :force do |task, arguments|
-
-        Pike::Application.create_context! do
-          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            $stdout.sync = true
-
-            print 'Pike::Property.create_indexes ... '
-            Pike::Property.create_indexes
-            puts 'end'
-
-            print 'Pike::ProjectPropertyValue.create_indexes ... '
-            Pike::ProjectPropertyValue.create_indexes
-            puts 'end'
-
-          end
-        end
-      end
-
       desc 'Create Pike::Property, Pike::ProjectPropertyValue, Pike::ActivityPropertyValue, and Pike::TaskPropertyValue from Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties'
       task :create_properties, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.all.each do |user| ...'
-            # TODO ... index Pike::User.all
             Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect}"
 
@@ -675,13 +602,10 @@ namespace :pike do
               user[:project_properties] ||= []
               user[:project_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                # TODO ... index user.properties.where_project and user.properties.where_name
                 _property = user.properties.where_project.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_PROJECT,
                                                                                                                 :name => property)
-                # TODO ... index user.projects.all
                 user.projects.all.each do |project|
                   puts "      project.name=#{project.name.inspect}"
-                  # TODO ... index project.values.where_property
                   value = project.values.where_property(_property).first || project.values.create!(:property  => _property,
                                                                                                    :value     => project[property])
                   project.unset(property)
@@ -693,13 +617,10 @@ namespace :pike do
               user[:activity_properties] ||= []
               user[:activity_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                # TODO ... index user.properties.where_type_and_name
                 _property = user.properties.where_activity.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_ACTIVITY,
                                                                                                                  :name => property)
-                # TODO ... index user.activities.all
                 user.activities.all.each do |activity|
                   puts "      activity.name=#{activity.name.inspect}"
-                  # TODO ... index activity.values.where_property
                   value = activity.values.where_property(_property).first || activity.values.create!(:property  => _property,
                                                                                                      :value     => activity[property])
                   activity.unset(property)
@@ -711,13 +632,10 @@ namespace :pike do
               user[:task_properties] ||= []
               user[:task_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                # TODO ... index user.properties.where_type_and_name
                 _property = user.properties.where_task.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_TASK,
                                                                                                              :name => property)
-                # TODO ... index user.tasks.all
                 user.tasks.all.each do |task|
                   puts "      task.project.name=#{task.project.name.inspect} task.activity.name=#{task.activity.name.inspect}"
-                  # TODO ... index task.values.where_property
                   value = task.values.where_property(_property).first || task.values.create!(:property  => _property,
                                                                                              :value     => task[property])
                   task.unset(property)
@@ -738,59 +656,111 @@ namespace :pike do
 
     namespace :indexes do
 
-      desc 'Verify queries are supported by indexes'
-      task :assert do |task|
+      desc 'Create indexes'
+      task :create, :_class do |task, arguments|
         Pike::Application.create_context! do
           $stdout.sync = true
-
-          print 'Pike::User.assert_indexes ... '
-          Pike::User.assert_indexes
+          _class = Kernel.eval(arguments._class)
+          print "#{_class}.create_indexes ... "
+          _class.create_indexes
           puts 'end'
+        end
+      end
 
-          print 'Pike::System::Identity.assert_indexes ... '
-          Pike::System::Identity.assert_indexes
+      desc 'Create all indexes'
+      task :create_all => ['pike:data:indexes:destroy_all'] do |task, arguments|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+          [ Pike::User,
+            Pike::System::Identity,
+            Pike::Property,
+            Pike::Project,
+            Pike::ProjectPropertyValue,
+            Pike::Activity,
+            Pike::ActivityPropertyValue,
+            Pike::Task,
+            Pike::TaskPropertyValue,
+            Pike::Work,
+            Pike::Introduction,
+            Pike::Friendship,
+            Pike::System::Action,
+            Pike::System::Migration ].each do |_class|
+            print "#{_class}.create_indexes ... "
+            _class.create_indexes
+            puts 'end'
+          end
+        end
+      end
+
+      desc 'Destroy indexes'
+      task :destroy, :_class do |task, arguments|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+          _class = Kernel.eval(arguments._class)
+          print "#{_class}.collection.drop_indexes ... "
+          _class.collection.drop_indexes
           puts 'end'
+        end
+      end
 
-          print 'Pike::Project.assert_indexes ... '
-          Pike::Project.assert_indexes
+      desc 'Destroy all indexes'
+      task :destroy_all do |task|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+          [ Pike::User,
+            Pike::System::Identity,
+            Pike::Property,
+            Pike::Project,
+            Pike::ProjectPropertyValue,
+            Pike::Activity,
+            Pike::ActivityPropertyValue,
+            Pike::Task,
+            Pike::TaskPropertyValue,
+            Pike::Work,
+            Pike::Introduction,
+            Pike::Friendship,
+            Pike::System::Action,
+            Pike::System::Migration ].each do |_class|
+            print "#{_class}.collection.drop_indexes ... "
+            _class.collection.drop_indexes
+            puts 'end'
+          end
+        end
+      end
+
+      desc 'Verify queries are supported by indexes'
+      task :assert, :_class do |task, arguments|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+          _class = Kernel.eval(arguments._class)
+          print "#{_class}.assert_indexes ... "
+          _class.assert_indexes
           puts 'end'
+        end
+      end
 
-          print 'Pike::Activity.assert_indexes ... '
-          Pike::Activity.assert_indexes
-          puts 'end'
-
-          print 'Pike::Task.assert_indexes ... '
-          Pike::Task.assert_indexes
-          puts 'end'
-
-          print 'Pike::Property.assert_indexes ... '
-          Pike::Property.assert_indexes
-          puts 'end'
-
-          print 'Pike::ProjectPropertyValue.assert_indexes ... '
-          Pike::ProjectPropertyValue.assert_indexes
-          puts 'end'
-
-          print 'Pike::Work.assert_indexes ... '
-          Pike::Work.assert_indexes
-          puts 'end'
-
-          print 'Pike::Introduction.assert_indexes ... '
-          Pike::Introduction.assert_indexes
-          puts 'end'
-
-          print 'Pike::Friendship.assert_indexes ... '
-          Pike::Friendship.assert_indexes
-          puts 'end'
-
-          print 'Pike::System::Action.assert_indexes ... '
-          Pike::System::Action.assert_indexes
-          puts 'end'
-
-          print 'Pike::System::Migration.assert_indexes ... '
-          Pike::System::Migration.assert_indexes
-          puts 'end'
-
+      desc 'Verify queries are supported by all indexes'
+      task :assert_all do |task|
+        Pike::Application.create_context! do
+          $stdout.sync = true
+          [ Pike::User,
+            Pike::System::Identity,
+            Pike::Property,
+            Pike::Project,
+            Pike::ProjectPropertyValue,
+            Pike::Activity,
+            Pike::ActivityPropertyValue,
+            Pike::Task,
+            Pike::TaskPropertyValue,
+            Pike::Work,
+            Pike::Introduction,
+            Pike::Friendship,
+            Pike::System::Action,
+            Pike::System::Migration ].each do |_class|
+            print "#{_class}.assert_indexes ... "
+            _class.assert_indexes
+            puts 'end'
+          end
         end
       end
 

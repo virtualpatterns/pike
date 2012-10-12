@@ -48,6 +48,12 @@ module Pike
 
     index [[:_url, 1]], { :unique => true }
 
+    def self.assert_indexes
+      user = Pike::User.get_user_by_url('Assert Indexes User')
+      self.assert_index(Pike::User.all)
+      self.assert_index(Pike::User.where_url('Assert Indexes User'))
+    end
+
     def administrator?
       self.is_administrator
     end
@@ -58,6 +64,10 @@ module Pike
 
     def get_work_duration_minutes(date)
       ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
+    end
+
+    def create_identity!
+      Pike::System::Identity.create!(:user_id => self.id)
     end
 
     def create_property!(type, name)
@@ -202,12 +212,6 @@ module Pike
         url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
       end
       return Pike::User.create!(:url => url)
-    end
-
-    def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
-      self.assert_index(Pike::User.all)
-      self.assert_index(Pike::User.where_url('Assert Indexes User'))
     end
 
     protected

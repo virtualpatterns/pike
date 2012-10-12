@@ -22,7 +22,6 @@ module Pike
         end
 
         def around_destroy(value)
-          # TODO ... index values.copies.all
           _values = value.copies.all.collect
           yield
           _values.each do |_value|

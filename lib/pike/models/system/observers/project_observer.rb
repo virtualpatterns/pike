@@ -22,7 +22,6 @@ module Pike
         end
 
         def around_destroy(project)
-          # TODO ... index project.copies.all
           _projects = project.copies.all.collect
           yield
           _projects.each do |_project|

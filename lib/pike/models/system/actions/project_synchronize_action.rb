@@ -15,7 +15,6 @@ module Pike
         belongs_to :project, :class_name => 'Pike::Project'
 
         def delete_project(project)
-          # TODO ... index ?
           Pike::Task.destroy_all(:project_id => project.id)
           project.destroy
         end

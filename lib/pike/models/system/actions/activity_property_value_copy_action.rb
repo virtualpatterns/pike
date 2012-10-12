@@ -91,8 +91,8 @@ module Pike
           user.activities.where_copy_of(value.activity).each do |activity|
             user.properties.where_copy_of(value.property).each do |property|
               activity.values.create!(:copy_of => value,
-                                     :property => property,
-                                     :value => value.value)
+                                      :property => property,
+                                      :value => value.value)
             end
           end
         end

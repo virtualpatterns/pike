@@ -40,16 +40,13 @@ module Pike
             header = ['User',
                       'Week Of',
                       'Project']
-            # TODO ... index user.properties.where_project
             self.user.properties.where_project.each do |property|
               header += [property.name]
             end
             header += ['Activity']
-            # TODO ... index user.properties.where_activity
             self.user.properties.where_activity.each do |property|
               header += [property.name]
             end
-            # TODO ... index user.properties.where_task
             self.user.properties.where_task.each do |property|
               header += [property.name]
             end
@@ -61,33 +58,25 @@ module Pike
                        'Friday',
                        'Saturday']
             report << header
-            # TODO ... index user.tasks.all
             self.user.tasks.all.each do |task|
               row = [self.user.url,
                      self.date.week_start,
                      task.project.name]
-              # TODO ... index user.properties.where_project
               self.user.properties.where_project.each do |property|
-                # TODO ... index task.project.values.where_property
                 value = task.project.values.where_property(property).first
                 row += [value ? value.value : nil]
               end
               row += [task.activity.name]
-              # TODO ... index user.properties.where_activity
               self.user.properties.where_activity.each do |property|
-                # TODO ... index task.activity.values.where_property
                 value = task.activity.values.where_property(property).first
                 row += [value ? value.value : nil]
               end
-              # TODO ... index user.properties.where_task
               self.user.properties.where_task.each do |property|
-                # TODO ... index task.values.where_property
                 value = task.values.where_property(property).first
                 row += [value ? value.value : nil]
               end
               (0..6).each do |index|
                 date = self.date.week_start + index
-                # TODO ... index task.work.where_date
                 work = task.work.where_date(date).first
                 if work && work.duration && work.duration > 0
                   row += [work.duration]

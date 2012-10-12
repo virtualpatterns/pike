@@ -30,6 +30,18 @@ module Pike
 
       index [[:created_at,   1]]
 
+      def self.assert_indexes
+        Pike::System::Actions::EmptyAction.create!
+
+        self.assert_index(Pike::System::Action.all)
+        self.assert_index(Pike::System::Action.where_not_executed)
+
+        Pike::System::Action.execute_all!
+
+        self.assert_index(Pike::System::Action.where_failed)
+
+      end
+
       def execute!
         begin
           self.execute
@@ -51,18 +63,6 @@ module Pike
         Pike::System::Action.where_not_executed.each do |action|
           action.execute!
         end
-      end
-
-      def self.assert_indexes
-        Pike::System::Actions::EmptyAction.create!
-
-        self.assert_index(Pike::System::Action.all)
-        self.assert_index(Pike::System::Action.where_not_executed)
-
-        Pike::System::Action.execute_all!
-
-        self.assert_index(Pike::System::Action.where_failed)
-
       end
 
     end

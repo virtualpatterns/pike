@@ -15,7 +15,6 @@ module Pike
         belongs_to :activity, :class_name => 'Pike::Activity'
 
         def delete_activity(activity)
-          # TODO ... index ?
           Pike::Task.destroy_all(:activity_id => activity.id)
           activity.destroy
         end

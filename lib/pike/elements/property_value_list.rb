@@ -72,9 +72,7 @@ module Pike
         if format == :html
           self.items.clear
           self.items.push(Pike::Elements::PropertyValueList::PropertyValueListAddItem.new) unless @object.new? || @object.copy?
-          # TODO ... index user.properties.where_type
           Pike::Session.identity.user.properties.where_type(@type).each do |property|
-            # TODO ... index object.values.where_property
             item = Pike::Elements::PropertyValueList::PropertyValueListItem.new(property, @object.values.where_property(property).first)
             item.attributes.merge!('disabled' => true) if @object.new? || @object.copy?
             self.items.push(item)
