@@ -29,12 +29,19 @@ module Pike
 
       scope :where_value, lambda { |value| where(:value => value) }
 
+      index [[:expires,    1],
+             [:created_at, -1]]
+
       index [[:value,      1],
              [:expires,    1],
              [:created_at, -1]]
 
-      index [[:expires,    1],
-             [:created_at, -1]]
+      def self.assert_indexes
+        user = Pike::User.get_user_by_url('Assert Indexes User')
+        identity = user.create_identity!
+        self.assert_index(Pike::System::Identity.all)
+        self.assert_index(Pike::System::Identity.where_value(identity.value))
+      end
 
       def url
         return self.user.url
@@ -50,12 +57,6 @@ module Pike
           value = SecureRandom.hex
         end
         return value
-      end
-
-      def self.assert_indexes
-        identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('Assert Indexes User'))
-        self.assert_index(Pike::System::Identity.all)
-        self.assert_index(Pike::System::Identity.where_value(identity.value))
       end
 
     end

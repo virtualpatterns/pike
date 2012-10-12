@@ -12,15 +12,13 @@ module Pike
 
       class ProjectCopyAction < Pike::System::Actions::ProjectSynchronizeAction
 
-        belongs_to :project, :class_name => 'Pike::Project'
-
         def execute
           RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.project.name=#{self.project ? self.project.name.inspect : '(nil)'}") do
             unless self.user_target
               # Sync to all friends
               self.user_source.friendships_as_source.all.each do |friendship|
                 unless self.project
-                  # Sync all shared projects to a friend
+                  # Sync all shared projects to a friend ... never a scenario
                   #self.sync_shared_projects_to_friend(friendship.user_target)
                 else
                   # Sync a specific project to a friend
@@ -35,7 +33,7 @@ module Pike
                   # Sync all shared projects to a friend
                   self.sync_shared_projects_to_friend(self.user_target)
                 else
-                  # Sync a specific project to a friend
+                  # Sync a specific project to a friend ... never a scenario
                   #self.sync_project_to_friend(self.project, self.user_target)
                 end
               else
@@ -85,8 +83,8 @@ module Pike
 
         def add_project_to_user(project, user)
           user.projects.create!(:copy_of => project,
-                                :name => project.name,
-                                :is_shared => false)
+                                 :name => project.name,
+                                 :is_shared => false)
         end
 
         def update_project(project, _project)

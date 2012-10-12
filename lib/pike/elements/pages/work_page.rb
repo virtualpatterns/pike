@@ -89,7 +89,7 @@ module Pike
             @work.note = @note_input.value
           end
 
-          @properties = Pike::Elements::Properties.new(:task_properties, @task)
+          @property_value_list = Pike::Elements::PropertyValueList.new(@task, Pike::Property::TYPE_TASK)
 
           @delete_button = RubyApp::Elements::Mobile::Button.new
           @delete_button.attributes.merge!('data-theme' => 'f')

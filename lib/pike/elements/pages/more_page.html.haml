@@ -27,9 +27,6 @@
       %li
         = @work_report_link.render(:html) do |element|
           - element.content_for(:html, :link, 'Weekly Summary')
-      %li
-        = @rename_property_link.render(:html) do |element|
-          - element.content_for(:html, :link, 'Rename Property')
 
     - if Pike::Session.identity.user.administrator? || Pike::Elements::Pages::MorePage.configuration.user?
       %ul{'data-inset'  => 'true',

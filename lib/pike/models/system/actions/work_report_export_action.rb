@@ -40,15 +40,15 @@ module Pike
             header = ['User',
                       'Week Of',
                       'Project']
-            self.user.project_properties.each do |name|
-              header += [name]
+            self.user.properties.where_project.each do |property|
+              header += [property.name]
             end
             header += ['Activity']
-            self.user.activity_properties.each do |name|
-              header += [name]
+            self.user.properties.where_activity.each do |property|
+              header += [property.name]
             end
-            self.user.task_properties.each do |name|
-              header += [name]
+            self.user.properties.where_task.each do |property|
+              header += [property.name]
             end
             header += ['Sunday',
                        'Monday',
@@ -62,15 +62,18 @@ module Pike
               row = [self.user.url,
                      self.date.week_start,
                      task.project.name]
-              self.user.project_properties.each do |name|
-                row += [task.project.read_attribute(name)]
+              self.user.properties.where_project.each do |property|
+                value = task.project.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
               row += [task.activity.name]
-              self.user.activity_properties.each do |name|
-                row += [task.activity.read_attribute(name)]
+              self.user.properties.where_activity.each do |property|
+                value = task.activity.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
-              self.user.task_properties.each do |name|
-                row += [task.read_attribute(name)]
+              self.user.properties.where_task.each do |property|
+                value = task.values.where_property(property).first
+                row += [value ? value.value : nil]
               end
               (0..6).each do |index|
                 date = self.date.week_start + index

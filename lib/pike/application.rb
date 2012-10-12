@@ -24,13 +24,16 @@ module Pike
       end
 
       Mongoid.observers = Pike::System::Observers::ActivityObserver,
+                          Pike::System::Observers::ActivityPropertyValueObserver,
                           Pike::System::Observers::FriendshipObserver,
-                          Pike::System::Observers::ProjectObserver
+                          Pike::System::Observers::ProjectObserver,
+                          Pike::System::Observers::ProjectPropertyValueObserver,
+                          Pike::System::Observers::PropertyObserver
       Mongoid.instantiate_observers
 
     end
 
-    def drop_database!
+    def destroy_database!
       @connection.drop_database(Pike::Application.configuration.mongodb.database)
     end
 

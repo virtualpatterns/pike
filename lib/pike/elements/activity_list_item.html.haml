@@ -3,6 +3,6 @@
     #{__FILE__}
   %div.activity
     = self.activity.name
-    - if self.activity.copy_of || self.activity.shared?
-      %div.details
-        Shared by #{self.activity.copy_of ? self.activity.copy_of.user.url : 'you'}
+    - if self.activity.copy? || self.activity.shared?
+      %div.shared
+        Shared by #{self.activity.copy? ? self.activity.copy_of.user.url : 'you'}

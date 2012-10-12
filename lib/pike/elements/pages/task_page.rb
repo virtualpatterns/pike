@@ -72,7 +72,30 @@ module Pike
             page.show(event)
           end
 
-          @properties = Pike::Elements::Properties.new(:task_properties, @task)
+          @save_link = RubyApp::Elements::Mobile::Link.new
+          @save_link.clicked do |element, event|
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+              @task.save!
+              event.update_style('p.instructions.new', 'display', 'none')
+              event.update_element(@property_value_list)
+              event.update_style('div.delete', 'display', 'block')
+            end
+          end
+
+          @property_value_list = Pike::Elements::PropertyValueList.new(@task, Pike::Property::TYPE_TASK)
+
+          @delete_button = RubyApp::Elements::Mobile::Button.new
+          @delete_button.attributes.merge!('data-theme' => 'f')
+          @delete_button.clicked do |element, event|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::ConfirmationDialog.new('Confirm', 'Are you sure you want to delete this task?')) do |_event, response|
+              if response
+                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
+                  @task.destroy
+                  self.hide(_event)
+                end
+              end
+            end
+          end
 
         end
 

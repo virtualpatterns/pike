@@ -23,12 +23,16 @@
           - element.content_for(:html, :on, 'Shared')
           - element.content_for(:html, :off, 'Private')
 
-    - if @project.copy_of
-      %p.instructions
-        Projects shared with you by a friend cannot be updated, deleted, or shared with your friends.
+    %p.instructions.copy_of{'style' => "display: #{@project.copy? ? 'block' : 'none'}"}
+      Projects shared with you by a friend cannot be updated, deleted, or shared with your friends.
 
-    = @properties.render(:html)
+    %p.instructions.new{'style' => "display: #{@project.new? ? 'block' : 'none'}"}
+      = @save_link.render(:html) do |element|
+        - element.content_for(:html, :link, 'Save')
+      the project in order to add or edit properties.
 
-    - unless @project.new? || @project.copy_of
+    = @property_value_list.render(:html)
+
+    %div.delete{'style' => "display: #{@project.new? || @project.copy? ? 'none' : 'block'}"}
       = @delete_button.render(:html) do |element|
         - element.content_for(:html, :link, 'Delete Project')

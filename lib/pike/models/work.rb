@@ -56,6 +56,22 @@ module Pike
            [:_project_name,  1],
            [:_activity_name, 1]]
 
+    def self.assert_indexes
+      user = Pike::User.get_user_by_url('Assert Indexes User')
+      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
+      work = user.create_work!('Assert Indexes Project', 'Assert Indexes Activity', Date.today, 123)
+      work.start!
+
+      self.assert_index(user.work.where_task(task))
+      self.assert_index(user.work.where_date(Date.today))
+      self.assert_index(user.work.where_not_date(Date.today - 1))
+      self.assert_index(user.work.where_week(Date.today))
+      self.assert_index(user.work.where_started)
+
+      self.assert_index(task.work.where_date(Date.today))
+
+    end
+
     def duration_minutes
       return (self.duration/60).round * 60
     end
@@ -87,22 +103,6 @@ module Pike
         self.updated = Time.now
         self.save!
       end
-    end
-
-    def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
-      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
-      work = user.create_work!('Assert Indexes Project', 'Assert Indexes Activity', Date.today, 123)
-      work.start!
-
-      self.assert_index(user.work.where_task(task))
-      self.assert_index(user.work.where_date(Date.today))
-      self.assert_index(user.work.where_not_date(Date.today - 1))
-      self.assert_index(user.work.where_week(Date.today))
-      self.assert_index(user.work.where_started)
-
-      self.assert_index(task.work.where_date(Date.today))
-
     end
 
     protected

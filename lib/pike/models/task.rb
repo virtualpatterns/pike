@@ -29,6 +29,8 @@ module Pike
 
     has_many :work, :class_name => 'Pike::Work'
 
+    has_many :values, :class_name => 'Pike::TaskPropertyValue', :inverse_of => :task
+
     validates_presence_of :user
     validates_presence_of :project
     validates_presence_of :activity
@@ -64,6 +66,18 @@ module Pike
 
     end
 
+    def copy?
+      return false
+    end
+
+    def create_value!(name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_TASK, name)
+      _value = self.values.where_property(property).first || self.values.create!(:property => property)
+      _value.value = value
+      _value.save!
+      return _value
+    end
+
     protected
 
       def on_before_save
@@ -72,7 +86,7 @@ module Pike
       end
 
       def on_before_destroy
-        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} Pike::Work.destroy_all(:task_id => #{self.id})")
+        Pike::TaskPropertyValue.destroy_all(:task_id => self.id)
         Pike::Work.destroy_all(:task_id => self.id)
       end
 

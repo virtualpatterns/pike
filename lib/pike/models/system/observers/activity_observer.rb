@@ -14,11 +14,11 @@ module Pike
         observe Pike::Activity
 
         def around_save(activity)
-          create_action = ( activity.name_changed? || activity.is_shared_changed? ) ? true : false
+          create_action = ( activity.name_changed? || activity.is_shared_changed? )
           yield
           Pike::System::Actions::ActivityCopyAction.create!(:user_source => activity.user,
                                                             :user_target => nil,
-                                                            :activity => activity) if create_action unless activity.copy_of
+                                                            :activity => activity) if create_action unless activity.copy?
         end
 
         def around_destroy(activity)

@@ -7,6 +7,7 @@ module Pike
 
   module Elements
     require 'pike'
+    require 'pike/elements/pages/activity_page'
 
     class ActivityList < RubyApp::Elements::Mobile::Navigation::NavigationList
 
@@ -38,6 +39,23 @@ module Pike
       def initialize
         super
         self.attributes.merge!('data-theme' => 'd')
+
+        self.item_clicked do |element, event|
+          if event.item.is_a?(Pike::Elements::ActivityList::ActivityListAddItem)
+            page = Pike::Elements::Pages::ActivityPage.new(Pike::Session.identity.user.activities.new)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          else
+            page = Pike::Elements::Pages::ActivityPage.new(event.item.activity)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          end
+        end
+
       end
 
       def render(format)

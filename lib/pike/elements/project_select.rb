@@ -7,6 +7,7 @@ module Pike
 
   module Elements
     require 'pike'
+    require 'pike/elements/pages/project_page'
 
     class ProjectSelect < RubyApp::Elements::Mobile::List
 
@@ -55,6 +56,19 @@ module Pike
 
         self.attributes.merge!('data-theme' => 'd')
 
+        self.item_clicked do |element, event|
+          if event.item.is_a?(Pike::Elements::ProjectSelect::ProjectSelectAddItem)
+            page = Pike::Elements::Pages::ProjectPage.new(Pike::Session.identity.user.projects.new)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          else
+            @task.project = event.item.project
+            Pike::Session.document.page.hide(event)
+          end
+        end
+        
       end
 
       def render(format)

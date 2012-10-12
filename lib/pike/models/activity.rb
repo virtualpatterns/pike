@@ -17,13 +17,13 @@ module Pike
     after_save :on_after_save
     before_destroy :on_before_destroy
 
-    has_many :synchronize_actions, :class_name => 'Pike::System::Actions::ActivitySynchronizeAction'
-
     has_many   :copies,  :class_name => 'Pike::Activity', :inverse_of => :copy_of
     belongs_to :copy_of, :class_name => 'Pike::Activity', :inverse_of => :copies
 
     belongs_to :user, :class_name => 'Pike::User'
     has_many :tasks, :class_name => 'Pike::Task'
+
+    has_many :values, :class_name => 'Pike::ActivityPropertyValue', :inverse_of => :activity
 
     field :name, :type => String
     field :_name, :type => String
@@ -34,48 +34,17 @@ module Pike
 
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
-    scope :where_name, lambda { |name| where(:_name => name.downcase) }
+    scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_shared, where(:is_shared => true)
-    scope :where_copy_of, lambda { |project| where(:copy_of_id => project.id) }
+    scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
+    scope :where_not_copy, where(:copy_of_id => nil)
 
     index [[:user_id,    1],
            [:_name,      1],
            [:is_shared,  1],
            [:copy_of_id, 1]]
 
-    def shared?
-      self.is_shared
-    end
-
-    def exists_tasks?
-      self.tasks.exists?
-    end
-
-    def self.create_shared_activity!(user_source_url, user_target_url, activity_name)
-      user_source = Pike::User.get_user_by_url(user_source_url)
-      user_source.create_friendship!(user_target_url)
-      return user_source.create_activity!(activity_name, true)
-    end
-
-    def self.update_shared_activity!(user_source_url, activity_name_from, activity_name_to)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name_from).each do |activity|
-        activity.name = activity_name_to
-        activity.save!
-      end
-    end
-
-    def self.delete_shared_activity!(user_source_url, activity_name)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name).each do |activity|
-        activity.destroy
-      end
-    end
-
-    def self.unshare_activity!(user_source_url, activity_name)
-      Pike::User.get_user_by_url(user_source_url).activities.where_name(activity_name).each do |activity|
-        activity.is_shared = false
-        activity.save!
-      end
-    end
+    index [[:copy_of_id, 1]]
 
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
@@ -90,7 +59,42 @@ module Pike
       self.assert_index(user1.activities.where_name('Assert Indexes Activity 1'))
       self.assert_index(user1.activities.where_shared)
       self.assert_index(user2.activities.where_copy_of(activity1))
+      self.assert_index(user1.activities.where_not_copy)
+      self.assert_index(activity1.copies.all)
 
+    end
+
+    def copy?
+      return self.copy_of
+    end
+
+    def shared?
+      return self.is_shared
+    end
+
+    def exists_tasks?
+      return self.tasks.exists?
+    end
+
+    def create_value!(name, value)
+      property = self.user.create_property!(Pike::Property::TYPE_ACTIVITY, name)
+      _value = self.values.where_property(property).first || self.values.create!(:property => property)
+      _value.value = value
+      _value.save!
+      return _value
+    end
+
+    def self.create_activity!(url, name, is_shared = false, properties = {})
+      user = Pike::User.get_user_by_url(url)
+      return user.create_activity!(name, is_shared, properties)
+    end
+
+    def self.update_activity!(url, name, to_name = nil, to_is_shared = nil, to_properties = {})
+      Pike::User.get_user_by_url(url).update_activity!(name, to_name, to_is_shared, to_properties)
+    end
+
+    def self.delete_activity!(url, name)
+      Pike::User.get_user_by_url(url).delete_activity!(name)
     end
 
     protected
@@ -109,6 +113,7 @@ module Pike
 
       def on_before_destroy
         raise 'The selected activity cannot be deleted.  The activity is assigned to a task.' if exists_tasks?
+        Pike::ActivityPropertyValue.destroy_all(:activity_id => self.id)
       end
 
   end
