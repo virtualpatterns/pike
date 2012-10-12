@@ -15,20 +15,22 @@ module Pike
 
       store_in :system_actions
 
+      field :index, :type => Integer, :default => lambda { Pike::System::Sequence.next('Pike::System::Action#index') }
+
       field :exception_at, :type => Time
       field :exception_class, :type => String
       field :exception_message, :type => String
       field :exception_backtrace, :type => Array
 
-      default_scope order_by([:created_at, :asc])
+      default_scope order_by([:index, :asc])
 
       scope :where_not_executed, where(:exception_at => nil)
       scope :where_failed, where(:exception_at.ne => nil)
 
       index [[:exception_at, 1],
-             [:created_at,   1]], { :background => true }
+             [:index,        1]], { :background => true }
 
-      index [[:created_at,   1]]
+      index [[:index,        1]]
 
       def self.assert_indexes
         Pike::System::Actions::EmptyAction.create!

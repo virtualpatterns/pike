@@ -155,6 +155,7 @@ namespace :pike do
         Pike::Application.create_context! do
           table = Terminal::Table.new(:title => 'Actions',
                                       :headings => ['Type',
+                                                    'Index',
                                                     'Created',
                                                     'Failed',
                                                     'Class',
@@ -162,6 +163,7 @@ namespace :pike do
             count = Pike::System::Action.all.count
             Pike::System::Action.all.each_with_index do |action, index|
               table.add_row([action.class,
+                             action.index,
                              action.created_at,
                              action.exception_at,
                              action.exception_class,
@@ -393,7 +395,9 @@ namespace :pike do
                               'pike:data:migrate:remove_nil_properties',
                               'pike:data:migrate:update_friendship_user_target_url',
                               'pike:data:migrate:add_user_is_administrator',
-                              'pike:data:migrate:add_migration_count'] do |task, arguments|
+                              'pike:data:migrate:add_migration_count',
+                              'pike:data:migrate:add_action_index',
+                              'pike:data:migrate:create_properties'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -590,6 +594,21 @@ namespace :pike do
         end
       end
 
+      desc 'Add the Pike::System::Action#index property'
+      task :add_action_index, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Action.all.each do |action| ...'
+            Pike::System::Action.all.each do |action|
+              index = Pike::System::Sequence.next('Pike::System::Action#index')
+              puts "  action.class=#{action.class} action.set(:index, #{index.inspect})"
+              migration.set(:index, index)
+            end
+            puts '... end'
+          end
+        end
+      end
+
       desc 'Create Pike::Property, Pike::ProjectPropertyValue, Pike::ActivityPropertyValue, and Pike::TaskPropertyValue from Pike::User#project_properties, Pike::User#activity_properties and Pike::User#task_properties'
       task :create_properties, :force do |task, arguments|
         Pike::Application.create_context! do
@@ -602,46 +621,37 @@ namespace :pike do
               user[:project_properties] ||= []
               user[:project_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                _property = user.properties.where_project.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_PROJECT,
-                                                                                                                :name => property)
                 user.projects.all.each do |project|
                   puts "      project.name=#{project.name.inspect}"
-                  value = project.values.where_property(_property).first || project.values.create!(:property  => _property,
-                                                                                                   :value     => project[property])
+                  project.create_value!(property, project[property]) unless project.copy?
                   project.unset(property)
                 end
-                user.unset(:project_properties)
               end
+              user.unset(:project_properties)
 
               puts "    user.activity_properties=#{user[:activity_properties].inspect}"
               user[:activity_properties] ||= []
               user[:activity_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                _property = user.properties.where_activity.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_ACTIVITY,
-                                                                                                                 :name => property)
                 user.activities.all.each do |activity|
                   puts "      activity.name=#{activity.name.inspect}"
-                  value = activity.values.where_property(_property).first || activity.values.create!(:property  => _property,
-                                                                                                     :value     => activity[property])
+                  activity.create_value!(property, activity[property]) unless activity.copy?
                   activity.unset(property)
                 end
-                user.unset(:activity_properties)
               end
+              user.unset(:activity_properties)
 
               puts "    user.task_properties=#{user[:task_properties].inspect}"
               user[:task_properties] ||= []
               user[:task_properties].each do |property|
                 puts "    property=#{property.inspect}"
-                _property = user.properties.where_task.where_name(property).first || user.properties.create!(:type => Pike::Property::TYPE_TASK,
-                                                                                                             :name => property)
                 user.tasks.all.each do |task|
                   puts "      task.project.name=#{task.project.name.inspect} task.activity.name=#{task.activity.name.inspect}"
-                  value = task.values.where_property(_property).first || task.values.create!(:property  => _property,
-                                                                                             :value     => task[property])
+                  task.create_value!(property, task[property])
                   task.unset(property)
                 end
-                user.unset(:task_properties)
               end
+              user.unset(:task_properties)
 
             end
             puts '... end'
