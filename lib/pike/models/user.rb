@@ -39,6 +39,8 @@ module Pike
 
     field :is_administrator, :type => Boolean, :default => false
 
+    field :read_messages, :type => Array, :default => []
+
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
 
@@ -64,6 +66,14 @@ module Pike
 
     def get_work_duration_minutes(date)
       ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
+    end
+
+    def messages
+      Pike::System::Message.where_unread(self)
+    end
+
+    def read!(message)
+      self.push(:read_messages, message.id)
     end
 
     def create_identity!

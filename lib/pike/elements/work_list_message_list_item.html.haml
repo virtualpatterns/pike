@@ -1,0 +1,8 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  - count = Pike::Session.identity.user.messages.count
+  %span.ui-disabled
+    tap to read new messages
+  %span.ui-li-count{'style' => "display: #{count > 0 ? 'block' : 'none'};"}
+    #{count} pending

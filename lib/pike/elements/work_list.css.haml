@@ -7,6 +7,10 @@
           font-size: 80%
       span.ui-li-count
         margin-right: 7px
+= Pike::Elements::Pages::FriendshipListPage.render(:css)
+= Pike::Elements::Pages::MessageListPage.render(:css)
+= Pike::Elements::Pages::TaskPage.render(:css)
+= Pike::Elements::Pages::WorkPage.render(:css)
 = Pike::Elements::WorkList::WorkListAddTaskItem.render(:css)
 = Pike::Elements::WorkList::WorkListFlagDivider.render(:css)
 = Pike::Elements::WorkList::WorkListFriendshipListItem.render(:css)

@@ -1,0 +1,27 @@
+- self.content_for(:html, :page) do
+  /
+    #{__FILE__}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Message
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        = @message.subject
+      %li
+        = @message.body
+
+    %ul{'data-inset'  => 'true',
+        'data-role'   => 'listview',
+        'data-theme'  => 'd'}
+      %li
+        %span
+          Created
+        %span.ui-li-aside
+          %code{'data-field' => 'created_at'}
+            = RubyApp::Language.locale.strftime(@message.created_at, Pike::Application.configuration.format.date.long)

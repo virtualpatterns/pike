@@ -9,9 +9,25 @@ module Pike
 
   module Elements
     require 'pike'
+    require 'pike/elements/pages/friendship_list_page'
+    require 'pike/elements/pages/message_list_page'
+    require 'pike/elements/pages/task_page'
+    require 'pike/elements/pages/work_page'
     require 'pike/models'
 
     class WorkList < RubyApp::Elements::Mobile::List
+
+      class WorkListMessageListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('data-icon'  => 'arrow-r',
+                                 'data-theme' => 'e')
+        end
+
+      end
 
       class WorkListFriendshipListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
 
@@ -113,6 +129,55 @@ module Pike
         @today = today
         @date = date
 
+        self.item_clicked do |element, event|
+          @today = event.today
+          if event.item.is_a?(Pike::Elements::WorkList::WorkListMessageListItem)
+            page = Pike::Elements::Pages::MessageListPage.new
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListFriendshipListItem)
+            page = Pike::Elements::Pages::FriendshipListPage.new
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListAddTaskItem)
+            page = Pike::Elements::Pages::TaskPage.new(Pike::Session.identity.user.tasks.new)
+            page.removed do |element, _event|
+              _event.update_element(self)
+            end
+            page.show(event)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListWorkItem)
+            if self.today?
+              unless event.item.item.work.started?
+                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
+                event.item.item.work.start!
+              else
+                Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
+              end
+              event.update_element(self)
+            else
+              event.item.item.work.reload
+              page = Pike::Elements::Pages::WorkPage.new(event.item.item)
+              page.removed do |element, _event|
+                _event.update_element(self)
+              end
+              page.show(event)
+            end
+          end
+        end
+        self.link_clicked do |element, event|
+          @today = event.today
+          event.item.item.work.reload
+          page = Pike::Elements::Pages::WorkPage.new(event.item.item)
+          page.removed do |element, _event|
+            _event.update_element(self)
+          end
+          page.show(event)
+        end
+
       end
 
       def today?
@@ -141,6 +206,7 @@ module Pike
 
           self.items.clear
 
+          self.items.push(Pike::Elements::WorkList::WorkListMessageListItem.new) if Pike::Session.identity.user.messages.exists?
           self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
 
           self.items.push(Pike::Elements::WorkList::WorkListTotalDivider.new(@date))

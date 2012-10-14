@@ -1,0 +1,7 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.message
+    = self.message.subject
+    %div.created
+      Created #{RubyApp::Language.locale.strftime(self.message.created_at, Pike::Application.configuration.format.date.long)}

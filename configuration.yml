@@ -57,7 +57,7 @@ default:
     application: &default_pike_application
       format:
         date:
-          long: '%c'
+          long: '%b %d %H:%M %Z'
           short: '%a %b %-d'
       amazon:
         access_key: 'ABC'
@@ -138,7 +138,7 @@ staging:
     application: &staging_pike_application
       format:
         date:
-          long: '%c'
+          long: '%b %d %H:%M %Z'
           short: '%a %b %-d'
       amazon:
         access_key: 'ABC'
