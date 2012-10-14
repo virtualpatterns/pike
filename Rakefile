@@ -687,9 +687,9 @@ namespace :pike do
             puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.98'
             body = <<-MESSAGE
-            Changes in this version ...
+Changes in this version ...
 
-            * Added messaging feature for new version changes and additions, proposed downtime, etc.
+* Added messaging feature for new version changes and additions, proposed downtime, etc.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
