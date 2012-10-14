@@ -402,7 +402,9 @@ namespace :pike do
                               'pike:data:migrate:add_user_is_administrator',
                               'pike:data:migrate:add_migration_count',
                               'pike:data:migrate:add_action_index',
-                              'pike:data:migrate:create_properties'] do |task, arguments|
+                              'pike:data:migrate:create_properties',
+                              'pike:data:migrate:add_user_read_messages',
+                              'pike:data:migrate:add_message_0_5_98'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -659,6 +661,38 @@ namespace :pike do
               user.unset(:task_properties)
 
             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the Pike::User#read_messages property'
+      task :add_user_read_messages, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |user|
+              puts "  user.url=#{user.url.inspect} user.set(:read_messages, [])"
+              user.set(:read_messages, [])
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.98'
+      task :add_message_0_5_98, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.98'
+            body = <<-MESSAGE
+            Changes in this version ...
+
+            * Added messaging feature for new version changes and additions, proposed downtime, etc.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
             puts '... end'
           end
         end
