@@ -33,6 +33,7 @@ module Pike
           page = Pike::Elements::Pages::MessagePage.new(event.item.message)
           page.removed do |element, _event|
             _event.update_element(self)
+            Pike::Session.document.page.hide(_event) unless Pike::Session.identity.user.messages.exists?
           end
           page.show(event)
         end
