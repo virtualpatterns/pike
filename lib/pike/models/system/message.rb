@@ -25,7 +25,15 @@ module Pike
 
       scope :where_unread, lambda { |user| where(:created_at.gt => user.created_at).and(:_id.nin => user.read_messages) }
 
+      index [[:created_at,  1],
+             [:_id,         1]]
+
       def self.assert_indexes
+        message = Pike::System::Message.create_message!('Assert Indexes Message Subject', 'Assert Indexes Message Body')
+        user = Pike::User.get_user_by_url('Assert Indexes User')
+
+        self.assert_index(Pike::System::Message.where_unread(user))
+
       end
 
       def self.create_message!(subject, body)

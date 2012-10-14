@@ -698,6 +698,7 @@ namespace :pike do
             Pike::Work,
             Pike::Introduction,
             Pike::Friendship,
+            Pike::System::Message,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.create_indexes ... "
@@ -734,6 +735,7 @@ namespace :pike do
             Pike::Work,
             Pike::Introduction,
             Pike::Friendship,
+            Pike::System::Message,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.collection.drop_indexes ... "
@@ -770,6 +772,7 @@ namespace :pike do
             Pike::Work,
             Pike::Introduction,
             Pike::Friendship,
+            Pike::System::Message,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.assert_indexes ... "
