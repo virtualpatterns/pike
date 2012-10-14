@@ -14,14 +14,13 @@
       %li
         = @message.subject
       %li
-        = @message.body
-
-    %ul{'data-inset'  => 'true',
-        'data-role'   => 'listview',
-        'data-theme'  => 'd'}
-      %li
         %span
           Created
         %span.ui-li-aside
           %code{'data-field' => 'created_at'}
             = RubyApp::Language.locale.strftime(@message.created_at, Pike::Application.configuration.format.date.long)
+
+    %div.message
+      %div.ui-body-d.ui-corner-all.ui-shadow.body
+        :markdown
+          #{@message.body}
