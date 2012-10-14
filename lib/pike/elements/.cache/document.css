@@ -67,6 +67,7 @@ div.month table {
     padding-top: 6px; }
 
 
+
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/page.css.haml */
 body > div.ui-page > div.ui-header > a.ui-btn {
   margin-bottom: 0px;
@@ -93,47 +94,6 @@ body > div.ui-page > div.ui-footer {
   body > div.ui-page > div.ui-footer div.ui-controlgroup-horizontal {
     margin-left: 0px;
     margin-right: 0px; }
-
-
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/multiline_input.css.haml */
-textarea.ui-input-text {
-  -webkit-box-shadow: none;
-  border-bottom-width: 0px;
-  border-left-width: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  box-shadow: none;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 0px; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/user_input.css.haml */
-input.ui-input-text {
-  -webkit-box-shadow: none;
-  border-bottom-width: 0px;
-  border-left-width: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  box-shadow: none;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 0px; }
-ul.introduction li.message {
-  font-weight: normal; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.27/lib/ruby_app/elements/mobile/list.css.haml */
-ul.list li.item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
-  margin-left: 14px;
-  margin-top: -14px; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list.css.haml */
-ul li div.introduction div.message {
-  font-size: 80%; }
-
-
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/about_page.css.haml */
 img.github {
   margin-left: 15px;
@@ -146,6 +106,10 @@ div.hash > div.node > div.hash {
 div.hash > div.node > div.item {
   padding-left: 10px; }
 
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.27/lib/ruby_app/elements/mobile/list.css.haml */
+ul.list li.item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
+  margin-left: 14px;
+  margin-top: -14px; }
 /* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.27/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
 li.ui-li-static {
   font-size: inherit; }
@@ -205,6 +169,42 @@ li div.value.shared {
 
 
 
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/multiline_input.css.haml */
+textarea.ui-input-text {
+  -webkit-box-shadow: none;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  box-shadow: none;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px; }
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/user_input.css.haml */
+input.ui-input-text {
+  -webkit-box-shadow: none;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  box-shadow: none;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px; }
+ul.introduction li.message {
+  font-weight: normal; }
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list.css.haml */
+ul li div.introduction div.message {
+  font-size: 80%; }
+
+
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.css.haml */
 li div.project > div.shared {
   font-size: 10pt; }
@@ -220,6 +220,20 @@ ul.work-report li.work-report-item.ui-li-has-count div.task div.note {
   font-weight: normal; }
 ul.work-report li.work-report-item.ui-li-has-count span.ui-li-count {
   margin-right: 7px; }
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.css.haml */
+ul.work-list li.work-list-item.ui-li-has-count div.task div.activity {
+  font-size: 80%; }
+ul.work-list li.work-list-item.ui-li-has-count span.ui-li-count {
+  margin-right: 7px; }
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.css.haml */
+li div.message > div.created {
+  font-size: 10pt; }
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_page.css.haml */
+div.message div.body {
+  padding-left: 15px;
+  padding-right: 20px; }
 
 
 
@@ -237,8 +251,3 @@ input.ui-input-text {
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0px; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.css.haml */
-ul.work-list li.work-list-item.ui-li-has-count div.task div.activity {
-  font-size: 80%; }
-ul.work-list li.work-list-item.ui-li-has-count span.ui-li-count {
-  margin-right: 7px; }
