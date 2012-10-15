@@ -404,7 +404,8 @@ namespace :pike do
                               'pike:data:migrate:add_action_index',
                               'pike:data:migrate:create_properties',
                               'pike:data:migrate:add_user_read_messages',
-                              'pike:data:migrate:add_message_0_5_98'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_98',
+                              'pike:data:migrate:add_message_0_5_101'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -690,6 +691,24 @@ namespace :pike do
 Changes in this version ...
 
 * Added messaging feature for new version changes and additions, proposed downtime, etc.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.101'
+      task :add_message_0_5_101, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.101'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Updated RubyApp gem to 0.6.28 allowing for the rotation of the application log through the HUP signal
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
