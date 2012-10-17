@@ -11,10 +11,10 @@ module Pike
 
       module Authentication
 
-        module Facebook
+        module OAuth
           require 'pike/models'
 
-          class EmailAuthenticationDocument < RubyApp::Elements::Mobile::Documents::Authentication::Facebook::EmailAuthenticationDocument
+          class GitHubAuthenticationDocument < RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument
 
             template_path(:all, File.dirname(__FILE__))
 
@@ -22,8 +22,8 @@ module Pike
               super
             end
 
-            def create_identity_from_me(me)
-              Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(me['email']))
+            def create_identity_from_email(email)
+              return Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(email))
             end
 
           end

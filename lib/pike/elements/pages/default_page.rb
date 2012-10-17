@@ -13,8 +13,9 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
-      require 'pike/elements/documents/authentication/facebook/email_authentication_document'
+      require 'pike/elements/documents/authentication/facebook_authentication_document'
       require 'pike/elements/documents/authentication/open_id/google_authentication_document'
+      require 'pike/elements/documents/authentication/o_auth/git_hub_authentication_document'
       require 'pike/elements/pages/work_list_page'
       require 'pike/models'
 
@@ -53,12 +54,12 @@ module Pike
             RubyApp::Elements::Mobile::Pages::Information::ScriptsPage.new.show(event)
           end
 
-          @logon_facebook_button = RubyApp::Elements::Mobile::Button.new
-          @logon_facebook_button.attributes.merge!('class'        => 'logon',
-                                                   'data-icon'    => 'arrow-r',
-                                                   'data-iconpos' => 'right')
-          @logon_facebook_button.clicked do |element, event|
-            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::Facebook::EmailAuthenticationDocument.new)
+          @logon_github_button = RubyApp::Elements::Mobile::Button.new
+          @logon_github_button.attributes.merge!('class'        => 'logon',
+                                                 'data-icon'    => 'arrow-r',
+                                                 'data-iconpos' => 'right')
+          @logon_github_button.clicked do |element, event|
+            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::OAuth::GitHubAuthenticationDocument.new)
             event.refresh_browser
           end
 
@@ -68,6 +69,15 @@ module Pike
                                                  'data-iconpos' => 'right')
           @logon_google_button.clicked do |element, event|
             Pike::Session.documents.push(Pike::Elements::Documents::Authentication::OpenId::GoogleAuthenticationDocument.new)
+            event.refresh_browser
+          end
+
+          @logon_facebook_button = RubyApp::Elements::Mobile::Button.new
+          @logon_facebook_button.attributes.merge!('class'        => 'logon',
+                                                   'data-icon'    => 'arrow-r',
+                                                   'data-iconpos' => 'right')
+          @logon_facebook_button.clicked do |element, event|
+            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::FacebookAuthenticationDocument.new)
             event.refresh_browser
           end
 

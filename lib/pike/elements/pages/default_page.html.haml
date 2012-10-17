@@ -11,10 +11,12 @@
         - element.content_for(:html, :link, 'Scripts')
   %div{'data-role' => 'content'}
     %div.logon
-    = @logon_facebook_button.render(:html) do |element|
-      - element.content_for(:html, :link, 'Logon with Facebook')
+    = @logon_github_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Logon with GitHub')
     = @logon_google_button.render(:html) do |element|
       - element.content_for(:html, :link, 'Logon with Google')
+    = @logon_facebook_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Logon with Facebook')
   - if Pike::Elements::Pages::DefaultPage.configuration.guests?
     %div{'class'            => 'ui-bar',
          'data-fullscreen'  => 'true',
