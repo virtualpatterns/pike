@@ -19,7 +19,9 @@ module Pike
             template_path(:all, File.dirname(__FILE__))
 
             def initialize
-              super
+              super(ENV['GITHUB_ACCESS_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.access_key,
+                    ENV['GITHUB_SECRET_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.secret_key,
+                    ['repo'])
             end
 
             def create_identity_from_email(email)

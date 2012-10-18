@@ -6,5 +6,7 @@
     = @back_button.render(:html)
     %h1
       New Messages
+    = @clear_button.render(:html) do |element|
+      - element.content_for(:html, :link, 'Clear')
   %div{'data-role'  => 'content'}
     = @message_list.render(:html)

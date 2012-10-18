@@ -20,6 +20,14 @@ module Pike
 
           @back_button = Pike::Elements::Navigation::BackButton.new
 
+          @clear_button = RubyApp::Elements::Mobile::Button.new
+          @clear_button.clicked do |element, event|
+            Pike::Session.identity.user.messages.all.each do |message|
+              Pike::Session.identity.user.read!(message)
+            end
+            Pike::Session.document.page.hide(event)
+          end
+
           @message_list = Pike::Elements::MessageList.new
 
         end

@@ -25,7 +25,6 @@ module Pike
 
           self.shown do |element, event|
             Pike::Session.identity.user.read!(message)
-            Pike::Session.identity.user.reload
           end
 
         end
