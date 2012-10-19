@@ -214,17 +214,10 @@ ul.work-report li.work-report-item.ui-li-has-count div.task div.note {
   font-weight: normal; }
 ul.work-report li.work-report-item.ui-li-has-count span.ui-li-count {
   margin-right: 7px; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.css.haml */
-ul.work-list li.work-list-item.ui-li-has-count div.task div.activity {
-  font-size: 80%; }
-ul.work-list li.work-list-item.ui-li-has-count span.ui-li-count {
-  margin-right: 7px; }
 
 
 
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.css.haml */
-li div.message > div.created {
-  font-size: 10pt; }
+
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_page.css.haml */
 div.message div.body {
   font-size: 80%;
@@ -247,3 +240,20 @@ input.ui-input-text {
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0px; }
+
+
+
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_item.css.haml */
+li.work-list-item div.task div.activity {
+  font-size: 80%; }
+li.work-list-item span.ui-li-count {
+  margin-right: 7px; }
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_welcome_item.css.haml */
+li.work-list-welcome-item span.welcome {
+  font-size: 400%;
+  font-weight: normal; }
+  li.work-list-welcome-item span.welcome span.name {
+    font-weight: bold; }

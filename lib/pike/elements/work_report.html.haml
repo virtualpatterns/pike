@@ -6,7 +6,7 @@
   - index = 0
   - Pike::Session.identity.user.work.where_week(@date).each do |work|
     - while week_start + index <= work.date
-      %li.divider{'data-role' => 'list-divider'}
+      %li{'data-role' => 'list-divider'}
         = RubyApp::Language.locale.strftime(week_start + index, Pike::Application.configuration.format.date.short)
         - index = index + 1
     - if work.duration_minutes > 0
@@ -23,6 +23,6 @@
           = ChronicDuration.output(work.duration_minutes)
   - week_end = @date.week_end
   - while week_start + index <= week_end
-    %li.divider{'data-role' => 'list-divider'}
+    %li{'data-role' => 'list-divider'}
       = RubyApp::Language.locale.strftime(week_start + index, Pike::Application.configuration.format.date.short)
       - index = index + 1

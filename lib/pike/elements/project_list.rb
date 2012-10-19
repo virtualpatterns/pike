@@ -30,6 +30,7 @@ module Pike
 
         def initialize(project)
           super(project)
+          self.attributes.merge!('class' => 'project-list-item')
         end
 
       end
@@ -38,7 +39,9 @@ module Pike
 
       def initialize
         super
-        self.attributes.merge!('data-theme' => 'd')
+
+        self.attributes.merge!('class'      => 'project-list',
+                               'data-theme' => 'd')
 
         self.item_clicked do |element, event|
           if event.item.is_a?(Pike::Elements::ProjectList::ProjectListAddItem)

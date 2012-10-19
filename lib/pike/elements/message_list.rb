@@ -19,6 +19,7 @@ module Pike
 
         def initialize(message)
           super(message)
+          self.attributes.merge!('class' => 'message-list-item')
         end
 
       end
@@ -27,7 +28,9 @@ module Pike
 
       def initialize
         super
-        self.attributes.merge!('data-theme' => 'd')
+        
+        self.attributes.merge!('class'      => 'message-list',
+                               'data-theme' => 'd')
 
         self.item_clicked do |element, event|
           page = Pike::Elements::Pages::MessagePage.new(event.item.message)

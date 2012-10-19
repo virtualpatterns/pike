@@ -1,4 +1,7 @@
 - self.content_for(:html, :item) do
   /
     #{__FILE__}
-  = self.introduction.user_source.url
+  %div.introduction
+    = self.introduction.user_source.url
+    %div.message
+      = self.introduction.message
