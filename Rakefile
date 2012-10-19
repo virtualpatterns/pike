@@ -410,7 +410,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_101',
                               'pike:data:migrate:add_message_0_5_106',
                               'pike:data:migrate:add_message_0_5_108',
-                              'pike:data:migrate:add_identity_source'] do |task, arguments|
+                              'pike:data:migrate:add_identity_source',
+                              'pike:data:migrate:add_message_0_5_109'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -769,6 +770,25 @@ Changes in this version ...
               puts "  identity.user.url=#{identity.user.url.inspect} identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)"
               identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)
             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.109'
+      task :add_message_0_5_109, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.109'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Decreased the size of the stopwatch image to accomodate the logon buttons on the home page for mobile devices
+* Added the ability to import GitHub repositories for users who logon via GitHub and have created no projects (e.g. first-time GitHub users)
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
             puts '... end'
           end
         end
