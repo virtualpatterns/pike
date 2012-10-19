@@ -21,7 +21,8 @@ module Pike
           end
 
           def create_identity_from_email(email)
-            return Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(email))
+            return Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_FACEBOOK,
+                                                  :user   => Pike::User.get_user_by_url(email))
           end
 
         end

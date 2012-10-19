@@ -83,8 +83,8 @@ module Pike
 
         def add_project_to_user(project, user)
           user.projects.create!(:copy_of => project,
-                                 :name => project.name,
-                                 :is_shared => false)
+                                :name => project.name,
+                                :is_shared => false)
         end
 
         def update_project(project, _project)

@@ -21,11 +21,17 @@ module Pike
             def initialize
               super(ENV['GITHUB_ACCESS_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.access_key,
                     ENV['GITHUB_SECRET_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.secret_key,
-                    ['repo'])
+                    ['repos'])
+            end
+
+            def process_token(token)
+              super(token)
+              Pike::Session.identity.token = token
             end
 
             def create_identity_from_email(email)
-              return Pike::System::Identity.create!(:user => Pike::User.get_user_by_url(email))
+              return Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_GITHUB,
+                                                    :user   => Pike::User.get_user_by_url(email))
             end
 
           end

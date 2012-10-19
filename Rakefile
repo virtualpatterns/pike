@@ -219,10 +219,12 @@ namespace :pike do
         Pike::Application.create_context! do
           table = Terminal::Table.new(:title => 'Identities',
                                       :headings => ['User',
+                                                    'Source',
                                                     'Created',
                                                     'Expires']) do |table|
             Pike::System::Identity.all.each do |identity|
               table.add_row([identity.user.url,
+                             Pike::System::Identity::SOURCE_NAMES[identity.source],
                              identity.created_at,
                              identity.expires])
             end
@@ -407,7 +409,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_98',
                               'pike:data:migrate:add_message_0_5_101',
                               'pike:data:migrate:add_message_0_5_106',
-                              'pike:data:migrate:add_message_0_5_108'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_108',
+                              'pike:data:migrate:add_identity_source'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -752,6 +755,20 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the Pike::System::Identity#source property'
+      task :add_identity_source, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Identity.all.each do |identity| ...'
+            Pike::System::Identity.all.each do |identity|
+              puts "  identity.user.url=#{identity.user.url.inspect} identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)"
+              identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)
+            end
             puts '... end'
           end
         end

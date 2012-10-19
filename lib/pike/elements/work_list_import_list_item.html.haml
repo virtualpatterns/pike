@@ -1,0 +1,8 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %span.ui-disabled
+    - unless Pike::Session.identity.token.is_a?(::OAuth2::AccessToken)
+      tap to refresh GitHub access
+    - else
+      tap to import GitHub repositories

@@ -51,7 +51,7 @@ module Pike
           @scripts_button = RubyApp::Elements::Mobile::Button.new
           @scripts_button.attributes.merge!('class' => 'ui-btn-right')
           @scripts_button.clicked do |element, event|
-            RubyApp::Elements::Mobile::Pages::Information::ScriptsPage.new.show(event)
+            RubyApp::Elements::Mobile::Pages::ScriptsPage.new.show(event)
           end
 
           @logon_github_button = RubyApp::Elements::Mobile::Button.new
@@ -59,8 +59,7 @@ module Pike
                                                  'data-icon'    => 'arrow-r',
                                                  'data-iconpos' => 'right')
           @logon_github_button.clicked do |element, event|
-            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::OAuth::GitHubAuthenticationDocument.new)
-            event.refresh_browser
+            Pike::Elements::Documents::Authentication::OAuth::GitHubAuthenticationDocument.new.show(event)
           end
 
           @logon_google_button = RubyApp::Elements::Mobile::Button.new
@@ -68,8 +67,7 @@ module Pike
                                                  'data-icon'    => 'arrow-r',
                                                  'data-iconpos' => 'right')
           @logon_google_button.clicked do |element, event|
-            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::OpenId::GoogleAuthenticationDocument.new)
-            event.refresh_browser
+            Pike::Elements::Documents::Authentication::OpenId::GoogleAuthenticationDocument.new.show(event)
           end
 
           @logon_facebook_button = RubyApp::Elements::Mobile::Button.new
@@ -77,14 +75,14 @@ module Pike
                                                    'data-icon'    => 'arrow-r',
                                                    'data-iconpos' => 'right')
           @logon_facebook_button.clicked do |element, event|
-            Pike::Session.documents.push(Pike::Elements::Documents::Authentication::FacebookAuthenticationDocument.new)
-            event.refresh_browser
+            Pike::Elements::Documents::Authentication::FacebookAuthenticationDocument.new.show(event)
           end
 
           @first_button = RubyApp::Elements::Mobile::Button.new
           @first_button.attributes.merge!('data-mini' => 'true')
           @first_button.clicked do |element, event|
-            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('first@pike.virtualpatterns.com'))
+            Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,
+                                                                    :user   => Pike::User.get_user_by_url('first@pike.virtualpatterns.com'))
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
@@ -92,7 +90,8 @@ module Pike
           @second_button = RubyApp::Elements::Mobile::Button.new
           @second_button.attributes.merge!('data-mini'  => 'true')
           @second_button.clicked do |element, event|
-            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_user_by_url('second@pike.virtualpatterns.com'))
+            Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,
+                                                                    :user   => Pike::User.get_user_by_url('second@pike.virtualpatterns.com'))
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
@@ -100,7 +99,8 @@ module Pike
           @random_button = RubyApp::Elements::Mobile::Button.new
           @random_button.attributes.merge!('data-mini'  => 'true')
           @random_button.clicked do |element, event|
-            Pike::Session.identity = Pike::System::Identity.create!(:user => Pike::User.get_random_user)
+            Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_GITHUB,
+                                                                    :user   => Pike::User.get_random_user)
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end

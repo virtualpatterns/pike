@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'chronic_duration'
+require 'oauth2'
 
 require 'ruby_app/elements'
 
@@ -9,6 +10,7 @@ module Pike
 
   module Elements
     require 'pike'
+    require 'pike/elements/documents/authentication/o_auth/git_hub_token_document'
     require 'pike/elements/pages/friendship_list_page'
     require 'pike/elements/pages/message_list_page'
     require 'pike/elements/pages/task_page'
@@ -18,6 +20,18 @@ module Pike
     class WorkList < RubyApp::Elements::Mobile::List
 
       class WorkListMessageListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('data-icon'  => 'arrow-r',
+                                 'data-theme' => 'e')
+        end
+
+      end
+
+      class WorkListImportListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -137,6 +151,15 @@ module Pike
               _event.update_element(self)
             end
             page.show(event)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListImportListItem)
+            unless Pike::Session.identity.token.is_a?(::OAuth2::AccessToken)
+              Pike::Elements::Documents::Authentication::OAuth::GitHubTokenDocument.new.show(event)
+            else
+              RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+                Pike::Session.identity.import_tasks!
+                event.update_element(self)
+              end
+            end
           elsif event.item.is_a?(Pike::Elements::WorkList::WorkListFriendshipListItem)
             page = Pike::Elements::Pages::FriendshipListPage.new
             page.removed do |element, _event|
@@ -207,6 +230,7 @@ module Pike
           self.items.clear
 
           self.items.push(Pike::Elements::WorkList::WorkListMessageListItem.new) if Pike::Session.identity.user.messages.exists?
+          self.items.push(Pike::Elements::WorkList::WorkListImportListItem.new) if Pike::Session.identity.source?(Pike::System::Identity::SOURCE_GITHUB) unless Pike::Session.identity.user.projects.exists?
           self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
 
           self.items.push(Pike::Elements::WorkList::WorkListTotalDivider.new(@date))

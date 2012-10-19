@@ -1,5 +1,4 @@
 add_step! (RubyApp::Element::Event)                           { |event| event.execute {} }
-
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Logon with GitHub') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Logon with GitHub') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to add a task') }
