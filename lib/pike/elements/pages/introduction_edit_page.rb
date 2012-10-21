@@ -10,6 +10,7 @@ module Pike
     module Pages
       require 'pike'
       require 'pike/elements'
+      require 'pike/elements/pages/user_select_page'
 
       class IntroductionEditPage < Pike::Elements::Page
 
@@ -24,26 +25,33 @@ module Pike
 
           @done_button = Pike::Elements::Navigation::DoneButton.new
           @done_button.clicked do |element, event|
-            unless @user_target_input.user
-              RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'A valid user email is required.'))
-            else
-              RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'An introduction will be sent to the user specified.  They will not appear as your friend until the introduction is accepted.')) do |_event, response|
-                if response
-                  RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
-                    @introduction.save!
-                    self.hide(_event)
-                  end
-                end
-              end
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+              @introduction.save!
+              self.hide(event)
             end
           end
 
-          @user_target_input = Pike::Elements::Inputs::UserInput.new
-          @user_target_input.attributes.merge!('autofocus'   => true,
-                                               'placeholder' => 'tap to enter a user\'s email')
-          @user_target_input.changed do |element, event|
-            @introduction.user_target = @user_target_input.user
+          @user_link = RubyApp::Elements::Mobile::Navigation::NavigationLink.new
+          @user_link.clicked do |element, event|
+            page = Pike::Elements::Pages::UserSelectPage.new(@introduction)
+            page.removed do |element, _event|
+              if @introduction.user_target
+                _event.update_text("##{@user_link.element_id} span", @introduction.user_target.name || '(no name)')
+                _event.remove_class("##{@user_link.element_id} span", 'ui-disabled')
+              else
+                _event.update_text("##{@user_link.element_id} span", 'tap to select a user')
+                _event.add_class("##{@user_link.element_id} span", 'ui-disabled')
+              end
+            end
+            page.show(event)
           end
+
+          # @user_target_input = Pike::Elements::Inputs::UserInput.new
+          # @user_target_input.attributes.merge!('autofocus'   => true,
+          #                                      'placeholder' => 'tap to enter a user\'s email')
+          # @user_target_input.changed do |element, event|
+          #   @introduction.user_target = @user_target_input.user
+          # end
 
           @message_input = Pike::Elements::Inputs::MultilineInput.new
           @message_input.attributes.merge!('placeholder' => 'tap to enter a message')

@@ -1,0 +1,10 @@
+- self.content_for(:html, :page) do
+  /
+    #{__FILE__}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Users
+  %div{'data-role'  => 'content'}
+    = @user_select.render(:html)

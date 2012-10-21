@@ -13,10 +13,20 @@
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
       %li
-        %label.ui-hidden-accessible{'for' => @user_target_input.element_id}
-          User
-        = @user_target_input.render(:html)
+        = @user_link.render(:html) do |element|
+          - element.content_for(:html, :link) do
+            - if @introduction.user_target
+              %span
+                = @introduction.user_target.name
+            - else
+              %span.ui-disabled
+                tap to select a user
       %li
         %label.ui-hidden-accessible{'for' => @message_input.element_id}
           Message
         = @message_input.render(:html)
+
+    %p.instructions
+      Add a friend by first introducing yourself.  If your introduction is accepted
+      your friend will appear as well as any shared projects and activities.
+      

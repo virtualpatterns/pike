@@ -25,13 +25,9 @@ module Pike
           @accept_button = RubyApp::Elements::Mobile::Button.new
           @accept_button.attributes.merge!('data-theme' => 'c')
           @accept_button.clicked do |element, event|
-            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::AcknowledgementDialog.new('Introduction', 'Any shared projects and activities will be added momentarily.')) do |_event, response|
-              if response
-                RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(_event) do
-                  @introduction.accept!
-                  self.hide(_event)
-                end
-              end
+            RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
+              @introduction.accept!
+              self.hide(event)
             end
           end
 

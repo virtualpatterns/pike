@@ -49,13 +49,19 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+    scope :where_search, lambda { |value| where(:_name => /.*#{value.downcase}.*/) }
 
     index [[:_url, 1]], { :unique => true }
 
     def self.assert_indexes
       user = Pike::User.get_user_by_url('Assert Indexes User')
+      user.name = 'User, Assert Indexes'
+      user.save!
+
       self.assert_index(Pike::User.all)
       self.assert_index(Pike::User.where_url('Assert Indexes User'))
+      # self.assert_index(Pike::User.where_search('User, Assert Indexes'))
+
     end
 
     def administrator?
