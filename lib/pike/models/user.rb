@@ -49,7 +49,7 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
-    scope :where_search, lambda { |value| where(:_name => /.*#{value.downcase}.*/) }
+    scope :where_search, lambda { |user, value| where(:_id.nin => [user.id] ).and(:_name => /.*#{value.downcase}.*/) }
 
     index [[:_url, 1]], { :unique => true }
 

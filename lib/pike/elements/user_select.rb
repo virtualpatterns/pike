@@ -62,7 +62,7 @@ module Pike
         if format == :html
           self.items.clear
           if self.search_value
-            Pike::User.where_search(self.search_value).each do |user|
+            Pike::User.where_search(Pike::Session.identity.user, self.search_value).each do |user|
               self.items.push(user == @introduction.user_target ?  Pike::Elements::UserSelect::UserSelectedItem.new(user) : Pike::Elements::UserSelect::UserSelectItem.new(user))
             end
           end
