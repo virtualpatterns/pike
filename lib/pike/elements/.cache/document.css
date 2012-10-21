@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/document.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/document.css.haml */
 div.overlay {
   display: none;
   height: 100%;
@@ -22,15 +22,15 @@ a.logon {
   width: 250px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/page.css.haml */
 div.ui-header a.ui-btn-left {
   margin-left: 0px; }
 div.ui-header a.ui-btn-right {
   margin-right: 0px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/dialog.css.haml */
 div.dialog a.ui-btn-left.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-notext.ui-btn-up-a {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
 div.dialog div.message {
   padding-bottom: 5px;
   padding-left: 5px;
@@ -39,13 +39,13 @@ div.dialog div.message {
 div.dialog div.buttons {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
 div.dialog div.buttons div.ui-block-a {
   text-align: left; }
 div.dialog div.buttons div.ui-block-b {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/calendars/month.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/calendars/month.css.haml */
 div.month table {
   width: 100%; }
   div.month table thead td {
@@ -100,17 +100,19 @@ img.github {
   margin-top: 10px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/hash.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/hash.css.haml */
 div.hash > div.node > div.hash {
   padding-left: 10px; }
 div.hash > div.node > div.item {
   padding-left: 10px; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/list.css.haml */
-ul.list li.item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
+
+
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/list_split_item.css.haml */
+li.split-item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
   margin-left: 14px;
   margin-top: -14px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.39/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.41/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
 li.ui-li-static {
   font-size: inherit; }
   li.ui-li-static span.ui-li-aside {
@@ -121,7 +123,7 @@ li.ui-li-static {
 
 
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_list_item.css.haml */
-li div.activity > div.shared {
+li.activity-list-item div.activity > div.shared {
   font-size: 10pt; }
 
 
@@ -150,16 +152,17 @@ input.ui-input-text {
 
 
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list_item.css.haml */
-li div.property > div.shared {
+li.property-value-list-item div.property > div.shared {
   font-size: 10pt; }
-li div.value {
+li.property-value-list-item div.value {
   font-size: normal;
   font-weight: normal;
   margin-bottom: 0px;
   margin-right: 10px;
   margin-top: 0px; }
-li div.value.shared {
+li.property-value-list-item div.value.shared {
   margin-top: 8px; }
+
 
 
 
@@ -178,6 +181,27 @@ textarea.ui-input-text {
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0px; }
+
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select_item.css.haml */
+li.user-select-item div.user > div.email {
+  font-size: 80%; }
+ul.introduction li.message {
+  font-weight: normal; }
+
+
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_introduction_item.css.haml */
+li.friendship-list-introduction-item div.introduction div.message {
+  font-size: 80%; }
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.css.haml */
+li.project-list-item div.project > div.shared {
+  font-size: 10pt; }
+
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/user_input.css.haml */
 input.ui-input-text {
   -webkit-box-shadow: none;
@@ -192,32 +216,23 @@ input.ui-input-text {
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0px; }
-ul.introduction li.message {
-  font-weight: normal; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list.css.haml */
-ul li div.introduction div.message {
-  font-size: 80%; }
-
-
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.css.haml */
-li div.project > div.shared {
-  font-size: 10pt; }
-
 
 
 
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_report.css.haml */
-ul.work-report li.work-report-item.ui-li-has-count div.task div.activity {
+ul.work-report li.work-report-item div.task div.activity {
   font-size: 80%; }
-ul.work-report li.work-report-item.ui-li-has-count div.task div.note {
+ul.work-report li.work-report-item div.task div.note {
   font-size: 80%;
   font-weight: normal; }
-ul.work-report li.work-report-item.ui-li-has-count span.ui-li-count {
+ul.work-report li.work-report-item span.ui-li-count {
   margin-right: 7px; }
 
 
 
-
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.css.haml */
+li.message-list-item div.message > div.created {
+  font-size: 10pt; }
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_page.css.haml */
 div.message div.body {
   font-size: 80%;
@@ -252,8 +267,12 @@ li.work-list-item span.ui-li-count {
   margin-right: 7px; }
 
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_welcome_item.css.haml */
-li.work-list-welcome-item span.welcome {
-  font-size: 400%;
-  font-weight: normal; }
-  li.work-list-welcome-item span.welcome span.name {
-    font-weight: bold; }
+li.work-list-welcome-item div.welcome {
+  background-image: url("/pike/resources/elements/pages/default_page/pike.png");
+  background-position: center left;
+  background-size: 35px;
+  background-repeat: no-repeat;
+  font-size: 120%;
+  padding-left: 50px; }
+  li.work-list-welcome-item div.welcome div.email {
+    font-size: 60%; }
