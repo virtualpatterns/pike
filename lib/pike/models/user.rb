@@ -214,9 +214,11 @@ module Pike
                                 :user_target_id => self.id) unless Pike::Friendship.where_friendship(user, self).exists?
     end
 
-    def self.create_user!(url, is_administrator = false)
+    def self.create_user!(url, name = nil, is_administrator = false)
       user = self.get_user_by_url(url)
-      user.set(:is_administrator, true) if is_administrator
+      user.name = name if name
+      user.is_administrator = is_administrator if is_administrator
+      user.save!
       return user
     end
 

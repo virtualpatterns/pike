@@ -7,7 +7,7 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)                     { |e
 add_step! (RubyApp::Element::AssertedEvent)                                 { |event| event.execute {} }
 
 # Change a user to an administrator
-add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.execute { Pike::User.create_user!("User 1 of #{Pike::Session.identity.user.id}", false) } }
+add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.execute { Pike::User.create_user!("User 1 of #{Pike::Session.identity.user.id}", nil, false) } }
 add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.assert_exists_link('Manage Users') }
 add_step! (RubyApp::Element::AssertedEvent)                                 { |event| event.click_link('Manage Users') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)                     { |event| event.assert_exists_input('User') }
@@ -28,7 +28,7 @@ add_step! (RubyApp::Element::AssertedEvent)                                 { |e
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)                     { |event| event.execute {} }
 
 # Change an administrator to a user
-add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.execute { Pike::User.create_user!("User 2 of #{Pike::Session.identity.user.id}", true) } }
+add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.execute { Pike::User.create_user!("User 2 of #{Pike::Session.identity.user.id}", nil, true) } }
 add_step! (RubyApp::Element::ExecutedEvent)                                 { |event| event.assert_exists_link('Manage Users') }
 add_step! (RubyApp::Element::AssertedEvent)                                 { |event| event.click_link('Manage Users') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)                     { |event| event.assert_exists_input('User') }
