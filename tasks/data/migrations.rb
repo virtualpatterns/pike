@@ -29,7 +29,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_109',
                               'pike:data:migrate:add_message_0_5_112',
                               'pike:data:migrate:add_user_name',
-                              'pike:data:migrate:add_message_0_5_113'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_113',
+                              'pike:data:migrate:add_message_0_5_114'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -461,6 +462,24 @@ Changes in this version ...
 * Modified the friends list to include names and emails
 * Modified the projects, activities, and properties lists to show the sharing user's name instead of email
 * For users with no name, updating their name to their abbreviated email ... their first logon will update the name to that provided by the logon provider
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.114'
+      task :add_message_0_5_114, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.114'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Removed the Versions section on the About page
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
