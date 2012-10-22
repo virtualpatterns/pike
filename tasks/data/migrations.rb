@@ -27,7 +27,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_108',
                               'pike:data:migrate:add_identity_source',
                               'pike:data:migrate:add_message_0_5_109',
-                              'pike:data:migrate:add_message_0_5_112'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_112',
+                              'pike:data:migrate:add_user_name'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -423,6 +424,40 @@ Changes in this version ...
 * Modified the first, second, and random guest logons to set the user's name to First User, Second User, and Random User respectively
 * Added a welcome message that includes the user's name and email to the work list page that disappears after a delay
 * Added a user search by name to the introduction page avoiding the need to remember and enter a user's email ... the current user does not appear in a user search
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the Pike::User#name property where it\'s nil'
+      task :add_user_name, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::User.where_name(nil).each do |user| ...'
+            Pike::User.where_name(nil).each do |user|
+              puts "  user.url=#{user.url.inspect} user.name='(unknown)'"
+              user.name = '(unknown)'
+              user.save!
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.113'
+      task :add_message_0_5_113, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.113'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Modified the user and introductions lists and introduction page to show abbreviated emails
+* Migrating users with no name to the default name '(unknown)'
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)

@@ -49,35 +49,46 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+    scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_search, lambda { |user, value| where(:_id.nin => [user.id] ).and(:_name => /.*#{value.downcase}.*/) }
 
-    index [[:_url, 1]], { :unique => true }
+    index [[:_url,  1]], { :unique => true }
+
+    index [[:_name, 1]]
 
     def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
-      user.name = 'User, Assert Indexes'
-      user.save!
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      user1.name = 'User, Assert Indexes 1'
+      user1.save!
+
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
 
       self.assert_index(Pike::User.all)
-      self.assert_index(Pike::User.where_url('Assert Indexes User'))
-      # self.assert_index(Pike::User.where_search('User, Assert Indexes'))
+      self.assert_index(Pike::User.where_url('Assert Indexes User 1'))
+      self.assert_index(Pike::User.where_name('User, Assert Indexes 1'))
+      self.assert_index(Pike::User.where_name(nil))
 
+    end
+
+    def abbreviated_url
+      self._url =~ /([^\@]+)@.*/
+      return "#{$1}@..."
     end
 
     def administrator?
-      self.is_administrator
+      return self.is_administrator
     end
 
     def guest?
-      self.url =~ /pike\.virtualpatterns\.com/
+      return self.url =~ /pike\.virtualpatterns\.com/
     end
 
     def get_work_duration_minutes(date)
-      ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
+      return ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
     end
 
     def messages
-      Pike::System::Message.where_unread(self)
+      return Pike::System::Message.where_unread(self)
     end
 
     def read!(message)
@@ -85,7 +96,7 @@ module Pike
     end
 
     def create_identity!
-      Pike::System::Identity.create!(:user_id => self.id)
+      return Pike::System::Identity.create!(:user_id => self.id)
     end
 
     def create_property!(type, name)

@@ -11,8 +11,10 @@
     %ul.introduction{'data-inset'  => 'true',
                      'data-role'   => 'listview',
                      'data-theme'  => 'd'}
-      %li.url
-        = @introduction.user_source.url
+      %li.user
+        = @introduction.user_source.name
+        %div.email
+          = @introduction.user_source.abbreviated_url
       %li.message
         = @introduction.message
 

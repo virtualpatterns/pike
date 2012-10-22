@@ -28,7 +28,7 @@ module Pike
 
         def initialize(introduction)
           super(introduction)
-        self.attributes.merge!('class' => 'friendship-list-introduction-item')
+          self.attributes.merge!('class' => 'friendship-list-introduction-item')
         end
 
       end
@@ -62,6 +62,7 @@ module Pike
 
         def initialize(friendship)
           super(friendship)
+          self.attributes.merge!('class' => 'friendship-list-friendship-item')
         end
 
       end
