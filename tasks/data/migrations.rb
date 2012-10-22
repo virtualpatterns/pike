@@ -438,8 +438,8 @@ Changes in this version ...
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::User.where_name(nil).each do |user| ...'
             Pike::User.where_name(nil).each do |user|
-              puts "  user.url=#{user.url.inspect} user.name='(unknown)'"
-              user.name = '(unknown)'
+              puts "  user.url=#{user.url.inspect} user.name=#{user.abbreviated_url.inspect}"
+              user.name = user.abbreviated_url
               user.save!
             end
             puts '... end'
@@ -447,24 +447,26 @@ Changes in this version ...
         end
       end
 
-      desc 'Add the message for Version 0.5.113'
-      task :add_message_0_5_113, :force do |task, arguments|
-        Pike::Application.create_context! do
-          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
-            subject = 'Version 0.5.113'
-            body = <<-MESSAGE
-Changes in this version ...
+#       desc 'Add the message for Version 0.5.113'
+#       task :add_message_0_5_113, :force do |task, arguments|
+#         Pike::Application.create_context! do
+#           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+#             puts 'Pike::System::Message.create ...'
+#             subject = 'Version 0.5.113'
+#             body = <<-MESSAGE
+# Changes in this version ...
 
-* Modified the user and introductions lists and introduction page to show abbreviated emails
-* Migrating users with no name to the default name '(unknown)'
+# * Modified the user and introductions lists and introduction page to include names and abbreviated emails
+# * Modified the friends list to include names and emails
+# * Modified the projects, activities, and properties lists to show the sharing user's name instead of email
+# * For users with no name, updating their name to their abbreviated email ... their first logon will update the name to that provided by the logon provider
 
-            MESSAGE
-            Pike::System::Message.create_message!(subject, body)
-            puts '... end'
-          end
-        end
-      end
+#             MESSAGE
+#             Pike::System::Message.create_message!(subject, body)
+#             puts '... end'
+#           end
+#         end
+#       end
 
       # Next migration ...
       #   ...

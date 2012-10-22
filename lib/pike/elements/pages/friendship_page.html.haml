@@ -8,11 +8,13 @@
       Friend
   %div{'data-role'  => 'content',
        'style'      => 'padding-top: 0px'}
-    %ul{'data-inset'  => 'true',
-        'data-role'   => 'listview',
-        'data-theme'  => 'd'}
-      %li
-        = @friendship.user_target.url
+    %ul.friendship{'data-inset'  => 'true',
+                   'data-role'   => 'listview',
+                   'data-theme'  => 'd'}
+      %li.user
+        = @friendship.user_target.name
+        %div.email
+          = @friendship.user_target.url
 
     = @delete_button.render(:html) do |element|
       - element.content_for(:html, :link, 'Delete Friend')

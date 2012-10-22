@@ -5,4 +5,4 @@
     = self.activity.name
     - if self.activity.copy? || self.activity.shared?
       %div.shared
-        Shared by #{self.activity.copy? ? self.activity.copy_of.user.url : 'you'}
+        Shared by #{self.activity.copy? ? self.activity.copy_of.user.name : 'you'}

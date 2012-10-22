@@ -5,4 +5,4 @@
     = self.project.name
     - if self.project.copy? || self.project.shared?
       %div.shared
-        Shared by #{self.project.copy? ? self.project.copy_of.user.url : 'you'}
+        Shared by #{self.project.copy? ? self.project.copy_of.user.name : 'you'}
