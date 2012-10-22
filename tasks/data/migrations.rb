@@ -28,7 +28,8 @@ namespace :pike do
                               'pike:data:migrate:add_identity_source',
                               'pike:data:migrate:add_message_0_5_109',
                               'pike:data:migrate:add_message_0_5_112',
-                              'pike:data:migrate:add_user_name'] do |task, arguments|
+                              'pike:data:migrate:add_user_name',
+                              'pike:data:migrate:add_message_0_5_113'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -447,26 +448,26 @@ Changes in this version ...
         end
       end
 
-#       desc 'Add the message for Version 0.5.113'
-#       task :add_message_0_5_113, :force do |task, arguments|
-#         Pike::Application.create_context! do
-#           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-#             puts 'Pike::System::Message.create ...'
-#             subject = 'Version 0.5.113'
-#             body = <<-MESSAGE
-# Changes in this version ...
+      desc 'Add the message for Version 0.5.113'
+      task :add_message_0_5_113, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.113'
+            body = <<-MESSAGE
+Changes in this version ...
 
-# * Modified the user and introductions lists and introduction page to include names and abbreviated emails
-# * Modified the friends list to include names and emails
-# * Modified the projects, activities, and properties lists to show the sharing user's name instead of email
-# * For users with no name, updating their name to their abbreviated email ... their first logon will update the name to that provided by the logon provider
+* Modified the user and introductions lists and introduction page to include names and abbreviated emails
+* Modified the friends list to include names and emails
+* Modified the projects, activities, and properties lists to show the sharing user's name instead of email
+* For users with no name, updating their name to their abbreviated email ... their first logon will update the name to that provided by the logon provider
 
-#             MESSAGE
-#             Pike::System::Message.create_message!(subject, body)
-#             puts '... end'
-#           end
-#         end
-#       end
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
 
       # Next migration ...
       #   ...
