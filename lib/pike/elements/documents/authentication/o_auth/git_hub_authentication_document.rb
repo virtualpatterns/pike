@@ -24,14 +24,14 @@ module Pike
                     ['repos'])
             end
 
-            def process_token(token)
-              super(token)
-              Pike::Session.identity.token = token
-            end
-
-            def create_identity_from_email(email)
+            def create_identity_from_token(token)
+              user = JSON.parse(token.get('/user').body)
+              RubyApp::Log.debug("GITHUB    user=#{user.inspect}")
+              _user = Pike::User.get_user_by_url(user['email'])
+              _user.name = user['name']
+              _user.save!
               return Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_GITHUB,
-                                                    :user   => Pike::User.get_user_by_url(email))
+                                                    :user   => _user)
             end
 
           end

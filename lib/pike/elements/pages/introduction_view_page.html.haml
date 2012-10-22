@@ -16,6 +16,10 @@
       %li.message
         = @introduction.message
 
+    %p.instructions
+      If this introduction is accepted any shared projects and activities
+      will appear momentarily.
+
     = @accept_button.render(:html) do |element|
       - element.content_for(:html, :link, 'Accept')
     = @reject_button.render(:html) do |element|

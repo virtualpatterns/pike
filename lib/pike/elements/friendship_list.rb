@@ -28,6 +28,7 @@ module Pike
 
         def initialize(introduction)
           super(introduction)
+        self.attributes.merge!('class' => 'friendship-list-introduction-item')
         end
 
       end
@@ -69,7 +70,8 @@ module Pike
 
       def initialize
         super
-        self.attributes.merge!('data-divider-theme' => 'd',
+        self.attributes.merge!('class'              => 'friendship-list',
+                               'data-divider-theme' => 'd',
                                'data-theme'         => 'd')
       end
 

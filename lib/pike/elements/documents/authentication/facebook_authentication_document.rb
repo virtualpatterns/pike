@@ -20,9 +20,12 @@ module Pike
             super
           end
 
-          def create_identity_from_email(email)
+          def create_identity_from_me(me)
+            _user = Pike::User.get_user_by_url(me['email'])
+            _user.name = me['name']
+            _user.save!
             return Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_FACEBOOK,
-                                                  :user   => Pike::User.get_user_by_url(email))
+                                                  :user   => _user)
           end
 
         end

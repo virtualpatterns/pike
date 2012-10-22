@@ -32,6 +32,8 @@ module Pike
         def initialize(property, value = nil)
           super(nil)
 
+          self.attributes.merge!('class' => 'property-value-list-item')
+
           @property = property
           @value = value
 
@@ -44,7 +46,8 @@ module Pike
       def initialize(object, type)
         super()
 
-        self.attributes.merge!('data-inset' => 'true',
+        self.attributes.merge!('class'      => 'property-value-list',
+                               'data-inset' => 'true',
                                'data-theme' => 'd')
 
         @object = object

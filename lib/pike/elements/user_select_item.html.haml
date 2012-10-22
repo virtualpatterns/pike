@@ -1,0 +1,8 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.user
+    = self.user.name || '(no name)'
+    %div.email
+      = self.user.url
+      

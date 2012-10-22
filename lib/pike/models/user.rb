@@ -36,6 +36,8 @@ module Pike
 
     field :url, :type => String
     field :_url, :type => String
+    field :name, :type => String
+    field :_name, :type => String
 
     field :is_administrator, :type => Boolean, :default => false
 
@@ -47,13 +49,19 @@ module Pike
     default_scope order_by([:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
+    scope :where_search, lambda { |user, value| where(:_id.nin => [user.id] ).and(:_name => /.*#{value.downcase}.*/) }
 
     index [[:_url, 1]], { :unique => true }
 
     def self.assert_indexes
       user = Pike::User.get_user_by_url('Assert Indexes User')
+      user.name = 'User, Assert Indexes'
+      user.save!
+
       self.assert_index(Pike::User.all)
       self.assert_index(Pike::User.where_url('Assert Indexes User'))
+      # self.assert_index(Pike::User.where_search('User, Assert Indexes'))
+
     end
 
     def administrator?
@@ -206,9 +214,11 @@ module Pike
                                 :user_target_id => self.id) unless Pike::Friendship.where_friendship(user, self).exists?
     end
 
-    def self.create_user!(url, is_administrator = false)
+    def self.create_user!(url, name = nil, is_administrator = false)
       user = self.get_user_by_url(url)
-      user.set(:is_administrator, true) if is_administrator
+      user.name = name if name
+      user.is_administrator = is_administrator if is_administrator
+      user.save!
       return user
     end
 
@@ -230,6 +240,7 @@ module Pike
 
       def on_before_save
         self._url = self.url.downcase if self.url_changed?
+        self._name = self.name.downcase if self.name_changed?
       end
 
   end

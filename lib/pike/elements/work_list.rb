@@ -19,7 +19,20 @@ module Pike
 
     class WorkList < RubyApp::Elements::Mobile::List
 
-      class WorkListMessageListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+      class WorkListWelcomeItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+
+        template_path(:all, File.dirname(__FILE__))
+
+        def initialize
+          super(nil)
+          self.attributes.merge!('class'      => 'work-list-welcome-item',
+                                 'data-icon'  => 'false',
+                                 'data-theme' => 'b')
+        end
+
+      end
+
+      class WorkListMessageItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -31,7 +44,7 @@ module Pike
 
       end
 
-      class WorkListImportListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+      class WorkListImportItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -43,7 +56,7 @@ module Pike
 
       end
 
-      class WorkListFriendshipListItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
+      class WorkListFriendshipItem < RubyApp::Elements::Mobile::Navigation::NavigationList::NavigationListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -101,7 +114,7 @@ module Pike
 
       end
 
-      class WorkListWorkItem < RubyApp::Elements::Mobile::List::ListSplitItem
+      class WorkListItem < RubyApp::Elements::Mobile::List::ListSplitItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -116,7 +129,7 @@ module Pike
 
       end
 
-      class WorkListStartedWorkItem < Pike::Elements::WorkList::WorkListWorkItem
+      class WorkListStartedItem < Pike::Elements::WorkList::WorkListItem
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -131,6 +144,7 @@ module Pike
 
       attr_accessor :today
       attr_accessor :date
+      attr_reader :count
 
       def initialize(today = Date.today, date = Date.today)
         super()
@@ -142,16 +156,17 @@ module Pike
 
         @today = today
         @date = date
+        @count = 0
 
         self.item_clicked do |element, event|
           @today = event.today
-          if event.item.is_a?(Pike::Elements::WorkList::WorkListMessageListItem)
+          if event.item.is_a?(Pike::Elements::WorkList::WorkListMessageItem)
             page = Pike::Elements::Pages::MessageListPage.new
             page.removed do |element, _event|
               _event.update_element(self)
             end
             page.show(event)
-          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListImportListItem)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListImportItem)
             unless Pike::Session.identity.token.is_a?(::OAuth2::AccessToken)
               Pike::Elements::Documents::Authentication::OAuth::GitHubTokenDocument.new.show(event)
             else
@@ -160,7 +175,7 @@ module Pike
                 event.update_element(self)
               end
             end
-          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListFriendshipListItem)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListFriendshipItem)
             page = Pike::Elements::Pages::FriendshipListPage.new
             page.removed do |element, _event|
               _event.update_element(self)
@@ -172,7 +187,7 @@ module Pike
               _event.update_element(self)
             end
             page.show(event)
-          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListWorkItem)
+          elsif event.item.is_a?(Pike::Elements::WorkList::WorkListItem)
             if self.today?
               unless event.item.item.work.started?
                 Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
@@ -229,9 +244,13 @@ module Pike
 
           self.items.clear
 
-          self.items.push(Pike::Elements::WorkList::WorkListMessageListItem.new) if Pike::Session.identity.user.messages.exists?
-          self.items.push(Pike::Elements::WorkList::WorkListImportListItem.new) if Pike::Session.identity.source?(Pike::System::Identity::SOURCE_GITHUB) unless Pike::Session.identity.user.projects.exists?
-          self.items.push(Pike::Elements::WorkList::WorkListFriendshipListItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
+          self.items.push(Pike::Elements::WorkList::WorkListWelcomeItem.new) if @count < 1
+
+          @count += 1
+
+          self.items.push(Pike::Elements::WorkList::WorkListMessageItem.new) if Pike::Session.identity.user.messages.exists?
+          self.items.push(Pike::Elements::WorkList::WorkListImportItem.new) if Pike::Session.identity.source?(Pike::System::Identity::SOURCE_GITHUB) unless Pike::Session.identity.user.projects.exists?
+          self.items.push(Pike::Elements::WorkList::WorkListFriendshipItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
 
           self.items.push(Pike::Elements::WorkList::WorkListTotalDivider.new(@date))
 
@@ -240,7 +259,7 @@ module Pike
           Pike::Session.identity.user.work.where_date(@date).where_started.each_with_index do |work, index|
             work.update_duration!
             self.items.push(Pike::Elements::WorkList::WorkListStartedDivider.new) if index == 0
-            self.items.push(Pike::Elements::WorkList::WorkListStartedWorkItem.new(@date, work.task, work))
+            self.items.push(Pike::Elements::WorkList::WorkListStartedItem.new(@date, work.task, work))
           end
 
           _work = {}
@@ -253,7 +272,7 @@ module Pike
             work = _work[task] || Pike::Session.identity.user.work.create!(:task => task, :date => @date)
             unless work.started?
               self.items.push(Pike::Elements::WorkList::WorkListFlagDivider.new(task.flag)) unless task.flag == flag
-              self.items.push(Pike::Elements::WorkList::WorkListWorkItem.new(@date, work.task, work))
+              self.items.push(Pike::Elements::WorkList::WorkListItem.new(@date, work.task, work))
               flag = task.flag
             end
           end
