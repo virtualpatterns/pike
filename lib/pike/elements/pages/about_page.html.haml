@@ -12,16 +12,6 @@
     %ul{'data-inset'  => 'true',
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
-      %li{'data-role' => 'list-divider'}
-        Version
-      %li
-        Pike
-        %span.ui-li-aside
-          #{Pike::VERSION}
-
-    %ul{'data-inset'  => 'true',
-        'data-role'   => 'listview',
-        'data-theme'  => 'd'}
       %li
         - subject = URI.escape('Mobile and Desktop Task Tracking')
         - body = URI.escape("Mobile and desktop task tracking ... #{RubyApp::Request.base_url}")
