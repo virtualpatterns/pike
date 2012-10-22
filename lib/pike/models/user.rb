@@ -96,7 +96,8 @@ module Pike
     end
 
     def create_identity!
-      return Pike::System::Identity.create!(:user_id => self.id)
+      return Pike::System::Identity.create!(:source   => Pike::System::Identity::SOURCE_UNKNOWN,
+                                            :user_id  => self.id)
     end
 
     def create_property!(type, name)
