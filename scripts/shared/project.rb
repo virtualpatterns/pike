@@ -36,6 +36,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Share a project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 03 of #{Pike::Session.identity.user.id}", "Friend 03 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 03 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 03 of #{Pike::Session.identity.user.id}", 'Project 03', true, 'Property 03' => 'Value 03') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
@@ -54,6 +55,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Delete a shared project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 04 of #{Pike::Session.identity.user.id}", "Friend 04 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 04 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 04 of #{Pike::Session.identity.user.id}", 'Project 04', true, 'Property 04' => 'Value 04') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
@@ -69,6 +71,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
 
 # Edit a shared project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 05.0 of #{Pike::Session.identity.user.id}", "Friend 05.0 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 05.0 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 05.0 of #{Pike::Session.identity.user.id}", 'Project 05.0', true, 'Property 05.0' => 'Value 05.0') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
@@ -89,6 +92,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.execute {} }
 
 # Delete a shared project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 06 of #{Pike::Session.identity.user.id}", "Friend 06 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 06 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 06 of #{Pike::Session.identity.user.id}", 'Project 06', true, 'Property 06' => 'Value 06') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
@@ -103,6 +107,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Unshare a shared project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 07 of #{Pike::Session.identity.user.id}", "Friend 07 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 07 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 07 of #{Pike::Session.identity.user.id}", 'Project 07', true, 'Property 07' => 'Value 07') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
@@ -117,6 +122,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Edit a prooerty of a shared project
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 08 of #{Pike::Session.identity.user.id}", "Friend 08 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 08 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Project.create_project!("Friend 08 of #{Pike::Session.identity.user.id}", 'Project 08', true, 'Property 08' => 'Value 08') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
