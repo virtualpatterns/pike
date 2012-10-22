@@ -25,14 +25,10 @@ default:
               ax_authentication_document:
                 attributes:
                   email: 'http://schema.openid.net/contact/email'
+                  first_name: 'http://axschema.org/namePerson/first'
+                  last_name: 'http://axschema.org/namePerson/last'
               google_authentication_document:
                 identifier: 'https://www.google.com/accounts/o8/id'
-              my_open_id_authentication_document:
-                identifier: 'http://myopenid.com'
-              yahoo_authentication_document:
-                attributes:
-                  email: 'http://axschema.org/contact/email'
-                identifier: 'https://www.yahoo.com'
     language: &default_ruby_app_language
       default: 'en'
       paths:

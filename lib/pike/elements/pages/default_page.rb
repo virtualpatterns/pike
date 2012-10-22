@@ -81,8 +81,11 @@ module Pike
           @first_button = RubyApp::Elements::Mobile::Button.new
           @first_button.attributes.merge!('data-mini' => 'true')
           @first_button.clicked do |element, event|
+            user = Pike::User.get_user_by_url('first@pike.virtualpatterns.com')
+            user.name = "First User"
+            user.save!
             Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,
-                                                                    :user   => Pike::User.get_user_by_url('first@pike.virtualpatterns.com'))
+                                                                    :user   => user)
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
@@ -90,8 +93,11 @@ module Pike
           @second_button = RubyApp::Elements::Mobile::Button.new
           @second_button.attributes.merge!('data-mini'  => 'true')
           @second_button.clicked do |element, event|
+            user = Pike::User.get_user_by_url('second@pike.virtualpatterns.com')
+            user.name = "Second User"
+            user.save!
             Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,
-                                                                    :user   => Pike::User.get_user_by_url('second@pike.virtualpatterns.com'))
+                                                                    :user   => user)
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
@@ -99,15 +105,18 @@ module Pike
           @random_button = RubyApp::Elements::Mobile::Button.new
           @random_button.attributes.merge!('data-mini'  => 'true')
           @random_button.clicked do |element, event|
+            user = Pike::User.get_random_user
+            user.name = "Random User"
+            user.save!
             Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_GITHUB,
-                                                                    :user   => Pike::User.get_random_user)
+                                                                    :user   => user)
             Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
             Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
           end
 
         end
 
-      end
+      end   
 
     end
 

@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.6.41)
+    RubyApp (0.6.43)
       BlueCloth
       chronic
       chronic_duration
@@ -134,6 +134,7 @@ DEPENDENCIES
   oauth2
   rake
   ruby-debug-base
+  ruby-openid
   terminal-table
   thin
   whenever

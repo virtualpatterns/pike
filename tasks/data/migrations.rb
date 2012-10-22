@@ -26,7 +26,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_106',
                               'pike:data:migrate:add_message_0_5_108',
                               'pike:data:migrate:add_identity_source',
-                              'pike:data:migrate:add_message_0_5_109'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_109',
+                              'pike:data:migrate:add_message_0_5_112'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -401,6 +402,27 @@ Changes in this version ...
 
 * Decreased the size of the stopwatch image to accomodate the logon buttons on the home page for mobile devices
 * Added the ability to import GitHub repositories for users who logon via GitHub and have created no projects (e.g. first-time GitHub users)
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.112'
+      task :add_message_0_5_112, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.112'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Modified GitHub, Google, and Facebook logons to retrieve user's name
+* Modified the first, second, and random guest logons to set the user's name to First User, Second User, and Random User respectively
+* Added a welcome message that includes the user's name and email to the work list page that disappears after a delay
+* Added a user search by name to the introduction page avoiding the need to remember and enter a user's email ... the current user does not appear in a user search
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
