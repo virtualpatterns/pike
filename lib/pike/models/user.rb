@@ -62,6 +62,8 @@ module Pike
       user1.save!
 
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      user2.name = nil
+      user2.save!
 
       self.assert_index(Pike::User.all)
       self.assert_index(Pike::User.where_url('Assert Indexes User 1'))
@@ -252,7 +254,7 @@ module Pike
 
       def on_before_save
         self._url = self.url.downcase if self.url_changed?
-        self._name = self.name.downcase if self.name_changed?
+        self._name = ( self.name ? self.name.downcase : nil ) if self.name_changed?
       end
 
   end
