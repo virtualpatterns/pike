@@ -26,6 +26,7 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Accept an introduction
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 02 of #{Pike::Session.identity.user.id}", "Friend 02 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Introduction.create_introduction!("Friend 02 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Be my friend!') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -45,6 +46,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Ignore an introduction
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 03 of #{Pike::Session.identity.user.id}", "Friend 03 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Introduction.create_introduction!("Friend 03 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Be my friend!') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -64,6 +66,7 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Don't ignore an introduction
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 04 of #{Pike::Session.identity.user.id}", "Friend 04 of #{Pike::Session.identity.user.id}") } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Introduction.create_introduction!("Friend 04 of #{Pike::Session.identity.user.id}", Pike::Session.identity.user.url, 'Be my friend!') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }

@@ -29,12 +29,10 @@
       %li
         %span
           Created
-        %span.ui-li-aside
-          %code{'data-field' => 'created_at'}
-            = @user ? RubyApp::Language.locale.strftime(@user.created_at, Pike::Application.configuration.format.date.long) : nil
+        %span.ui-li-aside{'data-field' => 'created_at'}
+          = @user ? RubyApp::Language.locale.strftime(@user.created_at, Pike::Application.configuration.format.date.long) : nil
       %li
         %span
           Modified
-        %span.ui-li-aside
-          %code{'data-field' => 'updated_at'}
-            = @user ? RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long) : nil
+        %span.ui-li-aside{'data-field' => 'updated_at'}
+          = @user ? RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long) : nil

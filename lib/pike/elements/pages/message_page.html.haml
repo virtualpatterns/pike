@@ -17,8 +17,7 @@
         %span
           Created
         %span.ui-li-aside
-          %code{'data-field' => 'created_at'}
-            = RubyApp::Language.locale.strftime(@message.created_at, Pike::Application.configuration.format.date.long)
+          = RubyApp::Language.locale.strftime(@message.created_at, Pike::Application.configuration.format.date.long)
 
     %div.message
       %div.ui-body-d.ui-corner-all.ui-shadow.body

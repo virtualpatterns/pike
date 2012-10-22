@@ -82,7 +82,7 @@ module Pike
             self.user.activities.all.each do |activity|
               self.user.tasks.create!(:project_id => project.id,
                                       :activity_id => activity.id,
-                                      :flag => Pike::Task::FLAG_NORMAL) unless self.user.tasks.where_project(project).where_activity(activity).exists?
+                                      :flag => Pike::Task::FLAG_LIKED) unless self.user.tasks.where_project(project).where_activity(activity).exists?
             end
           end
         end

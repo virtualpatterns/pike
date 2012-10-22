@@ -29,7 +29,7 @@ module Pike
             else
               RubyApp::Elements::Mobile::Dialogs::ExceptionDialog.show_on_exception(event) do
                 @user.save!
-                event.update_text("code[data-field='updated_at']", RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long))
+                event.update_text("span[data-field='updated_at']", RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long))
               end
             end
           end
@@ -44,15 +44,15 @@ module Pike
               @is_administrator_input.value = @user.is_administrator
               event.execute("$('##{@is_administrator_input.element_id}').slider('enable');")
               event.update_value("##{@is_administrator_input.element_id}", @user.is_administrator.to_s)
-              event.update_text("code[data-field='created_at']", RubyApp::Language.locale.strftime(@user.created_at, Pike::Application.configuration.format.date.long))
-              event.update_text("code[data-field='updated_at']", RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long))
+              event.update_text("span[data-field='created_at']", RubyApp::Language.locale.strftime(@user.created_at, Pike::Application.configuration.format.date.long))
+              event.update_text("span[data-field='updated_at']", RubyApp::Language.locale.strftime(@user.updated_at, Pike::Application.configuration.format.date.long))
             else
               @is_administrator_input.attributes.merge!('disabled' => true)
               @is_administrator_input.value = false
               event.execute("$('##{@is_administrator_input.element_id}').slider('disable');")
               event.update_value("##{@is_administrator_input.element_id}", 'false')
-              event.update_text("code[data-field='created_at']", '')
-              event.update_text("code[data-field='updated_at']", '')
+              event.update_text("span[data-field='created_at']", '')
+              event.update_text("span[data-field='updated_at']", '')
             end
           end
 
