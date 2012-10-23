@@ -30,7 +30,11 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_112',
                               'pike:data:migrate:add_user_name',
                               'pike:data:migrate:add_message_0_5_113',
-                              'pike:data:migrate:add_message_0_5_114'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_114',
+                              'pike:data:migrate:rename_work_started_updated',
+                              'pike:data:migrate:rename_identity_expires',
+                              'pike:data:migrate:add_work_is_started',
+                              'pike:data:migrate:add_action_failed'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -483,6 +487,63 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Rename Pike::Work#started and Pike::Work#updated to Pike::Work#started_at and Pike::Work#updated_at respectively'
+      task :rename_work_started_updated, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::Work.all.each do |work| ...'
+            Pike::Work.all.each do |work|
+              puts "  work.user.url=#{work.user.url.inspect} work.task.project.name=#{work.task.project.name.inspect} work.task.activity.name=#{work.task.activity.name.inspect} work.date=#{work.date} work.rename(:started, :started_at) work.rename(:updated, :updated_at)"
+              work.rename(:started, :started_at) 
+              work.rename(:updated, :updated_at)
+             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Rename Pike::System::Identity#expires to Pike::System::Identity#expires_at'
+      task :rename_identity_expires, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Identity.all.each do |identity| ...'
+            Pike::System::Identity.all.each do |identity|
+              puts "  identity.user.url=#{work.user.url.inspect} identity.rename(:expires, :expires_at)"
+              identity.rename(:expires, :expires_at) 
+             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add Pike::Work#is_started'
+      task :add_work_is_started, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::Work.all.each do |work| ...'
+            Pike::Work.all.each do |work|
+              puts "  work.user.url=#{work.user.url.inspect} work.task.project.name=#{work.task.project.name.inspect} work.task.activity.name=#{work.task.activity.name.inspect} work.date=#{work.date} work.set(:is_started, #{work.started_at ? true.inspect : false.inspect})"
+              work.set(:is_started, work.started_at ? true : false)
+             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add Pike::System::Action#failed'
+      task :add_action_failed, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Action.all.each do |action| ...'
+            Pike::System::Action.all.each do |action|
+              puts "  action.class=#{action.class} action.set(:failed, #{action.exception_at ? true.inspect : false.inspect})"
+              action.set(:failed, action.exception_at ? true : false)
+             end
             puts '... end'
           end
         end

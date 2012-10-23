@@ -27,8 +27,9 @@ module Pike
     field :date, :type => Date
     field :duration, :type => Integer, :default => 0
     field :note, :type => String
-    field :started, :type => Time
-    field :updated, :type => Time
+    field :is_started, :type => Boolean, :default => false
+    field :started_at, :type => Time
+    field :updated_at, :type => Time
     field :_project_name, :type => String
     field :_activity_name, :type => String
 
@@ -42,14 +43,14 @@ module Pike
     scope :where_date, lambda { |date| where(:date => date) }
     scope :where_not_date, lambda { |date| where(:date.ne => date) }
     scope :where_week, lambda { |date| where(:date.gte => date.week_start).and(:date.lte => date.week_end) }
-    scope :where_started, where(:started.ne => nil)
+    scope :where_started, where(:is_started => true)
 
     index [[:user_id,        1],
            [:task_id,        1],
            [:date,           1],
            [:_project_name,  1],
            [:_activity_name, 1],
-           [:started,        1]]
+           [:is_started,     1]]
 
     index [[:task_id,        1],
            [:date,           1],
@@ -77,30 +78,32 @@ module Pike
     end
 
     def started?
-      self.started
+      return self.is_started
     end
 
     def start!
       unless self.started?
-        self.started = Time.now
-        self.updated = self.started
+        self.is_started = true
+        self.started_at = Time.now
+        self.updated_at = self.started_at
         self.save!
       end
     end
 
     def finish!
       if self.started?
-        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
-        self.started = nil
-        self.updated = nil
+        self.duration = (self.duration || 0) + ( Time.now - self.updated_at ).to_i
+        self.updated_at = nil
+        self.started_at = nil
+        self.is_started = false
         self.save!
       end
     end
 
     def update_duration!
       if self.started?
-        self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
-        self.updated = Time.now
+        self.duration = (self.duration || 0) + ( Time.now - self.updated_at ).to_i
+        self.updated_at = Time.now
         self.save!
       end
     end
@@ -116,9 +119,10 @@ module Pike
 
       def on_before_destroy
         if self.started?
-          self.duration = (self.duration || 0) + ( Time.now - self.updated ).to_i
-          self.started = nil
-          self.updated = nil
+          self.duration = (self.duration || 0) + ( Time.now - self.updated_at ).to_i
+          self.updated_at = nil
+          self.started_at = nil
+          self.is_started = false
         end
       end
 

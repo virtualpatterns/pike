@@ -31,22 +31,22 @@ module Pike
 
       field :source, :type => Integer
       field :value, :type => String, :default => lambda { Pike::System::Identity.generate_identity_value }
-      field :expires, :type => Time, :default => lambda { Chronic.parse('next month') }
+      field :expires_at, :type => Time, :default => lambda { Chronic.parse('next month') }
 
       validates_presence_of :source
       validates_presence_of :value
-      validates_presence_of :expires
+      validates_presence_of :expires_at
       validates_uniqueness_of :value
 
-      default_scope where(:expires.gt => Time.now).order_by([[:created_at, :desc]])
+      default_scope where(:expires_at.gt => Time.now).order_by([[:created_at, :desc]])
 
       scope :where_value, lambda { |value| where(:value => value) }
 
-      index [[:expires,    1],
+      index [[:expires_at,  1],
              [:created_at, -1]]
 
-      index [[:value,      1],
-             [:expires,    1],
+      index [[:value,       1],
+             [:expires_at,  1],
              [:created_at, -1]]
 
       def self.assert_indexes

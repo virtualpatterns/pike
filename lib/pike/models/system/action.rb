@@ -17,6 +17,7 @@ module Pike
 
       field :index, :type => Integer, :default => lambda { Pike::System::Sequence.next('Pike::System::Action#index') }
 
+      field :failed, :type => Boolean, :default => false
       field :exception_at, :type => Time
       field :exception_class, :type => String
       field :exception_message, :type => String
@@ -25,9 +26,9 @@ module Pike
       default_scope order_by([:index, :asc])
 
       scope :where_not_executed, where(:exception_at => nil)
-      scope :where_failed, where(:exception_at.ne => nil)
+      scope :where_failed, where(:failed => true)
 
-      index [[:exception_at, 1],
+      index [[:failed,       1],
              [:index,        1]], { :background => true }
 
       index [[:index,        1]]
@@ -44,10 +45,15 @@ module Pike
 
       end
 
+      def failed?
+        return self.failed
+      end
+
       def execute!
         begin
           self.execute
         rescue => exception
+          self.failed = true
           self.exception_at = Time.now
           self.exception_class = exception.class
           self.exception_message = exception.message

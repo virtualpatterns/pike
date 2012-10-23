@@ -95,7 +95,7 @@ namespace :pike do
               table.add_row([identity.user.url,
                              Pike::System::Identity::SOURCE_NAMES[identity.source],
                              identity.created_at,
-                             identity.expires])
+                             identity.expires_at])
             end
           end
           puts table
