@@ -34,7 +34,8 @@ namespace :pike do
                               'pike:data:migrate:rename_work_started_updated',
                               'pike:data:migrate:destroy_identities',
                               'pike:data:migrate:add_work_is_started',
-                              'pike:data:migrate:add_action_failed'] do |task, arguments|
+                              'pike:data:migrate:add_action_failed',
+                              'pike:data:migrate:add_message_0_5_116'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -541,6 +542,24 @@ Changes in this version ...
               puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:failed, #{action.exception_at ? true.inspect : false.inspect})"
               action.set(:failed, action.exception_at ? true : false)
              end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.116'
+      task :add_message_0_5_116, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.116'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Performance improvements
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
             puts '... end'
           end
         end
