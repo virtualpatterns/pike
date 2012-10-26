@@ -35,7 +35,9 @@ namespace :pike do
                               'pike:data:migrate:destroy_identities',
                               'pike:data:migrate:add_work_is_started',
                               'pike:data:migrate:add_action_failed',
-                              'pike:data:migrate:add_message_0_5_116'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_116',
+                              'pike:data:migrate:remove_action_failed',
+                              'pike:data:migrate:add_action_state'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -565,8 +567,38 @@ Changes in this version ...
         end
       end
 
+      # Remove Pike::System::Action#failed
+      desc 'Remove Pike::System::Action#failed'
+      task :remove_action_failed, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Action.all.each do |action| ...'
+            Pike::System::Action.all.each do |action|
+              puts "  action.class=#{action.class} action.unset(:failed)"
+              action.unset(:failed)
+             end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add Pike::System::Action#state'
+      task :add_action_state, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Action.all.each do |action| ...'
+            Pike::System::Action.all.each do |action|
+              puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:state, #{action.exception_at ? Pike::System::State::STATE_EXECUTED.inspect : Pike::System::State::STATE_PENDING.inspect})"
+              action.set(:state, action.exception_at ? Pike::System::State::STATE_EXECUTED : Pike::System::State::STATE_PENDING)
+             end
+            puts '... end'
+          end
+        end
+      end
+
       # Next migration ...
-      #   ...
+      # Convert Pike::User#read_messages into ...
+      # ...
 
     end
 

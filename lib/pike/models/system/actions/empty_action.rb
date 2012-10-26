@@ -8,7 +8,7 @@ module Pike
   module System
 
     module Actions
-      require 'pike'
+      require 'pike/models/system/action'
 
       class EmptyAction < Pike::System::Action
 

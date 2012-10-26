@@ -1,9 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ruby_app'
+require 'ap'
 
-require 'pp'
+require 'ruby_app'
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 

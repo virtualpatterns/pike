@@ -13,8 +13,8 @@ module Pike
   module System
 
     module Actions
-      require 'pike'
       require 'pike/elements/mail'
+      require 'pike/models/system/action'
 
       class WorkReportExportAction < Pike::System::Action
 

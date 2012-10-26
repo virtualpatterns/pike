@@ -35,7 +35,10 @@ module Pike
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
+
+    # TODO ... verify this scope is indexed
     scope :where_shared, where(:is_shared => true)
+
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
 
@@ -49,8 +52,14 @@ module Pike
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       project1 = user1.create_project!('Assert Indexes Project 1', true)
+      project2 = user1.create_project!('Assert Indexes Project 2', false)
+
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
+      project3 = user2.create_project!('Assert Indexes Project 3', false)
+      friendship1 = user1.create_friendship!('Assert Indexes User 2')
+
+      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
+      friendship2 = user1.create_friendship!('Assert Indexes User 3')
 
       Pike::System::Action.execute_all!
 
@@ -59,7 +68,7 @@ module Pike
       self.assert_index(user1.projects.where_name('Assert Indexes Project 1'))
       self.assert_index(user1.projects.where_shared)
       self.assert_index(user2.projects.where_copy_of(project1))
-      self.assert_index(user1.projects.where_not_copy)
+      self.assert_index(user2.projects.where_not_copy)
       self.assert_index(project1.copies.all)
 
     end

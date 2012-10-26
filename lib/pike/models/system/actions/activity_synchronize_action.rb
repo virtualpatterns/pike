@@ -8,6 +8,7 @@ module Pike
   module System
 
     module Actions
+      require 'pike/models/task'
       require 'pike/models/system/actions/synchronize_action'
 
       class ActivitySynchronizeAction < Pike::System::Actions::SynchronizeAction

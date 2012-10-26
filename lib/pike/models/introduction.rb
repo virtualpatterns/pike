@@ -32,7 +32,10 @@ module Pike
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      introduction = Pike::Introduction.create_introduction!('Assert Indexes User 1', 'Assert Indexes User 2', 'Assert Indexes Introduction')
+      introduction1 = Pike::Introduction.create_introduction!('Assert Indexes User 1', 'Assert Indexes User 2', 'Assert Indexes Introduction')
+
+      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
+      introduction2 = Pike::Introduction.create_introduction!('Assert Indexes User 1', 'Assert Indexes User 2', 'Assert Indexes Introduction')
 
       self.assert_index(user2.introductions_as_target.all)
 

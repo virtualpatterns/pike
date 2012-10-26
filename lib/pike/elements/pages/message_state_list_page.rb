@@ -11,7 +11,7 @@ module Pike
       require 'pike'
       require 'pike/elements'
 
-      class MessageListPage < Pike::Elements::Page
+      class MessageStateListPage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
@@ -28,7 +28,7 @@ module Pike
             Pike::Session.document.page.hide(event)
           end
 
-          @message_list = Pike::Elements::MessageList.new
+          @message_state_list = Pike::Elements::MessageStateList.new
 
         end
 

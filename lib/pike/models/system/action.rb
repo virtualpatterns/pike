@@ -15,45 +15,47 @@ module Pike
 
       store_in :system_actions
 
+      STATE_PENDING   = 0
+      STATE_EXECUTED  = 1
+      STATE_NAMES     = { Pike::System::Action::STATE_PENDING   => 'Pending',
+                          Pike::System::Action::STATE_EXECUTED  => 'Executed' }
+
+      field :state, :type => Integer, :default => Pike::System::Action::STATE_PENDING
       field :index, :type => Integer, :default => lambda { Pike::System::Sequence.next('Pike::System::Action#index') }
 
-      field :failed, :type => Boolean, :default => false
       field :exception_at, :type => Time
       field :exception_class, :type => String
       field :exception_message, :type => String
       field :exception_backtrace, :type => Array
 
+      validates_presence_of :state
+      validates_presence_of :index
+
       default_scope order_by([:index, :asc])
 
-      scope :where_not_executed, where(:exception_at => nil)
-      scope :where_failed, where(:failed => true)
+      scope :where_pending, where(:state => Pike::System::Action::STATE_PENDING)
 
-      index [[:failed,       1],
-             [:index,        1]], { :background => true }
+      index [[:state, 1],
+             [:index, 1]]
 
-      index [[:index,        1]]
+      index [[:index, 1]]
 
       def self.assert_indexes
-        Pike::System::Actions::EmptyAction.create!
+        action1 = Pike::System::Actions::EmptyAction.create!
+        action1.execute!
+
+        action2 = Pike::System::Actions::EmptyAction.create!
 
         self.assert_index(Pike::System::Action.all)
-        self.assert_index(Pike::System::Action.where_not_executed)
+        self.assert_index(Pike::System::Action.where_pending)
 
-        Pike::System::Action.execute_all!
-
-        self.assert_index(Pike::System::Action.where_failed)
-
-      end
-
-      def failed?
-        return self.failed
       end
 
       def execute!
         begin
           self.execute
         rescue => exception
-          self.failed = true
+          self.state = Pike::System::Action::STATE_EXECUTED
           self.exception_at = Time.now
           self.exception_class = exception.class
           self.exception_message = exception.message
@@ -68,7 +70,7 @@ module Pike
       end
 
       def self.execute_all!
-        Pike::System::Action.where_not_executed.each do |action|
+        Pike::System::Action.where_pending.each do |action|
           action.execute!
         end
       end

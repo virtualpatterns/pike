@@ -1,7 +1,7 @@
 - self.content_for(:html, :item) do
   /
     #{__FILE__}
-  - count = Pike::Session.identity.user.messages.count
+  - count = Pike::Session.identity.user.message_states.where_new.count
   %span.ui-disabled
     tap to read new messages
   %span.ui-li-count{'style' => "display: #{count > 0 ? 'block' : 'none'};"}

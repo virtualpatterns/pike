@@ -3,6 +3,7 @@ module Pike
   module System
 
     module Actions
+      require 'pike/models/system/action'
 
       class SynchronizeAction < Pike::System::Action
 

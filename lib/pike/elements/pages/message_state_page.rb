@@ -12,19 +12,19 @@ module Pike
       require 'pike/elements'
       require 'pike/elements/page'
 
-      class MessagePage < Pike::Elements::Page
+      class MessageStatePage < Pike::Elements::Page
 
         template_path(:all, File.dirname(__FILE__))
 
-        def initialize(message)
+        def initialize(message_state)
           super()
 
-          @message = message
+          @message_state = message_state
 
           @back_button = Pike::Elements::Navigation::BackButton.new
 
           self.shown do |element, event|
-            Pike::Session.identity.user.read!(message)
+            message_state.read!
           end
 
         end

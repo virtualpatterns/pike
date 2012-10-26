@@ -55,14 +55,21 @@ module Pike
            [:_activity_name, 1]]
 
     def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
-      project = user.create_project!('Assert Indexes Project')
-      activity = user.create_activity!('Assert Indexes Activity')
-      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      project1 = user1.create_project!('Assert Indexes Project 1')
+      activity1 = user1.create_activity!('Assert Indexes Activity 1')
+      task1 = user1.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')
+      project2 = user1.create_project!('Assert Indexes Project 2')
+      activity2 = user1.create_activity!('Assert Indexes Activity 2')
+      task2 = user1.create_task!('Assert Indexes Project 2', 'Assert Indexes Activity 2')
 
-      self.assert_index(user.tasks.all)
-      self.assert_index(user.tasks.where_project(project))
-      self.assert_index(user.tasks.where_activity(activity))
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      project2 = user2.create_project!('Assert Indexes Project 2')
+      activity2 = user2.create_activity!('Assert Indexes Activity 2')
+
+      self.assert_index(user1.tasks.all)
+      self.assert_index(user1.tasks.where_project(project1))
+      self.assert_index(user1.tasks.where_activity(activity1))
 
     end
 

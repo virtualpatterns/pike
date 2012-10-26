@@ -32,6 +32,7 @@ GEM
       multi_json (~> 1.0)
     amazon-ec2 (0.9.17)
       xml-simple (>= 1.0.12)
+    awesome_print (1.1.0)
     aws-s3 (0.6.3)
       builder
       mime-types
@@ -96,7 +97,7 @@ GEM
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
     ruby-event (1.0.0)
-    ruby-openid (2.2.1)
+    ruby-openid (2.2.2)
     sass (3.2.1)
     system_timer (1.2.4)
     term-ansicolor (1.0.7)
@@ -122,6 +123,7 @@ DEPENDENCIES
   RubyApp
   SystemTimer
   amazon-ec2
+  awesome_print
   aws-s3
   aws-ses
   bson

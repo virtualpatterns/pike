@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'ap'
 require 'chronic'
 require 'daemons'
 require 'fileutils'

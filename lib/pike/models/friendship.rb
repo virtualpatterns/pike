@@ -36,7 +36,11 @@ module Pike
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
+      friendship1 = user1.create_friendship!('Assert Indexes User 2')
+
+      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
+      friendship2 = user1.create_friendship!('Assert Indexes User 3')
+      friendship3 = user2.create_friendship!('Assert Indexes User 3')
 
       self.assert_index(Pike::Friendship.where_friendship(user1, user2))
       self.assert_index(user1.friendships_as_source.all)

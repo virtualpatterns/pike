@@ -12,7 +12,7 @@ module Pike
     require 'pike'
     require 'pike/elements/documents/authentication/o_auth/git_hub_token_document'
     require 'pike/elements/pages/friendship_list_page'
-    require 'pike/elements/pages/message_list_page'
+    require 'pike/elements/pages/message_state_list_page'
     require 'pike/elements/pages/task_page'
     require 'pike/elements/pages/work_page'
     require 'pike/models'
@@ -144,7 +144,7 @@ module Pike
 
       attr_accessor :today
       attr_accessor :date
-      attr_reader :count
+      attr_reader :render_count
 
       def initialize(today = Date.today, date = Date.today)
         super()
@@ -156,12 +156,12 @@ module Pike
 
         @today = today
         @date = date
-        @count = 0
+        @render_count = 0
 
         self.item_clicked do |element, event|
           @today = event.today
           if event.item.is_a?(Pike::Elements::WorkList::WorkListMessageItem)
-            page = Pike::Elements::Pages::MessageListPage.new
+            page = Pike::Elements::Pages::MessageStateListPage.new
             page.removed do |element, _event|
               _event.update_element(self)
             end
@@ -244,11 +244,10 @@ module Pike
 
           self.items.clear
 
-          self.items.push(Pike::Elements::WorkList::WorkListWelcomeItem.new) if @count < 1
+          self.items.push(Pike::Elements::WorkList::WorkListWelcomeItem.new) if @render_count < 1
 
-          @count += 1
+          self.items.push(Pike::Elements::WorkList::WorkListMessageItem.new) if Pike::Session.identity.user.message_states.where_new.exists?
 
-          self.items.push(Pike::Elements::WorkList::WorkListMessageItem.new) if Pike::Session.identity.user.messages.exists?
           self.items.push(Pike::Elements::WorkList::WorkListImportItem.new) if Pike::Session.identity.source?(Pike::System::Identity::SOURCE_GITHUB) unless Pike::Session.identity.user.projects.exists?
           self.items.push(Pike::Elements::WorkList::WorkListFriendshipItem.new) if Pike::Session.identity.user.introductions_as_target.exists?
 
@@ -276,6 +275,8 @@ module Pike
               flag = task.flag
             end
           end
+
+          @render_count += 1
 
         end
         super(format)

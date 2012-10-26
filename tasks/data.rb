@@ -64,18 +64,14 @@ namespace :pike do
       desc 'Destroy all actions'
       task :destroy_all do |task|
         Pike::Application.create_context! do
-          Pike::System::Action.all.each do |action|
-            action.destroy
-          end
+          Pike::System::Action.destroy_all
         end
       end
 
       desc 'Destroy failed actions'
       task :destroy_failed do |task|
         Pike::Application.create_context! do
-          Pike::System::Action.where_failed.each do |action|
-            action.destroy
-          end
+          Pike::System::Action.destroy_all(:state => Pike::System::Action::STATE_EXECUTED)
         end
       end
 
@@ -260,6 +256,48 @@ namespace :pike do
 
     namespace :indexes do
 
+      # Setup the MongoDB profile using ...
+      # use pike
+      # db.setProfilingLevel(0)
+      # db.system.profile.drop()
+      # db.createCollection('system.profile', { capped: true, size: 4000000 })
+      # db.system.profile.stats()
+      # db.setProfilingLevel(2)
+
+      desc 'Using profiler data, find queries where scanned objects are greater than objects returned'
+      task :analyze, :_class do |task, arguments|
+        Pike::Application.create_context! do
+          _class = Kernel.eval(arguments._class)
+          # query = {'ns'     => "pike.#{_class.collection.name}",
+          #          '$where' => 'this.nscanned > this.nreturned'}
+          query = {'ns'     => "pike.#{_class.collection.name}",
+                   'op'     => 'query'}
+          # query = {'op'     => 'query'}
+          order = BSON::OrderedHash.new
+          order['ts'] = -1
+          Mongoid.configure.master.collection('system.profile').find(query).sort(order).each do |document|
+            _query = document['query'].merge('$explain' => true)
+            explanation = Mongoid.configure.master.collection(_class.collection.name).find(_query).explain
+            # if  explanation['cursor'] !~ /BtreeCursor/ ||
+            #     explanation['nscannedObjects']  > explanation['n']
+              puts '-' * 80
+              puts "Namespace .. #{document['ns']}"
+              puts "Date/Time .. #{document['ts']}"
+              puts "Cursor  .... #{explanation['cursor']}"
+              puts "Scanned .... #{explanation['nscannedObjects']}"
+              puts "Returned ... #{explanation['n']}"
+              # puts '-' * 80
+              # ap document
+              puts '-' * 80
+              ap document['query']
+              puts '-' * 80
+              ap explanation
+              puts '-' * 80
+            # end
+          end
+        end
+      end
+
       desc 'Create indexes'
       task :create, :_class do |task, arguments|
         Pike::Application.create_context! do
@@ -288,6 +326,7 @@ namespace :pike do
             Pike::Introduction,
             Pike::Friendship,
             Pike::System::Message,
+            Pike::System::MessageState,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.create_indexes ... "
@@ -325,6 +364,7 @@ namespace :pike do
             Pike::Introduction,
             Pike::Friendship,
             Pike::System::Message,
+            Pike::System::MessageState,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.collection.drop_indexes ... "
@@ -362,6 +402,7 @@ namespace :pike do
             Pike::Introduction,
             Pike::Friendship,
             Pike::System::Message,
+            Pike::System::MessageState,
             Pike::System::Action,
             Pike::System::Migration ].each do |_class|
             print "#{_class}.assert_indexes ... "

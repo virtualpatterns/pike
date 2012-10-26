@@ -231,10 +231,10 @@ ul.work-report li.work-report-item span.ui-li-count {
 
 
 
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.css.haml */
-li.message-list-item div.message > div.created {
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list_item.css.haml */
+li.message-state-list-item div.message > div.created {
   font-size: 10pt; }
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_page.css.haml */
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_page.css.haml */
 div.message div.body {
   font-size: 80%;
   padding-left: 15px;

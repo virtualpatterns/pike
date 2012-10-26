@@ -59,17 +59,22 @@ module Pike
 
     def self.assert_indexes
       user = Pike::User.get_user_by_url('Assert Indexes User')
-      task = user.create_task!('Assert Indexes Project', 'Assert Indexes Activity')
-      work = user.create_work!('Assert Indexes Project', 'Assert Indexes Activity', Date.today, 123)
-      work.start!
+      task1 = user.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')
+      work1 = user.create_work!('Assert Indexes Project 1', 'Assert Indexes Activity 1', Date.today, 1)
+      work1.start!
 
-      self.assert_index(user.work.where_task(task))
+      task2 = user.create_task!('Assert Indexes Project 2', 'Assert Indexes Activity 2')
+      work2 = user.create_work!('Assert Indexes Project 2', 'Assert Indexes Activity 2', Date.today - 20, 2)
+
+      work3 = user.create_work!('Assert Indexes Project 1', 'Assert Indexes Activity 1', Date.today - 30, 1)
+
+      self.assert_index(user.work.where_task(task1))
       self.assert_index(user.work.where_date(Date.today))
-      self.assert_index(user.work.where_not_date(Date.today - 1))
+      self.assert_index(user.work.where_not_date(Date.today))
       self.assert_index(user.work.where_week(Date.today))
       self.assert_index(user.work.where_started)
 
-      self.assert_index(task.work.where_date(Date.today))
+      self.assert_index(task1.work.where_date(Date.today))
 
     end
 

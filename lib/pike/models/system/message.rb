@@ -15,6 +15,8 @@ module Pike
 
       store_in :system_messages
 
+      has_many :message_states, :class_name => 'Pike::System::MessageState'
+
       field :subject, :type => String
       field :body, :type => String
 
@@ -23,16 +25,16 @@ module Pike
 
       default_scope order_by([[:created_at, :desc]])
 
-      scope :where_unread, lambda { |user| where(:created_at.gt => user.created_at).and(:_id.nin => user.read_messages) }
+      scope :created_since, lambda { |date| where(:created_at.gte => date) }
 
-      index [[:created_at,  1],
-             [:_id,         1]]
+      index [[:created_at,  1]]
 
       def self.assert_indexes
-        message = Pike::System::Message.create_message!('Assert Indexes Message Subject', 'Assert Indexes Message Body')
-        user = Pike::User.get_user_by_url('Assert Indexes User')
+        message1 = Pike::System::Message.create_message!('Assert Indexes Message Subject 1', 'Assert Indexes Message Body 1')
+        sleep(5)
+        message2 = Pike::System::Message.create_message!('Assert Indexes Message Subject 2', 'Assert Indexes Message Body 2')
 
-        self.assert_index(Pike::System::Message.where_unread(user))
+        self.assert_index(Pike::System::Message.created_since(message2.created_at))
 
       end
 

@@ -13,11 +13,17 @@ module Pike
            [:property_id, 1]]
 
     def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
-      task1 = user.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')
+      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      task1 = user1.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')
       task_value1 = task1.create_value!('Assert Indexes Task Property 1', 'Assert Indexes Task Value 1')
-      task2 = user.create_task!('Assert Indexes Project 2', 'Assert Indexes Activity 2')
-      task_value2 = task1.create_value!('Assert Indexes Task Property 1', 'Assert Indexes Task Value 1')
+      task_value2 = task1.create_value!('Assert Indexes Task Property 2', 'Assert Indexes Task Value 2')
+
+      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      task2 = user2.create_task!('Assert Indexes Project 2', 'Assert Indexes Activity 2')
+      task_value3 = task2.create_value!('Assert Indexes Task Property 3', 'Assert Indexes Task Value 3')
+      friendship1 = user1.create_friendship!('Assert Indexes User 2')
+
+      Pike::System::Action.execute_all!
 
       self.assert_index(Pike::TaskPropertyValue.where_property(task_value1.property))
       self.assert_index(Pike::TaskPropertyValue.where_task(task1))

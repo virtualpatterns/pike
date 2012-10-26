@@ -22,10 +22,12 @@ module Pike
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       project1 = user1.create_project!('Assert Indexes Project 1', true)
       project_value1 = project1.create_value!('Assert Indexes Project Property 1', 'Assert Indexes Project Value 1')
-      project2 = user1.create_project!('Assert Indexes Project 2', true)
-      project_value2 = project2.create_value!('Assert Indexes Project Property 1', 'Assert Indexes Project Value 2')
+      project_value2 = project1.create_value!('Assert Indexes Project Property 2', 'Assert Indexes Project Value 2')
+
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
+      project2 = user2.create_project!('Assert Indexes Project 2', false)
+      project_value3 = project2.create_value!('Assert Indexes Project Property 3', 'Assert Indexes Project Value 3')
+      friendship1 = user1.create_friendship!('Assert Indexes User 2')
 
       Pike::System::Action.execute_all!
 

@@ -34,14 +34,14 @@ module Pike
 
     has_many :work, :class_name => 'Pike::Work'
 
+    has_many :message_states, :class_name => 'Pike::System::MessageState'
+
     field :url, :type => String
     field :_url, :type => String
     field :name, :type => String
     field :_name, :type => String
 
     field :is_administrator, :type => Boolean, :default => false
-
-    field :read_messages, :type => Array, :default => []
 
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
@@ -62,13 +62,19 @@ module Pike
       user1.save!
 
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
-      user2.name = nil
+      user2.name = 'User, Assert Indexes 2'
       user2.save!
+
+      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
+      user3.name = nil
+      user3.save!
 
       self.assert_index(Pike::User.all)
       self.assert_index(Pike::User.where_url('Assert Indexes User 1'))
       self.assert_index(Pike::User.where_name('User, Assert Indexes 1'))
       self.assert_index(Pike::User.where_name(nil))
+
+      # self.assert_index(Pike::User.where_search(user2, 'User'))
 
     end
 
@@ -89,12 +95,12 @@ module Pike
       return ((self.work.where_date(date).sum(:duration) || 0)/60).round * 60
     end
 
-    def messages
-      return Pike::System::Message.where_unread(self)
-    end
-
-    def read!(message)
-      self.push(:read_messages, message.id)
+    def refresh_message_states!
+      messages = self.message_states.exists? ? Pike::System::Message.created_since(self.message_states.last.message.created_at) : Pike::System::Message.all
+      messages.each do |message|
+        self.message_states.create!(:message  => message,
+                                    :state    => Pike::System::MessageState::TYPE_NEW)
+      end
     end
 
     def create_identity!

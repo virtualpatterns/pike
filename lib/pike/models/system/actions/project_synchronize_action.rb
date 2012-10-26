@@ -1,13 +1,9 @@
-require 'rubygems'
-require 'bundler/setup'
-
-require 'ruby_app'
-
 module Pike
 
   module System
 
     module Actions
+      require 'pike/models/task'
       require 'pike/models/system/actions/synchronize_action'
 
       class ProjectSynchronizeAction < Pike::System::Actions::SynchronizeAction

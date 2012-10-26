@@ -50,10 +50,15 @@ module Pike
              [:created_at, -1]]
 
       def self.assert_indexes
-        user = Pike::User.get_user_by_url('Assert Indexes User')
-        identity = user.create_identity!
+        user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+        identity1 = user1.create_identity!
+
+        user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+        identity2 = user2.create_identity!
+        
         self.assert_index(Pike::System::Identity.all)
-        self.assert_index(Pike::System::Identity.where_value(identity.value))
+        self.assert_index(Pike::System::Identity.where_value(identity1.value))
+
       end
 
       def url

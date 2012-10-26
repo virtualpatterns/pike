@@ -12,14 +12,14 @@
         'data-role'   => 'listview',
         'data-theme'  => 'd'}
       %li
-        = @message.subject
+        = @message_state.message.subject
       %li
         %span
           Created
         %span.ui-li-aside
-          = RubyApp::Language.locale.strftime(@message.created_at, Pike::Application.configuration.format.date.long)
+          = RubyApp::Language.locale.strftime(@message_state.message.created_at, Pike::Application.configuration.format.date.long)
 
     %div.message
       %div.ui-body-d.ui-corner-all.ui-shadow.body
         :markdown
-          #{@message.body}
+          #{@message_state.message.body}

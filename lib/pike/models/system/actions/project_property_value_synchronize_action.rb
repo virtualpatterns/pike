@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'bundler/setup'
-
-require 'ruby_app'
-
 module Pike
 
   module System
