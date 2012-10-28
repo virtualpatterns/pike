@@ -50,8 +50,17 @@ module Pike
 
         def initialize
           super(nil)
-          self.attributes.merge!('data-icon'  => 'arrow-r',
+          self.attributes.merge!('data-icon'  => 'false',
                                  'data-theme' => 'e')
+        end
+
+        def render(format)
+          unless Pike::Session.identity.token.is_a?(::OAuth2::AccessToken)
+            self.attributes.merge!('data-icon' => 'refresh')
+          else
+            self.attributes.merge!('data-icon' => 'arrow-d')
+          end
+          super(format)
         end
 
       end
