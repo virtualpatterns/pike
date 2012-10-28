@@ -22,6 +22,10 @@ namespace :pike do
       end
     end
 
+    desc 'Reset the database'
+    task :reset => ['pike:data:destroy',
+                    'pike:data:indexes:create_all']
+
     namespace :profile do
 
       desc 'Turn on database profiling'
