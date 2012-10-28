@@ -3,6 +3,7 @@ load_script! 'common/logon_random'
 # View a message
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { sleep(1) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Message.create_message!('Message Subject 01', 'Message Body 01') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
@@ -25,6 +26,7 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.ex
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Message.create_message!('Message Subject 02.1', 'Message Body 02.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Message.create_message!('Message Subject 02.2', 'Message Body 02.1') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Message.create_message!('Message Subject 02.3', 'Message Body 02.3') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }

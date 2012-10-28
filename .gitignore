@@ -8,6 +8,7 @@ process
 sandbox
 *.gem
 *.log
+*.out
 *.pem
 *.pid
 *.tar.gz

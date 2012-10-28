@@ -9,7 +9,8 @@ module Pike
 
     scope :where_task, lambda { |task| where(:task_id => task ? task.id : nil) }
 
-    index [[:task_id,     1],
+    index [[:_type,       1],
+           [:task_id,     1],
            [:property_id, 1]]
 
     def self.assert_indexes

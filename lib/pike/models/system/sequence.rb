@@ -6,6 +6,7 @@ require 'mongoid'
 module Pike
 
   module System
+    require 'pike/mixins'
 
     class Sequence
       include Mongoid::Document

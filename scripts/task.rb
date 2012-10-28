@@ -29,7 +29,7 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a task') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project can\'t be blank, Activity can\'t be blank.') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Validation failed') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
@@ -152,7 +152,7 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a task') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Save') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Project can\'t be blank, Activity can\'t be blank.') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Validation failed') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
@@ -195,7 +195,7 @@ add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a property') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Name can\'t be blank.') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Validation failed') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('OK') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('OK') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }

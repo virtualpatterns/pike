@@ -22,6 +22,62 @@ namespace :pike do
       end
     end
 
+    namespace :profile do
+
+      desc 'Turn on database profiling'
+      task :enable do |task|
+        Pike::Application.create_context! do
+          system("mongo --verbose #{Pike::Application.configuration.mongodb.database} #{File.join(File.dirname(__FILE__), %w[enableProfiling.js])}")
+        end
+      end
+
+      desc 'Reset database profiling'
+      task :reset => ['pike:data:destroy',
+                      'pike:data:indexes:create_all',
+                      'pike:data:profile:enable']
+
+      desc 'Turn off database profiling'
+      task :disable do |task|
+        Pike::Application.create_context! do
+          system("mongo --verbose #{Pike::Application.configuration.mongodb.database} #{File.join(File.dirname(__FILE__), %w[disableProfiling.js])}")
+        end
+      end
+
+      desc 'Report on queries not indexed or where scanned objects are greater than objects returned'
+      task :report, :_class do |task, arguments|
+        Pike::Application.create_context! do
+          _class = arguments._class ? Kernel.eval(arguments._class) : nil
+          query = {'op'     => 'query'}
+          query.merge!('ns' => "pike.#{_class.collection.name}") if _class
+          order = BSON::OrderedHash.new
+          order['ts'] = -1
+          Mongoid.configure.master.collection('system.profile').find(query).sort(order).each do |document|
+            document['ns'] =~ /pike\.(.*)/
+            collection = $1
+            _query = document['query'].merge('$explain' => true)
+            explanation = Mongoid.configure.master.collection(collection).find(_query).explain
+            if  explanation['cursor'] !~ /BtreeCursor/ ||
+                explanation['nscannedObjects']  > explanation['n']
+              puts '-' * 80
+              puts "Collection ... #{collection}"
+              puts "Date/Time .... #{document['ts']}"
+              puts "Cursor  ...... #{explanation['cursor']}"
+              puts "Scanned ...... #{explanation['nscannedObjects']}"
+              puts "Returned ..... #{explanation['n']}"
+              # puts '-' * 80
+              # ap document
+              puts '-' * 80
+              ap document['query']
+              puts '-' * 80
+              ap explanation
+              puts '-' * 80
+            end
+          end
+        end
+      end
+
+  end
+
     namespace :actions do
 
       desc 'Print all actions'
@@ -256,50 +312,8 @@ namespace :pike do
 
     namespace :indexes do
 
-      # Setup the MongoDB profile using ...
-      # use pike
-      # db.setProfilingLevel(0)
-      # db.system.profile.drop()
-      # db.createCollection('system.profile', { capped: true, size: 4000000 })
-      # db.system.profile.stats()
-      # db.setProfilingLevel(2)
-
-      desc 'Using profiler data, find queries where scanned objects are greater than objects returned'
-      task :analyze, :_class do |task, arguments|
-        Pike::Application.create_context! do
-          _class = Kernel.eval(arguments._class)
-          # query = {'ns'     => "pike.#{_class.collection.name}",
-          #          '$where' => 'this.nscanned > this.nreturned'}
-          query = {'ns'     => "pike.#{_class.collection.name}",
-                   'op'     => 'query'}
-          # query = {'op'     => 'query'}
-          order = BSON::OrderedHash.new
-          order['ts'] = -1
-          Mongoid.configure.master.collection('system.profile').find(query).sort(order).each do |document|
-            _query = document['query'].merge('$explain' => true)
-            explanation = Mongoid.configure.master.collection(_class.collection.name).find(_query).explain
-            # if  explanation['cursor'] !~ /BtreeCursor/ ||
-            #     explanation['nscannedObjects']  > explanation['n']
-              puts '-' * 80
-              puts "Namespace .. #{document['ns']}"
-              puts "Date/Time .. #{document['ts']}"
-              puts "Cursor  .... #{explanation['cursor']}"
-              puts "Scanned .... #{explanation['nscannedObjects']}"
-              puts "Returned ... #{explanation['n']}"
-              # puts '-' * 80
-              # ap document
-              puts '-' * 80
-              ap document['query']
-              puts '-' * 80
-              ap explanation
-              puts '-' * 80
-            # end
-          end
-        end
-      end
-
-      desc 'Create indexes'
-      task :create, :_class do |task, arguments|
+      desc 'Create indexes for a class'
+      task :create, [:_class] => ['pike:data:indexes:destroy'] do |task, arguments|
         Pike::Application.create_context! do
           $stdout.sync = true
           _class = Kernel.eval(arguments._class)
@@ -310,7 +324,7 @@ namespace :pike do
       end
 
       desc 'Create all indexes'
-      task :create_all => ['pike:data:indexes:destroy_all'] do |task, arguments|
+      task :create_all => ['pike:data:indexes:destroy_all'] do |task|
         Pike::Application.create_context! do
           $stdout.sync = true
           [ Pike::User,
@@ -336,7 +350,7 @@ namespace :pike do
         end
       end
 
-      desc 'Destroy indexes'
+      desc 'Destroy indexes for a class'
       task :destroy, :_class do |task, arguments|
         Pike::Application.create_context! do
           $stdout.sync = true
@@ -374,7 +388,7 @@ namespace :pike do
         end
       end
 
-      desc 'Verify queries are supported by indexes'
+      desc 'Verify queries are supported by indexes for a class'
       task :assert, :_class do |task, arguments|
         Pike::Application.create_context! do
           $stdout.sync = true
@@ -385,7 +399,7 @@ namespace :pike do
         end
       end
 
-      desc 'Verify queries are supported by all indexes'
+      desc 'Verify queries are supported by indexes'
       task :assert_all do |task|
         Pike::Application.create_context! do
           $stdout.sync = true

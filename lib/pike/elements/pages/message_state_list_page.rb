@@ -22,8 +22,8 @@ module Pike
 
           @clear_button = RubyApp::Elements::Mobile::Button.new
           @clear_button.clicked do |element, event|
-            Pike::Session.identity.user.messages.all.each do |message|
-              Pike::Session.identity.user.read!(message)
+            Pike::Session.identity.user.message_states.where_new.each do |message_state|
+              message_state.read!
             end
             Pike::Session.document.page.hide(event)
           end
