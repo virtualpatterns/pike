@@ -601,6 +601,9 @@ Changes in this version ...
       task :transform_user_read_messages, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+
+            Pike::System::MessageState.collection.drop_indexes
+            Pike::System::MessageState.create_indexes
             
             puts 'Pike::System::Message.all.each do |message| ...'
             Pike::System::Message.all.each do |message|
