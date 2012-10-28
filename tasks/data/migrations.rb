@@ -38,7 +38,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_116',
                               'pike:data:migrate:remove_action_failed',
                               'pike:data:migrate:add_action_state',
-                              'pike:data:migrate:transform_user_read_messages'] do |task, arguments|
+                              'pike:data:migrate:transform_user_read_messages',
+                              'pike:data:migrate:add_message_0_5_119'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -636,6 +637,24 @@ Changes in this version ...
             end
             puts '... end'
 
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.119'
+      task :add_message_0_5_119, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.119'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Performance improvements
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
           end
         end
       end
