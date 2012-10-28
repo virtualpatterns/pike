@@ -607,8 +607,8 @@ Changes in this version ...
             Pike::System::MessageState.collection.drop_indexes
             Pike::System::MessageState.create_indexes
             
-            puts 'Pike::System::Message.all.each do |message| ...'
-            Pike::System::Message.all.each do |message|
+            puts 'Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message| ...'
+            Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message|
               puts "  message.subject=#{message.subject.inspect}"
               puts '  Pike::User.all.each do |user| ...'
               Pike::User.all.each do |user|
@@ -669,7 +669,7 @@ Changes in this version ...
             body = <<-MESSAGE
 Changes in this version ...
 
-* Fixed sharing and weekly summary exports.  A previous update broken the process than ran these actions.  This update fixes that.
+* Fixed sharing and weekly summary exports.  A previous update broke the process that ran these actions.  This update fixes that.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)

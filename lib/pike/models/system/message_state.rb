@@ -28,7 +28,7 @@ module Pike
       validates_presence_of :state
       validates_uniqueness_of :message_id, :scope => [:user_id]
 
-      default_scope order_by([:created_at, :asc])
+      default_scope order_by([:created_at, :desc])
 
       scope :where_message, lambda { |message| where(:message_id => message.id) }
       scope :where_new, where(:state => Pike::System::MessageState::STATE_NEW)
