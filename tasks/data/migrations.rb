@@ -37,7 +37,8 @@ namespace :pike do
                               'pike:data:migrate:add_action_failed',
                               'pike:data:migrate:add_message_0_5_116',
                               'pike:data:migrate:remove_action_failed',
-                              'pike:data:migrate:add_action_state'] do |task, arguments|
+                              'pike:data:migrate:add_action_state',
+                              'pike:data:migrate:transform_user_read_messages'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -588,17 +589,63 @@ Changes in this version ...
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::System::Action.all.each do |action| ...'
             Pike::System::Action.all.each do |action|
-              puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:state, #{action.exception_at ? Pike::System::State::STATE_EXECUTED.inspect : Pike::System::State::STATE_PENDING.inspect})"
-              action.set(:state, action.exception_at ? Pike::System::State::STATE_EXECUTED : Pike::System::State::STATE_PENDING)
+              puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:state, #{action.exception_at ? Pike::System::Action::STATE_EXECUTED.inspect : Pike::System::Action::STATE_PENDING.inspect})"
+              action.set(:state, action.exception_at ? Pike::System::Action::STATE_EXECUTED : Pike::System::Action::STATE_PENDING)
              end
             puts '... end'
           end
         end
       end
 
+      desc 'Transform Pike::User#read_messages into Pike::System::MessageState'
+      task :transform_user_read_messages, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            
+            puts 'Pike::System::Message.all.each do |message| ...'
+            Pike::System::Message.all.each do |message|
+              puts "  message.subject=#{message.subject.inspect}"
+              puts '  Pike::User.all.each do |user| ...'
+              Pike::User.all.each do |user|
+                puts "    user.url=#{user.url.inspect}"
+                message_state = user.message_states.where_message(message).first || user.message_states.create!(:message => message)
+                message_state.state = Pike::System::MessageState::STATE_NEW
+                message_state.save!
+              end
+              puts '  ... end'
+             end
+            puts '... end'
+
+            puts 'Pike::User.all.each do |user| ...'
+            Pike::User.all.each do |user|
+              puts "  user.url=#{user.url.inspect}"
+              puts "  user[:read_messages].each do |id| ..."
+              user[:read_messages].each do |id|
+                puts "    id=#{id.inspect}"
+                message = Pike::System::Message.find(id)
+                puts "    message.subject=#{message.subject.inspect}"
+                message_state = user.message_states.where_message(message).first
+                message_state.state = Pike::System::MessageState::STATE_READ
+                message_state.save!
+              end
+              puts '  ... end'
+              user.unset(:read_messages)
+            end
+            puts '... end'
+
+          end
+        end
+      end
+
       # Next migration ...
-      # Convert Pike::User#read_messages into ...
-      # ...
+      # desc '(description)'
+      # task :name, :force do |task, arguments|
+      #   Pike::Application.create_context! do
+      #     Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+      #       ...
+      #     end
+      #   end
+      # end
 
     end
 
