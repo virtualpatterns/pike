@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'daemons'
+
 namespace :pike do
 
   namespace :process do
@@ -33,19 +38,19 @@ namespace :pike do
                         'pike:process:daemon:start']
 
       def run_daemon(arguments)
-        pid_path = File.join(File.dirname(__FILE__), %w[process piked pid])
+        pid_path = File.join(File.dirname(__FILE__), %w[.. process piked pid])
         FileUtils.mkdir_p(pid_path)
-        log_path = File.join(File.dirname(__FILE__), %w[process piked log])
+        log_path = File.join(File.dirname(__FILE__), %w[.. process piked log])
         FileUtils.mkdir_p(log_path)
-        Daemons.run(File.join(File.dirname(__FILE__), %w[lib pike daemon.rb]),  :app_name   => 'piked',
-                                                                                :ARGV       => arguments,
-                                                                                :dir_mode   => :normal,
-                                                                                :dir        => pid_path,
-                                                                                :multiple   => false,
-                                                                                :mode       => :load,
-                                                                                :backtrace  => true,
-                                                                                :monitor    => false,
-                                                                                :log_dir    => log_path)
+        Daemons.run(File.join(File.dirname(__FILE__), %w[.. lib pike daemon.rb]),  :app_name   => 'piked',
+                                                                                   :ARGV       => arguments,
+                                                                                   :dir_mode   => :normal,
+                                                                                   :dir        => pid_path,
+                                                                                   :multiple   => false,
+                                                                                   :mode       => :load,
+                                                                                   :backtrace  => true,
+                                                                                   :monitor    => false,
+                                                                                   :log_dir    => log_path)
       end
 
     end

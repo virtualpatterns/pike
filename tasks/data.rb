@@ -1,3 +1,9 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'chronic'
+require 'terminal-table'
+
 require 'tasks/data/migrations'
 
 namespace :pike do

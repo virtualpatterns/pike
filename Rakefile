@@ -2,11 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'ap'
-require 'chronic'
-require 'daemons'
-require 'fileutils'
 require 'rake'
-require 'terminal-table'
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
