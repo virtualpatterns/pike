@@ -235,8 +235,14 @@ ul.work-report li.work-report-item span.ui-li-count {
 li.message-state-list-item div.message > div.created {
   font-size: 10pt; }
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_page.css.haml */
+ul.message-state-page div.created-at {
+  font-size: normal;
+  font-weight: normal;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  margin-top: 0px; }
+
 div.message div.body {
-  font-size: 80%;
   padding-left: 15px;
   padding-right: 20px; }
 
