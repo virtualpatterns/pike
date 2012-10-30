@@ -1,0 +1,27 @@
+- self.content_for(:html, :page) do
+  /
+    #{__FILE__}
+  %div{'data-role'  => 'header',
+       'data-theme' => 'b'}
+    = @back_button.render(:html)
+    %h1
+      Introduction
+  %div{'data-role'  => 'content',
+       'style'      => 'padding-top: 0px'}
+    %ul.introduction{'data-inset'  => 'true',
+                     'data-role'   => 'listview',
+                     'data-theme'  => 'd'}
+      %li.user
+        = @introduction.user_target.name
+        %div.email
+          = @introduction.user_target.abbreviated_url
+      %li.message
+        = @introduction.message
+
+    %p.instructions
+      If this introduction is accepted any shared projects and activities
+      will appear momentarily.
+
+    %div.delete
+      = @delete_button.render(:html) do |element|
+        - element.content_for(:html, :link, 'Delete Introduction')

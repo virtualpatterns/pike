@@ -1,0 +1,8 @@
+- self.content_for(:html, :item) do
+  /
+    #{__FILE__}
+  %div.introduction
+    %div.user
+      = self.introduction.user_target.name
+      %div.email
+        = self.introduction.user_target.abbreviated_url
