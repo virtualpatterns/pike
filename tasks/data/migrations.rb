@@ -43,7 +43,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_120',
                               'pike:data:migrate:add_message_0_5_122',
                               'pike:data:migrate:add_message_0_5_123',
-                              'pike:data:migrate:add_message_0_5_124'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_124',
+                              'pike:data:migrate:add_message_0_5_125'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -728,6 +729,24 @@ Changes in this version ...
 Changes in this version ...
 
 * Introductions sent by you but not yet accepted or ignored are visible on the Friends page and can be deleted.  In order to keep the list manageable, there are separate sections for introductions sent BY you and introductions sent TO you.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.125'
+      task :add_message_0_5_125, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.125'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Resolved an issue that caused the current page not to render when refreshed.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
