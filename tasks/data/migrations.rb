@@ -717,6 +717,24 @@ Changes in this version ...
         end
       end
 
+      desc 'Add the message for Version 0.5.124'
+      task :add_message_0_5_124, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.124'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Introductions sent by you but not yet accepted or ignored are visible on the Friends page and can be deleted.  In order to keep the list manageable, there are separate sections for introductions sent BY you and introductions sent TO you.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
       # Next migration ...
       # desc '(description)'
       # task :name, :force do |task, arguments|
