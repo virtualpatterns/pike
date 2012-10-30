@@ -3,7 +3,7 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RubyApp (0.6.43)
+    RubyApp (0.6.44)
       BlueCloth
       chronic
       chronic_duration
@@ -106,10 +106,10 @@ GEM
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    treetop (1.4.11)
+    treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
+    tzinfo (0.3.34)
     whenever (0.7.3)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
