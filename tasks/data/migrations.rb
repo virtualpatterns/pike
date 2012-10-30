@@ -42,7 +42,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_119',
                               'pike:data:migrate:add_message_0_5_120',
                               'pike:data:migrate:add_message_0_5_122',
-                              'pike:data:migrate:add_message_0_5_123'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_123',
+                              'pike:data:migrate:add_message_0_5_124'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
