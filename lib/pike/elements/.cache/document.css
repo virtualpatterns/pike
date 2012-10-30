@@ -159,6 +159,15 @@ li.property-value-list-item div.value {
 li.property-value-list-item div.value.shared {
   margin-top: 8px; }
 
+
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_friendship_item.css.haml */
+li.friendship-list-friendship-item div.user div.email {
+  font-size: 80%; }
+
+/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_introduction_item.css.haml */
+li.friendship-list-introduction-item div.introduction div.user div.email {
+  font-size: 80%; }
 ul.friendship li.user div.email {
   font-size: 80%; }
 
@@ -188,15 +197,6 @@ ul.introduction li.user div.email {
   font-size: 80%; }
 ul.introduction li.message {
   font-weight: normal; }
-
-
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_friendship_item.css.haml */
-li.friendship-list-friendship-item div.user div.email {
-  font-size: 80%; }
-
-/* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_introduction_item.css.haml */
-li.friendship-list-introduction-item div.introduction div.user div.email {
-  font-size: 80%; }
 
 
 /* /Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.css.haml */

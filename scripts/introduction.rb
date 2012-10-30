@@ -39,8 +39,8 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link("Friend 02 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text("Friend 02 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Be my friend!') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Accept') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Accept') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Accept Introduction') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Accept Introduction') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_text('Introductions') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link("Friend 02 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
@@ -57,8 +57,8 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link("Friend 03 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text("Friend 03 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Be my friend!') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Ignore') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Ignore') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Ignore Introduction') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Ignore Introduction') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to ignore this introduction?') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Yes') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Yes') }
@@ -77,8 +77,8 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link("Friend 04 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text("Friend 04 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_text('Be my friend!') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Ignore') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Ignore') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Ignore Introduction') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Ignore Introduction') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to ignore this introduction?') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('No') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('No') }
