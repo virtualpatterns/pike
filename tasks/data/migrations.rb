@@ -755,6 +755,24 @@ Changes in this version ...
         end
       end
 
+      desc 'Add the message for Version 0.5.128'
+      task :add_message_0_5_128, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.128'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Resolved an issue that required a 'tab' off an input element before clicking a button.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
       # Next migration ...
       # desc '(description)'
       # task :name, :force do |task, arguments|
