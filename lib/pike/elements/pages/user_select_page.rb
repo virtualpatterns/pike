@@ -23,6 +23,7 @@ module Pike
           @back_button = Pike::Elements::Navigation::BackButton.new
 
           @user_select = Pike::Elements::UserSelect.new(@introduction)
+          @user_select.attributes.merge!('autofocus' => true)
 
         end
 
