@@ -45,7 +45,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_123',
                               'pike:data:migrate:add_message_0_5_124',
                               'pike:data:migrate:add_message_0_5_125',
-                              'pike:data:migrate:add_message_0_5_128'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_128',
+                              'pike:data:migrate:add_message_0_5_130'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -766,6 +767,24 @@ Changes in this version ...
 Changes in this version ...
 
 * Resolved an issue that required a 'tab' off an input element before clicking a button.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.130'
+      task :add_message_0_5_130, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.130'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Enabled auto-focus on the search field of the user selection page.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
