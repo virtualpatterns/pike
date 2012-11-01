@@ -32,6 +32,15 @@ namespace :pike do
     task :reset => ['pike:data:destroy',
                     'pike:data:indexes:create_all']
 
+    namespace :log do
+
+      desc 'Rotate the log'
+      task :rotate do |task|
+        system("mongo --verbose admin #{File.join(File.dirname(__FILE__), %w[rotateLog.js])}")
+      end
+
+    end
+
     namespace :profile do
 
       desc 'Turn on database profiling'
