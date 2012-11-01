@@ -43,6 +43,8 @@ module Pike
 
         @introduction = introduction
 
+        self.search_value = @introduction.user_target ? @introduction.user_target.name : nil
+
         self.attributes.merge!('class'                    => 'user-select',
                                'data-filter'              => 'true',
                                'data-filter-placeholder'  => 'tap to search by name',

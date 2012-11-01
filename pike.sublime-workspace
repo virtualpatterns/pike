@@ -40,24 +40,31 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
+		"/Users/fficnar/Dropbox/Projects/pike/process/cron/log/rotate.log",
+		"/Users/fficnar/Dropbox/Projects/pike/schedule.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/untitled",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/user_select_page.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_page.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/out",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/task.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/project.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/activity.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/user.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message_state.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/message.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_list_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/shared/project.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/migration.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/application.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/console.rb",
@@ -111,6 +118,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"whenever",
+			"128",
+			"125",
 			"Collection ... ",
 			"Name can\\'t be blank.",
 			"be blank",
@@ -187,6 +197,26 @@
 		[
 			[
 				"migra",
+				"tasks/data/migrations.rb"
+			],
+			[
+				"project_page",
+				"lib/pike/elements/pages/project_page.rb"
+			],
+			[
+				"user_selec",
+				"lib/pike/elements/pages/user_select_page.rb"
+			],
+			[
+				"user_sl",
+				"lib/pike/elements/user_select.rb"
+			],
+			[
+				"proje",
+				"lib/pike/elements/pages/project_page.rb"
+			],
+			[
+				"migr",
 				"tasks/data/migrations.rb"
 			],
 			[
