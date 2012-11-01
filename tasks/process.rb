@@ -79,12 +79,12 @@ namespace :pike do
 
       desc 'Install the schedule'
       task :install do |task|
-        system("bundle exec whenever --load-file ./schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --update-crontab pike")
+        system("bundle exec whenever --load-file ./tasks/schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --update-crontab pike")
       end
 
       desc 'Uninstall the schedule'
       task :uninstall do |task|
-        system("bundle exec whenever --load-file ./schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --clear-crontab pike")
+        system("bundle exec whenever --load-file ./tasks/schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --clear-crontab pike")
       end
 
     end
