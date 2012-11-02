@@ -233,17 +233,22 @@ module Pike
 
       def update!(event)
         @today = event.today
+        if Pike::Session.identity.user.message_states.where_new.count > @render_message_count
+          event.update_element(self)
+        end
         Pike::Session.identity.user.work.where_started.each do |work|
           if work.date == self.today
             work.update_duration!
             if work.duration_minutes > 0
-              event.update_style("span[data-work='#{work.id}']", 'display', 'block')
-              event.update_text("span[data-work='#{work.id}']", ChronicDuration.output(work.duration_minutes))
-              event.update_text('span.total', "Total: #{ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date))}")
+              unless event.update_element?(self)
+                event.update_style("span[data-work='#{work.id}']", 'display', 'block')
+                event.update_text("span[data-work='#{work.id}']", ChronicDuration.output(work.duration_minutes))
+                event.update_text('span.total', "Total: #{ChronicDuration.output(Pike::Session.identity.user.get_work_duration_minutes(@date))}")
+              end
             end
           else
             work.finish!
-            event.update_element(self)
+            event.update_element(self) unless event.update_element?(self)
           end
         end
       end
@@ -286,6 +291,7 @@ module Pike
           end
 
           @render_count += 1
+          @render_message_count = Pike::Session.identity.user.message_states.where_new.count
 
         end
         super(format)

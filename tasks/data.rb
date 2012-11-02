@@ -336,7 +336,6 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Message.create!(:subject  => arguments.subject,
                                         :body     => arguments.body)
-          Pike::System::Action.execute_all!
         end
       end
 

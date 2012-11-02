@@ -40,17 +40,21 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_select_page.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_select.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
 		"/Users/fficnar/Dropbox/Projects/pike/process/cron/log/rotate.log",
 		"/Users/fficnar/Dropbox/Projects/pike/schedule.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/untitled",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/user_select_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
@@ -106,7 +110,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"/Users/fficnar/Dropbox/Projects/pike/scripts",
@@ -118,6 +122,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"130",
 			"whenever",
 			"128",
 			"125",
@@ -196,6 +201,10 @@
 		"selected_items":
 		[
 			[
+				"migr",
+				"tasks/data/migrations.rb"
+			],
+			[
 				"migra",
 				"tasks/data/migrations.rb"
 			],
@@ -214,10 +223,6 @@
 			[
 				"proje",
 				"lib/pike/elements/pages/project_page.rb"
-			],
-			[
-				"migr",
-				"tasks/data/migrations.rb"
 			],
 			[
 				"data",
