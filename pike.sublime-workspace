@@ -19,11 +19,15 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 360.0,
+		"height": 87.0,
 		"selected_items":
 		[
+			[
+				"open",
+				"Snippet: File.open(\"..\") { |file| .. }"
+			]
 		],
-		"width": 392.0
+		"width": 530.0
 	},
 	"console":
 	{
@@ -40,10 +44,15 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/.gitignore",
+		"/Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/mongoid-2.4.10/lib/mongoid/criteria.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/pike.sublime-project",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/schedule.rb",
 		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_select_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_select.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
@@ -56,7 +65,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/user_select_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/out",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task.rb",
@@ -101,7 +109,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/documents/authentication/o_auth/git_hub_authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
-		"/Users/fficnar/Dropbox/Projects/pike/pike.sublime-project",
 		"/Users/fficnar/Dropbox/Projects/pike/pike.staging.20121018235257.tar.gz"
 	],
 	"find":
@@ -122,6 +129,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"github",
+			"134",
 			"130",
 			"whenever",
 			"128",
@@ -201,6 +210,14 @@
 		"selected_items":
 		[
 			[
+				"seq",
+				"lib/pike/models/system/sequence.rb"
+			],
+			[
+				"seque",
+				"lib/pike/models/system/sequence.rb"
+			],
+			[
 				"migr",
 				"tasks/data/migrations.rb"
 			],
@@ -277,11 +294,11 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": false,
 	"show_open_files": true,

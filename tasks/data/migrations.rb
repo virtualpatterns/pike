@@ -194,9 +194,9 @@ namespace :pike do
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
               puts "  user.url=#{user.url.inspect}"
-              user.pull(:project_properties, nil) if user.send(:project_properties).include?(nil)
-              user.pull(:activity_properties, nil) if user.send(:activity_properties).include?(nil)
-              user.pull(:task_properties, nil) if user.send(:task_properties).include?(nil)
+              user.pull(:project_properties, nil) if ( user[:project_properties] || [] ).include?(nil)
+              user.pull(:activity_properties, nil) if ( user[:activity_properties] || [] ).include?(nil)
+              user.pull(:task_properties, nil) if ( user[:task_properties] || [] ).include?(nil)
             end
             puts '... end'
           end
@@ -221,11 +221,8 @@ namespace :pike do
       task :add_user_is_administrator, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
-            Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect} user.set(:is_administrator, false)"
-              user.set(:is_administrator, false)
-            end
+            puts 'Pike::User.collection.update(...) ...'
+            Pike::User.collection.update({}, {'$set' => {:is_administrator => false}}, :multi => true, :safe => true)
             puts '... end'
           end
         end
@@ -235,11 +232,8 @@ namespace :pike do
       task :add_migration_count, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Migration.all.each do |migration| ...'
-            Pike::System::Migration.all.each do |migration|
-              puts "  migration.name=#{migration.name.inspect} migration.set(:count, 1)"
-              migration.set(:count, 1)
-            end
+            puts 'Pike::System::Migration.collection.update(...) ...'
+            Pike::System::Migration.collection.update({}, {'$set' => {:count => 1}}, :multi => true, :safe => true)
             puts '... end'
           end
         end
@@ -314,11 +308,8 @@ namespace :pike do
       task :add_user_read_messages, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
-            Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect} user.set(:read_messages, [])"
-              user.set(:read_messages, [])
-            end
+            puts 'Pike::User.collection.update(...) ...'
+            Pike::User.collection.update({}, {'$set' => {:read_messages => []}}, :multi => true, :safe => true)
             puts '... end'
           end
         end
@@ -402,11 +393,8 @@ Changes in this version ...
       task :add_identity_source, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Identity.all.each do |identity| ...'
-            Pike::System::Identity.all.each do |identity|
-              puts "  identity.user.url=#{identity.user.url.inspect} identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)"
-              identity.set(:source, Pike::System::Identity::SOURCE_UNKNOWN)
-            end
+            puts 'Pike::System::Identity.update(...) ...'
+            Pike::System::Identity.collection.update({}, {'$set' => {:source => Pike::System::Identity::SOURCE_UNKNOWN}}, :multi => true, :safe => true)
             puts '... end'
           end
         end
@@ -583,11 +571,8 @@ Changes in this version ...
       task :remove_action_failed, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action.all.each do |action| ...'
-            Pike::System::Action.all.each do |action|
-              puts "  action.class=#{action.class} action.unset(:failed)"
-              action.unset(:failed)
-             end
+            puts 'Pike::System::Action(...) ...'
+            Pike::System::Action.collection.update({}, {'$unset' => {:failed => 1}}, :multi => true, :safe => true)
             puts '... end'
           end
         end
