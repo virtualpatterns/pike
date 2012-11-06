@@ -95,7 +95,7 @@ namespace :pike do
         end
       end
 
-  end
+    end
 
     namespace :actions do
 
