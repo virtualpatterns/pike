@@ -24,7 +24,7 @@ namespace :pike do
     desc 'Drop the database'
     task :destroy do |task|
       Pike::Application.create_context! do
-        Pike::Application.destroy_database!
+        Pike::Application.connection.drop_database(Pike::Application.configuration.mongodb.database)
       end
     end
 
@@ -36,7 +36,9 @@ namespace :pike do
 
       desc 'Rotate the log'
       task :rotate do |task|
-        system("mongo --verbose admin #{File.join(File.dirname(__FILE__), %w[rotateLog.js])}")
+        Pike::Application.create_context! do
+          Pike::Application.connection.db('admin').command({ :logRotate => 1 }, :check_response => true)
+        end
       end
 
     end
@@ -44,9 +46,19 @@ namespace :pike do
     namespace :profile do
 
       desc 'Turn on database profiling'
-      task :enable do |task|
+      task :enable => ['pike:data:profile:disable'] do |task|
         Pike::Application.create_context! do
-          system("mongo --verbose #{Pike::Application.configuration.mongodb.database} #{File.join(File.dirname(__FILE__), %w[enableProfiling.js])}")
+          Pike::Application.database.create_collection('system.profile', :capped  => true, 
+                                                                         :size    => 1000000);
+          Pike::Application.database.profiling_level = :all
+        end
+      end
+
+      desc 'Turn off database profiling'
+      task :disable do |task|
+        Pike::Application.create_context! do
+          Pike::Application.database.profiling_level = :off
+          Pike::Application.database.drop_collection('system.profile');
         end
       end
 
@@ -54,13 +66,6 @@ namespace :pike do
       task :reset => ['pike:data:destroy',
                       'pike:data:indexes:create_all',
                       'pike:data:profile:enable']
-
-      desc 'Turn off database profiling'
-      task :disable do |task|
-        Pike::Application.create_context! do
-          system("mongo --verbose #{Pike::Application.configuration.mongodb.database} #{File.join(File.dirname(__FILE__), %w[disableProfiling.js])}")
-        end
-      end
 
       desc 'Report on queries not indexed or where scanned objects are greater than objects returned'
       task :report, :_class do |task, arguments|

@@ -12,15 +12,18 @@ module Pike
   class Application < RubyApp::Application
 
     attr_reader :connection
+    attr_reader :database
 
     def initialize
       super
 
       @connection = Mongo::Connection.new(Pike::Application.configuration.mongodb.host =~ /^i-/ ? Pike::Application.get_instance_private_dns(Pike::Application.configuration.mongodb.host) : Pike::Application.configuration.mongodb.host,
                                           Pike::Application.configuration.mongodb.port)
+      
+      @database = @connection.db(Pike::Application.configuration.mongodb.database)
 
       Mongoid.configure do |config|
-        config.master = @connection.db(Pike::Application.configuration.mongodb.database)
+        config.master = @database
       end
 
       Mongoid.observers = Pike::System::Observers::ActivityObserver,
@@ -30,12 +33,9 @@ module Pike
                           Pike::System::Observers::ProjectObserver,
                           Pike::System::Observers::ProjectPropertyValueObserver,
                           Pike::System::Observers::PropertyObserver
+      
       Mongoid.instantiate_observers
 
-    end
-
-    def destroy_database!
-      @connection.drop_database(Pike::Application.configuration.mongodb.database)
     end
 
     def self.create_context!
