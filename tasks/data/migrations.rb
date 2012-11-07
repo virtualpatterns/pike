@@ -50,7 +50,7 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_134',
                               'pike:data:migrate:add_message_0_5_135',
                               'pike:data:migrate:destroy_indexes',
-                              'pike:data:migrate:create_indexes'] do |task, arguments|
+                              'pike:data:migrate:re_create_indexes'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -834,7 +834,7 @@ Changes in this version ...
       end
 
       desc 'Create all indexes'
-      task :create_indexes, :force do |task, arguments|
+      task :re_create_indexes, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
