@@ -28,9 +28,9 @@ namespace :pike do
       end
     end
 
-    desc 'Reset the database'
+    desc 'Drop the database and run all migrations'
     task :reset => ['pike:data:destroy',
-                    'pike:data:indexes:create_all']
+                    'pike:data:migrate:all']
 
     namespace :log do
 
@@ -64,7 +64,6 @@ namespace :pike do
 
       desc 'Reset database profiling'
       task :reset => ['pike:data:destroy',
-                      'pike:data:indexes:create_all',
                       'pike:data:profile:enable']
 
       desc 'Report on queries not indexed or where scanned objects are greater than objects returned'
@@ -347,82 +346,6 @@ namespace :pike do
     end
 
     namespace :indexes do
-
-      desc 'Create indexes for a class'
-      task :create, [:_class] => ['pike:data:indexes:destroy'] do |task, arguments|
-        Pike::Application.create_context! do
-          $stdout.sync = true
-          _class = Kernel.eval(arguments._class)
-          print "#{_class}.create_indexes ... "
-          _class.create_indexes
-          puts 'end'
-        end
-      end
-
-      desc 'Create all indexes'
-      task :create_all => ['pike:data:indexes:destroy_all'] do |task|
-        Pike::Application.create_context! do
-          $stdout.sync = true
-          [ Pike::User,
-            Pike::System::Identity,
-            Pike::Property,
-            Pike::Project,
-            Pike::ProjectPropertyValue,
-            Pike::Activity,
-            Pike::ActivityPropertyValue,
-            Pike::Task,
-            Pike::TaskPropertyValue,
-            Pike::Work,
-            Pike::Introduction,
-            Pike::Friendship,
-            Pike::System::Message,
-            Pike::System::MessageState,
-            Pike::System::Action,
-            Pike::System::Migration ].each do |_class|
-            print "#{_class}.create_indexes ... "
-            _class.create_indexes
-            puts 'end'
-          end
-        end
-      end
-
-      desc 'Destroy indexes for a class'
-      task :destroy, :_class do |task, arguments|
-        Pike::Application.create_context! do
-          $stdout.sync = true
-          _class = Kernel.eval(arguments._class)
-          print "#{_class}.collection.drop_indexes ... "
-          _class.collection.drop_indexes
-          puts 'end'
-        end
-      end
-
-      desc 'Destroy all indexes'
-      task :destroy_all do |task|
-        Pike::Application.create_context! do
-          $stdout.sync = true
-          [ Pike::User,
-            Pike::System::Identity,
-            Pike::Property,
-            Pike::Project,
-            Pike::ProjectPropertyValue,
-            Pike::Activity,
-            Pike::ActivityPropertyValue,
-            Pike::Task,
-            Pike::TaskPropertyValue,
-            Pike::Work,
-            Pike::Introduction,
-            Pike::Friendship,
-            Pike::System::Message,
-            Pike::System::MessageState,
-            Pike::System::Action,
-            Pike::System::Migration ].each do |_class|
-            print "#{_class}.collection.drop_indexes ... "
-            _class.collection.drop_indexes
-            puts 'end'
-          end
-        end
-      end
 
       desc 'Verify queries are supported by indexes for a class'
       task :assert, :_class do |task, arguments|

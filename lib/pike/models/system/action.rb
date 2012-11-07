@@ -35,11 +35,6 @@ module Pike
 
       scope :where_pending, where(:state => Pike::System::Action::STATE_PENDING)
 
-      index [[:state, 1],
-             [:index, 1]]
-
-      index [[:index, 1]]
-
       def self.assert_indexes
         action1 = Pike::System::Actions::EmptyAction.create!
         action1.execute!

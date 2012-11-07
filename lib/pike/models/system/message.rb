@@ -27,8 +27,6 @@ module Pike
 
       scope :created_since, lambda { |date| where(:created_at.gte => date) }
 
-      index [[:created_at,  1]]
-
       def self.assert_indexes
         message1 = Pike::System::Message.create_message!('Assert Indexes Message Subject 1', 'Assert Indexes Message Body 1')
         sleep(5)

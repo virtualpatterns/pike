@@ -13,7 +13,6 @@ namespace :pike do
   task :update_only do
     find_and_execute_task('deploy:update')
     find_and_execute_task('pike:data:migrate')
-    find_and_execute_task('pike:data:indexes:create')
   end
 
   desc 'Update'

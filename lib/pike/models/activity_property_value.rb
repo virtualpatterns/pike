@@ -12,14 +12,6 @@ module Pike
 
     scope :where_copy_of, lambda { |value| where(:copy_of_id => value ? value.id : nil) }
 
-    index [[:_type,       1],
-           [:activity_id, 1],
-           [:property_id, 1],
-           [:copy_of_id,  1]]
-
-    index [[:_type,       1],
-           [:copy_of_id,  1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       activity1 = user1.create_activity!('Assert Indexes Activity 1', true)

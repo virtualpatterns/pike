@@ -26,9 +26,6 @@ module Pike
 
     default_scope order_by([:user_target_id, :asc], [:_user_source_url, :asc])
 
-    index [[:user_target_id,   1],
-           [:_user_source_url, 1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')

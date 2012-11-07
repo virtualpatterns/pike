@@ -17,9 +17,6 @@ module Pike
 
     scope :where_property, lambda { |property| where(:property_id => property.id) }
 
-    index [[:_type,       1],
-           [:property_id, 1]]
-
   end
 
 end

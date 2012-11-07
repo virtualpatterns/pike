@@ -45,18 +45,6 @@ module Pike
     scope :where_week, lambda { |date| where(:date.gte => date.week_start).and(:date.lte => date.week_end) }
     scope :where_started, where(:is_started => true)
 
-    index [[:user_id,        1],
-           [:task_id,        1],
-           [:date,           1],
-           [:_project_name,  1],
-           [:_activity_name, 1],
-           [:is_started,     1]]
-
-    index [[:task_id,        1],
-           [:date,           1],
-           [:_project_name,  1],
-           [:_activity_name, 1]]
-
     def self.assert_indexes
       user = Pike::User.get_user_by_url('Assert Indexes User')
       task1 = user.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')

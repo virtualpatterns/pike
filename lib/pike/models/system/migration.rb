@@ -27,8 +27,6 @@ module Pike
 
       scope :where_name, lambda { |name| where(:name => name) }
 
-      index [[:name, 1]], { :unique => true }
-
       def self.assert_indexes
         Pike::System::Migration.create_migration!('Assert Indexes Migration')
 

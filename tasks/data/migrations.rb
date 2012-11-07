@@ -48,7 +48,9 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_128',
                               'pike:data:migrate:add_message_0_5_130',
                               'pike:data:migrate:add_message_0_5_134',
-                              'pike:data:migrate:add_message_0_5_135'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_135',
+                              'pike:data:migrate:destroy_indexes',
+                              'pike:data:migrate:create_indexes'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -812,6 +814,135 @@ Changes in this version ...
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
             puts '... end'
+          end
+        end
+      end
+
+      desc 'Destroy all indexes'
+      task :destroy_indexes, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::Application.database.collections.each do |collection| ...'
+            Pike::Application.database.collections.each do |collection|
+              puts "  collection.name=#{collection.name.inspect}"
+              collection.drop_indexes
+              puts '  ... end'
+            end
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Create all indexes'
+      task :create_indexes, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+
+            Pike::User.collection.create_index(                 [[:_url,             Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'url')
+            Pike::User.collection.create_index(                 [[:_name,            Mongo::ASCENDING],
+                                                                 [:_url,             Mongo::ASCENDING]],  :name   => 'name')
+
+            Pike::System::Identity.collection.create_index(     [[:expires_at,       Mongo::ASCENDING],
+                                                                 [:created_at,       Mongo::DESCENDING]], :name   => 'expires_at')
+            Pike::System::Identity.collection.create_index(     [[:value,            Mongo::ASCENDING],
+                                                                 [:expires_at,       Mongo::ASCENDING],
+                                                                 [:created_at,       Mongo::DESCENDING]], :name   => 'value')
+
+            Pike::Property.collection.create_index(             [[:user_id,          Mongo::ASCENDING],
+                                                                 [:type,             Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Property.collection.create_index(             [[:copy_of_id,       Mongo::ASCENDING],
+                                                                 [:user_id,          Mongo::ASCENDING],
+                                                                 [:type,             Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+
+            Pike::PropertyValue.collection.create_index(        [[:_type,            Mongo::ASCENDING],
+                                                                 [:property_id,      Mongo::ASCENDING]],  :name   => 'property')
+
+            Pike::Project.collection.create_index(              [[:user_id,          Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING],
+                                                                 [:is_shared,        Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Project.collection.create_index(              [[:copy_of_id,       Mongo::ASCENDING],
+                                                                 [:user_id,          Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+
+            Pike::ProjectPropertyValue.collection.create_index( [[:_type,            Mongo::ASCENDING],
+                                                                 [:project_id,       Mongo::ASCENDING],
+                                                                 [:property_id,      Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'project')
+            Pike::ProjectPropertyValue.collection.create_index( [[:_type,            Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'copy_of')
+
+            Pike::Activity.collection.create_index(             [[:user_id,          Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING],
+                                                                 [:is_shared,        Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Activity.collection.create_index(             [[:copy_of_id,       Mongo::ASCENDING],
+                                                                 [:user_id,          Mongo::ASCENDING],
+                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+
+            Pike::ActivityPropertyValue.collection.create_index([[:_type,            Mongo::ASCENDING],
+                                                                 [:activity_id,      Mongo::ASCENDING],
+                                                                 [:property_id,      Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'activity')
+            Pike::ActivityPropertyValue.collection.create_index([[:_type,            Mongo::ASCENDING],
+                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'copy_of')
+
+            Pike::Task.collection.create_index(                 [[:user_id,          Mongo::ASCENDING],
+                                                                 [:flag,             Mongo::ASCENDING],
+                                                                 [:project_id,       Mongo::ASCENDING],
+                                                                 [:_project_name,    Mongo::ASCENDING],
+                                                                 [:activity_id,      Mongo::ASCENDING],
+                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Task.collection.create_index(                 [[:project_id,       Mongo::ASCENDING],
+                                                                 [:flag,             Mongo::ASCENDING],
+                                                                 [:_project_name,    Mongo::ASCENDING],
+                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'project')
+            Pike::Task.collection.create_index(                 [[:activity_id,      Mongo::ASCENDING],
+                                                                 [:flag,             Mongo::ASCENDING],
+                                                                 [:_project_name,    Mongo::ASCENDING],
+                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'activity')
+
+            Pike::TaskPropertyValue.collection.create_index(    [[:_type,            Mongo::ASCENDING],
+                                                                 [:task_id,          Mongo::ASCENDING],
+                                                                 [:property_id,      Mongo::ASCENDING]],  :name   => 'task')
+
+            Pike::Work.collection.create_index(                 [[:user_id,          Mongo::ASCENDING],
+                                                                 [:task_id,          Mongo::ASCENDING],
+                                                                 [:date,             Mongo::ASCENDING],
+                                                                 [:_project_name,    Mongo::ASCENDING],
+                                                                 [:_activity_name,   Mongo::ASCENDING],
+                                                                 [:is_started,       Mongo::ASCENDING]],  :name   => 'user')
+
+            Pike::Work.collection.create_index(                 [[:task_id,          Mongo::ASCENDING],
+                                                                 [:date,             Mongo::ASCENDING],
+                                                                 [:_project_name,    Mongo::ASCENDING],
+                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'task')
+
+            Pike::Introduction.collection.create_index(         [[:user_target_id,   Mongo::ASCENDING],
+                                                                 [:_user_source_url, Mongo::ASCENDING]],  :name   => 'user')
+
+            Pike::Friendship.collection.create_index(           [[:user_source_id,   Mongo::ASCENDING],
+                                                                 [:user_target_id,   Mongo::ASCENDING],
+                                                                 [:_user_target_url, Mongo::ASCENDING]],  :name   => 'user')
+
+            Pike::System::Message.collection.create_index(      [[:created_at,       Mongo::ASCENDING]],  :name   => 'created_at')
+
+            Pike::System::MessageState.collection.create_index( [[:user_id,          Mongo::ASCENDING],
+                                                                 [:message_id,       Mongo::ASCENDING],
+                                                                 [:state,            Mongo::ASCENDING],
+                                                                 [:created_at,       Mongo::ASCENDING]],  :name   => 'user')
+
+            Pike::System::Action.collection.create_index(       [[:state,            Mongo::ASCENDING],
+                                                                 [:index,            Mongo::ASCENDING]],  :name   => 'state')
+            Pike::System::Action.collection.create_index(       [[:index,            Mongo::ASCENDING]],  :name   => 'index')
+
+            Pike::System::Migration.collection.create_index(    [[:name,             Mongo::ASCENDING]],  :name   => 'name',
+                                                                                                          :unique => true)
+
           end
         end
       end

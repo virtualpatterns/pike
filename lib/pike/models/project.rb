@@ -42,13 +42,6 @@ module Pike
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
 
-    index [[:user_id,    1],
-           [:_name,      1],
-           [:is_shared,  1],
-           [:copy_of_id, 1]]
-
-    index [[:copy_of_id, 1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       project1 = user1.create_project!('Assert Indexes Project 1', true)

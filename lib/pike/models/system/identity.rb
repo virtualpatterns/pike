@@ -42,13 +42,6 @@ module Pike
 
       scope :where_value, lambda { |value| where(:value => value) }
 
-      index [[:expires_at,  1],
-             [:created_at, -1]]
-
-      index [[:value,       1],
-             [:expires_at,  1],
-             [:created_at, -1]]
-
       def self.assert_indexes
         user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
         identity1 = user1.create_identity!

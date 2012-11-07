@@ -46,15 +46,11 @@ module Pike
     validates_presence_of :url
     validates_uniqueness_of :url, :scope => :deleted_at
 
-    default_scope order_by([:_url, :asc])
+    default_scope order_by([:_name, :asc], [:_url, :asc])
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_search, lambda { |user, value| where(:_id.nin => [user.id] ).and(:_name => /.*#{value.downcase}.*/) }
-
-    index [[:_url,  1]], { :unique => true }
-
-    index [[:_name, 1]]
 
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')

@@ -48,13 +48,6 @@ module Pike
     scope :where_copy_of, lambda { |property| where(:copy_of_id => property ? property.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
 
-    index [[:user_id,     1],
-           [:type,        1],
-           [:_name,       1],
-           [:copy_of_id,  1]]
-
-    index [[:copy_of_id,  1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       project_property1 = user1.create_property!(Pike::Property::TYPE_PROJECT, 'Assert Indexes Project Property 1')

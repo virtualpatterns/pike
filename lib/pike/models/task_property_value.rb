@@ -9,10 +9,6 @@ module Pike
 
     scope :where_task, lambda { |task| where(:task_id => task ? task.id : nil) }
 
-    index [[:_type,       1],
-           [:task_id,     1],
-           [:property_id, 1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       task1 = user1.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')

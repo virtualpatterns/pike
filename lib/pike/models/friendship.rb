@@ -29,10 +29,6 @@ module Pike
     scope :where_friendship, lambda { |user_source, user_target| where(:user_source_id => user_source.id).where(:user_target_id => user_target.id) }
     scope :where_user_target, lambda { |user_target| where(:user_target_id => user_target.id) }
 
-    index [[:user_source_id,   1],
-           [:user_target_id,   1],
-           [:_user_target_url, 1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       user2 = Pike::User.get_user_by_url('Assert Indexes User 2')

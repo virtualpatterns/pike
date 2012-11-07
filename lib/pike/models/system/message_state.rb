@@ -33,11 +33,6 @@ module Pike
       scope :where_message, lambda { |message| where(:message_id => message.id) }
       scope :where_new, where(:state => Pike::System::MessageState::STATE_NEW)
 
-      index [[:user_id,     1],
-             [:message_id,  1],
-             [:state,       1],
-             [:created_at,  1]]
-
       def self.assert_indexes
         user = Pike::User.get_user_by_url('Assert Indexes User')
 

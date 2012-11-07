@@ -47,23 +47,6 @@ module Pike
     scope :where_project, lambda { |project| where(:project_id => project.id) }
     scope :where_activity, lambda { |activity| where(:activity_id => activity.id) }
 
-    index [[:user_id,        1],
-           [:flag,           1],
-           [:project_id,     1],
-           [:_project_name,  1],
-           [:activity_id,    1],
-           [:_activity_name, 1]]
-
-    index [[:project_id,     1],
-           [:flag,           1],
-           [:_project_name,  1],
-           [:_activity_name, 1]]
-
-    index [[:activity_id,    1],
-           [:flag,           1],
-           [:_project_name,  1],
-           [:_activity_name, 1]]
-
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
       project1 = user1.create_project!('Assert Indexes Project 1')
