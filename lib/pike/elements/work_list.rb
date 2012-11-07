@@ -205,6 +205,7 @@ module Pike
                 Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
               end
               event.update_element(self)
+              # event.execute("$(window).scrollTop($('#id_2220888620').offset().top);")
             else
               event.item.item.work.reload
               page = Pike::Elements::Pages::WorkPage.new(event.item.item)
