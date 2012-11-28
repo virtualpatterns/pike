@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"TaskProper",
+				"TaskPropertyValue"
+			],
+			[
+				"Mess",
+				"Message"
+			],
+			[
+				"Introdu",
+				"introduction"
+			],
+			[
+				"ActivityPro",
+				"ActivityPropertyValue"
+			],
+			[
+				"Acti",
+				"Activity"
+			],
+			[
+				"colle",
+				"collection"
+			],
+			[
+				"drop",
+				"drop_indexes"
+			],
+			[
+				"collec",
+				"collections"
+			],
+			[
 				"mess",
 				"message"
 			],
@@ -19,7 +51,7 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 87.0,
+		"height": 27.0,
 		"selected_items":
 		[
 			[
@@ -27,7 +59,7 @@
 				"Snippet: File.open(\"..\") { |file| .. }"
 			]
 		],
-		"width": 530.0
+		"width": 467.0
 	},
 	"console":
 	{
@@ -44,7 +76,37 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/pike/README.md",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/user.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/introduction.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/deployment/Capfile",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/work.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task_property_value.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/migration.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message_state.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/identity.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/action.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/property_value.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/property.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project_property_value.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/friendship.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log",
+		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log.2012-11-01T04-00-05",
+		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log.2012-11-06T17-02-28",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/application.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/disableProfiling.js",
+		"/Users/fficnar/Dropbox/Projects/pike/Gemfile",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/.gitignore",
 		"/Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/mongoid-2.4.10/lib/mongoid/criteria.rb",
@@ -52,47 +114,33 @@
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/schedule.rb",
 		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_select_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_select.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
 		"/Users/fficnar/Dropbox/Projects/pike/process/cron/log/rotate.log",
 		"/Users/fficnar/Dropbox/Projects/pike/schedule.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/untitled",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/user_select_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/out",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/task.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/project.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/activity.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/user.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message_state.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/message.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_list_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/shared/project.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/migration.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/application.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/console.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_message_item.html.haml",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_page.html.haml",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list_item.html.haml",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/observers/message_observer.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/observers/project_observer.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_synchronize_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/message_state_create_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/work_report_export_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_copy_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_copy_action.rb",
@@ -100,7 +148,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/empty_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/property_synchronize_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/synchronize_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_delete_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_property_value_copy_action.rb",
@@ -117,9 +164,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"/Users/fficnar/Dropbox/Projects/pike",
 			"/Users/fficnar/Dropbox/Projects/pike/scripts",
 			"/Users/fficnar/Dropbox/Projects/pike"
 		]
@@ -129,6 +177,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".where_name",
+			"order_by",
+			"index [[",
+			" M",
+			"user",
+			"User",
+			" :",
+			" M",
+			"Task",
+			" M",
+			" Mongo",
+			"e =>",
+			"Action",
+			"Property",
+			"introduction",
+			"Activity",
+			"index [[",
+			"1]",
+			"index [[",
+			"index ",
+			"db.",
 			"github",
 			"134",
 			"130",
@@ -149,6 +218,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Mongo::ASCENDING]"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -210,20 +280,36 @@
 		"selected_items":
 		[
 			[
-				"seq",
-				"lib/pike/models/system/sequence.rb"
+				"work_lis",
+				"lib/pike/elements/work_list.rb"
 			],
 			[
-				"seque",
-				"lib/pike/models/system/sequence.rb"
+				"project.r",
+				"lib/pike/models/project.rb"
 			],
 			[
 				"migr",
 				"tasks/data/migrations.rb"
 			],
 			[
-				"migra",
+				"user",
+				"lib/pike/models/user.rb"
+			],
+			[
+				"migrat",
 				"tasks/data/migrations.rb"
+			],
+			[
+				"migra",
+				"lib/pike/models/system/migration.rb"
+			],
+			[
+				"seq",
+				"lib/pike/models/system/sequence.rb"
+			],
+			[
+				"seque",
+				"lib/pike/models/system/sequence.rb"
 			],
 			[
 				"project_page",
@@ -248,10 +334,6 @@
 			[
 				"task",
 				"lib/pike/models/task.rb"
-			],
-			[
-				"user",
-				"lib/pike/models/user.rb"
 			],
 			[
 				"data.",
