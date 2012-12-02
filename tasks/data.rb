@@ -350,7 +350,6 @@ namespace :pike do
       desc 'Verify queries are supported by indexes for a class'
       task :assert, :_class do |task, arguments|
         Pike::Application.create_context! do
-          $stdout.sync = true
           _class = Kernel.eval(arguments._class)
           print "#{_class}.assert_indexes ... "
           _class.assert_indexes
@@ -361,7 +360,6 @@ namespace :pike do
       desc 'Verify queries are supported by indexes'
       task :assert_all do |task|
         Pike::Application.create_context! do
-          $stdout.sync = true
           [ Pike::User,
             Pike::System::Identity,
             Pike::Property,

@@ -12,6 +12,8 @@ require 'pike/models'
 require 'tasks/data'
 require 'tasks/process'
 
+$stdout.sync = true
+
 namespace :pike do
 
   desc 'Print version information from Pike::VERSION'
