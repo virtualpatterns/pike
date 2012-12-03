@@ -1,5 +1,4 @@
 load_script! 'default'
-load_script! 'logon'
 load_script! 'about'
 load_script! 'project'
 load_script! 'activity'
