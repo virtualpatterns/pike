@@ -50,7 +50,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_134',
                               'pike:data:migrate:add_message_0_5_135',
                               'pike:data:migrate:destroy_indexes',
-                              'pike:data:migrate:re_create_indexes'] do |task, arguments|
+                              'pike:data:migrate:re_create_indexes',
+                              'pike:data:migrate:add_message_0_5_141'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -943,6 +944,24 @@ Changes in this version ...
             Pike::System::Migration.collection.create_index(    [[:name,             Mongo::ASCENDING]],  :name   => 'name',
                                                                                                           :unique => true)
 
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.141'
+      task :add_message_0_5_141, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.141'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* The work list is automatically scrolled if the started task is not visible.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
           end
         end
       end
