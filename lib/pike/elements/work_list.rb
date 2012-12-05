@@ -98,6 +98,7 @@ module Pike
 
         def initialize
           super('Started')
+          self.attributes.merge!('class' => 'work-list-started')
         end
 
       end
@@ -205,6 +206,7 @@ module Pike
                 Pike::Session.identity.user.work.where_started.each { |work| work.finish! }
               end
               event.update_element(self)
+              # event.execute("$(window).scrollTop($('#id_2220888620').offset().top);")
             else
               event.item.item.work.reload
               page = Pike::Elements::Pages::WorkPage.new(event.item.item)
@@ -223,6 +225,12 @@ module Pike
             _event.update_element(self)
           end
           page.show(event)
+        end
+
+        self.updated do |element, event|
+          if Pike::Session.identity.user.work.where_date(@date).where_started.exists?
+            event.execute('if(!RubyApp.isVisible("li.work-list-started")) { $("body").animate( { scrollTop: $("li.work-list-started").offset().top }, 500); }')
+          end
         end
 
       end
