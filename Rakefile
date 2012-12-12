@@ -49,6 +49,11 @@ namespace :pike do
 
   end
 
+  desc 'Run the test script through PhantomJS'
+  task :test do |task|
+    system('phantomjs scripts/phantom.js')
+  end
+
   namespace :cache do
 
     desc 'List all cached files'
