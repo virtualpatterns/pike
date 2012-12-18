@@ -976,7 +976,7 @@ Changes in this version ...
             body = <<-MESSAGE
 Changes in this version ...
 
-* The send address of exported summaries is now virtualpatterns@outlook.com instead of virtualpatterns@sympatico.ca.
+* The sender address of exported summaries is now virtualpatterns@outlook.com instead of virtualpatterns@sympatico.ca.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
