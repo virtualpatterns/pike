@@ -67,7 +67,7 @@ default:
         secret_key: '123'
       mail:
         to: 'frank.ficnar@gmail.com'
-        from: '"Pike" <virtualpatterns@sympatico.ca>'
+        from: '"Pike" <virtualpatterns@outlook.com>'
       mongodb:
         host: 'localhost'
         port: 27017
@@ -147,7 +147,7 @@ staging:
         access_key: 'ABC'
         secret_key: '123'
       mail:
-        from: '"Pike" <virtualpatterns@sympatico.ca>'
+        from: '"Pike" <virtualpatterns@outlook.com>'
       mongodb:
         host: 'localhost'
         port: 27017

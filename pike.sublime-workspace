@@ -76,6 +76,12 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/scripts/all_once_with_logon.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/scripts/introduction.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/scripts/phantom.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/scripts/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/pike/README.md",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.rb",
@@ -103,7 +109,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log.2012-11-06T17-02-28",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/application.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/disableProfiling.js",
 		"/Users/fficnar/Dropbox/Projects/pike/Gemfile",
@@ -129,7 +134,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/message.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_list_page.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/shared/project.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/pike/console.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_message_item.html.haml",
@@ -164,7 +168,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"/Users/fficnar/Dropbox/Projects/pike",
