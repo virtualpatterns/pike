@@ -51,7 +51,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_135',
                               'pike:data:migrate:destroy_indexes',
                               'pike:data:migrate:re_create_indexes',
-                              'pike:data:migrate:add_message_0_5_141'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_141',
+                              'pike:data:migrate:add_message_0_5_143'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -958,6 +959,24 @@ Changes in this version ...
 Changes in this version ...
 
 * The work list is automatically scrolled if the started task is not visible.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.143'
+      task :add_message_0_5_143, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.143'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* The send address of exported summaries is now virtualpatterns@outlook.com instead of virtualpatterns@sympatico.ca.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
