@@ -76,6 +76,8 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/all_once_with_logon.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/introduction.rb",
@@ -83,7 +85,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/scripts/phantom.js",
 		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/pike/README.md",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/user.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project.rb",
@@ -157,7 +158,6 @@
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_property_value_copy_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_property_value_delete_action.rb",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_property_value_delete_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/documents/authentication/o_auth/git_hub_authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
 		"/Users/fficnar/Dropbox/Projects/pike/pike.staging.20121018235257.tar.gz"
@@ -181,6 +181,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"141",
+			"outlook.ca",
+			"sympatico",
 			".where_name",
 			"order_by",
 			"index [[",

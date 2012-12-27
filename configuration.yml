@@ -67,7 +67,7 @@ default:
         secret_key: '123'
       mail:
         to: 'frank.ficnar@gmail.com'
-        from: '"Pike" <virtualpatterns@outlook.com>'
+        from: '"Pike" <pike@virtualpatterns.com>'
       mongodb:
         host: 'localhost'
         port: 27017
