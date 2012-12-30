@@ -53,7 +53,9 @@ namespace :pike do
                               'pike:data:migrate:re_create_indexes',
                               'pike:data:migrate:add_message_0_5_141',
                               'pike:data:migrate:add_message_0_5_143',
-                              'pike:data:migrate:add_message_0_5_144'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_144',
+                              'pike:data:migrate:re_destroy_work_where_task_destroyed',
+                              'pike:data:migrate:add_message_0_5_146'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -252,7 +254,7 @@ namespace :pike do
             Pike::System::Action.all.each do |action|
               index = Pike::System::Sequence.next('Pike::System::Action#index')
               puts "  action.class=#{action.class} action.set(:index, #{index.inspect})"
-              migration.set(:index, index)
+              action.set(:index, index)
             end
             puts '... end'
           end
@@ -996,6 +998,33 @@ Changes in this version ...
 Changes in this version ...
 
 * The sender address of exported summaries has changed again.  It is now pike@virtualpatterns.com instead of virtualpatterns@outlook.com.
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
+          end
+        end
+      end
+
+      desc 'Re-destroy all work where the task has been destroyed'
+      task :re_destroy_work_where_task_destroyed, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            Rake::Task['pike:data:migrate:destroy_work_where_task_destroyed'].execute([true])
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.146'
+      task :add_message_0_5_146, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.146'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Resolved an issue deleting started tasks.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)

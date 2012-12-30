@@ -72,8 +72,27 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_item('Project 04') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
 
-# Change the date
+# Delete a started task
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 05', 'Activity 05', Pike::Task::FLAG_LIKED) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 05') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_item('Project 05') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.click_list_link('Project 05') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Delete Task') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Delete Task') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Are you sure you want to delete this task?') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Yes') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Yes') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_text('Other') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_link('Project 05') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_link('Activity 05') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Change the date
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 06', 'Activity 06', Pike::Task::FLAG_LIKED) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
@@ -93,7 +112,7 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Starting or stopping a task for a day other than today edits the duration of the task
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 06', 'Activity 06', Pike::Task::FLAG_LIKED) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_task!('Project 07', 'Activity 07', Pike::Task::FLAG_LIKED) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('More ...') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('More ...') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
@@ -106,12 +125,12 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('15') }
 add_step! (RubyApp::Element::UpdatedEvent)
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_text(RubyApp::Language.locale.strftime(event.today << 1, '%b 15')) }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 06') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_item('Project 06') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Project 07') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_list_item('Project 07') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
-add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 06') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Activity 06') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 07') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Activity 07') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.swipe(:left) }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Today') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Today') }

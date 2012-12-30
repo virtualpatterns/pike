@@ -16,7 +16,6 @@ module Pike
     store_in :work
 
     before_save :on_before_save
-    before_destroy :on_before_destroy
 
     belongs_to :user, :class_name => 'Pike::User'
     belongs_to :task, :class_name => 'Pike::Task'
@@ -107,15 +106,6 @@ module Pike
         if self.task_id_changed?
           self._project_name = self.task.project.name.downcase
           self._activity_name = self.task.activity.name.downcase
-        end
-      end
-
-      def on_before_destroy
-        if self.started?
-          self.duration = (self.duration || 0) + ( Time.now - self.updated_at ).to_i
-          self.updated_at = nil
-          self.started_at = nil
-          self.is_started = false
         end
       end
 
