@@ -147,7 +147,7 @@ staging:
         access_key: 'ABC'
         secret_key: '123'
       mail:
-        from: '"Pike" <virtualpatterns@outlook.com>'
+        from: '"Pike" <pike@virtualpatterns.com>'
       mongodb:
         host: 'localhost'
         port: 27017
