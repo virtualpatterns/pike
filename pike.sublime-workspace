@@ -3,46 +3,6 @@
 	{
 		"selected_items":
 		[
-			[
-				"TaskProper",
-				"TaskPropertyValue"
-			],
-			[
-				"Mess",
-				"Message"
-			],
-			[
-				"Introdu",
-				"introduction"
-			],
-			[
-				"ActivityPro",
-				"ActivityPropertyValue"
-			],
-			[
-				"Acti",
-				"Activity"
-			],
-			[
-				"colle",
-				"collection"
-			],
-			[
-				"drop",
-				"drop_indexes"
-			],
-			[
-				"collec",
-				"collections"
-			],
-			[
-				"mess",
-				"message"
-			],
-			[
-				"messa",
-				"message_id"
-			]
 		]
 	},
 	"buffers":
@@ -51,15 +11,11 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 27.0,
+		"height": 360.0,
 		"selected_items":
 		[
-			[
-				"open",
-				"Snippet: File.open(\"..\") { |file| .. }"
-			]
 		],
-		"width": 467.0
+		"width": 392.0
 	},
 	"console":
 	{
@@ -76,90 +32,99 @@
 	},
 	"file_history":
 	[
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data/migrations.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/configuration.yml",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/all_once_with_logon.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/introduction.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/phantom.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/phantom.js",
-		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
-		"/Users/fficnar/Dropbox/Projects/pike/README.md",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Gemfile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/documents/authentication/facebook_authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/facebook/authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/page_button.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/hide_button.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/back_button.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/authentication_success_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/navigated_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/buttons_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/o_auth/authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/default/default_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/open_id/authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/document.html.haml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/mail_document.html.haml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/facebook/email_authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/configuration.yml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/open_id/yahoo_authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/rack/response.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/exceptions.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/exceptions/authentication_failed_exception.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/element.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/translations/en.yml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/exceptions/assert_failed_exception.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/rack/route.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/quit_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/mail_document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/.gitignore",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/ruby_app.sublime-workspace",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/list.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/lists_page.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/list.js.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/scripts/elements/lists.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/list.html.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/document.js.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/input.js.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/inputs/multiline_input.js.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/inputs/toggle_input.js.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/inputs_page.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/ruby_app.sublime-workspace",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/list.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/inputs/user_input.js.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list.js.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_welcome_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_welcome_item.html.haml",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/user.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/introduction.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/deployment/Capfile",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/work.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task_property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/task.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/migration.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/message_state.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/identity.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/property.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/project_property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/friendship.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity_property_value.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/activity.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log",
-		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log.2012-11-01T04-00-05",
-		"/Users/fficnar/Dropbox/Projects/pike/process/mongodb/log/mongodb.log.2012-11-06T17-02-28",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/rotateLog.js",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/application.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/enableProfiling.js",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/disableProfiling.js",
-		"/Users/fficnar/Dropbox/Projects/pike/Gemfile",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/sequence.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/.gitignore",
-		"/Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/mongoid-2.4.10/lib/mongoid/criteria.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/pike.sublime-project",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/schedule.rb",
-		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/default_page.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list_item.html.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_list.js.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_report.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/flag_select.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_select.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_select.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_list.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_report.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_report.html.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_item.html.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list_item.html.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/property_value_list.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_list_item.html.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/scripts/introduction.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_introduction_item.html.haml",
 		"/Users/fficnar/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_select_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/project_select.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/user_select.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/process/cron/log/rotate.log",
-		"/Users/fficnar/Dropbox/Projects/pike/schedule.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/tasks/untitled",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/user_select_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/project_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/out",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/task.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/project.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/activity.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/message.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_list_page.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/scripts/shared/project.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/console.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/work_list_message_item.html.haml",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/pages/message_state_page.html.haml",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/message_state_list_item.html.haml",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/observers/message_observer.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/observers/project_observer.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_synchronize_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/message_state_create_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/work_report_export_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_copy_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_copy_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_synchronize_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/empty_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/property_synchronize_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/synchronize_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_delete_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_property_value_copy_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/project_property_value_delete_action.rb",
-		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/models/system/actions/activity_property_value_delete_action.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_list_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/friendship_list_introduction_item.css.haml",
+		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/activity_list.css.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/navigation_list_page_item.html.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/navigation_list.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/navigation/back_button.html.haml",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/o_auth/git_hub_authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/facebook/authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/facebook/email_authentication_document.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/data.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/pike/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/pike/lib/pike/elements/documents/authentication/o_auth/git_hub_authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
+		"/Users/fficnar/Dropbox/Projects/pike/pike.sublime-project",
 		"/Users/fficnar/Dropbox/Projects/pike/pike.staging.20121018235257.tar.gz"
 	],
 	"find":
@@ -168,11 +133,12 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
-			"/Users/fficnar/Dropbox/Projects/pike",
-			"/Users/fficnar/Dropbox/Projects/pike/scripts",
+			"<open folders>",
+			"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app",
+			"<open files>",
 			"/Users/fficnar/Dropbox/Projects/pike"
 		]
 	},
@@ -181,42 +147,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"141",
-			"outlook.ca",
-			"sympatico",
-			".where_name",
-			"order_by",
-			"index [[",
-			" M",
-			"user",
-			"User",
-			" :",
-			" M",
-			"Task",
-			" M",
-			" Mongo",
-			"e =>",
-			"Action",
-			"Property",
-			"introduction",
-			"Activity",
-			"index [[",
-			"1]",
-			"index [[",
-			"index ",
-			"db.",
-			"github",
-			"134",
-			"130",
-			"whenever",
-			"128",
-			"125",
-			"Collection ... ",
-			"Name can\\'t be blank.",
-			"be blank",
-			".tasks",
-			"y.tasks",
-			".where_activity",
+			"ui-btn-right",
+			"/exceptions",
+			"MessageItem",
+			"indentation",
+			"full_",
 			"108"
 		],
 		"highlight": true,
@@ -225,7 +160,8 @@
 		"regex": false,
 		"replace_history":
 		[
-			"Mongo::ASCENDING]"
+			"MessageListItem",
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -278,7 +214,7 @@
 	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -287,88 +223,24 @@
 		"selected_items":
 		[
 			[
-				"work_lis",
-				"lib/pike/elements/work_list.rb"
+				"facebook",
+				"lib/ruby_app/elements/mobile/documents/authentication/facebook/email_authentication_document.rb"
 			],
 			[
-				"project.r",
-				"lib/pike/models/project.rb"
+				"face",
+				"lib/ruby_app/elements/mobile/documents/authentication/facebook/authentication_document.rb"
 			],
 			[
-				"migr",
-				"tasks/data/migrations.rb"
-			],
-			[
-				"user",
-				"lib/pike/models/user.rb"
-			],
-			[
-				"migrat",
-				"tasks/data/migrations.rb"
-			],
-			[
-				"migra",
-				"lib/pike/models/system/migration.rb"
-			],
-			[
-				"seq",
-				"lib/pike/models/system/sequence.rb"
-			],
-			[
-				"seque",
-				"lib/pike/models/system/sequence.rb"
-			],
-			[
-				"project_page",
-				"lib/pike/elements/pages/project_page.rb"
-			],
-			[
-				"user_selec",
-				"lib/pike/elements/pages/user_select_page.rb"
-			],
-			[
-				"user_sl",
-				"lib/pike/elements/user_select.rb"
-			],
-			[
-				"proje",
-				"lib/pike/elements/pages/project_page.rb"
-			],
-			[
-				"data",
-				"tasks/data.rb"
-			],
-			[
-				"task",
-				"lib/pike/models/task.rb"
-			],
-			[
-				"data.",
-				"tasks/data.rb"
-			],
-			[
-				"message_s",
-				"lib/pike/models/system/message_state.rb"
-			],
-			[
-				"message_state",
-				"lib/pike/elements/pages/message_state_list_page.rb"
-			],
-			[
-				"mess",
-				"scripts/message.rb"
-			],
-			[
-				"message",
-				"lib/pike/elements/message_state_list.rb"
-			],
-			[
-				"work_list_mes",
-				"lib/pike/elements/work_list_message_item.html.haml"
+				"git",
+				"lib/ruby_app/elements/mobile/documents/authentication/o_auth/git_hub_authentication_document.rb"
 			],
 			[
 				"rake",
 				"Rakefile"
+			],
+			[
+				"user",
+				"lib/pike/models/user.rb"
 			],
 			[
 				"config",
@@ -383,16 +255,16 @@
 	},
 	"select_project":
 	{
-		"height": 500.0,
+		"height": 0.0,
 		"selected_items":
 		[
 		],
-		"width": 380.0
+		"width": 0.0
 	},
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 340.0,
+	"side_bar_width": 440.0,
 	"status_bar_visible": true
 }
