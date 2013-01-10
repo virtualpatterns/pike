@@ -61,7 +61,7 @@ GEM
     haml (3.1.7)
     httpauth (0.2.0)
     i18n (0.6.1)
-    json (1.7.6)
+    json (1.7.5)
     jwt (0.1.5)
       multi_json (>= 1.0)
     koala (1.6.0)
@@ -133,6 +133,7 @@ DEPENDENCIES
   chronic
   daemons (= 1.1.6)
   fastercsv
+  json (= 1.7.5)
   mongo
   mongoid (= 2.4.10)
   oauth2
