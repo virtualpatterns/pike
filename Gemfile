@@ -22,7 +22,7 @@ gem 'ruby-openid'
 gem 'SystemTimer'
 gem 'terminal-table'
 gem 'thin'
-gem 'whenever'
+gem 'whenever',       '0.8.1'
 
 group :development do
   gem 'ruby-debug-base'
