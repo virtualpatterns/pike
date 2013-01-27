@@ -2,9 +2,8 @@ GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
   specs:
-    BlueCloth (1.0.1)
-    RubyApp (0.6.51)
-      BlueCloth
+    RubyApp (0.6.52)
+      bluecloth
       chronic
       chronic_duration
       facets
@@ -43,6 +42,7 @@ GEM
       mail (> 2.2.5)
       mime-types
       xml-simple
+    bluecloth (2.2.0)
     bson (1.7.0)
     bson_ext (1.7.0)
       bson (~> 1.7.0)
