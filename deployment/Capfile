@@ -22,6 +22,18 @@ namespace :pike do
     find_and_execute_task('pike:process:start')
   end
 
+  desc 'Rollback without stop/start'
+  task :rollback_only do
+    find_and_execute_task('deploy:rollback')
+  end
+
+  desc 'Rollback'
+  task :rollback do
+    find_and_execute_task('pike:process:stop')
+    find_and_execute_task('pike:rollback_only')
+    find_and_execute_task('pike:process:start')
+  end
+
   namespace :process do
 
     desc 'Start the server(s)'

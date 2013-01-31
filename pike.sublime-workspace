@@ -32,6 +32,9 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/Capfile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Gemfile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/documents/authentication/facebook_authentication_document.rb",
