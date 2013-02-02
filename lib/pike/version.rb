@@ -1,4 +1,4 @@
 module Pike
-  VERSION = "0.5.153"
+  VERSION = "0.5.154"
   ROOT    = File.expand_path(File.join(File.dirname(__FILE__), %w[.. ..]))
 end
