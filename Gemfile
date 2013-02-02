@@ -1,9 +1,7 @@
 source 'http://rubygems.org'
-source 'http://gems.github.com'
 
 # gem 'RubyApp', :path => File.join(File.dirname(__FILE__), %w[.. gems ruby_app])
-# gem 'RubyApp'
-gem 'RubyApp', :git => 'http://github.com/virtualpatterns/ruby_app.git'
+gem 'RubyApp'
 
 gem 'amazon-ec2'
 gem 'awesome_print'
