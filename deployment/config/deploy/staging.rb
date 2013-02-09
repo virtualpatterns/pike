@@ -12,6 +12,7 @@ role :data,         get_instance_public_dns('i-fb90259e')
 role :application,  get_instance_public_dns('i-fb90259e')
 
 # For native extensions that won't install via bundle install, go to the ...
-# /var/www/pike/shared/bundle/ruby/1.8/gems 
+# /var/www/pike/shared/bundle/ruby/1.8 
 # ... directory and execute ...
+# (sudo not required)
 # gem install <gem> -v '<version>' -i .

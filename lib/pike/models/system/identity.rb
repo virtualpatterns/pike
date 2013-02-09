@@ -62,6 +62,10 @@ module Pike
         return self.source == source
       end
 
+      def expire!
+        self.expires_at = Chronic.parse('yesterday')
+      end
+
       def import_tasks!
         if self.token.is_a?(::OAuth2::AccessToken)
           repositories = JSON.parse(self.token.get('/user/repos?type=all').body)

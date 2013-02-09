@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'chronic'
 require 'terminal-table'
 
 require 'tasks/data/migrations'
@@ -181,7 +180,7 @@ namespace :pike do
       task :expire_all do |task|
         Pike::Application.create_context! do
           Pike::System::Identity.all.each do |identity|
-            identity.expires = Chronic.parse('yesterday')
+            identity.expire!
             identity.save!
           end
         end
