@@ -8,5 +8,5 @@ set :default_environment, default_environment.merge('GITHUB_ACCESS_KEY'       =>
 set :branch,              'development'
 set :user,                'fficnar'
 
-role :data,         'rhombus.zapto.org:1022'
-role :application,  'rhombus.zapto.org:1022'
+role :data,         'rhombus.zapto.org:2201'
+role :application,  'rhombus.zapto.org:2201'
