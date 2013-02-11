@@ -49,9 +49,23 @@ namespace :pike do
 
   end
 
-  desc 'Run the test script through PhantomJS'
-  task :test do |task|
-    system('phantomjs scripts/phantom.js')
+  namespace :test do
+
+    desc 'Run the test script through PhantomJS on a given url'
+    task :url, :url do |task, arguments|
+      system("phantomjs scripts/phantom.js #{arguments.url}")
+    end
+
+    desc 'Run the test script on the local environment'
+    task :local do |task|
+      Rake::Task['pike:test:url'].invoke('http://localhost:8000')
+    end
+
+    desc 'Run the test script on the development environment'
+    task :development do |task|
+      Rake::Task['pike:test:url'].invoke('http://rhombus.zapto.org:8001')
+    end
+
   end
 
   namespace :cache do

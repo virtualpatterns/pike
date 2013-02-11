@@ -19,7 +19,7 @@
 	},
 	"console":
 	{
-		"height": 158.0
+		"height": 221.0
 	},
 	"distraction_free":
 	{
@@ -32,9 +32,30 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/default_page.png",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/standard_logon.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/redirect.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/error.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.ru",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.html.haml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/themes.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/privacy.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/performance_continuous.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/all_continuous.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/performance.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/friendship.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/introduction.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/welcome.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/message.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/user.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/all_once.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/models/system/identity.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/Capfile",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Gemfile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/documents/authentication/facebook_authentication_document.rb",
@@ -136,9 +157,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"/Users/fficnar/Dropbox/Projects/Ruby/pike",
 			"<open folders>",
 			"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app",
 			"<open files>",
@@ -150,6 +172,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"vars",
+			"http:",
 			"ui-btn-right",
 			"/exceptions",
 			"MessageItem",
@@ -225,6 +249,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"docum",
+				"lib/pike/elements/document.html.haml"
+			],
 			[
 				"facebook",
 				"lib/ruby_app/elements/mobile/documents/authentication/facebook/email_authentication_document.rb"

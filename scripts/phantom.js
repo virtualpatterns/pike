@@ -1,5 +1,10 @@
+var system = require('system');
+var arguments = system.args;
+console.log('MESSAGE Running test script on ' + arguments[1] + ' ...');
+
 var page = require('webpage').create();
-page.open('http://localhost:8000/?script=phantom');
+page.open(arguments[1] + '/?script=phantom');
+
 page.onConsoleMessage = function(message) {
   console.log('CONSOLE ' + message);
 };
