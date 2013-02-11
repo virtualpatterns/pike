@@ -32,6 +32,11 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/.cache/document.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/default_page.png",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/standard_logon.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/redirect.html",
@@ -52,7 +57,6 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/user.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/all_once.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/models/system/identity.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/Capfile",
@@ -172,6 +176,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"windowTop",
 			"vars",
 			"http:",
 			"ui-btn-right",
