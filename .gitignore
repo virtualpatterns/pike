@@ -4,6 +4,7 @@
 .sass-cache
 .temporary
 coverage
+ssl
 process
 sandbox
 *.gem

@@ -32,21 +32,22 @@
 	},
 	"file_history":
 	[
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/themes.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/privacy.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/error.html",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/logon.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/.cache/document.js",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/default_page.png",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/standard_logon.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/redirect.html",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/error.html",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.ru",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.html.haml",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/themes.html",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/privacy.html",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/performance_continuous.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/all_continuous.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/performance.rb",
@@ -173,9 +174,11 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"//code.jquery.com/jquery-1.7.1.min.js",
+			"//code.jquery.com/mobile/1.1.0",
 			"windowTop",
 			"vars",
 			"http:",
@@ -192,6 +195,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"/ruby_app/resources/elements/mobile/document/jquery-1.8.3.min.js",
+			"/ruby_app/resources/elements/mobile/document/jquery.mobile-1.1.0",
 			"MessageListItem",
 			""
 		],
