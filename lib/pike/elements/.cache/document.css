@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/document.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/document.css.haml */
 div.overlay {
   display: none;
   height: 100%;
@@ -9,7 +9,7 @@ div.overlay {
   z-index: 9; }
 /* /Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.css.haml */
 div.logon {
-  background-image: url("/pike/resources/elements/pages/default_page/pike.png");
+  background-image: url("pike/resources/elements/pages/default_page/pike.png");
   background-position: center bottom;
   background-size: 150px;
   background-repeat: no-repeat;
@@ -22,15 +22,15 @@ a.logon {
   width: 250px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/page.css.haml */
 div.ui-header a.ui-btn-left {
   margin-left: 0px; }
 div.ui-header a.ui-btn-right {
   margin-right: 0px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/dialog.css.haml */
 div.dialog a.ui-btn-left.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-notext.ui-btn-up-a {
   display: none; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/dialogs/response_dialog.css.haml */
 div.dialog div.message {
   padding-bottom: 5px;
   padding-left: 5px;
@@ -39,13 +39,13 @@ div.dialog div.message {
 div.dialog div.buttons {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/dialogs/calendars/month_dialog.css.haml */
 div.dialog div.buttons div.ui-block-a {
   text-align: left; }
 div.dialog div.buttons div.ui-block-b {
   text-align: right; }
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/calendars/month.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/calendars/month.css.haml */
 div.month table {
   width: 100%; }
   div.month table thead td {
@@ -96,7 +96,7 @@ body > div.ui-page > div.ui-footer {
     margin-right: 0px; }
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/hash.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/hash.css.haml */
 div.hash > div.node > div.hash {
   padding-left: 10px; }
 div.hash > div.node > div.item {
@@ -104,11 +104,11 @@ div.hash > div.node > div.item {
 
 
 
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/list_split_item.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/list_split_item.css.haml */
 li.split-item a.link span.ui-btn-inner span.ui-btn.ui-btn-icon-notext.ui-btn-corner-all.ui-shadow {
   margin-left: 14px;
   margin-top: -14px; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.60/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.62/lib/ruby_app/elements/mobile/pages/information/information_list.css.haml */
 li.ui-li-static {
   font-size: inherit; }
   li.ui-li-static span.ui-li-aside {
@@ -275,7 +275,7 @@ li.work-list-item span.ui-li-count {
 
 /* /Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list_welcome_item.css.haml */
 li.work-list-welcome-item div.welcome {
-  background-image: url("/pike/resources/elements/pages/default_page/pike.png");
+  background-image: url("pike/resources/elements/pages/default_page/pike.png");
   background-position: center left;
   background-size: 35px;
   background-repeat: no-repeat;

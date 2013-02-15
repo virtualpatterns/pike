@@ -58,12 +58,12 @@ namespace :pike do
 
     desc 'Run the test script on the local environment'
     task :local do |task|
-      Rake::Task['pike:test:url'].invoke('http://localhost:8000')
+      Rake::Task['pike:test:url'].invoke('http://localhost:8000/pike')
     end
 
     desc 'Run the test script on the development environment'
     task :development do |task|
-      Rake::Task['pike:test:url'].invoke('http://rhombus.zapto.org:8001')
+      Rake::Task['pike:test:url'].invoke('http://development.virtualpatterns.com/pike')
     end
 
   end

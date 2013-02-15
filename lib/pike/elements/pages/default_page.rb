@@ -41,7 +41,7 @@ module Pike
               end
             else
               RubyApp::Response.set_cookie('identity', {:value    => Pike::Session.identity.value,
-                                                        :path     => '/',
+                                                        :path     => RubyApp.root,
                                                         :expires  => Pike::Session.identity.expires_at})
               Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
               Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)

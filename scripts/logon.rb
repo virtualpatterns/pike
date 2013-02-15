@@ -16,7 +16,7 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Logon with Google') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.go('/') }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.go(RubyApp.root) }
 add_step! (RubyApp::Elements::Mobile::Page::LoadedEvent)      { |event| event.assert_exists_link('Logon with Facebook') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Logon with Facebook') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to add a task') }

@@ -1,13 +1,13 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.6.60)
+    RubyApp (0.6.62)
       bluecloth
       chronic
       chronic_duration
       facets
       fileutils
-      haml
+      haml (= 3.1.8)
       json
       koala
       mime-types
@@ -80,7 +80,7 @@ GEM
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
-    multi_json (1.6.0)
+    multi_json (1.6.1)
     multi_xml (0.5.3)
     multipart-post (1.1.5)
     numerizer (0.1.1)
@@ -100,7 +100,7 @@ GEM
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
     ruby-event (1.0.0)
-    ruby-openid (2.2.2)
+    ruby-openid (2.2.3)
     sass (3.2.5)
     system_timer (1.2.4)
     term-ansicolor (1.0.7)

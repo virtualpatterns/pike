@@ -11,6 +11,8 @@ require 'ruby_app/rack'
 
 require 'pike'
 
+RubyApp.root = '/pike'
+
 use Rack::ShowExceptions
 use Rack::Reloader
 
@@ -20,23 +22,23 @@ use Rack::Reloader
 use RubyApp::Rack::Application, :configuration_paths  => [ File.join(RubyApp::ROOT, %w[configuration.yml]),
                                                            File.join(Pike::ROOT, %w[configuration.yml])]
 
-map '/ruby_app/resources' do
+map "#{RubyApp.root_or_nil}/ruby_app/resources" do
   run Rack::File.new(File.join(RubyApp::ROOT, %w[resources]))
 end
 
-map '/pike/resources' do
+map "#{RubyApp.root_or_nil}/pike/resources" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources]))
 end
 
-map '/favicon.ico' do
+map "#{RubyApp.root_or_nil}/favicon.ico" do
   run Rack::File.new(File.join(RubyApp::ROOT, %w[resources favicon.ico]))
 end
 
-map '/robots.txt' do
+map "#{RubyApp.root_or_nil}/robots.txt" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources robots.txt]))
 end
 
-map '/' do
+map "#{RubyApp.root_or_nil}" do
   use RubyApp::Rack::Request
   use RubyApp::Rack::Response
   use RubyApp::Rack::Language

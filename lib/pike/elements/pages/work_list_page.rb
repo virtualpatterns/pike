@@ -58,7 +58,7 @@ module Pike
             Pike::Session.identity.destroy
             Pike::Session.identity = nil
             RubyApp::Response.set_cookie('identity', {:value    => nil,
-                                                      :path     => '/',
+                                                      :path     => RubyApp.root,
                                                       :expires  => Time.now})
             self.hide(event)
           end
