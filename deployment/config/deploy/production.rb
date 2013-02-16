@@ -8,5 +8,5 @@ set :default_environment, default_environment.merge('GITHUB_ACCESS_KEY'       =>
 set :branch,              'production'
 set :user,                'ec2-user'
 
-role :data,         get_instance_public_dns('i-51d50f34')
-role :application,  get_instance_public_dns('i-cf8c22aa')
+role :data,               get_instance_public_dns('i-51d50f34')
+role :application,        get_instance_public_dns('i-cf8c22aa')

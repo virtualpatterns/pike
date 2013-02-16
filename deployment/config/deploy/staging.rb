@@ -8,8 +8,8 @@ set :default_environment, default_environment.merge('GITHUB_ACCESS_KEY'       =>
 set :branch,              'staging'
 set :user,                'ec2-user'
 
-role :data,         get_instance_public_dns('i-fb90259e')
-role :application,  get_instance_public_dns('i-fb90259e')
+role :data,               'code.virtualpatterns.com' # get_instance_public_dns('i-fb90259e')
+role :application,        'code.virtualpatterns.com' # get_instance_public_dns('i-fb90259e')
 
 # For native extensions that won't install via bundle install, go to the ...
 # /var/www/pike/shared/bundle/ruby/1.8 
