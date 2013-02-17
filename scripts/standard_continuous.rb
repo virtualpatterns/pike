@@ -1,4 +1,4 @@
-load_script! 'all_once'
+load_script! 'standard_no_logon'
 
 add_step! (RubyApp::Element::Event) do |event|
   reset_script!
