@@ -10,6 +10,8 @@ default:
       mobile:
         documents:
           authentication:
+            authentication_document:
+              return_to: HTTP_REFERER
             facebook:
               authentication_document:
                 access_key: 'ABC'
