@@ -53,7 +53,7 @@ namespace :pike do
 
     desc 'Run the test script through PhantomJS on a given url'
     task :url, :url do |task, arguments|
-      system("phantomjs scripts/phantom.js #{arguments.url}")
+      system("phantomjs --ignore-ssl-errors=true scripts/phantom.js #{arguments.url}")
     end
 
     desc 'Run the test script on the local environment'
