@@ -63,7 +63,7 @@ namespace :pike do
 
     desc 'Run the test script on the development environment'
     task :development do |task|
-      Rake::Task['pike:test:url'].invoke('http://development.virtualpatterns.com/pike')
+      Rake::Task['pike:test:url'].invoke('https://development.virtualpatterns.com/pike')
     end
 
   end
