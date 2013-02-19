@@ -36,8 +36,8 @@ add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a friend') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to select a user') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to select a user') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_search('tap to search by name') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_search('tap to search by name', "Friend 01.0 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_search('tap to search by start of name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_search('tap to search by start of name', "Friend") }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link("Friend 01.0 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link("Friend 01.0 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Message') }

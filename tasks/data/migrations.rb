@@ -55,7 +55,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_143',
                               'pike:data:migrate:add_message_0_5_144',
                               'pike:data:migrate:re_destroy_work_where_task_destroyed',
-                              'pike:data:migrate:add_message_0_5_146'] do |task, arguments|
+                              'pike:data:migrate:add_message_0_5_146',
+                              'create_user_search_index'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -1029,6 +1030,18 @@ Changes in this version ...
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
             puts '... end'
+          end
+        end
+      end
+
+      desc 'Create Pike::User search index'
+      task :create_user_search_index, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+
+            Pike::User.collection.create_index([[:_id,   Mongo::ASCENDING],
+                                                [:_name, Mongo::ASCENDING]], :name => 'search')
+
           end
         end
       end

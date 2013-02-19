@@ -47,7 +47,7 @@ module Pike
 
         self.attributes.merge!('class'                    => 'user-select',
                                'data-filter'              => 'true',
-                               'data-filter-placeholder'  => 'tap to search by name',
+                               'data-filter-placeholder'  => 'tap to search by start of name',
                                'data-theme'               => 'd')
 
         self.searched do |element, event|

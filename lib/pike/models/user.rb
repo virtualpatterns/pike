@@ -50,7 +50,7 @@ module Pike
 
     scope :where_url, lambda { |url| where(:_url => url.downcase) }
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
-    scope :where_search, lambda { |user, value| where(:_id.nin => [user.id] ).and(:_name => /.*#{value.downcase}.*/) }
+    scope :where_search, lambda { |user, value| where(:_id.ne => user.id ).and(:_name => /^#{value.downcase}/) }
 
     def self.assert_indexes
       user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
@@ -70,7 +70,7 @@ module Pike
       self.assert_index(Pike::User.where_name('User, Assert Indexes 1'))
       self.assert_index(Pike::User.where_name(nil))
 
-      # self.assert_index(Pike::User.where_search(user2, 'User'))
+      self.assert_index(Pike::User.where_search(user2, 'User'))
 
     end
 
