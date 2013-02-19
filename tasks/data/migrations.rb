@@ -56,7 +56,8 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_144',
                               'pike:data:migrate:re_destroy_work_where_task_destroyed',
                               'pike:data:migrate:add_message_0_5_146',
-                              'create_user_search_index'] do |task, arguments|
+                              'create_user_search_index',
+                              'pike:data:migrate:add_message_0_5_169'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -1042,6 +1043,25 @@ Changes in this version ...
             Pike::User.collection.create_index([[:_id,   Mongo::ASCENDING],
                                                 [:_name, Mongo::ASCENDING]], :name => 'search')
 
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.5.169'
+      task :add_message_0_5_169, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.5.169'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* When adding friends users are matched by the start of their name only (e.g. a search string of Joe 
+  will match the user with name Joel Smith but not the user with name Mary Joeb)
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... end'
           end
         end
       end
