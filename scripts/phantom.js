@@ -6,12 +6,7 @@ var url = arguments[1] + '?script=phantom';
 var page = require('webpage').create();
 
 page.onLoadStarted = function() {
-  console.log('MESSAGE  Loading ' + url + ' ...');
-};
-page.onLoadFinished = function(status) {
-  console.log('MESSAGE  ... ' + status + '.');
-  if (status != 'success')
-    phantom.exit();
+  console.log('MESSAGE  Loading ' + url);
 };
 page.onNavigationRequested = function(url, type, willNavigate, mainFrame) {
   console.log('NAVIGATE ' + url);
