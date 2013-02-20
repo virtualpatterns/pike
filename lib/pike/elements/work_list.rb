@@ -154,7 +154,7 @@ module Pike
 
       attr_accessor :today
       attr_accessor :date
-      attr_reader :render_count
+      attr_reader :count
 
       def initialize(today = Date.today, date = Date.today)
         super()
@@ -166,7 +166,7 @@ module Pike
 
         @today = today
         @date = date
-        @render_count = 0
+        @count = 0
 
         self.item_clicked do |element, event|
           @today = event.today
@@ -240,12 +240,19 @@ module Pike
       end
 
       def update!(event)
-        @today = event.today
-        if Pike::Session.identity.user.message_states.where_new.count > @render_message_count
+        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @today       = #{@today.inspect}")
+        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @date        = #{@date.inspect}")
+        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} event.today  = #{event.today.inspect}")
+        if event.today != @today
+          @today = event.today
+          @date = @today
           event.update_element(self)
         end
+        if Pike::Session.identity.user.message_states.where_new.count > @render_message_count
+          event.update_element(self) unless event.update_element?(self)
+        end
         Pike::Session.identity.user.work.where_started.each do |work|
-          if work.date == self.today
+          if work.date == @today
             work.update_duration!
             if work.duration_minutes > 0
               unless event.update_element?(self)
@@ -266,7 +273,7 @@ module Pike
 
           self.items.clear
 
-          self.items.push(Pike::Elements::WorkList::WorkListWelcomeItem.new) if @render_count < 1
+          self.items.push(Pike::Elements::WorkList::WorkListWelcomeItem.new) if @count < 1
 
           self.items.push(Pike::Elements::WorkList::WorkListMessageItem.new) if Pike::Session.identity.user.message_states.where_new.exists?
 
@@ -298,7 +305,7 @@ module Pike
             end
           end
 
-          @render_count += 1
+          @count += 1
           @render_message_count = Pike::Session.identity.user.message_states.where_new.count
 
         end

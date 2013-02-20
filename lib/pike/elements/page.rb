@@ -13,7 +13,16 @@ module Pike
 
       def initialize
         super
+
         self.attributes.merge!('data-theme' => 'b')
+
+        self.loaded do |element, event|
+          event.execute("_gaq.push(['_trackEvent', 'Page', 'Loaded', '#{self.class}']);")
+        end
+        self.shown do |element, event|
+          event.execute("_gaq.push(['_trackEvent', 'Page', 'Shown', '#{self.class}']);")
+        end
+
       end
 
     end
