@@ -240,9 +240,6 @@ module Pike
       end
 
       def update!(event)
-        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @today       = #{@today.inspect}")
-        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} @date        = #{@date.inspect}")
-        RubyApp::Log.debug("#{RubyApp::Log.prefix(self, __method__)} event.today  = #{event.today.inspect}")
         if event.today != @today
           @today = event.today
           @date = @today
