@@ -16,7 +16,7 @@ namespace :pike do
 
       desc 'Run the script on the local environment'
       task :local do |task|
-        Rake::Task['pike:script:standard_no_logon:run'].invoke('http://localhost:8000/pike')
+        Rake::Task['pike:script:standard_no_logon:run'].invoke('http://localhost:8000')
       end
 
       desc 'Run the script on the development environment'
@@ -35,7 +35,7 @@ namespace :pike do
 
       desc 'Run the script on the local environment'
       task :local do |task|
-        Rake::Task['pike:script:performance:run'].invoke('http://localhost:8000/pike')
+        Rake::Task['pike:script:performance:run'].invoke('http://localhost:8000')
       end
 
       desc 'Run the script on the development environment'
