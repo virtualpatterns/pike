@@ -13,6 +13,8 @@ require 'pike'
 
 if ENV['RUBY_APP_CONFIGURATION']
   RubyApp::Application.root = '/pike'
+else
+  RubyApp::Application.root = '/'
 end
 
 use Rack::ShowExceptions
@@ -40,7 +42,7 @@ map "#{RubyApp::Application.root_or_nil}/robots.txt" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources robots.txt]))
 end
 
-map "#{RubyApp::Application.root_or_nil}" do
+map "#{RubyApp::Application.root_or_nil}/" do
   use RubyApp::Rack::Request
   use RubyApp::Rack::Response
   use RubyApp::Rack::Language
