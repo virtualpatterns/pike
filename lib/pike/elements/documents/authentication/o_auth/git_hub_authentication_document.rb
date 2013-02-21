@@ -21,7 +21,12 @@ module Pike
             def initialize
               super(ENV['GITHUB_ACCESS_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.access_key,
                     ENV['GITHUB_SECRET_KEY'] || RubyApp::Elements::Mobile::Documents::Authentication::OAuth::GitHubAuthenticationDocument.configuration.secret_key,
-                    ['repos'])
+                      ['repos'])
+
+              self.loaded do |element, event|
+                event.execute("_gaq.push(['_trackEvent', 'Document', 'Loaded', '#{self.class}']);")
+              end
+
             end
 
             def create_identity_from_token(token)

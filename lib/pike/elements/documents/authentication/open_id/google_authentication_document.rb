@@ -22,6 +22,11 @@ module Pike
 
             def initialize
               super
+
+              self.loaded do |element, event|
+                event.execute("_gaq.push(['_trackEvent', 'Document', 'Loaded', '#{self.class}']);")
+              end
+
             end
 
             def process_ax_request(ax_request)

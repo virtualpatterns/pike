@@ -18,6 +18,11 @@ module Pike
 
           def initialize
             super
+
+            self.loaded do |element, event|
+              event.execute("_gaq.push(['_trackEvent', 'Document', 'Loaded', '#{self.class}']);")
+            end
+
           end
 
           def create_identity_from_me(me)

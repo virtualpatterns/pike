@@ -25,6 +25,10 @@ module Pike
         require 'pike/elements/pages/default_page'
         self.pages.push(Pike::Elements::Pages::DefaultPage.new)
 
+        self.loaded do |element, event|
+          event.execute("_gaq.push(['_trackEvent', 'Document', 'Loaded', '#{self.class}']);")
+        end
+
       end
 
     end
