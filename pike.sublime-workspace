@@ -196,7 +196,7 @@
 			"46",
 			"tap to search by name",
 			"'/ruby_app",
-			"#{RubyApp.root_or_nil}",
+			"#{RubyApp::Application.root_or_nil}",
 			"\"",
 			"'",
 			"\"/pike",

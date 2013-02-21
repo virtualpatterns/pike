@@ -1,4 +1,4 @@
-#\ --warn --port 8008 --pid ./rack.pid
+#\ --warn --port 8000 --pid ./rack.pid
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
 require 'rubygems'
@@ -11,7 +11,9 @@ require 'ruby_app/rack'
 
 require 'pike'
 
-RubyApp.root = '/pike'
+if ENV['RUBY_APP_CONFIGURATION']
+  RubyApp::Application.root = '/pike'
+end
 
 use Rack::ShowExceptions
 use Rack::Reloader
@@ -22,23 +24,23 @@ use Rack::Reloader
 use RubyApp::Rack::Application, :configuration_paths  => [ File.join(RubyApp::ROOT, %w[configuration.yml]),
                                                            File.join(Pike::ROOT, %w[configuration.yml])]
 
-map "#{RubyApp.root_or_nil}/ruby_app/resources" do
+map "#{RubyApp::Application.root_or_nil}/ruby_app/resources" do
   run Rack::File.new(File.join(RubyApp::ROOT, %w[resources]))
 end
 
-map "#{RubyApp.root_or_nil}/pike/resources" do
+map "#{RubyApp::Application.root_or_nil}/pike/resources" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources]))
 end
 
-map "#{RubyApp.root_or_nil}/favicon.ico" do
+map "#{RubyApp::Application.root_or_nil}/favicon.ico" do
   run Rack::File.new(File.join(RubyApp::ROOT, %w[resources favicon.ico]))
 end
 
-map "#{RubyApp.root_or_nil}/robots.txt" do
+map "#{RubyApp::Application.root_or_nil}/robots.txt" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources robots.txt]))
 end
 
-map "#{RubyApp.root_or_nil}" do
+map "#{RubyApp::Application.root_or_nil}" do
   use RubyApp::Rack::Request
   use RubyApp::Rack::Response
   use RubyApp::Rack::Language

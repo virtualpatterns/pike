@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.6.66)
+    RubyApp (0.6.67)
       bluecloth
       chronic
       chronic_duration
