@@ -11,6 +11,7 @@ require 'pike/models'
 
 require 'tasks/data'
 require 'tasks/process'
+require 'tasks/script'
 
 $stdout.sync = true
 
@@ -45,25 +46,6 @@ namespace :pike do
     desc 'Merge staging and production, push production'
     task :production do |task|
       system('git checkout production; git pull origin production; git merge origin/staging; git push --tags origin production; git checkout development')
-    end
-
-  end
-
-  namespace :test do
-
-    desc 'Run the test script through PhantomJS on a given url'
-    task :url, :url do |task, arguments|
-      system("phantomjs --ignore-ssl-errors=true scripts/phantom.js #{arguments.url}")
-    end
-
-    desc 'Run the test script on the local environment'
-    task :local do |task|
-      Rake::Task['pike:test:url'].invoke('http://localhost:8000/pike')
-    end
-
-    desc 'Run the test script on the development environment'
-    task :development do |task|
-      Rake::Task['pike:test:url'].invoke('https://development.virtualpatterns.com/pike')
     end
 
   end

@@ -1,6 +1,4 @@
 load_script! 'performance'
 
-add_step! (RubyApp::Element::Event) do |event|
-  reset_script!
-  event.execute {}
-end
+add_step! (RubyApp::Element::Event) { |event| reset_script!
+                                              event.execute {} }

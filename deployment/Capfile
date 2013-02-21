@@ -20,7 +20,7 @@ namespace :pike do
     find_and_execute_task('pike:process:stop')
     find_and_execute_task('pike:update_only')
     find_and_execute_task('pike:process:start')
-    find_and_execute_task('deploy:clean')
+    find_and_execute_task('deploy:cleanup')
   end
 
   desc 'Rollback without stop/start'
