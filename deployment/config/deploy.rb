@@ -24,6 +24,4 @@ set :repository,          'git@github.com:virtualpatterns/pike.git'
 set :deploy_to,           '/var/www/pike'
 set :deploy_via,          :remote_cache
 
-set :bundle_flags,        '--deployment'
-
 default_run_options[:pty] = true
