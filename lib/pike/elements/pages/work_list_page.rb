@@ -38,7 +38,7 @@ module Pike
           end
 
           self.swiped do |element, event|
-            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::Calendars::MonthDialog.new(today, @work_list.date)) do |_event, response|
+            RubyApp::Elements::Mobile::Dialog.show(event, RubyApp::Elements::Mobile::Dialogs::Calendars::MonthDialog.new(@work_list.today, @work_list.date)) do |_event, response|
               @work_list.date = response
               _event.update_text('div[data-role="header"] h1', RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
               _event.update_element(@work_list)
