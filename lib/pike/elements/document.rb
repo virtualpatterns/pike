@@ -15,7 +15,7 @@ module Pike
         super
 
         self.stylesheets.push("#{RubyApp::Application.root_or_nil}/pike/resources/themes/Pike.min.css")
-        self.stylesheets.push("#{RubyApp::Application.root_or_nil}/ruby_app/resources/elements/mobile/document/jquery.mobile-1.1.0/jquery.mobile.structure-1.1.0.min.css")
+        self.stylesheets.push("#{RubyApp::Application.root_or_nil}/ruby_app/resources/elements/mobile/document/jquery.mobile-1.3.0/jquery.mobile.structure-1.3.0.min.css")
 
         self.metadata.merge!('apple-mobile-web-app-status-bar-style' => 'black')
 
