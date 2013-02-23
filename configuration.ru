@@ -11,11 +11,7 @@ require 'ruby_app/rack'
 
 require 'pike'
 
-if ENV['RUBY_APP_CONFIGURATION']
-  RubyApp::Application.root = '/pike'
-else
-  RubyApp::Application.root = '/'
-end
+RubyApp::Application.root = '/pike'
 
 use Rack::ShowExceptions
 use Rack::Reloader
