@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.6.68)
+    RubyApp (0.6.69)
       bluecloth
       chronic
       chronic_duration
@@ -101,7 +101,7 @@ GEM
       linecache (>= 0.3)
     ruby-event (1.0.0)
     ruby-openid (2.2.3)
-    sass (3.2.5)
+    sass (3.2.6)
     system_timer (1.2.4)
     term-ansicolor (1.0.7)
     terminal-table (1.4.5)
