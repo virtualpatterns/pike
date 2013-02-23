@@ -9,7 +9,7 @@ div.overlay {
   z-index: 9; }
 /* /Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.css.haml */
 div.logon {
-  background-image: url("/pike/resources/elements/pages/default_page/pike.png");
+  background-image: url("/pike/pike/resources/elements/pages/default_page/pike.png");
   background-position: center bottom;
   background-size: 150px;
   background-repeat: no-repeat;
@@ -275,7 +275,7 @@ li.work-list-item span.ui-li-count {
 
 /* /Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list_welcome_item.css.haml */
 li.work-list-welcome-item div.welcome {
-  background-image: url("/pike/resources/elements/pages/default_page/pike.png");
+  background-image: url("/pike/pike/resources/elements/pages/default_page/pike.png");
   background-position: center left;
   background-size: 35px;
   background-repeat: no-repeat;
