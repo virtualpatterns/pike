@@ -15,7 +15,9 @@ module Pike
 
         def initialize
           super
-          self.attributes.merge!('data-mini' => 'true')
+          self.attributes.merge!('data-mini'        => 'true',
+                                 'data-theme'       => 'c',
+                                 'data-track-theme' => 'c')
         end
 
       end

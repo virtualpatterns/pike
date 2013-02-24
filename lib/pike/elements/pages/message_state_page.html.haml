@@ -14,9 +14,9 @@
       %li
         = @message_state.message.subject
       %li
-        %div
+        %span
           Created
-        %div.created-at.ui-li-aside
+        %span.ui-li-aside{'data-field' => 'created_at'}
           = RubyApp::Language.locale.strftime(@message_state.message.created_at, Pike::Application.configuration.format.date.long)
 
     %div.message
