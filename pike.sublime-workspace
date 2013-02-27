@@ -32,6 +32,10 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Gemfile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.css.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work_report.rb",
@@ -51,7 +55,6 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/import.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/logon.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/user_select.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/models/user.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/mixins/index_mixin.rb",
@@ -65,12 +68,9 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/production.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list_welcome_item.css.haml",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.css.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.ru",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Gemfile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/about_page.html.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/themes.html",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/.cache/document.js",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/pages/default_page.png",
@@ -184,6 +184,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"assert_exists_selector_value",
 			"null",
 			"08",
 			"07",

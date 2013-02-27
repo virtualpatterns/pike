@@ -230,6 +230,14 @@ module Pike
                                 :user_target_id => self.id) unless Pike::Friendship.where_friendship(user, self).exists?
     end
 
+    def delete_friendship!(url)
+      user = Pike::User.get_user_by_url(url)
+      Pike::Friendship.destroy_all(:user_source_id => self.id,
+                                   :user_target_id => user.id)
+      Pike::Friendship.destroy_all(:user_source_id => user.id,
+                                   :user_target_id => self.id)
+    end
+
     def self.create_user!(url, name = nil, is_administrator = false)
       user = self.get_user_by_url(url)
       user.name = name if name

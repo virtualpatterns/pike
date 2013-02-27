@@ -5,7 +5,14 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('About') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('About') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('About') }
+
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('System Information') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('System Information') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_text('Information') }
+
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }

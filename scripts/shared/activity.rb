@@ -107,18 +107,33 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Unshare a shared activity
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 07 of #{Pike::Session.identity.user.id}", "Friend 07 of #{Pike::Session.identity.user.id}") } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 07 of #{Pike::Session.identity.user.id}") } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_activity!("Friend 07 of #{Pike::Session.identity.user.id}", 'Activity 07', true, 'Property 07' => 'Value 07') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 07.0 of #{Pike::Session.identity.user.id}", "Friend 07.0 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 07.0 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_activity!("Friend 07.0 of #{Pike::Session.identity.user.id}", 'Activity 07.0', true, 'Property 07.0' => 'Value 07.0') } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
-add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.update_activity!("Friend 07 of #{Pike::Session.identity.user.id}", 'Activity 07', nil, false) } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.update_activity!("Friend 07.0 of #{Pike::Session.identity.user.id}", 'Activity 07.0', nil, false) } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Activities') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activities') }
-add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Activity 07') }
-add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_text("Shared by Friend 07 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Activity 07.0') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_text("Shared by Friend 07.0 of #{Pike::Session.identity.user.id}") }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Delete a friendship, unshare shared activity
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 07.1 of #{Pike::Session.identity.user.id}", "Friend 07.1 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 07.1 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Activity.create_activity!("Friend 07.1 of #{Pike::Session.identity.user.id}", 'Activity 07.1', true, 'Property 07.1' => 'Value 07.1') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.delete_friendship!("Friend 07.1 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Activities') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activities') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_not_exists_link('Activity 07.1') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_not_exists_text("Shared by Friend 07.1 of #{Pike::Session.identity.user.id}") }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Edit a prooerty of a shared activity

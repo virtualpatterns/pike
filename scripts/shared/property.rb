@@ -87,6 +87,25 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 03.2') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
+# Delete a friendship, unshare a shared project property
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 03.3 of #{Pike::Session.identity.user.id}", "Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Property.create_property!("Friend 03.3 of #{Pike::Session.identity.user.id}", Pike::Property::TYPE_PROJECT, 'Property 03.3') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.delete_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add a project') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a project') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Project 03.3') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Save') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_link('Property 03.3') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Project 03.3') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
 # Go back to work list
 add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('Back') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Back') }
@@ -180,6 +199,25 @@ add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.as
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Activity 06.2') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
+
+# Delete a friendship, unshare a shared activity property
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 03.3 of #{Pike::Session.identity.user.id}", "Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Property.create_property!("Friend 03.3 of #{Pike::Session.identity.user.id}", Pike::Property::TYPE_ACTIVITY, 'Property 03.3') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.delete_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add an activity') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add an activity') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_input('Name') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.update_input('Name', 'Activity 03.3') }
+add_step! (RubyApp::Elements::Mobile::Input::ChangedEvent)    { |event| event.assert_exists_link('Save') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_link('Property 03.3') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_exists_link('Activity 03.3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.execute {} }
 
 # Go back to work list
@@ -309,6 +347,36 @@ add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.cl
 add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Save') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_link('Property 09.2') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }
+
+# Delete a friendship, unshare a shared task property
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::User.create_user!("Friend 03.3 of #{Pike::Session.identity.user.id}", "Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Property.create_property!("Friend 03.3 of #{Pike::Session.identity.user.id}", Pike::Property::TYPE_TASK, 'Property 03.3') } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.delete_friendship!("Friend 03.3 of #{Pike::Session.identity.user.id}") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::System::Action.execute_all! } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_project!("Project 09.3") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.execute { Pike::Session.identity.user.create_activity!("Activity 09.3") } }
+add_step! (RubyApp::Element::ExecutedEvent)                   { |event| event.assert_exists_link('tap to add a task') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to add a task') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to select a project') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to select a project') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Project 09.3') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Project 09.3') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('tap to select an activity') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('tap to select an activity') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Activity 09.3') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Activity 09.3') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Other') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Other') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Liked') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Liked') }
+add_step! (RubyApp::Elements::Mobile::Page::ShownEvent)       { |event| event.assert_exists_link('Save') }
+add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Save') }
+add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.assert_not_exists_link('Property 03.3') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.assert_exists_link('Done') }
 add_step! (RubyApp::Element::AssertedEvent)                   { |event| event.click_link('Done') }
 add_step! (RubyApp::Element::UpdatedEvent)                    { |event| event.execute {} }

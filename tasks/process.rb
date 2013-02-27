@@ -64,6 +64,11 @@ namespace :pike do
         system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; #{daemonize ? nil : 'clear; '} bundle exec thin --port 8000 #{servers > 1 ? "--servers #{servers}" : nil} --rackup configuration.ru #{daemonize && servers ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
+      desc 'Start with coverage'
+      task :start_with_coverage do |task|
+        system("rm -f ./process/thin/pid/thin.pid; clear; bundle exec rcov --output ./coverage --sort coverage --threshold 100 --exclude /.rvm #{ENV['GEM_HOME']}/bin/thin -- --port 8000 --rackup configuration.ru --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start; open ./coverage/index.html")
+      end
+
       desc 'Stop the server(s)'
       task :stop do |task|
         system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')

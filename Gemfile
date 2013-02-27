@@ -24,5 +24,6 @@ gem 'thin'
 gem 'whenever',       '0.8.1'
 
 group :development do
+  gem 'rcov'
   gem 'ruby-debug-base'
 end

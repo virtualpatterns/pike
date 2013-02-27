@@ -22,8 +22,9 @@ module Pike
       
       @database = @connection.db(Pike::Application.configuration.mongodb.database)
 
-      Mongoid.configure do |config|
-        config.master = @database
+      Mongoid.configure do |configuration|
+        configuration.database             = @database
+        # configuration.persist_in_safe_mode = true
       end
 
       Mongoid.observers = Pike::System::Observers::ActivityObserver,
