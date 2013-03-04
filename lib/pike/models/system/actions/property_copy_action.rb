@@ -13,7 +13,7 @@ module Pike
       class PropertyCopyAction < Pike::System::Actions::PropertySynchronizeAction
 
         def execute
-          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.property.name=#{self.property ? self.property.name.inspect : '(nil)'}") do
+          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.uri=#{self.user_source ? self.user_source.uri.inspect : '(nil)'} self.user_target.uri=#{self.user_target ? self.user_target.uri.inspect : '(nil)'} self.property.name=#{self.property ? self.property.name.inspect : '(nil)'}") do
             unless self.user_target
               # Sync to all friends
               self.user_source.friendships_as_source.all.each do |friendship|

@@ -9,7 +9,7 @@ module Pike
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    store_in :property_values
+    store_in :collection => :property_values
 
     belongs_to :property, :class_name => 'Pike::Property'
 

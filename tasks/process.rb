@@ -9,7 +9,7 @@ namespace :pike do
 
     desc 'Create a console'
     task :console do |task|
-      system('clear; bundle exec ruby_app console')
+      system('bundle exec irb -r ./console.rb --back-trace-limit 100')
     end
 
     namespace :mongodb do
@@ -55,18 +55,13 @@ namespace :pike do
 
     end
 
-    namespace :thin do
+    namespace :server do
 
       desc 'Start the server(s)'
-      task :start, :daemonize, :servers do |task, arguments|
+      task :start, :daemonize, :count do |task, arguments|
         daemonize = arguments.daemonize ? arguments.daemonize.to_b : true
-        servers = arguments.servers ? arguments.servers.to_i : 1
-        system("#{servers == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; #{daemonize ? nil : 'clear; '} bundle exec thin --port 8000 #{servers > 1 ? "--servers #{servers}" : nil} --rackup configuration.ru #{daemonize && servers ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
-      end
-
-      desc 'Start with coverage'
-      task :start_with_coverage do |task|
-        system("rm -f ./process/thin/pid/thin.pid; clear; bundle exec rcov --output ./coverage --sort coverage --threshold 100 --exclude /.rvm #{ENV['GEM_HOME']}/bin/thin -- --port 8000 --rackup configuration.ru --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start; open ./coverage/index.html")
+        count = arguments.count ? arguments.count.to_i : 1
+        system("#{count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{count > 1 ? "--count #{count}" : nil} --rackup configuration.ru #{daemonize && count ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
@@ -75,8 +70,8 @@ namespace :pike do
       end
 
       desc 'Restart the server(s)'
-      task :restart => ['pike:process:thin:stop',
-                        'pike:process:thin:start']
+      task :restart => ['pike:process:server:stop',
+                        'pike:process:server:start']
 
     end
 

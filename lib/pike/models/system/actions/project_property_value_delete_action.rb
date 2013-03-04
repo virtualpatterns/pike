@@ -13,7 +13,7 @@ module Pike
       class ProjectPropertyValueDeleteAction < Pike::System::Actions::ProjectPropertyValueSynchronizeAction
 
         def execute
-          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.url=#{self.user_source ? self.user_source.url.inspect : '(nil)'} self.user_target.url=#{self.user_target ? self.user_target.url.inspect : '(nil)'} self.value.property.name=#{self.value ? self.value.property.name.inspect : '(nil)'}  self.value.value=#{self.value ? self.value.value.inspect : '(nil)'}") do
+          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user_source.uri=#{self.user_source ? self.user_source.uri.inspect : '(nil)'} self.user_target.uri=#{self.user_target ? self.user_target.uri.inspect : '(nil)'} self.value.property.name=#{self.value ? self.value.property.name.inspect : '(nil)'}  self.value.value=#{self.value ? self.value.value.inspect : '(nil)'}") do
             self.delete_value(self.value)
           end
         end

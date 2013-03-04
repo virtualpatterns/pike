@@ -14,11 +14,15 @@ module Pike
         observe Pike::ActivityPropertyValue
 
         def around_save(value)
-          create_action = value.value_changed?
-          yield
-          Pike::System::Actions::ActivityPropertyValueCopyAction.create!(:user_source => value.activity.user,
-                                                                         :user_target => nil,
-                                                                         :value => value) if create_action unless value.copy?
+          if value.changes.include?(:value) 
+            yield
+            Pike::System::Actions::ActivityPropertyValueCopyAction.create!(:user_source => value.activity.user,
+                                                                           :user_target => nil,
+                                                                           :value => value) unless value.copy?
+          else
+            yield
+          end
+          return true
         end
 
         def around_destroy(value)
@@ -29,6 +33,7 @@ module Pike
                                                                              :user_target => nil,
                                                                              :value => _value)
           end
+          return true
         end
 
       end

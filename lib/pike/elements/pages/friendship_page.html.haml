@@ -14,7 +14,7 @@
       %li.user
         = @friendship.user_target.name
         %div.email
-          = @friendship.user_target.url
+          = @friendship.user_target.uri
 
     = @delete_button.render(:html) do |element|
       - element.content_for(:html, :link, 'Delete Friend')

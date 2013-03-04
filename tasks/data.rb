@@ -23,7 +23,7 @@ namespace :pike do
     desc 'Drop the database'
     task :destroy do |task|
       Pike::Application.create_context! do
-        Pike::Application.connection.drop_database(Pike::Application.configuration.mongodb.database)
+        Mongoid.default_session.drop
       end
     end
 
@@ -166,7 +166,7 @@ namespace :pike do
                                                     'Created',
                                                     'Expires']) do |table|
             Pike::System::Identity.all.each do |identity|
-              table.add_row([identity.user.url,
+              table.add_row([identity.user.uri,
                              Pike::System::Identity::SOURCE_NAMES[identity.source],
                              identity.created_at,
                              identity.expires_at])
@@ -202,7 +202,7 @@ namespace :pike do
                                                     'Updated']) do |table|
             Pike::User.all.each do |user|
               table.add_row([user.id,
-                             user.url,
+                             user.uri,
                              user.name,
                              user.administrator?,
                              user.created_at,
@@ -214,10 +214,10 @@ namespace :pike do
       end
 
       desc 'Update user administrator'
-      task :update_is_administrator, :url, :is_administrator do |task, arguments|
+      task :update_is_administrator, :uri, :is_administrator do |task, arguments|
         Pike::Application.create_context! do
           is_administrator = arguments.is_administrator ? arguments.is_administrator.to_b : false
-          user = Pike::User.get_user_by_url(arguments.url, false)
+          user = Pike::User.get_user_by_uri(arguments.uri, false)
           user.set(:is_administrator, is_administrator) if user
         end
       end
@@ -238,7 +238,7 @@ namespace :pike do
                                                     'Created',
                                                     'Updated']) do |table|
             Pike::Project.all.each do |project|
-              table.add_row([project.user.url,
+              table.add_row([project.user.uri,
                              project.id,
                              project.name,
                              project.shared?,
@@ -267,7 +267,7 @@ namespace :pike do
                                                     'Created',
                                                     'Updated']) do |table|
             Pike::Activity.all.each do |activity|
-              table.add_row([activity.user.url,
+              table.add_row([activity.user.uri,
                              activity.id,
                              activity.name,
                              activity.shared?,
@@ -295,7 +295,7 @@ namespace :pike do
                                                     'Activity']) do |table|
             Pike::User.all.each do |user|
               user.tasks.all.each do |task|
-                table.add_row([task.user.url,
+                table.add_row([task.user.uri,
                                task.project_id,
                                task.project ? task.project.name : nil,
                                task.activity_id,

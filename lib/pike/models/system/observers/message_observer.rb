@@ -14,9 +14,14 @@ module Pike
         observe Pike::System::Message
 
         def around_save(message)
-          create_action = ( message.subject_changed? || message.body_changed? )
-          yield
-          Pike::System::Actions::MessageStateCreateAction.create!(:message => message) if create_action
+          if message.changes.include(:subject) ||
+             message.changes.include(:body)
+            yield
+            Pike::System::Actions::MessageStateCreateAction.create!(:message => message)
+          else
+            yield
+          end
+          return true
         end
 
       end

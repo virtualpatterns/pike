@@ -11,7 +11,7 @@ module Pike
     include Mongoid::Timestamps
     extend Pike::Mixins::IndexMixin
 
-    store_in :properties
+    store_in :collection => :properties
 
     before_save :on_before_save
     before_destroy :on_after_destroy
@@ -49,16 +49,16 @@ module Pike
     scope :where_not_copy, where(:copy_of_id => nil)
 
     def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      user1 = Pike::User.get_user_by_uri('Assert Indexes User 1')
       project_property1 = user1.create_property!(Pike::Property::TYPE_PROJECT, 'Assert Indexes Project Property 1')
       activity_property1 = user1.create_property!(Pike::Property::TYPE_ACTIVITY, 'Assert Indexes Activity Property 1')
 
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      user2 = Pike::User.get_user_by_uri('Assert Indexes User 2')
       project_property2 = user2.create_property!(Pike::Property::TYPE_PROJECT, 'Assert Indexes Project Property 2')
-      friendship = user1.create_friendship!('Assert Indexes User 2')
+      user1.create_friendship!('Assert Indexes User 2')
 
-      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
-      friendship2 = user1.create_friendship!('Assert Indexes User 3')
+      user3 = Pike::User.get_user_by_uri('Assert Indexes User 3')
+      user1.create_friendship!('Assert Indexes User 3')
 
       Pike::System::Action.execute_all!
 
@@ -74,16 +74,16 @@ module Pike
       return self.copy_of
     end
 
-    def self.create_property!(url, type, name)
-      Pike::User.get_user_by_url(url).create_property!(type, name)
+    def self.create_property!(uri, type, name)
+      Pike::User.get_user_by_uri(uri).create_property!(type, name)
     end
 
-    def self.update_property!(url, type, name, to_name)
-      Pike::User.get_user_by_url(url).update_property!(type, name, to_name)
+    def self.update_property!(uri, type, name, to_name)
+      Pike::User.get_user_by_uri(uri).update_property!(type, name, to_name)
     end
 
-    def self.delete_property!(url, type, name)
-      Pike::User.get_user_by_url(url).delete_property!(type, name)
+    def self.delete_property!(uri, type, name)
+      Pike::User.get_user_by_uri(uri).delete_property!(type, name)
     end
 
     protected

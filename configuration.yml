@@ -71,9 +71,14 @@ default:
         to: 'frank.ficnar@gmail.com'
         from: '"Pike" <pike@virtualpatterns.com>'
       mongodb:
-        host: 'localhost'
-        port: 27017
-        database: 'pike'
+        sessions:
+          default:
+            hosts:
+              - 'localhost:27017'
+            database: 'pike'
+            options:
+              safe: true
+        options:
     elements: &default_pike_elements
       pages:
         about_page:

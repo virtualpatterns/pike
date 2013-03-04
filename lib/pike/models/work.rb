@@ -13,7 +13,7 @@ module Pike
     include Mongoid::Timestamps
     extend Pike::Mixins::IndexMixin
 
-    store_in :work
+    store_in :collection => :work
 
     before_save :on_before_save
 
@@ -45,7 +45,7 @@ module Pike
     scope :where_started, where(:is_started => true)
 
     def self.assert_indexes
-      user = Pike::User.get_user_by_url('Assert Indexes User')
+      user = Pike::User.get_user_by_uri('Assert Indexes User')
       task1 = user.create_task!('Assert Indexes Project 1', 'Assert Indexes Activity 1')
       work1 = user.create_work!('Assert Indexes Project 1', 'Assert Indexes Activity 1', Date.today, 1)
       work1.start!

@@ -13,19 +13,19 @@ module Pike
     scope :where_copy_of, lambda { |value| where(:copy_of_id => value ? value.id : nil) }
 
     def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      user1 = Pike::User.get_user_by_uri('Assert Indexes User 1')
       activity1 = user1.create_activity!('Assert Indexes Activity 1', true)
       activity_value1 = activity1.create_value!('Assert Indexes Activity Property 1', 'Assert Indexes Activity Value 1')
       activity_value2 = activity1.create_value!('Assert Indexes Activity Property 2', 'Assert Indexes Activity Value 2')
 
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      user2 = Pike::User.get_user_by_uri('Assert Indexes User 2')
       activity2 = user2.create_activity!('Assert Indexes Activity 3', false)
       activity_value3 = activity2.create_value!('Assert Indexes Activity Property 1', 'Assert Indexes Activity Value 1')
       activity_value4 = activity2.create_value!('Assert Indexes Activity Property 2', 'Assert Indexes Activity Value 2')
-      friendship1 = user1.create_friendship!('Assert Indexes User 2')
+      user1.create_friendship!('Assert Indexes User 2')
 
-      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
-      friendship2 = user1.create_friendship!('Assert Indexes User 3')
+      user3 = Pike::User.get_user_by_uri('Assert Indexes User 3')
+      user1.create_friendship!('Assert Indexes User 3')
 
       Pike::System::Action.execute_all!
 

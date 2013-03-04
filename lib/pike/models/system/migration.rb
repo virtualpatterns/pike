@@ -15,7 +15,7 @@ module Pike
       include Mongoid::Timestamps
       extend Pike::Mixins::IndexMixin
 
-      store_in :system_migrations
+      store_in :collection => :system_migrations
 
       field :name, :type => String
       field :count, :type => Integer, :default => 0

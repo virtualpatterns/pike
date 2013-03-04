@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'ap'
 require 'rake'
 
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[lib]))
 
 require 'pike'
@@ -59,7 +60,6 @@ namespace :pike do
 
     desc 'Delete all cached files'
     task :destroy do
-      puts 'Removing cached files ...'
       system('find . -name \'.cache\' | xargs rm -rv')
     end
 

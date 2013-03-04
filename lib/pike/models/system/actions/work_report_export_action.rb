@@ -25,7 +25,7 @@ module Pike
         validates_presence_of :date
 
         def execute
-          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user.url=#{self.user.url.inspect} self.date=#{self.date.inspect}") do
+          RubyApp::Log.duration(RubyApp::Log::INFO, "ACTION    #{RubyApp::Log.prefix(self, __method__)} self.user.uri=#{self.user.uri.inspect} self.date=#{self.date.inspect}") do
             file = File.join(File.dirname(__FILE__), '.temporary', "#{self.id.to_s}.csv")
             self.create_report(file)
             self.mail_report(file)
@@ -59,7 +59,7 @@ module Pike
                        'Saturday']
             report << header
             self.user.tasks.all.each do |task|
-              row = [self.user.url,
+              row = [self.user.uri,
                      self.date.week_start,
                      task.project.name]
               self.user.properties.where_project.each do |property|
@@ -92,7 +92,7 @@ module Pike
         def mail_report(file)
           service = AWS::SES::Base.new(:access_key_id     => ENV['AMAZON_ACCESS_KEY'] || Pike::Application.configuration.amazon.access_key,
                                        :secret_access_key => ENV['AMAZON_SECRET_KEY'] || Pike::Application.configuration.amazon.secret_key)
-          service.send_email(:to        => Pike::Application.configuration.mail.to || self.user.url,
+          service.send_email(:to        => Pike::Application.configuration.mail.to || self.user.uri,
                              :source    => Pike::Application.configuration.mail.from,
                              :subject   => "Weekly Summary",
                              :html_body => Pike::Elements::Mail::WorkReportMail.new(file, self.date).render(:html))

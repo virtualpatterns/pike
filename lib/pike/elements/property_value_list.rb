@@ -74,10 +74,10 @@ module Pike
       def render(format)
         if format == :html
           self.items.clear
-          self.items.push(Pike::Elements::PropertyValueList::PropertyValueListAddItem.new) unless @object.new? || @object.copy?
+          self.items.push(Pike::Elements::PropertyValueList::PropertyValueListAddItem.new) unless @object.new_record? || @object.copy?
           Pike::Session.identity.user.properties.where_type(@type).each do |property|
             item = Pike::Elements::PropertyValueList::PropertyValueListItem.new(property, @object.values.where_property(property).first)
-            item.attributes.merge!('disabled' => true) if @object.new? || @object.copy?
+            item.attributes.merge!('disabled' => true) if @object.new_record? || @object.copy?
             self.items.push(item)
           end
         end

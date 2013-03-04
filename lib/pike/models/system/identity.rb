@@ -16,7 +16,7 @@ module Pike
 
       attr_accessor :token
 
-      store_in :system_identities
+      store_in :collection => :system_identities
 
       SOURCE_UNKNOWN  = 0
       SOURCE_GITHUB   = 1
@@ -43,10 +43,10 @@ module Pike
       scope :where_value, lambda { |value| where(:value => value) }
 
       def self.assert_indexes
-        user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+        user1 = Pike::User.get_user_by_uri('Assert Indexes User 1')
         identity1 = user1.create_identity!
 
-        user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+        user2 = Pike::User.get_user_by_uri('Assert Indexes User 2')
         identity2 = user2.create_identity!
         
         self.assert_index(Pike::System::Identity.all)
@@ -54,8 +54,8 @@ module Pike
 
       end
 
-      def url
-        return self.user.url
+      def uri
+        return self.user.uri
       end
 
       def source?(source)

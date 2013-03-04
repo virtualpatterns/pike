@@ -26,13 +26,13 @@
     %p.instructions.copy_of{'style' => "display: #{@project.copy? ? 'block' : 'none'}"}
       Projects shared with you by a friend cannot be updated, deleted, or shared with your friends.
 
-    %p.instructions.new{'style' => "display: #{@project.new? ? 'block' : 'none'}"}
+    %p.instructions.new{'style' => "display: #{@project.new_record? ? 'block' : 'none'}"}
       = @save_link.render(:html) do |element|
         - element.content_for(:html, :link, 'Save')
       the project in order to add or edit properties.
 
     = @property_value_list.render(:html)
 
-    %div.delete{'style' => "display: #{@project.new? || @project.copy? ? 'none' : 'block'}"}
+    %div.delete{'style' => "display: #{@project.new_record? || @project.copy? ? 'none' : 'block'}"}
       = @delete_button.render(:html) do |element|
         - element.content_for(:html, :link, 'Delete Project')

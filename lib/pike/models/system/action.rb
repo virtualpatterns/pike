@@ -13,7 +13,7 @@ module Pike
       include Mongoid::Timestamps
       extend Pike::Mixins::IndexMixin
 
-      store_in :system_actions
+      store_in :collection => :system_actions
 
       STATE_PENDING   = 0
       STATE_EXECUTED  = 1

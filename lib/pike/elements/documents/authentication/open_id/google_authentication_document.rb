@@ -36,7 +36,7 @@ module Pike
             end
 
             def create_identity_from_ax_response(ax_response)
-              user = Pike::User.get_user_by_url(ax_response.data[RubyApp::Elements::Mobile::Documents::Authentication::OpenId::AxAuthenticationDocument.configuration.attributes.email].first)
+              user = Pike::User.get_user_by_uri(ax_response.data[RubyApp::Elements::Mobile::Documents::Authentication::OpenId::AxAuthenticationDocument.configuration.attributes.email].first)
               user.name = "#{ax_response.data[RubyApp::Elements::Mobile::Documents::Authentication::OpenId::AxAuthenticationDocument.configuration.attributes.first_name].first} #{ax_response.data[RubyApp::Elements::Mobile::Documents::Authentication::OpenId::AxAuthenticationDocument.configuration.attributes.last_name].first}"
               user.save!
               return Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_GOOGLE,

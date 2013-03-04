@@ -11,20 +11,12 @@ module Pike
 
   class Application < RubyApp::Application
 
-    attr_reader :connection
-    attr_reader :database
-
     def initialize
       super
 
-      @connection = Mongo::Connection.new(Pike::Application.configuration.mongodb.host =~ /^i-/ ? Pike::Application.get_instance_private_dns(Pike::Application.configuration.mongodb.host) : Pike::Application.configuration.mongodb.host,
-                                          Pike::Application.configuration.mongodb.port)
-      
-      @database = @connection.db(Pike::Application.configuration.mongodb.database)
-
       Mongoid.configure do |configuration|
-        configuration.database             = @database
-        # configuration.persist_in_safe_mode = true
+        configuration.sessions  = Pike::Application.configuration.mongodb.sessions
+        configuration.options   = Pike::Application.configuration.mongodb.options
       end
 
       Mongoid.observers = Pike::System::Observers::ActivityObserver,

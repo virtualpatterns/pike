@@ -49,13 +49,13 @@
         Other
       tasks appear in the middle of the list.
 
-    %p.instructions.new{'style' => "display: #{@task.new? ? 'block' : 'none'}"}
+    %p.instructions.new{'style' => "display: #{@task.new_record? ? 'block' : 'none'}"}
       = @save_link.render(:html) do |element|
         - element.content_for(:html, :link, 'Save')
       the task in order to add or edit properties.
 
     = @property_value_list.render(:html)
 
-    %div.delete{'style' => "display: #{@task.new? ? 'none' : 'block'}"}
+    %div.delete{'style' => "display: #{@task.new_record? ? 'none' : 'block'}"}
       = @delete_button.render(:html) do |element|
         - element.content_for(:html, :link, 'Delete Task')

@@ -13,7 +13,7 @@ module Pike
       include Mongoid::Timestamps
       extend Pike::Mixins::IndexMixin
 
-      store_in :system_messages
+      store_in :collection => :system_messages
 
       has_many :message_states, :class_name => 'Pike::System::MessageState'
 

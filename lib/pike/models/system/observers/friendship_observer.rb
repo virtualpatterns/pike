@@ -31,6 +31,7 @@ module Pike
           Pike::System::Actions::ActivityPropertyValueCopyAction.create!(:user_source => friendship.user_source,
                                                                          :user_target => friendship.user_target,
                                                                          :value => nil)
+          return true
         end
 
         def after_destroy(friendship)
@@ -49,6 +50,7 @@ module Pike
           Pike::System::Actions::PropertyCopyAction.create!(:user_source => friendship.user_source,
                                                             :user_target => friendship.user_target,
                                                             :property => nil)
+          return true
         end
 
       end

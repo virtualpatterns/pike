@@ -14,7 +14,7 @@ module Pike
     extend RubyApp::Mixins::ConfigurationMixin
     extend Pike::Mixins::IndexMixin
 
-    store_in :users
+    store_in :collection => :users
 
     before_save :on_before_save
 
@@ -36,37 +36,37 @@ module Pike
 
     has_many :message_states, :class_name => 'Pike::System::MessageState'
 
-    field :url, :type => String
-    field :_url, :type => String
+    field :uri, :type => String
+    field :_uri, :type => String
     field :name, :type => String
     field :_name, :type => String
 
     field :is_administrator, :type => Boolean, :default => false
 
-    validates_presence_of :url
-    validates_uniqueness_of :url, :scope => :deleted_at
+    validates_presence_of :uri
+    validates_uniqueness_of :uri, :scope => :deleted_at
 
-    default_scope order_by([:_name, :asc], [:_url, :asc])
+    default_scope order_by([:_name, :asc], [:_uri, :asc])
 
-    scope :where_url, lambda { |url| where(:_url => url.downcase) }
+    scope :where_uri, lambda { |uri| where(:_uri => uri.downcase) }
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
     scope :where_search, lambda { |user, value| where(:_id.ne => user.id ).and(:_name => /^#{value.downcase}/) }
 
     def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      user1 = Pike::User.get_user_by_uri('Assert Indexes User 1')
       user1.name = 'User, Assert Indexes 1'
       user1.save!
 
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      user2 = Pike::User.get_user_by_uri('Assert Indexes User 2')
       user2.name = 'User, Assert Indexes 2'
       user2.save!
 
-      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
+      user3 = Pike::User.get_user_by_uri('Assert Indexes User 3')
       user3.name = nil
       user3.save!
 
       self.assert_index(Pike::User.all)
-      self.assert_index(Pike::User.where_url('Assert Indexes User 1'))
+      self.assert_index(Pike::User.where_uri('Assert Indexes User 1'))
       self.assert_index(Pike::User.where_name('User, Assert Indexes 1'))
       self.assert_index(Pike::User.where_name(nil))
 
@@ -74,8 +74,8 @@ module Pike
 
     end
 
-    def abbreviated_url
-      self._url =~ /([^\@]+)@.*/
+    def abbreviated_uri
+      self._uri =~ /([^\@]+)@.*/
       return "#{$1}@..."
     end
 
@@ -84,7 +84,7 @@ module Pike
     end
 
     def guest?
-      return self.url =~ /pike\.virtualpatterns\.com/
+      return self.uri =~ /pike\.virtualpatterns\.com/
     end
 
     def get_work_duration_minutes(date)
@@ -222,48 +222,48 @@ module Pike
       return work
     end
 
-    def create_friendship!(url)
-      user = Pike::User.get_user_by_url(url)
+    def create_friendship!(uri)
+      user = Pike::User.get_user_by_uri(uri)
       Pike::Friendship::create!(:user_source_id => self.id,
                                 :user_target_id => user.id) unless Pike::Friendship.where_friendship(self, user).exists?
       Pike::Friendship::create!(:user_source_id => user.id,
                                 :user_target_id => self.id) unless Pike::Friendship.where_friendship(user, self).exists?
     end
 
-    def delete_friendship!(url)
-      user = Pike::User.get_user_by_url(url)
+    def delete_friendship!(uri)
+      user = Pike::User.get_user_by_uri(uri)
       Pike::Friendship.destroy_all(:user_source_id => self.id,
                                    :user_target_id => user.id)
       Pike::Friendship.destroy_all(:user_source_id => user.id,
                                    :user_target_id => self.id)
     end
 
-    def self.create_user!(url, name = nil, is_administrator = false)
-      user = self.get_user_by_url(url)
+    def self.create_user!(uri, name = nil, is_administrator = false)
+      user = self.get_user_by_uri(uri)
       user.name = name if name
       user.is_administrator = is_administrator if is_administrator
       user.save!
       return user
     end
 
-    def self.get_user_by_url(url, create = true)
-      user = Pike::User.where_url(url).first
-      user = Pike::User.create!(:url => url) if create && user == nil
+    def self.get_user_by_uri(uri, create = true)
+      user = Pike::User.where_uri(uri).first
+      user = Pike::User.create!(:uri => uri) if create && user == nil
       return user
     end
 
     def self.get_random_user
-      url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
-      while Pike::User.where_url(url).first
-        url = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      uri = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
+      while Pike::User.where_uri(uri).first
+        uri = "#{SecureRandom.hex(Pike::User.configuration._length)}@pike.virtualpatterns.com"
       end
-      return Pike::User.create!(:url => url)
+      return Pike::User.create!(:uri => uri)
     end
 
     protected
 
       def on_before_save
-        self._url = self.url.downcase if self.url_changed?
+        self._uri = self.uri.downcase if self.uri_changed?
         self._name = ( self.name ? self.name.downcase : nil ) if self.name_changed?
       end
 

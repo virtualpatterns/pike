@@ -34,7 +34,7 @@ module Pike
                 identity = Pike::System::Identity.get_identity_by_value(RubyApp::Request.cookies['identity'])
                 if identity
                   Pike::Session.identity = identity
-                  RubyApp::Log.info("SESSION   Pike::Session.identity.url=#{Pike::Session.identity.url.inspect}")
+                  RubyApp::Log.info("SESSION   Pike::Session.identity.uri=#{Pike::Session.identity.uri.inspect}")
                   Pike::Session.identity.user.work.where_started.where_not_date(event.today).each { |work| work.finish! }
                   Pike::Elements::Pages::WorkListPage.new(event.today, event.today).show(event)
                 end
@@ -81,7 +81,7 @@ module Pike
           @first_button = RubyApp::Elements::Mobile::Button.new
           @first_button.attributes.merge!('data-mini' => 'true')
           @first_button.clicked do |element, event|
-            user = Pike::User.get_user_by_url('first@pike.virtualpatterns.com')
+            user = Pike::User.get_user_by_uri('first@pike.virtualpatterns.com')
             user.name = "First User"
             user.save!
             Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,
@@ -93,7 +93,7 @@ module Pike
           @second_button = RubyApp::Elements::Mobile::Button.new
           @second_button.attributes.merge!('data-mini'  => 'true')
           @second_button.clicked do |element, event|
-            user = Pike::User.get_user_by_url('second@pike.virtualpatterns.com')
+            user = Pike::User.get_user_by_uri('second@pike.virtualpatterns.com')
             user.name = "Second User"
             user.save!
             Pike::Session.identity = Pike::System::Identity.create!(:source => Pike::System::Identity::SOURCE_UNKNOWN,

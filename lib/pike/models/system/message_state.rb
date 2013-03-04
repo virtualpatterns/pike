@@ -13,7 +13,7 @@ module Pike
       include Mongoid::Timestamps
       extend Pike::Mixins::IndexMixin
 
-      store_in :message_states
+      store_in :collection => :system_message_states
 
       STATE_NEW   = 0
       STATE_READ  = 1
@@ -34,7 +34,7 @@ module Pike
       scope :where_new, where(:state => Pike::System::MessageState::STATE_NEW)
 
       def self.assert_indexes
-        user = Pike::User.get_user_by_url('Assert Indexes User')
+        user = Pike::User.get_user_by_uri('Assert Indexes User')
 
         message1 = Pike::System::Message.create_message!('Assert Indexes Message Subject 1', 'Assert Indexes Message Body 1')
         message2 = Pike::System::Message.create_message!('Assert Indexes Message Subject 2', 'Assert Indexes Message Body 2')

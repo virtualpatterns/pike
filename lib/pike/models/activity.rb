@@ -11,7 +11,7 @@ module Pike
     include Mongoid::Timestamps
     extend Pike::Mixins::IndexMixin
 
-    store_in :activities
+    store_in :collection => :activities
 
     before_save :on_before_save
     after_save :on_after_save
@@ -35,24 +35,22 @@ module Pike
     default_scope order_by([:user_id, :asc], [:_name, :asc])
 
     scope :where_name, lambda { |name| where(:_name => name ? name.downcase : nil) }
-
-    # TODO ... verify this scope is indexed
     scope :where_shared, where(:is_shared => true)
 
     scope :where_copy_of, lambda { |project| where(:copy_of_id => project ? project.id : nil) }
     scope :where_not_copy, where(:copy_of_id => nil)
 
     def self.assert_indexes
-      user1 = Pike::User.get_user_by_url('Assert Indexes User 1')
+      user1 = Pike::User.get_user_by_uri('Assert Indexes User 1')
       activity1 = user1.create_activity!('Assert Indexes Activity 1', true)
       activity2 = user1.create_activity!('Assert Indexes Activity 2', false)
 
-      user2 = Pike::User.get_user_by_url('Assert Indexes User 2')
+      user2 = Pike::User.get_user_by_uri('Assert Indexes User 2')
       activity3 = user2.create_activity!('Assert Indexes Activity 3', false)
-      friendship1 = user1.create_friendship!('Assert Indexes User 2')
+      user1.create_friendship!('Assert Indexes User 2')
 
-      user3 = Pike::User.get_user_by_url('Assert Indexes User 3')
-      friendship2 = user1.create_friendship!('Assert Indexes User 3')
+      user3 = Pike::User.get_user_by_uri('Assert Indexes User 3')
+      user1.create_friendship!('Assert Indexes User 3')
 
       Pike::System::Action.execute_all!
 
@@ -86,17 +84,17 @@ module Pike
       return _value
     end
 
-    def self.create_activity!(url, name, is_shared = false, properties = {})
-      user = Pike::User.get_user_by_url(url)
+    def self.create_activity!(uri, name, is_shared = false, properties = {})
+      user = Pike::User.get_user_by_uri(uri)
       return user.create_activity!(name, is_shared, properties)
     end
 
-    def self.update_activity!(url, name, to_name = nil, to_is_shared = nil, to_properties = {})
-      Pike::User.get_user_by_url(url).update_activity!(name, to_name, to_is_shared, to_properties)
+    def self.update_activity!(uri, name, to_name = nil, to_is_shared = nil, to_properties = {})
+      Pike::User.get_user_by_uri(uri).update_activity!(name, to_name, to_is_shared, to_properties)
     end
 
-    def self.delete_activity!(url, name)
-      Pike::User.get_user_by_url(url).delete_activity!(name)
+    def self.delete_activity!(uri, name)
+      Pike::User.get_user_by_uri(uri).delete_activity!(name)
     end
 
     protected

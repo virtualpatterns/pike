@@ -56,8 +56,10 @@ namespace :pike do
                               'pike:data:migrate:add_message_0_5_144',
                               'pike:data:migrate:re_destroy_work_where_task_destroyed',
                               'pike:data:migrate:add_message_0_5_146',
-                              'create_user_search_index',
-                              'pike:data:migrate:add_message_0_5_169'] do |task, arguments|
+                              'pike:data:migrate:create_user_search_index',
+                              'pike:data:migrate:add_message_0_5_169',
+                              'pike:data:migrate:rename_user_url_uri',
+                              'pike:data:migrate:remove_message_state'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
@@ -69,7 +71,7 @@ namespace :pike do
               puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url ? user.url.downcase.inspect : nil})"
               user.set(:_url, user.url ? user.url.downcase : nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -83,7 +85,7 @@ namespace :pike do
               puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
               project.set(:_name, project.name.downcase)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -97,7 +99,7 @@ namespace :pike do
               puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
               activity.set(:_name, activity.name.downcase)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -113,7 +115,7 @@ namespace :pike do
               puts "  _task.activity.name=#{_task.activity ? _task.activity.name.inspect : '(nil)'} _task.set(:_activity_name, #{_task.activity ? _task.activity.name.downcase.inspect : '(nil)'})"
               _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -122,12 +124,7 @@ namespace :pike do
       task :update_user_demo_to_first, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            user = Pike::User.get_user_by_url('demo@pike.virtualpatterns.com', false)
-            if user
-              puts "  user.url=#{user.url.inspect} user.url = #{'first@pike.virtualpatterns.com'.inspect} user.save!"
-              user.url = 'first@pike.virtualpatterns.com'
-              user.save!
-            end
+            Pike::User.find(:url => 'demo@pike.virtualpatterns.com').update('$set' => {:url => 'first@pike.virtualpatterns.com'}) rescue nil
           end
         end
       end
@@ -141,7 +138,7 @@ namespace :pike do
               puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
               friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -150,12 +147,11 @@ namespace :pike do
       task :remove_identities_and_migrations_collections, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            database = Mongoid.configure.database
-            puts 'database.drop_collection(\'identities\') ...'
-            database.drop_collection('identities')
+            puts 'Mongoid.default_session[\'identities\'].drop ...'
+            Mongoid.default_session['identities'].drop
             puts '... done'
-            puts 'database.drop_collection(\'migrations\') ...'
-            database.drop_collection('migrations')
+            puts 'Mongoid.default_session[\'migrations\'].drop ...'
+            Mongoid.default_session['migrations'].drop
             puts '... done'
           end
         end
@@ -175,7 +171,7 @@ namespace :pike do
                 work.destroy
               end
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -191,7 +187,7 @@ namespace :pike do
               puts "  _work.task.activity.name=#{_work.task.activity ? _work.task.activity.name.inspect : '(nil)'} _work.set(:_activity_name, #{_work.task.activity ? _work.task.activity.name.downcase.inspect : '(nil)'})"
               _work.set(:_activity_name, _work.task.activity ? _work.task.activity.name.downcase : nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -207,7 +203,7 @@ namespace :pike do
               user.pull(:activity_properties, nil) if ( user[:activity_properties] || [] ).include?(nil)
               user.pull(:task_properties, nil) if ( user[:task_properties] || [] ).include?(nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -221,7 +217,7 @@ namespace :pike do
               puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
               friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -230,9 +226,9 @@ namespace :pike do
       task :add_user_is_administrator, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.collection.update(...) ...'
-            Pike::User.collection.update({}, {'$set' => {:is_administrator => false}}, :multi => true, :safe => true)
-            puts '... end'
+            puts 'Pike::User.update_all(\'$set\' => {:is_administrator => false}) ...'
+            Pike::User.update_all('$set' => {:is_administrator => false})
+            puts '... done'
           end
         end
       end
@@ -241,9 +237,9 @@ namespace :pike do
       task :add_migration_count, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Migration.collection.update(...) ...'
-            Pike::System::Migration.collection.update({}, {'$set' => {:count => 1}}, :multi => true, :safe => true)
-            puts '... end'
+            puts 'Pike::System::Migration.update_all(\'$set\' => {:count => 1}) ...'
+            Pike::System::Migration.update_all('$set' => {:count => 1})
+            puts '... done'
           end
         end
       end
@@ -258,7 +254,7 @@ namespace :pike do
               puts "  action.class=#{action.class} action.set(:index, #{index.inspect})"
               action.set(:index, index)
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -308,7 +304,7 @@ namespace :pike do
               user.unset(:task_properties)
 
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -317,9 +313,9 @@ namespace :pike do
       task :add_user_read_messages, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.collection.update(...) ...'
-            Pike::User.collection.update({}, {'$set' => {:read_messages => []}}, :multi => true, :safe => true)
-            puts '... end'
+            puts 'Pike::User.collection.update_all(\'$set\' => {:read_messages => []}) ...'
+            Pike::User.update_all('$set' => {:read_messages => []})
+            puts '... done'
           end
         end
       end
@@ -337,7 +333,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -355,7 +351,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -373,7 +369,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -393,7 +389,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -402,9 +398,9 @@ Changes in this version ...
       task :add_identity_source, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Identity.update(...) ...'
-            Pike::System::Identity.collection.update({}, {'$set' => {:source => Pike::System::Identity::SOURCE_UNKNOWN}}, :multi => true, :safe => true)
-            puts '... end'
+            puts 'Pike::System::Identity.update_all(\'$set\' => {:source => Pike::System:\:Identi\ty::SOURCE_UNKNOWN}) ...'
+            Pike::System::Identity.update_all('$set' => {:source => Pike::System::Identity::SOURCE_UNKNOWN})
+            puts '... done'
           end
         end
       end
@@ -423,7 +419,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -444,7 +440,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -459,7 +455,7 @@ Changes in this version ...
               user.name = user.abbreviated_url
               user.save!
             end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -480,7 +476,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -498,7 +494,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -507,13 +503,11 @@ Changes in this version ...
       task :rename_work_started_updated, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Work.all.each do |work| ...'
-            Pike::Work.all.each do |work|
-              puts "  work.id=#{work.id.inspect} work.rename(:started, :started_at) work.rename(:updated, :updated_at)"
-              work.rename(:started, :started_at) 
-              work.rename(:updated, :updated_at)
-             end
-            puts '... end'
+            puts 'Pike::Work.update_all(\'$rename\' => {\'started\' => \'started_at\'}) ...'
+            Pike::Work.update_all('$rename' => {'started' => 'started_at'})
+            puts 'Pike::Work.update_all(\'$rename\' => {\'updated\' => \'updated_at\'}) ...'
+            Pike::Work.update_all('$rename' => {'updated' => 'updated_at'})
+            puts '... done'
           end
         end
       end
@@ -524,7 +518,7 @@ Changes in this version ...
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::System::Identity.destroy_all ...'
             Pike::System::Identity.destroy_all
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -538,7 +532,7 @@ Changes in this version ...
               puts "  work.id=#{work.id.inspect} work.started_at=#{work.started_at} work.set(:is_started, #{work.started_at ? true.inspect : false.inspect})"
               work.set(:is_started, work.started_at ? true : false)
              end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -552,7 +546,7 @@ Changes in this version ...
               puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:failed, #{action.exception_at ? true.inspect : false.inspect})"
               action.set(:failed, action.exception_at ? true : false)
              end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -570,7 +564,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -580,9 +574,9 @@ Changes in this version ...
       task :remove_action_failed, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action(...) ...'
-            Pike::System::Action.collection.update({}, {'$unset' => {:failed => 1}}, :multi => true, :safe => true)
-            puts '... end'
+            puts 'Pike::System::Action.update_all(\'$unset\' => {:failed => 1}) ...'
+            Pike::System::Action.update_all('$unset' => {:failed => 1})
+            puts '... done'
           end
         end
       end
@@ -596,7 +590,7 @@ Changes in this version ...
               puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:state, #{action.exception_at ? Pike::System::Action::STATE_EXECUTED.inspect : Pike::System::Action::STATE_PENDING.inspect})"
               action.set(:state, action.exception_at ? Pike::System::Action::STATE_EXECUTED : Pike::System::Action::STATE_PENDING)
              end
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -606,8 +600,12 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
-            Pike::System::MessageState.collection.drop_indexes
-            Pike::System::MessageState.create_indexes
+            Pike::System::MessageState.collection.indexes.drop rescue nil
+            Pike::System::MessageState.collection.indexes.create({:user_id      => 1,
+                                                                  :message_id   => 1,
+                                                                  :state        => 1,
+                                                                  :created_at   => 1}, :name => 'user')
+
             
             puts 'Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message| ...'
             Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message|
@@ -619,9 +617,9 @@ Changes in this version ...
                 message_state.state = Pike::System::MessageState::STATE_NEW
                 message_state.save!
               end
-              puts '  ... end'
+              puts '  ... done'
              end
-            puts '... end'
+            puts '... done'
 
             puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
@@ -635,10 +633,10 @@ Changes in this version ...
                 message_state.state = Pike::System::MessageState::STATE_READ
                 message_state.save!
               end
-              puts '  ... end'
+              puts '  ... done'
               user.unset(:read_messages)
             end
-            puts '... end'
+            puts '... done'
 
           end
         end
@@ -657,7 +655,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -675,7 +673,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -694,7 +692,7 @@ When downloading repositories from GitHub the item shows a downward arrow.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -712,7 +710,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -730,7 +728,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -748,7 +746,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -766,8 +764,8 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
-          end
+            puts '... done'
+         end
         end
       end
 
@@ -784,7 +782,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+           puts '... done'
           end
         end
       end
@@ -794,7 +792,7 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             puts 'Pike::System::Message.create ...'
-            subject = 'Version 0.5.134'
+            subject = 'Verson 0.5.134'
             body = <<-MESSAGE
 Changes in this version ...
 
@@ -802,7 +800,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -811,7 +809,7 @@ Changes in this version ...
       task :add_message_0_5_135, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
+            puts 'Pike::Sysem::Message.create ...'
             subject = 'Version 0.5.135'
             body = <<-MESSAGE
 Changes in this version ...
@@ -820,7 +818,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -829,13 +827,34 @@ Changes in this version ...
       task :destroy_indexes, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Application.database.collections.each do |collection| ...'
-            Pike::Application.database.collections.each do |collection|
-              puts "  collection.name=#{collection.name.inspect}"
-              collection.drop_indexes
-              puts '  ... end'
-            end
-            puts '... end'
+
+            Pike::User.collection.indexes.drop rescue nil
+            Pike::System::Identity.collection.indexes.drop rescue nil
+
+            Pike::Property.collection.indexes.drop rescue nil
+            Pike::PropertyValue.collection.indexes.drop rescue nil
+
+            Pike::Project.collection.indexes.drop rescue nil
+            Pike::ProjectPropertyValue.collection.indexes.drop rescue nil
+
+            Pike::Activity.collection.indexes.drop rescue nil
+            Pike::ActivityPropertyValue.collection.indexes.drop rescue nil
+
+            Pike::Task.collection.indexes.drop rescue nil
+            Pike::TaskPropertyValue.collection.indexes.drop rescue nil
+
+            Pike::Work.collection.indexes.drop rescue nil
+
+            Pike::Introduction.collection.indexes.drop rescue nil
+            Pike::Friendship.collection.indexes.drop rescue nil
+
+            Pike::System::Message.collection.indexes.drop rescue nil
+            Pike::System::MessageState.collection.indexes.drop rescue nil
+
+            Pike::System::Action.collection.indexes.drop rescue nil
+
+            Pike::System::Migration.collection.indexes.drop rescue nil
+
           end
         end
       end
@@ -845,110 +864,110 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
-            Pike::User.collection.create_index(                 [[:_url,             Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'url')
-            Pike::User.collection.create_index(                 [[:_name,            Mongo::ASCENDING],
-                                                                 [:_url,             Mongo::ASCENDING]],  :name   => 'name')
+            Pike::User.collection.indexes.create({:_url   => 1,
+                                                  :_name  => 1}, :name => 'url')
+            Pike::User.collection.indexes.create({:_name  => 1,
+                                                  :_url   => 1}, :name => 'name')
 
-            Pike::System::Identity.collection.create_index(     [[:expires_at,       Mongo::ASCENDING],
-                                                                 [:created_at,       Mongo::DESCENDING]], :name   => 'expires_at')
-            Pike::System::Identity.collection.create_index(     [[:value,            Mongo::ASCENDING],
-                                                                 [:expires_at,       Mongo::ASCENDING],
-                                                                 [:created_at,       Mongo::DESCENDING]], :name   => 'value')
+            Pike::System::Identity.collection.indexes.create({:expires_at => 1,
+                                                              :created_at => -1}, :name => 'expires_at')
+            Pike::System::Identity.collection.indexes.create({:value      => 1,
+                                                              :expires_at => 1,
+                                                              :created_at => -1}, :name => 'value')
 
-            Pike::Property.collection.create_index(             [[:user_id,          Mongo::ASCENDING],
-                                                                 [:type,             Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
-            Pike::Property.collection.create_index(             [[:copy_of_id,       Mongo::ASCENDING],
-                                                                 [:user_id,          Mongo::ASCENDING],
-                                                                 [:type,             Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+            Pike::Property.collection.indexes.create({:user_id    => 1,
+                                                      :type       => 1,
+                                                      :_name      => 1,
+                                                      :copy_of_id => 1}, :name => 'user')
+            Pike::Property.collection.indexes.create({:copy_of_id => 1,
+                                                      :user_id    => 1,
+                                                      :type       => 1,
+                                                      :_name      => 1}, :name => 'copy_of')
 
-            Pike::PropertyValue.collection.create_index(        [[:_type,            Mongo::ASCENDING],
-                                                                 [:property_id,      Mongo::ASCENDING]],  :name   => 'property')
+            Pike::PropertyValue.collection.indexes.create({:_type       => 1,
+                                                           :property_id => 1}, :name => 'property')
 
-            Pike::Project.collection.create_index(              [[:user_id,          Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING],
-                                                                 [:is_shared,        Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
-            Pike::Project.collection.create_index(              [[:copy_of_id,       Mongo::ASCENDING],
-                                                                 [:user_id,          Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+            Pike::Project.collection.indexes.create({:user_id     => 1,
+                                                     :_name       => 1,
+                                                     :is_shared   => 1,
+                                                     :copy_of_id  => 1}, :name => 'user')
+            Pike::Project.collection.indexes.create({:copy_of_id  => 1,
+                                                     :user_id     => 1,
+                                                     :_name       => 1}, :name => 'copy_of')
 
-            Pike::ProjectPropertyValue.collection.create_index( [[:_type,            Mongo::ASCENDING],
-                                                                 [:project_id,       Mongo::ASCENDING],
-                                                                 [:property_id,      Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'project')
-            Pike::ProjectPropertyValue.collection.create_index( [[:_type,            Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'copy_of')
+            Pike::ProjectPropertyValue.collection.indexes.create({:_type        => 1,
+                                                                  :project_id   => 1,
+                                                                  :property_id  => 1,
+                                                                  :copy_of_id   => 1}, :name => 'project')
+            Pike::ProjectPropertyValue.collection.indexes.create({:_type        => 1,
+                                                                  :copy_of_id   => 1}, :name => 'copy_of')
 
-            Pike::Activity.collection.create_index(             [[:user_id,          Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING],
-                                                                 [:is_shared,        Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'user')
-            Pike::Activity.collection.create_index(             [[:copy_of_id,       Mongo::ASCENDING],
-                                                                 [:user_id,          Mongo::ASCENDING],
-                                                                 [:_name,            Mongo::ASCENDING]],  :name   => 'copy_of')
+            Pike::Activity.collection.indexes.create({:user_id    => 1,
+                                                      :_name      => 1,
+                                                      :is_shared  => 1,
+                                                      :copy_of_id => 1}, :name => 'user')
+            Pike::Activity.collection.indexes.create({:copy_of_id => 1,
+                                                      :user_id    => 1,
+                                                      :_name      => 1}, :name => 'copy_of')
 
-            Pike::ActivityPropertyValue.collection.create_index([[:_type,            Mongo::ASCENDING],
-                                                                 [:activity_id,      Mongo::ASCENDING],
-                                                                 [:property_id,      Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'activity')
-            Pike::ActivityPropertyValue.collection.create_index([[:_type,            Mongo::ASCENDING],
-                                                                 [:copy_of_id,       Mongo::ASCENDING]],  :name   => 'copy_of')
+            Pike::ActivityPropertyValue.collection.indexes.create({:_type       => 1,
+                                                                   :activity_id => 1,
+                                                                   :property_id => 1,
+                                                                   :copy_of_id  => 1}, :name => 'activity')
+            Pike::ActivityPropertyValue.collection.indexes.create({:_type       => 1,
+                                                                   :copy_of_id  => 1}, :name => 'copy_of')
 
-            Pike::Task.collection.create_index(                 [[:user_id,          Mongo::ASCENDING],
-                                                                 [:flag,             Mongo::ASCENDING],
-                                                                 [:project_id,       Mongo::ASCENDING],
-                                                                 [:_project_name,    Mongo::ASCENDING],
-                                                                 [:activity_id,      Mongo::ASCENDING],
-                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'user')
-            Pike::Task.collection.create_index(                 [[:project_id,       Mongo::ASCENDING],
-                                                                 [:flag,             Mongo::ASCENDING],
-                                                                 [:_project_name,    Mongo::ASCENDING],
-                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'project')
-            Pike::Task.collection.create_index(                 [[:activity_id,      Mongo::ASCENDING],
-                                                                 [:flag,             Mongo::ASCENDING],
-                                                                 [:_project_name,    Mongo::ASCENDING],
-                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'activity')
+            Pike::Task.collection.indexes.create({:user_id        => 1,
+                                                  :flag           => 1,
+                                                  :project_id     => 1,
+                                                  :_project_name  => 1,
+                                                  :activity_id    => 1,
+                                                  :_activity_name => 1}, :name => 'user')
+            Pike::Task.collection.indexes.create({:project_id     => 1,
+                                                  :flag           => 1,
+                                                  :_project_name  => 1,
+                                                  :_activity_name => 1}, :name => 'project')
+            Pike::Task.collection.indexes.create({:activity_id    => 1,
+                                                  :flag           => 1,
+                                                  :_project_name  => 1,
+                                                  :_activity_name => 1}, :name => 'activity')
 
-            Pike::TaskPropertyValue.collection.create_index(    [[:_type,            Mongo::ASCENDING],
-                                                                 [:task_id,          Mongo::ASCENDING],
-                                                                 [:property_id,      Mongo::ASCENDING]],  :name   => 'task')
+            Pike::TaskPropertyValue.collection.indexes.create({:_type       => 1,
+                                                               :task_id     => 1,
+                                                               :property_id => 1}, :name => 'task')
 
-            Pike::Work.collection.create_index(                 [[:user_id,          Mongo::ASCENDING],
-                                                                 [:task_id,          Mongo::ASCENDING],
-                                                                 [:date,             Mongo::ASCENDING],
-                                                                 [:_project_name,    Mongo::ASCENDING],
-                                                                 [:_activity_name,   Mongo::ASCENDING],
-                                                                 [:is_started,       Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Work.collection.indexes.create({:user_id        => 1,
+                                                  :task_id        => 1,
+                                                  :date           => 1,
+                                                  :_project_name  => 1,
+                                                  :_activity_name => 1,
+                                                  :is_started     => 1}, :name => 'user')
 
-            Pike::Work.collection.create_index(                 [[:task_id,          Mongo::ASCENDING],
-                                                                 [:date,             Mongo::ASCENDING],
-                                                                 [:_project_name,    Mongo::ASCENDING],
-                                                                 [:_activity_name,   Mongo::ASCENDING]],  :name   => 'task')
+            Pike::Work.collection.indexes.create({:task_id        => 1,
+                                                  :date           => 1,
+                                                  :_project_name  => 1,
+                                                  :_activity_name => 1}, :name => 'task')
 
-            Pike::Introduction.collection.create_index(         [[:user_target_id,   Mongo::ASCENDING],
-                                                                 [:_user_source_url, Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Introduction.collection.indexes.create({:user_target_id   => 1,
+                                                          :_user_source_url => 1}, :name => 'user')
 
-            Pike::Friendship.collection.create_index(           [[:user_source_id,   Mongo::ASCENDING],
-                                                                 [:user_target_id,   Mongo::ASCENDING],
-                                                                 [:_user_target_url, Mongo::ASCENDING]],  :name   => 'user')
+            Pike::Friendship.collection.indexes.create({:user_source_id   => 1,
+                                                        :user_target_id   => 1,
+                                                        :_user_target_url => 1}, :name => 'user')
 
-            Pike::System::Message.collection.create_index(      [[:created_at,       Mongo::ASCENDING]],  :name   => 'created_at')
+            Pike::System::Message.collection.indexes.create({:created_at => 1}, :name => 'created_at')
 
-            Pike::System::MessageState.collection.create_index( [[:user_id,          Mongo::ASCENDING],
-                                                                 [:message_id,       Mongo::ASCENDING],
-                                                                 [:state,            Mongo::ASCENDING],
-                                                                 [:created_at,       Mongo::ASCENDING]],  :name   => 'user')
+            Pike::System::MessageState.collection.indexes.create({:user_id    => 1,
+                                                                 :message_id  => 1,
+                                                                 :state       => 1,
+                                                                 :created_at  => 1}, :name => 'user')
 
-            Pike::System::Action.collection.create_index(       [[:state,            Mongo::ASCENDING],
-                                                                 [:index,            Mongo::ASCENDING]],  :name   => 'state')
-            Pike::System::Action.collection.create_index(       [[:index,            Mongo::ASCENDING]],  :name   => 'index')
+            Pike::System::Action.collection.indexes.create({:state => 1,
+                                                            :index => 1}, :name => 'state')
+            Pike::System::Action.collection.indexes.create({:index => 1}, :name => 'index')
 
-            Pike::System::Migration.collection.create_index(    [[:name,             Mongo::ASCENDING]],  :name   => 'name',
-                                                                                                          :unique => true)
+            Pike::System::Migration.collection.indexes.create({:name => 1}, :name   => 'name',
+                                                                            :unique => true)
 
           end
         end
@@ -967,7 +986,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -985,7 +1004,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -1003,7 +1022,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -1030,7 +1049,7 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
           end
         end
       end
@@ -1040,8 +1059,8 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
-            Pike::User.collection.create_index([[:_id,   Mongo::ASCENDING],
-                                                [:_name, Mongo::ASCENDING]], :name => 'search')
+            Pike::User.collection.indexes.create({:_id    => 1,
+                                                  :_name  => 1}, :name => 'search')
 
           end
         end
@@ -1061,7 +1080,78 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... end'
+            puts '... done'
+          end
+        end
+      end
+
+      desc 'Rename the Pike::User#url property Pike::User#uri'
+      task :rename_user_url_uri, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+
+            Pike::User.collection.indexes.drop
+
+            puts 'Pike::User.update_all(\'$rename\' => {\'url\' => \'uri\'}) ...'
+            Pike::User.update_all('$rename' => {'url' => 'uri'})
+            puts 'Pike::User.update_all(\'$rename\' => {\'_url\' => \'_uri\'}) ...'
+            Pike::User.update_all('$rename' => {'_url' => '_uri'})
+
+            Pike::User.collection.indexes.create({:_uri   => 1,
+                                                  :_name  => 1}, :name => 'uri')
+            Pike::User.collection.indexes.create({:_name  => 1,
+                                                  :_uri   => 1}, :name => 'name')
+            Pike::User.collection.indexes.create({:_id    => 1,
+                                                  :_name  => 1}, :name => 'search')
+
+            Pike::Introduction.collection.indexes.drop
+
+            puts 'Pike::Introduction.update_all(\'$rename\' => {\'_user_target_url\' => \'_user_target_uri\'}) ...'
+            Pike::Introduction.update_all('$rename' => {'_user_target_url' => '_user_target_uri'})
+
+            Pike::Introduction.collection.indexes.create({:user_target_id   => 1,
+                                                          :_user_source_uri => 1}, :name => 'user')
+
+            Pike::Friendship.collection.indexes.drop
+
+            puts 'Pike::Friendship.update_all(\'$rename\' => {\'_user_target_url\' => \'_user_target_uri\'}) ...'
+            Pike::Friendship.update_all('$rename' => {'_user_target_url' => '_user_target_uri'})
+
+            Pike::Friendship.collection.indexes.create({:user_source_id   => 1,
+                                                        :user_target_id   => 1,
+                                                        :_user_target_uri => 1}, :name => 'user')
+
+            puts '... done'
+
+          end
+        end
+      end
+
+      desc 'Delete the message_state collection'
+      task :remove_message_state, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Mongoid.default_session[\'message_state\'].drop ...'
+            Mongoid.default_session['message_state'].drop
+            puts '... done'
+          end
+        end
+      end
+
+      desc 'Add the message for Version 0.6.0'
+      task :add_message_0_6_0, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            puts 'Pike::System::Message.create ...'
+            subject = 'Version 0.6.0'
+            body = <<-MESSAGE
+Changes in this version ...
+
+* Upgraded to Ruby 1.9
+
+            MESSAGE
+            Pike::System::Message.create_message!(subject, body)
+            puts '... done'
           end
         end
       end
