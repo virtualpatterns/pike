@@ -58,15 +58,14 @@ namespace :pike do
     namespace :server do
 
       desc 'Start the server(s)'
-      task :start, :daemonize, :count do |task, arguments|
-        daemonize = arguments.daemonize ? arguments.daemonize.to_b : true
+      task :start, :count do |task, arguments|
         count = arguments.count ? arguments.count.to_i : 1
-        system("#{count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{count > 1 ? "--count #{count}" : nil} --rackup configuration.ru #{daemonize && count ? '--daemonize' : nil} --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+        system("#{count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{count > 1 ? "--count #{count}" : nil} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
       task :stop do |task|
-        system('for pid in ./process/thin/pid/thin.*.pid; do bundle exec thin --pid $pid stop; done')
+        system('for pid in ./process/thin/pid/*.pid; do bundle exec thin --pid $pid stop; done')
       end
 
       desc 'Restart the server(s)'
