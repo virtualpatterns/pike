@@ -42,11 +42,8 @@ module Pike
       def self.run(name, force = false)
         migration = Pike::System::Migration.where_name(name).first
         if !migration || force
-          puts '-' * 80
           puts "#{name} force=#{force}"
-          puts '-' * 80
           yield if block_given?
-          puts '-' * 80
           migration = Pike::System::Migration.create!(:name => name) unless migration
           migration.count += 1
           migration.save!

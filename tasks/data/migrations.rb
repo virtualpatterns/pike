@@ -59,19 +59,17 @@ namespace :pike do
                               'pike:data:migrate:create_user_search_index',
                               'pike:data:migrate:add_message_0_5_169',
                               'pike:data:migrate:rename_user_url_uri',
-                              'pike:data:migrate:remove_message_state'] do |task, arguments|
+                              'pike:data:migrate:rename_message_state_system_message_state',
+                              'pike:data:migrate:add_message_0_6_0'] do |task, arguments|
       end
 
       desc 'Add the Pike::User#_url property'
       task :add_user_url, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect} user.set(:_url, #{user.url ? user.url.downcase.inspect : nil})"
               user.set(:_url, user.url ? user.url.downcase : nil)
             end
-            puts '... done'
           end
         end
       end
@@ -80,12 +78,9 @@ namespace :pike do
       task :add_project_name, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Project.all.each do |project| ...'
             Pike::Project.all.each do |project|
-              puts "  project.name=#{project.name.inspect} project.set(:_name, #{project.name.downcase.inspect})"
               project.set(:_name, project.name.downcase)
             end
-            puts '... done'
           end
         end
       end
@@ -94,12 +89,9 @@ namespace :pike do
       task :add_activity_name, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Activity.all.each do |activity| ...'
             Pike::Activity.all.each do |activity|
-              puts "  activity.name=#{activity.name.inspect} activity.set(:_name, #{activity.name.downcase.inspect})"
               activity.set(:_name, activity.name.downcase)
             end
-            puts '... done'
           end
         end
       end
@@ -108,14 +100,10 @@ namespace :pike do
       task :update_task_project_and_activity_names, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Task.all.each do |_task| ...'
             Pike::Task.all.each do |_task|
-              puts "  _task.project.name=#{_task.project ? _task.project.name.inspect : '(nil)'} _task.set(:_project_name, #{_task.project ? _task.project.name.downcase.inspect : '(nil)'})"
               _task.set(:_project_name, _task.project ? _task.project.name.downcase : nil)
-              puts "  _task.activity.name=#{_task.activity ? _task.activity.name.inspect : '(nil)'} _task.set(:_activity_name, #{_task.activity ? _task.activity.name.downcase.inspect : '(nil)'})"
               _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
             end
-            puts '... done'
           end
         end
       end
@@ -133,12 +121,9 @@ namespace :pike do
       task :add_friendship_user_target_url, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Friendship.all.each do |friendship| ...'
             Pike::Friendship.all.each do |friendship|
-              puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
               friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
             end
-            puts '... done'
           end
         end
       end
@@ -147,12 +132,8 @@ namespace :pike do
       task :remove_identities_and_migrations_collections, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Mongoid.default_session[\'identities\'].drop ...'
             Mongoid.default_session['identities'].drop
-            puts '... done'
-            puts 'Mongoid.default_session[\'migrations\'].drop ...'
             Mongoid.default_session['migrations'].drop
-            puts '... done'
           end
         end
       end
@@ -161,17 +142,9 @@ namespace :pike do
       task :destroy_work_where_task_destroyed, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Work.all.each do |work| ...'
             Pike::Work.all.each do |work|
-              puts "  work.date=#{work.date} work.duration=#{work.duration}"
-              if work.task
-                puts "    work.task.project.name=#{work.task.project.name.inspect} work.task.activity.name=#{work.task.activity.name.inspect}"
-              else
-                puts "    work.destroy"
-                work.destroy
-              end
+              work.destroy unless work.task
             end
-            puts '... done'
           end
         end
       end
@@ -180,14 +153,10 @@ namespace :pike do
       task :update_work_project_and_activity_names, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Work.all.each do |_work| ...'
             Pike::Work.all.each do |_work|
-              puts "  _work.task.project.name=#{_work.task.project ? _work.task.project.name.inspect : '(nil)'} _work.set(:_project_name, #{_work.task.project ? _work.task.project.name.downcase.inspect : '(nil)'})"
               _work.set(:_project_name, _work.task.project ? _work.task.project.name.downcase : nil)
-              puts "  _work.task.activity.name=#{_work.task.activity ? _work.task.activity.name.inspect : '(nil)'} _work.set(:_activity_name, #{_work.task.activity ? _work.task.activity.name.downcase.inspect : '(nil)'})"
               _work.set(:_activity_name, _work.task.activity ? _work.task.activity.name.downcase : nil)
             end
-            puts '... done'
           end
         end
       end
@@ -196,14 +165,11 @@ namespace :pike do
       task :remove_nil_properties, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect}"
               user.pull(:project_properties, nil) if ( user[:project_properties] || [] ).include?(nil)
               user.pull(:activity_properties, nil) if ( user[:activity_properties] || [] ).include?(nil)
               user.pull(:task_properties, nil) if ( user[:task_properties] || [] ).include?(nil)
             end
-            puts '... done'
           end
         end
       end
@@ -212,12 +178,9 @@ namespace :pike do
       task :update_friendship_user_target_url, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Friendship.all.each do |friendship| ...'
             Pike::Friendship.all.each do |friendship|
-              puts "  friendship.user_target.url=#{friendship.user_target ? friendship.user_target.url.inspect : '(nil)'} friendship.set(:_user_target_url, #{friendship.user_target ? friendship.user_target.url.downcase.inspect : '(nil)'})"
               friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
             end
-            puts '... done'
           end
         end
       end
@@ -226,9 +189,7 @@ namespace :pike do
       task :add_user_is_administrator, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.update_all(\'$set\' => {:is_administrator => false}) ...'
             Pike::User.update_all('$set' => {:is_administrator => false})
-            puts '... done'
           end
         end
       end
@@ -237,9 +198,7 @@ namespace :pike do
       task :add_migration_count, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Migration.update_all(\'$set\' => {:count => 1}) ...'
             Pike::System::Migration.update_all('$set' => {:count => 1})
-            puts '... done'
           end
         end
       end
@@ -248,13 +207,10 @@ namespace :pike do
       task :add_action_index, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action.all.each do |action| ...'
             Pike::System::Action.all.each do |action|
               index = Pike::System::Sequence.next('Pike::System::Action#index')
-              puts "  action.class=#{action.class} action.set(:index, #{index.inspect})"
               action.set(:index, index)
             end
-            puts '... done'
           end
         end
       end
@@ -263,40 +219,28 @@ namespace :pike do
       task :create_properties, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect}"
 
-              puts "    user.project_properties=#{user[:project_properties].inspect}"
               user[:project_properties] ||= []
               user[:project_properties].each do |property|
-                puts "    property=#{property.inspect}"
                 user.projects.all.each do |project|
-                  puts "      project.name=#{project.name.inspect}"
                   project.create_value!(property, project[property]) unless project.copy?
                   project.unset(property)
                 end
               end
-              user.unset(:project_properties)
 
-              puts "    user.activity_properties=#{user[:activity_properties].inspect}"
               user[:activity_properties] ||= []
               user[:activity_properties].each do |property|
-                puts "    property=#{property.inspect}"
                 user.activities.all.each do |activity|
-                  puts "      activity.name=#{activity.name.inspect}"
                   activity.create_value!(property, activity[property]) unless activity.copy?
                   activity.unset(property)
                 end
               end
               user.unset(:activity_properties)
 
-              puts "    user.task_properties=#{user[:task_properties].inspect}"
               user[:task_properties] ||= []
               user[:task_properties].each do |property|
-                puts "    property=#{property.inspect}"
                 user.tasks.all.each do |task|
-                  puts "      task.project.name=#{task.project.name.inspect} task.activity.name=#{task.activity.name.inspect}"
                   task.create_value!(property, task[property])
                   task.unset(property)
                 end
@@ -304,7 +248,6 @@ namespace :pike do
               user.unset(:task_properties)
 
             end
-            puts '... done'
           end
         end
       end
@@ -313,9 +256,7 @@ namespace :pike do
       task :add_user_read_messages, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.collection.update_all(\'$set\' => {:read_messages => []}) ...'
             Pike::User.update_all('$set' => {:read_messages => []})
-            puts '... done'
           end
         end
       end
@@ -324,7 +265,6 @@ namespace :pike do
       task :add_message_0_5_98, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.98'
             body = <<-MESSAGE
 Changes in this version ...
@@ -333,7 +273,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -342,7 +281,6 @@ Changes in this version ...
       task :add_message_0_5_101, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.101'
             body = <<-MESSAGE
 Changes in this version ...
@@ -351,7 +289,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -360,7 +297,6 @@ Changes in this version ...
       task :add_message_0_5_106, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.106'
             body = <<-MESSAGE
 Changes in this version ...
@@ -369,7 +305,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -378,7 +313,6 @@ Changes in this version ...
       task :add_message_0_5_108, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.108'
             body = <<-MESSAGE
 Changes in this version ...
@@ -389,7 +323,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -398,9 +331,7 @@ Changes in this version ...
       task :add_identity_source, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Identity.update_all(\'$set\' => {:source => Pike::System:\:Identi\ty::SOURCE_UNKNOWN}) ...'
             Pike::System::Identity.update_all('$set' => {:source => Pike::System::Identity::SOURCE_UNKNOWN})
-            puts '... done'
           end
         end
       end
@@ -409,7 +340,6 @@ Changes in this version ...
       task :add_message_0_5_109, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.109'
             body = <<-MESSAGE
 Changes in this version ...
@@ -419,7 +349,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -428,7 +357,6 @@ Changes in this version ...
       task :add_message_0_5_112, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.112'
             body = <<-MESSAGE
 Changes in this version ...
@@ -440,7 +368,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -449,13 +376,10 @@ Changes in this version ...
       task :add_user_name, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::User.where_name(nil).each do |user| ...'
             Pike::User.where_name(nil).each do |user|
-              puts "  user.url=#{user.url.inspect} user.name=#{user.abbreviated_url.inspect}"
               user.name = user.abbreviated_url
               user.save!
             end
-            puts '... done'
           end
         end
       end
@@ -464,7 +388,6 @@ Changes in this version ...
       task :add_message_0_5_113, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.113'
             body = <<-MESSAGE
 Changes in this version ...
@@ -476,7 +399,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -485,7 +407,6 @@ Changes in this version ...
       task :add_message_0_5_114, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.114'
             body = <<-MESSAGE
 Changes in this version ...
@@ -494,7 +415,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -503,11 +423,8 @@ Changes in this version ...
       task :rename_work_started_updated, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Work.update_all(\'$rename\' => {\'started\' => \'started_at\'}) ...'
             Pike::Work.update_all('$rename' => {'started' => 'started_at'})
-            puts 'Pike::Work.update_all(\'$rename\' => {\'updated\' => \'updated_at\'}) ...'
             Pike::Work.update_all('$rename' => {'updated' => 'updated_at'})
-            puts '... done'
           end
         end
       end
@@ -516,9 +433,7 @@ Changes in this version ...
       task :destroy_identities, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Identity.destroy_all ...'
             Pike::System::Identity.destroy_all
-            puts '... done'
           end
         end
       end
@@ -527,12 +442,9 @@ Changes in this version ...
       task :add_work_is_started, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Work.all.each do |work| ...'
             Pike::Work.all.each do |work|
-              puts "  work.id=#{work.id.inspect} work.started_at=#{work.started_at} work.set(:is_started, #{work.started_at ? true.inspect : false.inspect})"
               work.set(:is_started, work.started_at ? true : false)
              end
-            puts '... done'
           end
         end
       end
@@ -541,12 +453,9 @@ Changes in this version ...
       task :add_action_failed, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action.all.each do |action| ...'
             Pike::System::Action.all.each do |action|
-              puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:failed, #{action.exception_at ? true.inspect : false.inspect})"
               action.set(:failed, action.exception_at ? true : false)
              end
-            puts '... done'
           end
         end
       end
@@ -555,7 +464,6 @@ Changes in this version ...
       task :add_message_0_5_116, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.116'
             body = <<-MESSAGE
 Changes in this version ...
@@ -564,7 +472,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -574,9 +481,7 @@ Changes in this version ...
       task :remove_action_failed, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action.update_all(\'$unset\' => {:failed => 1}) ...'
             Pike::System::Action.update_all('$unset' => {:failed => 1})
-            puts '... done'
           end
         end
       end
@@ -585,12 +490,9 @@ Changes in this version ...
       task :add_action_state, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Action.all.each do |action| ...'
             Pike::System::Action.all.each do |action|
-              puts "  action.class=#{action.class} action.exception_at=#{action.exception_at} action.set(:state, #{action.exception_at ? Pike::System::Action::STATE_EXECUTED.inspect : Pike::System::Action::STATE_PENDING.inspect})"
               action.set(:state, action.exception_at ? Pike::System::Action::STATE_EXECUTED : Pike::System::Action::STATE_PENDING)
              end
-            puts '... done'
           end
         end
       end
@@ -607,36 +509,23 @@ Changes in this version ...
                                                                   :created_at   => 1}, :name => 'user')
 
             
-            puts 'Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message| ...'
             Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message|
-              puts "  message.subject=#{message.subject.inspect}"
-              puts '  Pike::User.all.each do |user| ...'
               Pike::User.all.each do |user|
-                puts "    user.url=#{user.url.inspect}"
                 message_state = user.message_states.where_message(message).first || user.message_states.create!(:message => message)
                 message_state.state = Pike::System::MessageState::STATE_NEW
                 message_state.save!
               end
-              puts '  ... done'
              end
-            puts '... done'
 
-            puts 'Pike::User.all.each do |user| ...'
             Pike::User.all.each do |user|
-              puts "  user.url=#{user.url.inspect}"
-              puts "  user[:read_messages].each do |id| ..."
               user[:read_messages].each do |id|
-                puts "    id=#{id.inspect}"
                 message = Pike::System::Message.find(id)
-                puts "    message.subject=#{message.subject.inspect}"
                 message_state = user.message_states.where_message(message).first
                 message_state.state = Pike::System::MessageState::STATE_READ
                 message_state.save!
               end
-              puts '  ... done'
               user.unset(:read_messages)
             end
-            puts '... done'
 
           end
         end
@@ -646,7 +535,6 @@ Changes in this version ...
       task :add_message_0_5_119, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.119'
             body = <<-MESSAGE
 Changes in this version ...
@@ -655,7 +543,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -664,7 +551,6 @@ Changes in this version ...
       task :add_message_0_5_120, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.120'
             body = <<-MESSAGE
 Changes in this version ...
@@ -673,7 +559,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -682,7 +567,6 @@ Changes in this version ...
       task :add_message_0_5_122, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.122'
             body = <<-MESSAGE
 Changes in this version ...
@@ -692,7 +576,6 @@ When downloading repositories from GitHub the item shows a downward arrow.
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -701,7 +584,6 @@ When downloading repositories from GitHub the item shows a downward arrow.
       task :add_message_0_5_123, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.123'
             body = <<-MESSAGE
 Changes in this version ...
@@ -710,7 +592,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -719,7 +600,6 @@ Changes in this version ...
       task :add_message_0_5_124, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.124'
             body = <<-MESSAGE
 Changes in this version ...
@@ -728,7 +608,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -737,7 +616,6 @@ Changes in this version ...
       task :add_message_0_5_125, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.125'
             body = <<-MESSAGE
 Changes in this version ...
@@ -746,7 +624,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -755,7 +632,6 @@ Changes in this version ...
       task :add_message_0_5_128, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.128'
             body = <<-MESSAGE
 Changes in this version ...
@@ -764,7 +640,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
          end
         end
       end
@@ -773,7 +648,6 @@ Changes in this version ...
       task :add_message_0_5_130, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.130'
             body = <<-MESSAGE
 Changes in this version ...
@@ -782,7 +656,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-           puts '... done'
           end
         end
       end
@@ -791,7 +664,6 @@ Changes in this version ...
       task :add_message_0_5_134, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Verson 0.5.134'
             body = <<-MESSAGE
 Changes in this version ...
@@ -800,7 +672,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -809,7 +680,6 @@ Changes in this version ...
       task :add_message_0_5_135, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::Sysem::Message.create ...'
             subject = 'Version 0.5.135'
             body = <<-MESSAGE
 Changes in this version ...
@@ -818,7 +688,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -977,7 +846,6 @@ Changes in this version ...
       task :add_message_0_5_141, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.141'
             body = <<-MESSAGE
 Changes in this version ...
@@ -986,7 +854,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -995,7 +862,6 @@ Changes in this version ...
       task :add_message_0_5_143, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.143'
             body = <<-MESSAGE
 Changes in this version ...
@@ -1004,7 +870,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -1013,7 +878,6 @@ Changes in this version ...
       task :add_message_0_5_144, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.144'
             body = <<-MESSAGE
 Changes in this version ...
@@ -1022,7 +886,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -1040,7 +903,6 @@ Changes in this version ...
       task :add_message_0_5_146, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.146'
             body = <<-MESSAGE
 Changes in this version ...
@@ -1049,7 +911,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -1058,10 +919,8 @@ Changes in this version ...
       task :create_user_search_index, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-
             Pike::User.collection.indexes.create({:_id    => 1,
                                                   :_name  => 1}, :name => 'search')
-
           end
         end
       end
@@ -1070,7 +929,6 @@ Changes in this version ...
       task :add_message_0_5_169, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.5.169'
             body = <<-MESSAGE
 Changes in this version ...
@@ -1080,7 +938,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
@@ -1092,9 +949,7 @@ Changes in this version ...
 
             Pike::User.collection.indexes.drop
 
-            puts 'Pike::User.update_all(\'$rename\' => {\'url\' => \'uri\'}) ...'
             Pike::User.update_all('$rename' => {'url' => 'uri'})
-            puts 'Pike::User.update_all(\'$rename\' => {\'_url\' => \'_uri\'}) ...'
             Pike::User.update_all('$rename' => {'_url' => '_uri'})
 
             Pike::User.collection.indexes.create({:_uri   => 1,
@@ -1106,7 +961,6 @@ Changes in this version ...
 
             Pike::Introduction.collection.indexes.drop
 
-            puts 'Pike::Introduction.update_all(\'$rename\' => {\'_user_target_url\' => \'_user_target_uri\'}) ...'
             Pike::Introduction.update_all('$rename' => {'_user_target_url' => '_user_target_uri'})
 
             Pike::Introduction.collection.indexes.create({:user_target_id   => 1,
@@ -1114,26 +968,24 @@ Changes in this version ...
 
             Pike::Friendship.collection.indexes.drop
 
-            puts 'Pike::Friendship.update_all(\'$rename\' => {\'_user_target_url\' => \'_user_target_uri\'}) ...'
             Pike::Friendship.update_all('$rename' => {'_user_target_url' => '_user_target_uri'})
 
             Pike::Friendship.collection.indexes.create({:user_source_id   => 1,
                                                         :user_target_id   => 1,
                                                         :_user_target_uri => 1}, :name => 'user')
 
-            puts '... done'
 
           end
         end
       end
 
-      desc 'Delete the message_state collection'
-      task :remove_message_state, :force do |task, arguments|
+      desc 'Rename the message_state collection system_message_state'
+      task :rename_message_state_system_message_state, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Mongoid.default_session[\'message_state\'].drop ...'
-            Mongoid.default_session['message_state'].drop
-            puts '... done'
+            Mongoid.default_session.with(:database => 'admin').command(:renameCollection  => 'pike.message_state', 
+                                                                       :to                => 'pike.system_message_state', 
+                                                                       :dropTarget        => true) rescue nil
           end
         end
       end
@@ -1142,7 +994,6 @@ Changes in this version ...
       task :add_message_0_6_0, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            puts 'Pike::System::Message.create ...'
             subject = 'Version 0.6.0'
             body = <<-MESSAGE
 Changes in this version ...
@@ -1151,7 +1002,6 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
-            puts '... done'
           end
         end
       end
