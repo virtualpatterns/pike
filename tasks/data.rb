@@ -18,6 +18,7 @@ namespace :pike do
     desc 'Restore a database backup'
     task :restore, [:stamp] => ['data:destroy'] do |task, arguments|
       system("tar -xzf pike.#{arguments.stamp}.tar.gz; mongorestore --db pike --verbose --objcheck pike.#{arguments.stamp}/pike; rm -rf pike.#{arguments.stamp}")
+      Rake::Task['pike:data:migrate:all'].invoke
     end
 
     desc 'Drop the database'
