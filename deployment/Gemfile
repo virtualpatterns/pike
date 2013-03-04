@@ -1,4 +1,4 @@
-source :rubygems
+source 'http://rubygems.org'
 
 gem 'amazon-ec2'
 gem 'capistrano'

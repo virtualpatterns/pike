@@ -112,7 +112,7 @@ namespace :pike do
       task :update_user_demo_to_first, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            Pike::User.find(:url => 'demo@pike.virtualpatterns.com').update('$set' => {:url => 'first@pike.virtualpatterns.com'}) rescue nil
+            Pike::User.find(:url => 'demo@pike.virtualpatterns.com').update('$set' => {:url => 'first@pike.virtualpatterns.com'}) rescue puts $!.message
           end
         end
       end
@@ -502,7 +502,7 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
-            Pike::System::MessageState.collection.indexes.drop rescue nil
+            Pike::System::MessageState.collection.indexes.drop rescue puts $!.message
             Pike::System::MessageState.collection.indexes.create({:user_id      => 1,
                                                                   :message_id   => 1,
                                                                   :state        => 1,
@@ -697,32 +697,32 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
 
-            Pike::User.collection.indexes.drop rescue nil
-            Pike::System::Identity.collection.indexes.drop rescue nil
+            Pike::User.collection.indexes.drop rescue puts $!.message
+            Pike::System::Identity.collection.indexes.drop rescue puts $!.message
 
-            Pike::Property.collection.indexes.drop rescue nil
-            Pike::PropertyValue.collection.indexes.drop rescue nil
+            Pike::Property.collection.indexes.drop rescue puts $!.message
+            Pike::PropertyValue.collection.indexes.drop rescue puts $!.message
 
-            Pike::Project.collection.indexes.drop rescue nil
-            Pike::ProjectPropertyValue.collection.indexes.drop rescue nil
+            Pike::Project.collection.indexes.drop rescue puts $!.message
+            Pike::ProjectPropertyValue.collection.indexes.drop rescue puts $!.message
 
-            Pike::Activity.collection.indexes.drop rescue nil
-            Pike::ActivityPropertyValue.collection.indexes.drop rescue nil
+            Pike::Activity.collection.indexes.drop rescue puts $!.message
+            Pike::ActivityPropertyValue.collection.indexes.drop rescue puts $!.message
 
-            Pike::Task.collection.indexes.drop rescue nil
-            Pike::TaskPropertyValue.collection.indexes.drop rescue nil
+            Pike::Task.collection.indexes.drop rescue puts $!.message
+            Pike::TaskPropertyValue.collection.indexes.drop rescue puts $!.message
 
-            Pike::Work.collection.indexes.drop rescue nil
+            Pike::Work.collection.indexes.drop rescue puts $!.message
 
-            Pike::Introduction.collection.indexes.drop rescue nil
-            Pike::Friendship.collection.indexes.drop rescue nil
+            Pike::Introduction.collection.indexes.drop rescue puts $!.message
+            Pike::Friendship.collection.indexes.drop rescue puts $!.message
 
-            Pike::System::Message.collection.indexes.drop rescue nil
-            Pike::System::MessageState.collection.indexes.drop rescue nil
+            Pike::System::Message.collection.indexes.drop rescue puts $!.message
+            Pike::System::MessageState.collection.indexes.drop rescue puts $!.message
 
-            Pike::System::Action.collection.indexes.drop rescue nil
+            Pike::System::Action.collection.indexes.drop rescue puts $!.message
 
-            Pike::System::Migration.collection.indexes.drop rescue nil
+            Pike::System::Migration.collection.indexes.drop rescue puts $!.message
 
           end
         end
@@ -983,9 +983,9 @@ Changes in this version ...
       task :rename_message_state_system_message_state, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
-            Mongoid.default_session.with(:database => 'admin').command(:renameCollection  => 'pike.message_state', 
-                                                                       :to                => 'pike.system_message_state', 
-                                                                       :dropTarget        => true) rescue nil
+            Mongoid.default_session.with(:database => 'admin').command(:renameCollection  => 'pike.message_states', 
+                                                                       :to                => 'pike.system_message_states', 
+                                                                       :dropTarget        => true) rescue puts $!.message
           end
         end
       end
