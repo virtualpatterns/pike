@@ -13,14 +13,8 @@ module Pike
       class MessageObserver < Mongoid::Observer
         observe Pike::System::Message
 
-        def around_save(message)
-          if message.changes.include(:subject) ||
-             message.changes.include(:body)
-            yield
-            Pike::System::Actions::MessageStateCreateAction.create!(:message => message)
-          else
-            yield
-          end
+        def after_save(message)
+          Pike::System::Actions::MessageStateCreateAction.create!(:message => message)
           return true
         end
 

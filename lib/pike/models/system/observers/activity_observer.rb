@@ -14,8 +14,8 @@ module Pike
         observe Pike::Activity
 
         def around_save(activity)
-          if activity.changes.include?(:name) ||
-             activity.changes.include?(:is_shared)      
+          if activity.changes.include?('name') ||
+             activity.changes.include?('is_shared')      
             yield
             Pike::System::Actions::ActivityCopyAction.create!(:user_source => activity.user,
                                                               :user_target => nil,

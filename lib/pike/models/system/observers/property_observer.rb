@@ -14,7 +14,7 @@ module Pike
         observe Pike::Property
 
         def around_save(property)
-          if property.changes.include?(:name)
+          if property.changes.include?('name')
             yield
             Pike::System::Actions::PropertyCopyAction.create!(:user_source => property.user,
                                                               :user_target => nil,

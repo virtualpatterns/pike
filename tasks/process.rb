@@ -12,7 +12,7 @@ namespace :pike do
       system('bundle exec irb -r ./console.rb --back-trace-limit 100')
     end
 
-    namespace :mongodb do
+    namespace :database do
 
       desc 'Start MongoDB'
       task :start do |task|
@@ -75,7 +75,7 @@ namespace :pike do
 
     end
 
-    namespace :cron do
+    namespace :schedule do
 
       desc 'Install the schedule'
       task :install do |task|

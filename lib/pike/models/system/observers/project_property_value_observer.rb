@@ -14,7 +14,7 @@ module Pike
         observe Pike::ProjectPropertyValue
 
         def around_save(value)
-          if value.changes.include?(:value) 
+          if value.changes.include?('value') 
             yield
             Pike::System::Actions::ProjectPropertyValueCopyAction.create!(:user_source => value.project.user,
                                                                           :user_target => nil,

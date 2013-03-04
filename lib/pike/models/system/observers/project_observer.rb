@@ -14,8 +14,8 @@ module Pike
         observe Pike::Project
 
         def around_save(project)
-          if project.changes.include?(:name) ||
-             project.changes.include?(:is_shared)
+          if project.changes.include?('name') ||
+             project.changes.include?('is_shared')
             yield
             Pike::System::Actions::ProjectCopyAction.create!(:user_source => project.user,
                                                              :user_target => nil,

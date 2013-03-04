@@ -14,7 +14,7 @@ module Pike
         observe Pike::ActivityPropertyValue
 
         def around_save(value)
-          if value.changes.include?(:value) 
+          if value.changes.include?('value') 
             yield
             Pike::System::Actions::ActivityPropertyValueCopyAction.create!(:user_source => value.activity.user,
                                                                            :user_target => nil,
