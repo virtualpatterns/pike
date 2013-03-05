@@ -42,17 +42,14 @@ namespace :pike do
     task :start, :roles => :application do
       run("cd /var/www/pike/current && bundle exec rake pike:process:schedule:install")
       run "cd /var/www/pike/current && bundle exec rake pike:process:daemon:start"
-      run("cd /var/www/pike/current && bundle exec rake pike:process:server:start[true,#{servers}]")
+      run("cd /var/www/pike/current && bundle exec rake pike:process:server:start[#{servers}]")
     end
 
     desc 'Stop the server(s)'
     task :stop, :roles => :application do
-      run('cd /var/www/pike/current && bundle exec rake pike:process:thin:stop')
+      run('cd /var/www/pike/current && bundle exec rake pike:process:server:stop')
       run 'cd /var/www/pike/current && bundle exec rake pike:process:daemon:stop'
-      run("cd /var/www/pike/current && bundle exec rake pike:process:cron:uninstall")
-      # run('cd /var/www/pike/current && bundle exec rake pike:process:server:stop')
-      # run 'cd /var/www/pike/current && bundle exec rake pike:process:daemon:stop'
-      # run("cd /var/www/pike/current && bundle exec rake pike:process:schedule:uninstall")
+      run("cd /var/www/pike/current && bundle exec rake pike:process:schedule:uninstall")
     end
 
     desc 'Restart the server(s)'

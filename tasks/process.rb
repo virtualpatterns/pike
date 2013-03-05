@@ -58,9 +58,9 @@ namespace :pike do
     namespace :server do
 
       desc 'Start the server(s)'
-      task :start, :count do |task, arguments|
-        count = arguments.count ? arguments.count.to_i : 1
-        system("#{count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{count > 1 ? "--count #{count}" : nil} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
+      task :start, :_count do |task, arguments|
+        _count = arguments._count ? arguments._count.to_i : 1
+        system("#{_count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{_count > 1 ? "--servers #{_count}" : nil} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
@@ -69,8 +69,8 @@ namespace :pike do
       end
 
       desc 'Restart the server(s)'
-      task :restart => ['pike:process:server:stop',
-                        'pike:process:server:start']
+      task :restart, [:_count] => ['pike:process:server:stop',
+                                   'pike:process:server:start']
 
     end
 
