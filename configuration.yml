@@ -104,6 +104,7 @@ development:
     log: &development_ruby_app_log
       <<: *default_ruby_app_log
     response: &development_ruby_app_response
+      <<: *default_ruby_app_response
       cache:
         formats:
           - :css
@@ -115,6 +116,15 @@ development:
   pike:
     application: &development_pike_application
       <<: *default_pike_application
+      mongodb:
+        sessions:
+          default:
+            hosts:
+              - 'localhost:27017'
+            database: 'pike'
+            options:
+              safe: false
+        options:
     elements: &development_pike_elements
       <<: *default_pike_elements
     user: &development_pike_user
@@ -133,6 +143,7 @@ staging:
     response: &staging_ruby_app_response
       <<: *development_ruby_app_response
     session: &staging_ruby_app_session
+      <<: *development_ruby_app_session
       _class: 'Pike::Session'
       expires: 900
       interval: 15
@@ -146,20 +157,11 @@ staging:
         path: '#{Pike::ROOT}/scripts'
   pike:
     application: &staging_pike_application
-      format:
-        date:
-          long: '%b %d %H:%M %Z'
-          short: '%a %b %-d'
-      amazon:
-        access_key: 'ABC'
-        secret_key: '123'
+      <<: *development_pike_application
       mail:
         from: '"Pike" <pike@virtualpatterns.com>'
-      mongodb:
-        host: 'localhost'
-        port: 27017
-        database: 'pike'
     elements: &staging_pike_elements
+      <<: *development_pike_elements
       pages:
         about_page:
           system?: false
