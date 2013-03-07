@@ -14,7 +14,7 @@ set :default_environment, {
                             'AMAZON_SECRET_KEY'   => ENV['AMAZON_SECRET_KEY']
                           }
 
-set :stages,              %w[development staging production]
+set :stages,              %w[development hendecagon staging production]
 set :default_stage,       'development'
 require 'capistrano/ext/multistage'
 

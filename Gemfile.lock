@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.7.1)
+    RubyApp (0.7.2)
       bluecloth
       chronic
       chronic_duration
@@ -42,9 +42,9 @@ GEM
       mime-types
       xml-simple
     bluecloth (2.2.0)
-    bson (1.8.2)
-    bson_ext (1.8.2)
-      bson (~> 1.8.2)
+    bson (1.8.3)
+    bson_ext (1.8.3)
+      bson (~> 1.8.3)
     builder (3.0.4)
     chronic (0.9.1)
     chronic_duration (0.10.2)
@@ -61,7 +61,7 @@ GEM
     httpauth (0.2.0)
     i18n (0.6.4)
     json (1.7.7)
-    jwt (0.1.5)
+    jwt (0.1.6)
       multi_json (>= 1.0)
     koala (1.6.0)
       addressable (~> 2.2)
