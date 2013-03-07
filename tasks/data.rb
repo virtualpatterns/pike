@@ -18,7 +18,7 @@ namespace :pike do
     desc 'Restore a database backup'
     task :restore, [:stamp] => ['data:destroy'] do |task, arguments|
       system("tar -xzf pike.#{arguments.stamp}.tar.gz; mongorestore --db pike --verbose --objcheck pike.#{arguments.stamp}/pike; rm -rf pike.#{arguments.stamp}")
-      Rake::Task['pike:data:migrate:all'].invoke
+      Rake::Task['pike:data:migrate_all'].invoke
     end
 
     desc 'Drop the database'
@@ -30,7 +30,7 @@ namespace :pike do
 
     desc 'Drop the database and run all migrations'
     task :reset => ['pike:data:destroy',
-                    'pike:data:migrate:all']
+                    'pike:data:migrate_all']
 
     namespace :log do
 
