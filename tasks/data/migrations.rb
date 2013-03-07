@@ -2,73 +2,73 @@ namespace :pike do
 
   namespace :data do
 
-    namespace :migrate do
+    desc 'Run all migrations'
+    task :migrate_all, [:force] => ['pike:data:migrate:add_user_url',
+                                    'pike:data:migrate:add_project_name',
+                                    'pike:data:migrate:add_activity_name',
+                                    'pike:data:migrate:update_task_project_and_activity_names',
+                                    'pike:data:migrate:update_user_demo_to_first',
+                                    'pike:data:migrate:add_friendship_user_target_url',
+                                    'pike:data:migrate:remove_identities_and_migrations_collections',
+                                    'pike:data:migrate:destroy_work_where_task_destroyed',
+                                    'pike:data:migrate:update_work_project_and_activity_names',
+                                    'pike:data:migrate:remove_nil_properties',
+                                    'pike:data:migrate:update_friendship_user_target_url',
+                                    'pike:data:migrate:add_user_is_administrator',
+                                    'pike:data:migrate:add_migration_count',
+                                    'pike:data:migrate:add_action_index',
+                                    'pike:data:migrate:create_properties',
+                                    'pike:data:migrate:add_user_read_messages',
+                                    'pike:data:migrate:add_message_0_5_98',
+                                    'pike:data:migrate:add_message_0_5_101',
+                                    'pike:data:migrate:add_message_0_5_106',
+                                    'pike:data:migrate:add_message_0_5_108',
+                                    'pike:data:migrate:add_identity_source',
+                                    'pike:data:migrate:add_message_0_5_109',
+                                    'pike:data:migrate:add_message_0_5_112',
+                                    'pike:data:migrate:add_user_name',
+                                    'pike:data:migrate:add_message_0_5_113',
+                                    'pike:data:migrate:add_message_0_5_114',
+                                    'pike:data:migrate:rename_work_started_updated',
+                                    'pike:data:migrate:destroy_identities',
+                                    'pike:data:migrate:add_work_is_started',
+                                    'pike:data:migrate:add_action_failed',
+                                    'pike:data:migrate:add_message_0_5_116',
+                                    'pike:data:migrate:remove_action_failed',
+                                    'pike:data:migrate:add_action_state',
+                                    'pike:data:migrate:transform_user_read_messages',
+                                    'pike:data:migrate:add_message_0_5_119',
+                                    'pike:data:migrate:add_message_0_5_120',
+                                    'pike:data:migrate:add_message_0_5_122',
+                                    'pike:data:migrate:add_message_0_5_123',
+                                    'pike:data:migrate:add_message_0_5_124',
+                                    'pike:data:migrate:add_message_0_5_125',
+                                    'pike:data:migrate:add_message_0_5_128',
+                                    'pike:data:migrate:add_message_0_5_130',
+                                    'pike:data:migrate:add_message_0_5_134',
+                                    'pike:data:migrate:add_message_0_5_135',
+                                    'pike:data:migrate:destroy_indexes',
+                                    'pike:data:migrate:re_create_indexes',
+                                    'pike:data:migrate:add_message_0_5_141',
+                                    'pike:data:migrate:add_message_0_5_143',
+                                    'pike:data:migrate:add_message_0_5_144',
+                                    'pike:data:migrate:re_destroy_work_where_task_destroyed',
+                                    'pike:data:migrate:add_message_0_5_146',
+                                    'pike:data:migrate:create_user_search_index',
+                                    'pike:data:migrate:add_message_0_5_169',
+                                    'pike:data:migrate:rename_user_url_uri',
+                                    'pike:data:migrate:rename_message_state_system_message_state',
+                                    'pike:data:migrate:add_message_0_6_0'] do |task, arguments|
+    end
 
-      desc 'Run all migrations'
-      task :all, [:force] => ['pike:data:migrate:add_user_url',
-                              'pike:data:migrate:add_project_name',
-                              'pike:data:migrate:add_activity_name',
-                              'pike:data:migrate:update_task_project_and_activity_names',
-                              'pike:data:migrate:update_user_demo_to_first',
-                              'pike:data:migrate:add_friendship_user_target_url',
-                              'pike:data:migrate:remove_identities_and_migrations_collections',
-                              'pike:data:migrate:destroy_work_where_task_destroyed',
-                              'pike:data:migrate:update_work_project_and_activity_names',
-                              'pike:data:migrate:remove_nil_properties',
-                              'pike:data:migrate:update_friendship_user_target_url',
-                              'pike:data:migrate:add_user_is_administrator',
-                              'pike:data:migrate:add_migration_count',
-                              'pike:data:migrate:add_action_index',
-                              'pike:data:migrate:create_properties',
-                              'pike:data:migrate:add_user_read_messages',
-                              'pike:data:migrate:add_message_0_5_98',
-                              'pike:data:migrate:add_message_0_5_101',
-                              'pike:data:migrate:add_message_0_5_106',
-                              'pike:data:migrate:add_message_0_5_108',
-                              'pike:data:migrate:add_identity_source',
-                              'pike:data:migrate:add_message_0_5_109',
-                              'pike:data:migrate:add_message_0_5_112',
-                              'pike:data:migrate:add_user_name',
-                              'pike:data:migrate:add_message_0_5_113',
-                              'pike:data:migrate:add_message_0_5_114',
-                              'pike:data:migrate:rename_work_started_updated',
-                              'pike:data:migrate:destroy_identities',
-                              'pike:data:migrate:add_work_is_started',
-                              'pike:data:migrate:add_action_failed',
-                              'pike:data:migrate:add_message_0_5_116',
-                              'pike:data:migrate:remove_action_failed',
-                              'pike:data:migrate:add_action_state',
-                              'pike:data:migrate:transform_user_read_messages',
-                              'pike:data:migrate:add_message_0_5_119',
-                              'pike:data:migrate:add_message_0_5_120',
-                              'pike:data:migrate:add_message_0_5_122',
-                              'pike:data:migrate:add_message_0_5_123',
-                              'pike:data:migrate:add_message_0_5_124',
-                              'pike:data:migrate:add_message_0_5_125',
-                              'pike:data:migrate:add_message_0_5_128',
-                              'pike:data:migrate:add_message_0_5_130',
-                              'pike:data:migrate:add_message_0_5_134',
-                              'pike:data:migrate:add_message_0_5_135',
-                              'pike:data:migrate:destroy_indexes',
-                              'pike:data:migrate:re_create_indexes',
-                              'pike:data:migrate:add_message_0_5_141',
-                              'pike:data:migrate:add_message_0_5_143',
-                              'pike:data:migrate:add_message_0_5_144',
-                              'pike:data:migrate:re_destroy_work_where_task_destroyed',
-                              'pike:data:migrate:add_message_0_5_146',
-                              'pike:data:migrate:create_user_search_index',
-                              'pike:data:migrate:add_message_0_5_169',
-                              'pike:data:migrate:rename_user_url_uri',
-                              'pike:data:migrate:rename_message_state_system_message_state',
-                              'pike:data:migrate:add_message_0_6_0'] do |task, arguments|
-      end
+    namespace :migrate do
 
       desc 'Add the Pike::User#_url property'
       task :add_user_url, :force do |task, arguments|
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::User.all.each do |user|
-              user.set(:_url, user.url ? user.url.downcase : nil)
+              user.set(:_url, user[:url] ? user[:url].downcase : nil)
             end
           end
         end
@@ -79,7 +79,7 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Project.all.each do |project|
-              project.set(:_name, project.name.downcase)
+              project.set(:_name, project[:name] ? project[:name].downcase : nil)
             end
           end
         end
@@ -90,7 +90,7 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Activity.all.each do |activity|
-              activity.set(:_name, activity.name.downcase)
+              activity.set(:_name, activity[:name] ? activity[:name].downcase : nil)
             end
           end
         end
@@ -101,8 +101,8 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Task.all.each do |_task|
-              _task.set(:_project_name, _task.project ? _task.project.name.downcase : nil)
-              _task.set(:_activity_name, _task.activity ? _task.activity.name.downcase : nil)
+              _task.set(:_project_name, _task[:project] && _task[:project][:name] ? _task[:project][:name].downcase : nil)
+              _task.set(:_activity_name, _task[:activity] && _task[:activity][:name] ? _task[:activity][:name].downcase : nil)
             end
           end
         end
@@ -122,7 +122,7 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Friendship.all.each do |friendship|
-              friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+              friendship.set(:_user_target_url, friendship[:user_target] && friendship[:user_target][:url] ? friendship[:user_target][:url].downcase : nil)
             end
           end
         end
@@ -143,7 +143,7 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Work.all.each do |work|
-              work.destroy unless work.task
+              work.destroy unless work[:task]
             end
           end
         end
@@ -154,8 +154,8 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Work.all.each do |_work|
-              _work.set(:_project_name, _work.task.project ? _work.task.project.name.downcase : nil)
-              _work.set(:_activity_name, _work.task.activity ? _work.task.activity.name.downcase : nil)
+              _work.set(:_project_name, _work[:task] && _work[:task][:project] && _work[:task][:project][:name] ? _work[:task][:project][:name].downcase : nil)
+              _work.set(:_activity_name, _work[:task] && _work[:task][:activity] && _work[:task][:activity][:name] ? _work[:task][:activity][:name].downcase : nil)
             end
           end
         end
@@ -179,7 +179,7 @@ namespace :pike do
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Friendship.all.each do |friendship|
-              friendship.set(:_user_target_url, friendship.user_target ? friendship.user_target.url.downcase : nil)
+              friendship.set(:_user_target_url, friendship[:user_target] && friendship[:user_target][:url] ? friendship[:user_target][:url].downcase : nil)
             end
           end
         end
@@ -228,6 +228,7 @@ namespace :pike do
                   project.unset(property)
                 end
               end
+              user.unset(:project_properties)
 
               user[:activity_properties] ||= []
               user[:activity_properties].each do |property|
@@ -377,8 +378,9 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::User.where_name(nil).each do |user|
-              user.name = user.abbreviated_url
-              user.save!
+              user[:_url] =~ /([^\@]+)@.*/
+              abbreviated_url = "#{$1}@..."
+              user.set(:name, abbreviated_url)
             end
           end
         end
@@ -443,7 +445,7 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::Work.all.each do |work|
-              work.set(:is_started, work.started_at ? true : false)
+              work.set(:is_started, work[:started_at] ? true : false)
              end
           end
         end
@@ -454,7 +456,7 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::System::Action.all.each do |action|
-              action.set(:failed, action.exception_at ? true : false)
+              action.set(:failed, action[:exception_at] ? true : false)
              end
           end
         end
@@ -491,7 +493,7 @@ Changes in this version ...
         Pike::Application.create_context! do
           Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
             Pike::System::Action.all.each do |action|
-              action.set(:state, action.exception_at ? Pike::System::Action::STATE_EXECUTED : Pike::System::Action::STATE_PENDING)
+              action.set(:state, action[:exception_at] ? Pike::System::Action::STATE_EXECUTED : Pike::System::Action::STATE_PENDING)
              end
           end
         end
@@ -827,9 +829,9 @@ Changes in this version ...
             Pike::System::Message.collection.indexes.create({:created_at => 1}, :name => 'created_at')
 
             Pike::System::MessageState.collection.indexes.create({:user_id    => 1,
-                                                                 :message_id  => 1,
-                                                                 :state       => 1,
-                                                                 :created_at  => 1}, :name => 'user')
+                                                                  :message_id  => 1,
+                                                                  :state       => 1,
+                                                                  :created_at  => 1}, :name => 'user')
 
             Pike::System::Action.collection.indexes.create({:state => 1,
                                                             :index => 1}, :name => 'state')
