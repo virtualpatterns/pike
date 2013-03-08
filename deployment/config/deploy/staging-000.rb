@@ -3,7 +3,8 @@ set :default_environment, default_environment.merge('GITHUB_ACCESS_KEY'       =>
                                                     'GITHUB_SECRET_KEY'       => ENV['PIKE_STAGING_GITHUB_SECRET_KEY'],
                                                     'FACEBOOK_ACCESS_KEY'     => ENV['PIKE_STAGING_FACEBOOK_ACCESS_KEY'],
                                                     'FACEBOOK_SECRET_KEY'     => ENV['PIKE_STAGING_FACEBOOK_SECRET_KEY'],
-                                                    'RUBY_APP_CONFIGURATION'  => 'staging')
+                                                    'RUBY_APP_CONFIGURATION'  => 'staging',
+                                                    'PATH'                    => '$PATH:/home/ec2-user/ruby/bin')
 set :branch,              'staging'
 set :user,                'ec2-user'
 

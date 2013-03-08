@@ -37,7 +37,7 @@ namespace :pike do
       desc 'Rotate the log'
       task :rotate do |task|
         Pike::Application.create_context! do
-          Pike::Application.connection.db('admin').command({ :logRotate => 1 }, :check_response => true)
+          Mongoid.default_session.with(:database => 'admin').command({:logRotate => 1 })
         end
       end
 
