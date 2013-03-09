@@ -16,6 +16,7 @@ namespace :pike do
 
       desc 'Start MongoDB'
       task :start do |task|
+        puts "Starting ..."
         system('mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --fork')
       end
 
@@ -25,11 +26,13 @@ namespace :pike do
 
       desc 'Start the daemon'
       task :start do |task|
+        puts "Starting ..."
         run_daemon(['start'])
       end
 
       desc 'Stop the daemon'
       task :stop do |task|
+        puts "Stopping ..."
         run_daemon(['stop'])
       end
 
@@ -60,11 +63,13 @@ namespace :pike do
       desc 'Start the server(s)'
       task :start, :_count do |task, arguments|
         _count = arguments._count ? arguments._count.to_i : 1
+        puts "Starting #{_count} server(s) ..."
         system("#{_count == 1 ? 'rm -f ./process/thin/pid/thin.pid' : 'rm -f ./process/thin/pid/thin.*.pid'}; bundle exec thin --port 8000 #{_count > 1 ? "--servers #{_count}" : nil} --rackup configuration.ru --daemonize --log ./process/thin/log/thin.log --pid ./process/thin/pid/thin.pid start")
       end
 
       desc 'Stop the server(s)'
       task :stop do |task|
+        puts "Stopping ..."
         system('for pid in ./process/thin/pid/*.pid; do bundle exec thin --pid $pid stop; done')
       end
 
@@ -78,11 +83,13 @@ namespace :pike do
 
       desc 'Install the schedule'
       task :install do |task|
+        puts "Installing ..."
         system("bundle exec whenever --load-file ./tasks/schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --update-crontab pike")
       end
 
       desc 'Uninstall the schedule'
       task :uninstall do |task|
+        puts "Uninstalling ..."
         system("bundle exec whenever --load-file ./tasks/schedule.rb --set 'RUBY_APP_CONFIGURATION=#{ENV['RUBY_APP_CONFIGURATION']}&PATH=#{ENV['PATH']}' --clear-crontab pike")
       end
 

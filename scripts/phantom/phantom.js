@@ -9,7 +9,10 @@ page.onNavigationRequested = function(url, type, willNavigate, mainFrame) {
   console.log('NAVIGATE ' + url);
 };
 page.onConsoleMessage = function(message) {
-  console.log('         ' + message);
+  console.log('LOG      ' + message);
+};
+page.onAlert = function(message) {
+  console.log('ALERT    ' + message);
 };
 page.onConfirm = function(message) {
   console.log('FAIL     ' + message);

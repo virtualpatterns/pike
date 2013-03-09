@@ -58,7 +58,8 @@ namespace :pike do
                                     'pike:data:migrate:add_message_0_5_169',
                                     'pike:data:migrate:rename_user_url_uri',
                                     'pike:data:migrate:rename_message_state_system_message_state',
-                                    'pike:data:migrate:add_message_0_6_0'] do |task, arguments|
+                                    'pike:data:migrate:add_message_0_6_0',
+                                    'pike:data:migrate:remove_pike_system_sequences_collection'] do |task, arguments|
     end
 
     namespace :migrate do
@@ -1004,6 +1005,15 @@ Changes in this version ...
 
             MESSAGE
             Pike::System::Message.create_message!(subject, body)
+          end
+        end
+      end
+
+      desc 'Delete the pike_system_sequences collection'
+      task :remove_pike_system_sequences_collection, :force do |task, arguments|
+        Pike::Application.create_context! do
+          Pike::System::Migration.run(task, arguments.force ? arguments.force.to_b : false) do
+            Mongoid.default_session['pike_system_sequences'].drop rescue puts $!.message
           end
         end
       end

@@ -35,6 +35,7 @@ module Pike
           self.triggered do |element, event|
             @work_list.update!(event)
             event.update_text('div[data-role="header"] h1', RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
+            event.update_document_text('html head title', RubyApp::Language.locale.strftime(@work_list.date, Pike::Application.configuration.format.date.short))
           end
 
           self.swiped do |element, event|

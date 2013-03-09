@@ -1,4 +1,4 @@
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.70/lib/ruby_app/elements/mobile/document.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.9.3-p362@Pike/gems/RubyApp-0.7.4/lib/ruby_app/elements/mobile/document.css.haml */
 div.overlay {
   display: none;
   height: 100%;
@@ -7,7 +7,7 @@ div.overlay {
   top: 0px;
   width: 100%;
   z-index: 9; }
-/* /Users/fficnar/.rvm/gems/ruby-1.8.7-p352@Pike/gems/RubyApp-0.6.70/lib/ruby_app/elements/mobile/page.css.haml */
+/* /Users/fficnar/.rvm/gems/ruby-1.9.3-p362@Pike/gems/RubyApp-0.7.4/lib/ruby_app/elements/mobile/page.css.haml */
 div.ui-header a.ui-btn-left {
   margin-left: 0px; }
 div.ui-header a.ui-btn-right {
