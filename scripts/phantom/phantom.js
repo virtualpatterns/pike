@@ -16,11 +16,11 @@ page.onAlert = function(message) {
 };
 page.onConfirm = function(message) {
   console.log('FAIL     ' + message);
-  phantom.exit();
+  phantom.exit(-1);
 };
 page.onClosing = function(page) {
   console.log('SUCCESS  ' + page.url);
-  phantom.exit();
+  phantom.exit(0);
 };
 
 page.open(url);
