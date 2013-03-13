@@ -52,6 +52,17 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data/migrations.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/document.js.haml",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/session.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/scripts/phantom/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.ru",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/work_list_page.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/element.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/templates/application/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging-000.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging-001.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/development.rb",
@@ -62,18 +73,14 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/Gemfile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/models/user.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/o_auth/authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/open_id/authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/scalene.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
-		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/Rakefile",
-		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/templates/application/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/script.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/log.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/.rvmrc",
@@ -140,7 +147,6 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/facebook/email_authentication_document.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/authentication_page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/documents/authentication/authentication_document.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/session.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/default/features/authentications/default_page.html.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/pages/information/session_page.html.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/ruby_app.sublime-workspace",
@@ -173,13 +179,7 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work_report.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/work_list_page.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/standard_no_logon.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/friendship.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom.js",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/activity_list_page.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/about_page.rb"
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list.rb"
 	],
 	"find":
 	{
@@ -438,8 +438,40 @@
 		"selected_items":
 		[
 			[
+				"migra",
+				"pike/tasks/data/migrations.rb"
+			],
+			[
+				"phan",
+				"ruby_app/lib/ruby_app/scripts/phantom/phantom.js"
+			],
+			[
+				"session",
+				"ruby_app/lib/ruby_app/session.rb"
+			],
+			[
+				"document.js.h",
+				"ruby_app/lib/ruby_app/elements/mobile/document.js.haml"
+			],
+			[
+				"document",
+				"ruby_app/lib/ruby_app/elements/mobile/document.js.haml"
+			],
+			[
 				"config",
-				"pike/configuration.yml"
+				"pike/configuration.ru"
+			],
+			[
+				"work_list_p",
+				"pike/lib/pike/elements/pages/work_list_page.rb"
+			],
+			[
+				"element",
+				"ruby_app/lib/ruby_app/element.rb"
+			],
+			[
+				"documen",
+				"ruby_app/lib/ruby_app/elements/mobile/document.js.haml"
 			],
 			[
 				"activity",

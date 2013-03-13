@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.7.5)
+    RubyApp (0.7.9)
       bluecloth
       chronic
       chronic_duration
@@ -107,7 +107,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.36)
+    tzinfo (0.3.37)
     whenever (0.8.2)
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)

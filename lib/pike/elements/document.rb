@@ -19,7 +19,8 @@ module Pike
 
         self.metadata.merge!('apple-mobile-web-app-status-bar-style' => 'black')
 
-        self.links.merge!('apple-touch-icon'          => "#{RubyApp::Application.root_or_nil}/pike/resources/elements/document/apple-touch-icon.png",
+        self.links.merge!('icon'                      => "#{RubyApp::Application.root_or_nil}/pike/resources/elements/document/icon.png",
+                          'apple-touch-icon'          => "#{RubyApp::Application.root_or_nil}/pike/resources/elements/document/apple-touch-icon.png",
                           'apple-touch-startup-image' => "#{RubyApp::Application.root_or_nil}/pike/resources/elements/document/apple-touch-startup-image.png")
 
         require 'pike/elements/pages/default_page'
