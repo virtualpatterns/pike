@@ -30,11 +30,7 @@ map "#{RubyApp::Application.root_or_nil}/pike/resources" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources]))
 end
 
-map "#{RubyApp::Application.root_or_nil}/favicon.ico" do
-  run Rack::File.new(File.join(RubyApp::ROOT, %w[resources favicon.ico]))
-end
-
-map "#{RubyApp::Application.root_or_nil}/robots.txt" do
+map "/robots.txt" do
   run Rack::File.new(File.join(Pike::ROOT, %w[resources robots.txt]))
 end
 

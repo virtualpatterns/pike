@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.7.9)
+    RubyApp (0.7.12)
       bluecloth
       chronic
       chronic_duration
@@ -12,6 +12,7 @@ GEM
       koala
       mime-types
       oauth2
+      pry
       r18n-core
       rack
       rake
@@ -49,6 +50,7 @@ GEM
     chronic (0.9.1)
     chronic_duration (0.10.2)
       numerizer (~> 0.1.1)
+    coderay (1.0.9)
     daemons (1.1.9)
     eventmachine (1.0.3)
     facets (2.9.3)
@@ -61,7 +63,7 @@ GEM
     httpauth (0.2.0)
     i18n (0.6.4)
     json (1.7.7)
-    jwt (0.1.7)
+    jwt (0.1.8)
       multi_json (>= 1.5)
     koala (1.6.0)
       addressable (~> 2.2)
@@ -71,6 +73,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    method_source (0.8.1)
     mime-types (1.21)
     mongoid (3.1.2)
       activemodel (~> 3.2)
@@ -91,6 +94,10 @@ GEM
       rack (~> 1.2)
     origin (1.0.11)
     polyglot (0.3.3)
+    pry (0.9.12)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     r18n-core (1.1.4)
     rack (1.5.2)
     rake (10.0.3)
@@ -98,6 +105,7 @@ GEM
     ruby-event (1.0.0)
     ruby-openid (2.2.3)
     sass (3.2.7)
+    slop (3.4.4)
     term-ansicolor (1.1.1)
     terminal-table (1.4.5)
     thin (1.5.0)

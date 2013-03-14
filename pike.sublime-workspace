@@ -52,16 +52,20 @@
 	},
 	"file_history":
 	[
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom/phantom.js",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/document.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/resources/elements/document/apple-touch-icon.png",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/Rakefile",
+		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/version.rb",
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/data/migrations.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/elements/mobile/document.js.haml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/session.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/phantom/phantom.js",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/scripts/phantom/phantom.js",
 		"/Users/fficnar/Dropbox/Projects/.bash_aliases",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.ru",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/work_list_page.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/element.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/templates/application/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging-000.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging-001.rb",
@@ -78,7 +82,6 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/gems/ruby_app/lib/ruby_app/configuration.yml",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/scalene.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/Rakefile",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/process.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/deployment/config/deploy/staging.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/tasks/script.rb",
@@ -176,10 +179,7 @@
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/coverage/lib-pike-models-work_rb.html",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/sandbox/paranoid_tests.rb",
 		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/pages/default_page.css.haml",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/page.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/scripts/work_report.rb",
-		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/work_list.rb"
+		"/Users/fficnar/Dropbox/Projects/Ruby/pike/lib/pike/elements/page.rb"
 	],
 	"find":
 	{
@@ -438,12 +438,12 @@
 		"selected_items":
 		[
 			[
-				"migra",
-				"pike/tasks/data/migrations.rb"
+				"phan",
+				"pike/scripts/phantom/phantom.js"
 			],
 			[
-				"phan",
-				"ruby_app/lib/ruby_app/scripts/phantom/phantom.js"
+				"migra",
+				"pike/tasks/data/migrations.rb"
 			],
 			[
 				"session",

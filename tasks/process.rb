@@ -9,7 +9,7 @@ namespace :pike do
 
     desc 'Create a console'
     task :console do |task|
-      system('bundle exec irb -r ./console.rb --back-trace-limit 100')
+      system('bundle exec pry -r ./console.rb')
     end
 
     namespace :database do
