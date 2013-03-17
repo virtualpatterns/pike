@@ -120,7 +120,9 @@ development:
         sessions:
           default:
             hosts:
-              - 'localhost:27017'
+              - 'SCALENE.local:27017'
+              - 'OBTUSE.local:27017'
+              - 'ISOSCELES.local:27017'
             database: 'pike'
             options:
               safe: false
@@ -160,6 +162,15 @@ staging:
       <<: *development_pike_application
       mail:
         from: '"Pike" <pike@virtualpatterns.com>'
+      mongodb:
+        sessions:
+          default:
+            hosts:
+              - 'localhost:27017'
+            database: 'pike'
+            options:
+              safe: false
+        options:
     elements: &staging_pike_elements
       <<: *development_pike_elements
       pages:
