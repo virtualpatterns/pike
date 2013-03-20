@@ -510,7 +510,6 @@ Changes in this version ...
                                                                   :message_id   => 1,
                                                                   :state        => 1,
                                                                   :created_at   => 1}, :name => 'user')
-
             
             Pike::System::Message.unscoped.all.order_by([[:created_at, :asc]]).each do |message|
               Pike::User.all.each do |user|

@@ -75,8 +75,11 @@ default:
           default:
             hosts:
               - 'localhost:27017'
+              - 'localhost:27018'
+              - 'localhost:27019'
             database: 'pike'
             options:
+              consistency: 'strong'
               safe: true
         options:
     elements: &default_pike_elements
@@ -125,6 +128,7 @@ development:
               - 'ISOSCELES.local:27017'
             database: 'pike'
             options:
+              consistency: 'strong'
               safe: false
         options:
     elements: &development_pike_elements

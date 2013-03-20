@@ -17,7 +17,11 @@ namespace :pike do
       desc 'Start MongoDB'
       task :start do |task|
         puts "Starting ..."
-        system('mkdir -p ./process/mongodb/data; mkdir -p ./process/mongodb/log; mongod --dbpath ./process/mongodb/data --logpath ./process/mongodb/log/mongodb.log --verbose --fork')
+        [27017,
+         27018,
+         27019].each_with_index do |port, index|
+          system("mkdir -p ./process/mongodb/data.#{index}; mkdir -p ./process/mongodb/log.#{index}; mongod --dbpath ./process/mongodb/data.#{index} --logpath ./process/mongodb/log.#{index}/mongodb.log --logappend --port #{port} --replSet pike --smallfiles --verbose --fork")
+        end
       end
 
     end
