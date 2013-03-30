@@ -45,6 +45,25 @@ namespace :pike do
 
     end
 
+    namespace :performance_continuous do
+
+      desc 'Run the script through PhantomJS on a given url'
+      task :run, :url do |task, arguments|
+        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance_continuous')
+      end
+
+      desc 'Run the script on the local environment'
+      task :local do |task|
+        Rake::Task['pike:script:performance_continuous:run'].invoke('http://localhost:8000/pike')
+      end
+
+      desc 'Run the script on the development environment'
+      task :development do |task|
+        Rake::Task['pike:script:performance_continuous:run'].invoke('https://development.virtualpatterns.com/pike')
+      end
+
+    end
+
   end
 
 end
