@@ -15,11 +15,11 @@ page.onAlert = function(message) {
   console.log('ALERT    ' + message);
 };
 page.onConfirm = function(message) {
-  console.log('FAIL     ' + message);
+  console.log('CONFIRM  ' + message);
   phantom.exit(-1);
 };
 page.onClosing = function(page) {
-  console.log('SUCCESS  ' + page.url);
+  console.log('CLOSE    ' + page.url);
   phantom.exit(0);
 };
 

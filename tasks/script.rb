@@ -2,9 +2,13 @@ namespace :pike do
 
   namespace :script do
 
-    desc 'Run a given script through PhantomJS on a given url'
-    task :run, :url, :script do |task, arguments|
-      system("phantomjs --ignore-ssl-errors=true scripts/phantom/phantom.js #{arguments.url} #{arguments.script}")
+    desc 'Run a given script using a given number of instances of PhantomJS on a given url'
+    task :run, :url, :script, :_count do |task, arguments|
+      _count = arguments._count ? arguments._count.to_i : 1
+      puts "Starting #{_count} instance(s), sending output to scripts/#{arguments.script}.log ..." if _count > 1
+      (1.._count).each do |count|
+        system("phantomjs --ignore-ssl-errors=true scripts/phantom/phantom.js #{arguments.url} #{arguments.script} #{_count <= 1 ? '' : "1>> scripts/#{arguments.script}.log 2>> /dev/null &"}")
+      end
     end
 
     namespace :standard_no_logon do
@@ -28,38 +32,38 @@ namespace :pike do
 
     namespace :performance do
 
-      desc 'Run the script through PhantomJS on a given url'
-      task :run, :url do |task, arguments|
-        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance')
+      desc 'Run the script using a given number of instances of PhantomJS on a given url'
+      task :run, :url, :_count do |task, arguments|
+        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance', arguments._count)
       end
 
       desc 'Run the script on the local environment'
-      task :local do |task|
-        Rake::Task['pike:script:performance:run'].invoke('http://localhost:8000/pike')
+      task :local, :_count do |task, arguments|
+        Rake::Task['pike:script:performance:run'].invoke('http://localhost:8000/pike', arguments._count)
       end
 
       desc 'Run the script on the development environment'
-      task :development do |task|
-        Rake::Task['pike:script:performance:run'].invoke('https://development.virtualpatterns.com/pike')
+      task :development, :_count do |task, arguments|
+        Rake::Task['pike:script:performance:run'].invoke('https://development.virtualpatterns.com/pike', arguments._count)
       end
 
     end
 
     namespace :performance_continuous do
 
-      desc 'Run the script through PhantomJS on a given url'
-      task :run, :url do |task, arguments|
-        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance_continuous')
+      desc 'Run the script using a given number of instances of PhantomJS on a given url'
+      task :run, :url, :_count do |task, arguments|
+        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance_continuous', arguments._count)
       end
 
       desc 'Run the script on the local environment'
-      task :local do |task|
-        Rake::Task['pike:script:performance_continuous:run'].invoke('http://localhost:8000/pike')
+      task :local, :_count do |task, arguments|
+        Rake::Task['pike:script:performance_continuous:run'].invoke('http://localhost:8000/pike', arguments._count)
       end
 
       desc 'Run the script on the development environment'
-      task :development do |task|
-        Rake::Task['pike:script:performance_continuous:run'].invoke('https://development.virtualpatterns.com/pike')
+      task :development, :_count do |task, arguments|
+        Rake::Task['pike:script:performance_continuous:run'].invoke('https://development.virtualpatterns.com/pike', arguments._count)
       end
 
     end
