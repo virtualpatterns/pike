@@ -34,7 +34,15 @@ namespace :pike do
 
       desc 'Run the script using a given number of instances of PhantomJS on a given url'
       task :run, :url, :_count do |task, arguments|
-        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance', arguments._count)
+        _count = arguments._count ? arguments._count.to_i : 1
+        if _count > 1
+          system("rm scripts/phantom/performance.log")
+        end
+        Rake::Task['pike:script:run'].invoke(arguments.url, 'phantom/performance', _count)
+        if _count > 1
+          system("tail -f scripts/phantom/performance.log")
+          system("cat scripts/phantom/performance.log | scripts/phantom/performance.awk")
+        end
       end
 
       desc 'Run the script on the local environment'
