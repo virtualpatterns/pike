@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RubyApp (0.7.13)
+    RubyApp (0.7.14)
       bluecloth
       chronic
       chronic_duration
@@ -74,7 +74,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     method_source (0.8.1)
-    mime-types (1.21)
+    mime-types (1.22)
     mongoid (3.1.2)
       activemodel (~> 3.2)
       moped (~> 1.4.2)
