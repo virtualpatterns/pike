@@ -28,6 +28,11 @@ namespace :pike do
         Rake::Task['pike:script:standard_no_logon:run'].invoke('https://development.virtualpatterns.com/pike')
       end
 
+      desc 'Run the script on the staging environment'
+      task :staging do |task|
+        Rake::Task['pike:script:standard_no_logon:run'].invoke('https://code.virtualpatterns.com/pike')
+      end
+
     end
 
     namespace :performance do
@@ -55,6 +60,11 @@ namespace :pike do
         Rake::Task['pike:script:performance:run'].invoke('https://development.virtualpatterns.com/pike', arguments._count)
       end
 
+      desc 'Run the script on the staging environment'
+      task :staging, :_count do |task, arguments|
+        Rake::Task['pike:script:performance:run'].invoke('https://code.virtualpatterns.com/pike', arguments._count)
+      end
+
     end
 
     namespace :performance_continuous do
@@ -72,6 +82,11 @@ namespace :pike do
       desc 'Run the script on the development environment'
       task :development, :_count do |task, arguments|
         Rake::Task['pike:script:performance_continuous:run'].invoke('https://development.virtualpatterns.com/pike', arguments._count)
+      end
+
+      desc 'Run the script on the staging environment'
+      task :staging, :_count do |task, arguments|
+        Rake::Task['pike:script:performance_continuous:run'].invoke('https://code.virtualpatterns.com/pike', arguments._count)
       end
 
     end
